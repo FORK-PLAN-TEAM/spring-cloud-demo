@@ -9,15 +9,13 @@ Spring Cloud 微服务的各个组件代码实践
 
 #### 安装教程
 
-1. xxxx
-2. xxxx
-3. xxxx
+1. JDK 8
+2. Maven 3以上
+3. IDEA
 
 #### 使用说明
 
-1. xxxx
-2. xxxx
-3. xxxx
+1. 根据博客文章中的详细步骤与源码进行操作
 
 #### 参与贡献
 
