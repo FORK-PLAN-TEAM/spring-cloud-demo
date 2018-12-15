@@ -14,4 +14,16 @@ public class IndexController {
     public String hello(String name){
         return feignService.hello(name);
     }
+
+//    @Autowired private SpikeFeignService spikeFeignService;
+//
+//    @RequestMapping(value = "/health" , method = RequestMethod.GET)
+//    public String health(){
+//        return spikeFeignService.health();
+//    }
+//
+//    @RequestMapping(value = "/spike" , method = RequestMethod.GET)
+//    public String spike(){
+//        return spikeFeignService.spike();
+//    }
 }
