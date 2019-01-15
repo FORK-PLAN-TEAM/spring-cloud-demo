@@ -1,0 +1,48 @@
+
+server:
+  port: 9999
+spring:
+  profiles:
+    active: dev
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          # 服务名小写
+          lower-case-service-id: true
+      routes:
+      - id: consumer-service
+        uri: lb://consumer-service
+        predicates:
+        - Path=/consumer/**
+        filters:
+        # 进行token过滤
+        - TokenAuthenticationFilter
+        - StripPrefix=1
+
+# 注册中心
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://zy:zy123@localhost:10025/eureka/
+
+
+# 暴露监控端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+# 打印网关日志信息
+logging:
+  level:
+    org.springframework.cloud.gateway: debug
