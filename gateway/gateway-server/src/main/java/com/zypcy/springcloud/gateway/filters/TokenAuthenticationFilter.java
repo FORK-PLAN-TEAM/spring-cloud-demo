@@ -22,7 +22,6 @@ public class TokenAuthenticationFilter extends AbstractGatewayFilterFactory {
 
     private static final String Bearer_ = "Bearer ";
 
-
     @Override
     public GatewayFilter apply(Object config) {
         return (exchange, chain) -> {
@@ -32,7 +31,8 @@ public class TokenAuthenticationFilter extends AbstractGatewayFilterFactory {
             try {
                 //获取header中的Authorization
                 String header = request.getHeaders().getFirst("Authorization");
-                if (header == null || !header.startsWith(Bearer_)) {
+                System.out.println("header Authorization : " + header);
+                /*if (header == null || !header.startsWith(Bearer_)) {
                     throw new RuntimeException("请求头中Authorization信息为空");
                 }
                 //截取Authorization Bearer
@@ -48,6 +48,7 @@ public class TokenAuthenticationFilter extends AbstractGatewayFilterFactory {
                     DataBuffer bodyDataBuffer = responseErrorInfo(response , HttpStatus.UNAUTHORIZED.toString() ,"无效的请求");
                     return response.writeWith(Mono.just(bodyDataBuffer));
                 }
+                */
             }catch (Exception e){
                 //没有token
                 DataBuffer bodyDataBuffer = responseErrorInfo(response , HttpStatus.UNAUTHORIZED.toString() ,e.getMessage());

@@ -6,33 +6,32 @@ spring:
     active: dev
   application:
     name: gateway-service
-  cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-          # 服务名小写
-          lower-case-service-id: true
-      routes:
-      - id: consumer-service
-        uri: lb://consumer-service
-        predicates:
-        - Path=/consumer/**
-        filters:
-        # 进行token过滤
-        - TokenAuthenticationFilter
-        - StripPrefix=1
+  redis:
+    host: localhost
+
+# hystrix 信号量隔离，3秒后自动超时
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 3000
+  shareSecurityContext: true
+
 
 # 注册中心
 eureka:
   instance:
-    prefer-ip-address: true
+    #prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
   client:
     service-url:
       defaultZone: http://zy:zy123@localhost:10025/eureka/
 
 
-# 暴露监控端点
+# 暴露端点
 management:
   endpoints:
     web:
