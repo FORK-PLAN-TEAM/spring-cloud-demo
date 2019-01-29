@@ -1,0 +1,15 @@
+
+server:
+  port: 2004
+
+spring:
+  application:
+    name: config-client
+  rabbitmq:
+    host: 120.78.215.14
+    port: 5672
+    username: yizheng
+    password: yizheng
+    virtual-host: yizheng_vhosts
+
+

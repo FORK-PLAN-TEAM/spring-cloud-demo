@@ -1,0 +1,40 @@
+
+# config-server会在本地的临时目录下克隆远程仓库中的信息
+# 保存在本机：C:\Users\zhuyu\AppData\Local\Temp\config-repo-315688083391782199\config-info
+# 可更改本地仓库clone的配置文件信息的路径 spring.cloud.config.server.git.basedir=D:\\localGitRepo\\
+
+
+server:
+  port: 2000
+
+spring:
+  application:
+    name: config-server
+  cloud:
+    bus:
+      trace:
+        enabled: true
+    config:
+      server:
+        git:
+          uri: https://gitee.com/zhuyu1991/spring-config-repo.git  # git仓库的地址
+          searchPaths: config-info                                # git仓库地址下的相对地址，可以配置多个，用,分割
+          username: zhuyu1991                                     # git仓库的账号
+          password: ZHUYUzhuyu1991                                # git仓库的密码
+
+  rabbitmq:
+    host: 120.78.215.14
+    port: 5672
+    username: yizheng
+    password: yizheng
+    virtual-host: yizheng_vhosts
+
+
+# 注册中心配置
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://zy:zy123@localhost:10025/eureka/
+

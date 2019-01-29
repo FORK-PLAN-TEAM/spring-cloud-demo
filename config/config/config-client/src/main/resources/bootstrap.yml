@@ -1,0 +1,25 @@
+
+
+spring:
+  cloud:
+    bus:
+      trace:
+        enabled: true
+    config:
+      label: master                  # label代表要请求那个git分支
+      #uri: http://localhost:2000     # uri代表config-server的地址
+      name: config-info          # name代表请求那个名称的远程文件，可以写多个，逗号分隔
+      profile: dev                   # profile代表那个分支文件，如：dev 、 test 、 prod
+      # 这里基于服务发现，不指定uri
+      discovery:
+        enabled: true
+        service-id: config-server
+
+# 注册中心配置
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://zy:zy123@localhost:10025/eureka/
+
