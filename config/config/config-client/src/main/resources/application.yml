@@ -6,10 +6,10 @@ spring:
   application:
     name: config-client
   rabbitmq:
-    host: 120.78.215.14
+    host: 192.168.1.101
     port: 5672
-    username: yizheng
-    password: yizheng
-    virtual-host: yizheng_vhosts
+    username: 用户名
+    password: 密码
+    virtual-host: zy_vhosts
 
 
