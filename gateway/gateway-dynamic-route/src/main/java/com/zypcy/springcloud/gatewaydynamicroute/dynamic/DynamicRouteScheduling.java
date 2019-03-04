@@ -36,17 +36,8 @@ public class DynamicRouteScheduling {
     //发布路由信息的版本号
     private static Long versionId = 0L;
 
-    public static void main(String[] args){
-        String reslut = "[{\"filters\":[],\"id\":\"consumer-service\",\"order\":0,\"predicates\":[{\"args\":{\"pattern\":\"/zy/**\"},\"name\":\"Path\"}],\"uri\":\"lb://consumer-service\"}]";
-        System.out.println("reslut:" +reslut);
-        List<GatewayRouteDefinition> list = JSON.parseArray(reslut , GatewayRouteDefinition.class);
-        for(GatewayRouteDefinition gwdefinition : list){
-            System.out.println("gwdefinition:" +gwdefinition.getId());
-        }
-    }
-
-    //每30秒中执行一次
-    //如果版本号不想等则更新路由
+    //每60秒中执行一次
+    //如果版本号不相等则获取最新路由信息并更新网关路由
     @Scheduled(cron = "*/60 * * * * ?")
     public void getDynamicRouteInfo(){
         try{
