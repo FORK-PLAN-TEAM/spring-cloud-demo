@@ -18,16 +18,16 @@ spring:
       server:
         git:
           uri: https://gitee.com/zhuyu1991/spring-config-repo.git  # git仓库的地址
-          searchPaths: config-info                                # git仓库地址下的相对地址，可以配置多个，用,分割
-          username: zhuyu1991                                     # git仓库的账号
-          password: ZHUYUzhuyu1991                                # git仓库的密码
+          searchPaths: config-info                                 # git仓库地址下的相对地址，可以配置多个，用,分割
+          username: 用户名                                         # git仓库的账号
+          password: 密码                                           # git仓库的密码
 
   rabbitmq:
-    host: 120.78.215.14
+    host: 192.168.1.101
     port: 5672
-    username: yizheng
-    password: yizheng
-    virtual-host: yizheng_vhosts
+    username: 用户名
+    password: 密码
+    virtual-host: zy_vhosts
 
 
 # 注册中心配置
