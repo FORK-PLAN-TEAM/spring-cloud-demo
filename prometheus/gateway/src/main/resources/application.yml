@@ -1,0 +1,42 @@
+
+server:
+  port: 10000
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: gateway-prometheus
+  cloud:
+    consul:
+      discovery:
+        enabled: true
+        register: true
+        heartbeat:
+          enabled: true
+          ttl-unit: s
+          ttl-value: 30
+        prefer-ip-address: true
+        tags: prometheus
+      host: localhost
+      port: 8500
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          # 服务名小写
+          lower-case-service-id: true
+      routes:
+      # order-service-prometheus
+      - id : order-service-prometheus
+        uri : lb://order-service-prometheus
+        predicates:
+        - Path=/order-service/**
+        # 加上StripPrefix=1，否则转发到后端服务时会带上order-service前缀
+        filters:
+        - StripPrefix=1
+
+# 打印网关日志信息
+logging:
+  level:
+    org.springframework.cloud.gateway: debug
