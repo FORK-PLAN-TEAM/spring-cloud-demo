@@ -39,6 +39,14 @@ public class OrderController {
         return "zhuyu , port : " + port;
     }
 
+    @RequestMapping("/error")
+    public String error(){
+        if(true){
+            throw new RuntimeException("主动报错");
+        }
+        return "controller error";
+    }
+
     //订单方法，随机产生订单金额
     @RequestMapping("/order")
     public String order(){

@@ -43,7 +43,7 @@ public class AspectAop {
     private Counter counter;
     @PostConstruct
     private void init(){
-        counter = registry.counter("requests_total","status","success");
+        counter = registry.counter("requests_total");
     }
 
 
