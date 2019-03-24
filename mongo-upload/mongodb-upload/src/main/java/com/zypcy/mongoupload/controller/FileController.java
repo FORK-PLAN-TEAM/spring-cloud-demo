@@ -83,7 +83,7 @@ public class FileController {
     }
 
     /**
-     * JS传字节流上传 - 暂时
+     * JS传字节流上传 - 暂时未完成
      * @param md5
      * @param file
      * @return

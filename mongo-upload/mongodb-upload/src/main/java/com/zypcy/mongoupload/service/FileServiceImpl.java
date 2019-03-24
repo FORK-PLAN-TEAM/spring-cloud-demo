@@ -103,7 +103,7 @@ public class FileServiceImpl implements IFileService {
 
     /**
      * 删除附件
-     * @param id 客户端的id是 年月前缀+文件id
+     * @param id 文件id
      * @param isDeleteFile 是否删除文件
      */
     @Override
@@ -123,7 +123,7 @@ public class FileServiceImpl implements IFileService {
 
     /**
      * 查询附件
-     * @param id 客户端的id是 年月前缀+文件id
+     * @param id 文件id
      * @return
      * @throws IOException
      */
