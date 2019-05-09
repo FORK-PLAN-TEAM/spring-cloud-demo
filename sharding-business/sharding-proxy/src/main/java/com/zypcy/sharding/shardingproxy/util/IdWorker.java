@@ -1,4 +1,4 @@
-package com.zypcy.sharding.sublibrarytable.util;
+package com.zypcy.sharding.shardingproxy.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public class IdWorker {
 
-    private static IdWorker idWorker = new IdWorker(1, 0);
+    private static IdWorker idWorker = new IdWorker(2, 1);
     private static SimpleDateFormat timeFormat = new SimpleDateFormat("yyMMdd");
     private static SimpleDateFormat timeFormatFull = new SimpleDateFormat("yyMMddHHmmss");
     private static Random random = new Random();
@@ -21,14 +21,18 @@ public class IdWorker {
      * 测试
      */
     public static void main(String[] args) {
-        /*for (int i = 0; i < 100; i++) {
-            String id = getId();
+       for (int i = 0; i < 100; i++) {
+            //String id = getId();
             //long id = idWorker.nextId();
-            System.out.println("getId:"+ id  + " , length:" + id.length());
-        }*/
-        System.out.println("getId:"+getId() + " , length:" + getId().length());
+            long dbId = getLongId();
+            long tableId = getLongId();
+            long dby = dbId % 2;
+            long tabley = tableId % 2;
+            System.out.println("dbId:"+ dbId + "，tableId:" + tableId + "，ds" + dby + ".t_order"+tabley);
+        }
+        /*System.out.println("getId:"+getId() + " , length:" + getId().length());
         System.out.println("getDateId:"+getDateId() + " , length:" + getDateId().length());
-        System.out.println("getFullDateId:"+getFullDateId() + " , length:" + getFullDateId().length());
+        System.out.println("getFullDateId:"+getFullDateId() + " , length:" + getFullDateId().length());*/
     }
 
     /**
@@ -98,7 +102,7 @@ public class IdWorker {
     /**
      * 序列在id中占的位数 默认值 12L
      */
-    private final long sequenceBits = 14L;
+    private final long sequenceBits = 12L;
 
     /**
      * 机器ID向左移12位

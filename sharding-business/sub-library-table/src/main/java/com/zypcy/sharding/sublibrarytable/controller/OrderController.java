@@ -19,7 +19,7 @@ public class OrderController {
     public Order add(){
         Order order = new Order();
         order.setMemberId(IdWorker.getLongId());
-        order.setOrderAmount(50.0);
+        order.setOrderAmount("50.0");
         order.setOrderCode("1212");
         //order.setOrderId(IdWorker.getLongId());
         order.setStatus("1");

@@ -4,6 +4,7 @@ import org.apache.shardingsphere.core.strategy.keygen.SnowflakeShardingKeyGenera
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * Twitter_Snowflake ID生成器
@@ -16,6 +17,7 @@ public class IdWorker {
     private static IdWorker idWorker = new IdWorker(2, 1);
     private static SimpleDateFormat timeFormat = new SimpleDateFormat("yyMMdd");
     private static SimpleDateFormat timeFormatFull = new SimpleDateFormat("yyMMddHHmmss");
+    private static Random random = new Random();
 
 
     /**
@@ -33,13 +35,18 @@ public class IdWorker {
         SnowflakeShardingKeyGenerator keyGenerator = new SnowflakeShardingKeyGenerator();
         for (int i = 0; i < 100; i++) {
             //long id = idWorker.nextId();
-            System.out.println("getId:"+ keyGenerator.generateKey()  + " , length:" + String.valueOf(keyGenerator.generateKey()).length());
+            long dbId = Long.valueOf(keyGenerator.generateKey().toString());
+            long tableId = Long.valueOf(keyGenerator.generateKey().toString());
+            long dby = dbId % 2;
+            long tabley = tableId % 2;
+            System.out.println("ds" + dby + ".t_order"+tabley);
+            //System.out.println("getId:"+ keyGenerator.generateKey()  + " , length:" + String.valueOf(keyGenerator.generateKey()).length());
         }
     }
 
     /**
-     * 获取ID ， 18位
-     * @return
+     * 获取ID
+     * @return 18位连续的id
      */
     public static String getId() {
         String id = String.valueOf(idWorker.nextId());
@@ -47,11 +54,11 @@ public class IdWorker {
     }
 
     /**
-     * 获取ID ， 18位
-     * @return
+     * 获取ID
+     * @return 18位不连续的id
      */
     public static long getLongId(){
-        return idWorker.nextId();
+        return idWorker.nextId() + random.nextInt(999);
     }
 
     /**

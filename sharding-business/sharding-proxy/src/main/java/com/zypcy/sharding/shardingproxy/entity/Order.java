@@ -1,11 +1,8 @@
-package com.zypcy.sharding.dbtablejpa.entity;
+package com.zypcy.sharding.shardingproxy.entity;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Data
@@ -17,14 +14,19 @@ public class Order {
     @Column(name = "order_id")
     private Long orderId;
 
-    private String memberId;
+    @Column(name = "member_id")
+    private Long memberId;
 
+    @Column(name = "order_code")
     private String orderCode;
 
+    @Column(name = "order_amount")
     private String orderAmount;
 
+    @Column(name = "status")
     private String status;
 
+    @Column(name = "create_time")
     private Date createTime;
 
 }

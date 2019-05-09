@@ -12,7 +12,7 @@ public class Order {
 
     private String orderCode;
 
-    private Double orderAmount;
+    private String orderAmount;
 
     private String status;
 
