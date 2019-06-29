@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link th:replace="template/sys_header :: header"/>
+    <script type="text/javascript" th:replace="template/sys_header :: footer"></script>
+</head>
+<body style="width: 100%;height:100%;background: url(/img/index_bg2.jpg) no-repeat center;background-size: cover;overflow: hidden;">
+
+    <div class="login">
+        <div class="message">ZyAdmin 管理登录</div>
+        <div id="darkbannerwrap"></div>
+
+        <form method="post" class="layui-form">
+            <input name="username" id="username" placeholder="用户名" type="text" lay-verify="required" class="layui-input">
+            <hr class="hr15">
+            <input name="password" id="password" placeholder="密码" type="password" lay-verify="required" class="layui-input">
+            <hr class="hr15">
+            <input class="loginin" id="login" value="登录" lay-submit="" lay-filter="login" style="width:100%;" type="button">
+            <hr class="hr20">
+            <div>
+                © 朱宇 - 修能信息提供技术支持
+            </div>
+        </form>
+    </div>
+
+    <!-- 底部固定区域
+    <div style="position: absolute;bottom: 0;width: 100%;text-align: center;background-color: #f1f1f1;height: 32px;line-height: 32px;">
+        © 朱宇 - 修能信息提供技术支持
+    </div> -->
+
+    <script type="text/javascript">
+        layui.use(['form'], function(){
+            var form = layui.form;
+            //监听提交
+            form.on('submit(login)', function(data){
+                //console.log(data);
+                var userAccount = data.field.username;
+                var userPwd = data.field.password;
+                //发起请求
+                new AjaxRequest({
+                    type: "POST",
+                    url: webroot + "sys/login/login?userAccount="+ userAccount + "&userPwd=" + userPwd,
+                    isShowLoader: true,
+                    success: function(res){
+                        console.log(res);
+                        if(res){
+                            if(res.resultCode == "0000"){
+                                setCookie("token" , res.resultObj);
+                                window.location.href = "/sys/main";
+                            }else {
+                                layer.alert(res.resultMessage , {icon: 2})
+                            }
+                        }
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+</body>
+</html>

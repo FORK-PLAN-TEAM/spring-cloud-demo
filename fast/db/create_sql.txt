@@ -1,0 +1,148 @@
+﻿
+
+/*==============================================================*/
+/* Table: zy_sys_organization                                   */
+/*==============================================================*/
+create table zy_sys_organization
+(
+   org_id               varchar(36) not null comment '组织机构id',
+   org_name             varchar(128) comment '组织机构名称',
+   org_short_name       varchar(128) comment '组织机构简称',
+   org_code             varchar(64) comment '组织机构编号',
+   parent_id            varchar(36) comment '父级Id',
+   remark               varchar(255) comment '备注',
+   isdel                bool comment '是否删除',
+   order_num            int comment '排序码',
+   create_time          datetime comment '创建时间',
+   create_userid        varchar(36) comment '创建用户Id',
+   create_username      varchar(36) comment '创建人姓名',
+   update_time          datetime comment '修改时间',
+   update_userid        varchar(36) comment '修改用户Id',
+   update_username      varchar(36) comment '修改用户姓名',
+   primary key (org_id)
+);
+
+alter table zy_sys_organization comment '组织机构';
+
+/*==============================================================*/
+/* Table: zy_sys_user                                           */
+/*==============================================================*/
+create table zy_sys_user
+(
+   user_id              varchar(36) not null comment '用户id',
+   org_id               varchar(36) comment '组织机构id',
+   user_name            varchar(36) comment '用户姓名',
+   user_code            varchar(36) comment '用户编号',
+   user_account         varchar(36) comment '登录帐号',
+   user_pwd             varchar(36) comment '登录密码',
+   salt                 varchar(36) comment '盐：密码加密key',
+   sex                  bool comment '用户性别：1女、0男',
+   state                bool comment '用户状态：1禁止、0正常',
+   isdel                bool comment '是否删除',
+   order_num            int comment '排序码',
+   create_time          datetime comment '创建时间',
+   create_userid        varchar(36) comment '创建用户Id',
+   create_username      varchar(36) comment '创建人姓名',
+   update_time          datetime comment '修改时间',
+   update_userid        varchar(36) comment '修改用户Id',
+   update_username      varchar(36) comment '修改用户姓名',
+   primary key (user_id)
+);
+
+alter table zy_sys_user comment '用户表';
+
+/*==============================================================*/
+/* Table: zy_sys_menu                                           */
+/*==============================================================*/
+create table zy_sys_menu
+(
+   menu_id              varchar(36) not null comment '菜单Id',
+   menu_name            varchar(36) comment '菜单名称',
+   parent_id            varchar(36) comment '父级菜单Id',
+   path                 varchar(128) comment '打开系统路径',
+   icon                 varchar(64) comment '图标',
+   state                bool comment '状态：1禁止、0正常',
+   isdel                bool comment '是否删除',
+   order_num            int comment '排序码',
+   remark               varchar(255) comment '备注',
+   create_time          datetime comment '创建时间',
+   create_userid        varchar(36) comment '创建用户Id',
+   create_username      varchar(36) comment '创建人姓名',
+   update_time          datetime comment '修改时间',
+   update_userid        varchar(36) comment '修改用户Id',
+   update_username      varchar(36) comment '修改用户姓名',
+   primary key (menu_id)
+);
+
+alter table zy_sys_menu comment '菜单';
+
+
+/*==============================================================*/
+/* Table: zy_sys_dict                                           */
+/*==============================================================*/
+create table zy_sys_dict
+(
+   id                   varchar(36) not null comment '数据字典id',
+   parent_id            varchar(36) comment '父级id',
+   name                 varchar(100) comment 'key',
+   value                varchar(100) comment 'value',
+   type                 varchar(100) comment '类型，同一类型数据字典类型一样',
+   sort                 int comment 'sort',
+   remarks              varchar(255),
+   create_time          datetime,
+   update_time          datetime,
+   isdel                bool,
+   primary key (id)
+);
+
+alter table zy_sys_dict comment '数据字典';
+
+/*==============================================================*/
+/* Table: zy_sys_role                                           */
+/*==============================================================*/
+create table zy_sys_role
+(
+   role_id              varchar(36) not null comment '角色Id',
+   role_name            varchar(64) comment '角色名称',
+   user_code            varchar(64) comment '角色code',
+   remark               varchar(255) comment '备注',
+   isdel                bool comment '是否删除',
+   order_num            int comment '排序码',
+   create_time          datetime comment '创建时间',
+   create_userid        varchar(36) comment '创建用户Id',
+   create_username      varchar(36) comment '创建人姓名',
+   update_time          datetime comment '修改时间',
+   update_userid        varchar(36) comment '修改用户Id',
+   update_username      varchar(36) comment '修改用户姓名',
+   primary key (role_id)
+);
+
+alter table zy_sys_role comment '角色';
+
+
+/*==============================================================*/
+/* Table: zy_sys_user_role                                      */
+/*==============================================================*/
+create table zy_sys_user_role
+(
+   id                   varchar(36) not null,
+   user_id              varchar(36),
+   role_id              varchar(36),
+   primary key (id)
+);
+
+alter table zy_sys_user_role comment '用户角色';
+
+/*==============================================================*/
+/* Table: zy_sys_role_menu                                      */
+/*==============================================================*/
+create table zy_sys_role_menu
+(
+   id                   varchar(36) not null,
+   menu_id              varchar(36),
+   role_id              varchar(36),
+   primary key (id)
+);
+
+alter table zy_sys_role_menu comment '角色菜单';
+
