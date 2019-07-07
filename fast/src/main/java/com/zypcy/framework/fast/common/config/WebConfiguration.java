@@ -25,7 +25,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     //添加拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AuthInterceptor(tokenExpireTime)).excludePathPatterns(getExcludePath()).order(1);
+        //registry.addInterceptor(new AuthInterceptor(tokenExpireTime)).excludePathPatterns(getExcludePath()).order(1);
         //registry.addInterceptor(new PermissionInterceptor()).excludePathPatterns(getExcludePath()).order(2);
     }
 
@@ -37,6 +37,7 @@ public class WebConfiguration implements WebMvcConfigurer {
         List<String> excludeList = new ArrayList<>();
         excludeList.add("/");
         excludeList.add("/css/**");
+        excludeList.add("/images/**");
         excludeList.add("/img/**");
         excludeList.add("/js/**");
         excludeList.add("/layui/**");

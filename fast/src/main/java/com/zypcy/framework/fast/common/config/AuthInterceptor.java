@@ -47,7 +47,7 @@ public class AuthInterceptor implements HandlerInterceptor {
                     return true;
                 } else {
                     //throw new ApplicationException(ResultEnum.ACCOUNT_TIMEOUT);
-                    response.sendRedirect("/");
+                    response.sendRedirect("/sys/login");
                     return false;
                 }
             }
@@ -56,7 +56,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         if(true){
             //没有携带token,或token中没有数据的请求,拦截掉
             //throw new ApplicationException(ResultEnum.ACCOUNT_NOTFOUND);
-            response.sendRedirect("/");
+            response.sendRedirect("/sys/login");
             return false;
         }
         return true;

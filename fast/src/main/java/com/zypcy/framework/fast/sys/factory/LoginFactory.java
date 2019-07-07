@@ -2,12 +2,14 @@ package com.zypcy.framework.fast.sys.factory;
 
 import com.alibaba.fastjson.JSON;
 import com.zypcy.framework.fast.common.config.SpringContextApplication;
+import com.zypcy.framework.fast.common.util.RedisUtil;
 import com.zypcy.framework.fast.sys.cache.UserLoginCache;
 import com.zypcy.framework.fast.sys.constant.InitLoaderConstant;
 import com.zypcy.framework.fast.sys.constant.KeyConstant;
 import com.zypcy.framework.fast.sys.entity.ZySysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.util.StringUtils;
 
 /**
  * 登录帮助类
@@ -25,8 +27,7 @@ public class LoginFactory {
         if(InitLoaderConstant.SessionStickType.equals("local")){
             UserLoginCache.saveUserLoginInfo(KeyConstant.Local.Sys_Token , token , sysUser);
         }else {
-            StringRedisTemplate redisTemplate = SpringContextApplication.getBean(StringRedisTemplate.class);
-            redisTemplate.opsForHash().put(KeyConstant.Redis.Sys_Token , token , JSON.toJSONString(sysUser));
+            RedisUtil.Hash.put(KeyConstant.Redis.Sys_Token , token , sysUser);
         }
     }
 
@@ -40,10 +41,9 @@ public class LoginFactory {
         if(InitLoaderConstant.SessionStickType.equals("local")){
             sysUser = UserLoginCache.getUserLoginInfo(KeyConstant.Local.Sys_Token , token);
         }else {
-            StringRedisTemplate redisTemplate = SpringContextApplication.getBean(StringRedisTemplate.class);
-            Object result = redisTemplate.opsForHash().get(KeyConstant.Redis.Sys_Token , token);
-            if(result != null){
-                sysUser = JSON.parseObject(result.toString() , ZySysUser.class);
+            String result = RedisUtil.Hash.get(KeyConstant.Redis.Sys_Token , token);
+            if(!StringUtils.isEmpty(result)){
+                sysUser = JSON.parseObject(result, ZySysUser.class);
             }
         }
         return sysUser;

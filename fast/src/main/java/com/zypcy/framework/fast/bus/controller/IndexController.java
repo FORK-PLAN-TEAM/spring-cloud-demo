@@ -25,10 +25,4 @@ public class IndexController {
         return new ModelAndView("index");
     }
 
-    //登录成功后返回系统后台主页面
-    @GetMapping("/sys/main")
-    public ModelAndView main(){
-        return new ModelAndView("sys/main");
-    }
-
 }
