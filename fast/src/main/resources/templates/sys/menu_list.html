@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>菜单管理</title>
+    <link th:replace="template/sys_header :: header"/>
+    <script type="text/javascript" th:replace="template/sys_header :: footer"></script>
+</head>
+<body>
+    <div class="tree_left">
+        <ul id="treeDemo" class="ztree"></ul>
+    </div>
+    <div class="tree_right padding10">
+        <div>
+
+            <div class="layui-row margintop15">
+                <div class="layui-col-md2 layui-row-label">
+                    菜单名称
+                </div>
+                <div class="layui-col-md6">
+                    <input type="text" id="menu_name" name="menu_name" lay-verify="required" autocomplete="" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-row margintop15">
+                <div class="layui-col-md2 layui-row-label">
+                    路径
+                </div>
+                <div class="layui-col-md6">
+                    <input type="text" id="path" name="path" autocomplete="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-row margintop15">
+                <div class="layui-col-md2 layui-row-label">
+                    图标
+                </div>
+                <div class="layui-col-md6">
+                    <input type="text" id="icon" name="icon" autocomplete="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-row margintop15">
+                <div class="layui-col-md2 layui-row-label">
+                    排序号
+                </div>
+                <div class="layui-col-md6">
+                    <input type="text" id="order_num" name="order_num" lay-verify="required" autocomplete="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-row margintop15">
+                <div class="layui-col-md2 layui-row-label">
+                    状态
+                </div>
+                <div class="layui-col-md6">
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="open2" lay-skin="switch" lay-filter="switchTest" lay-text="已绑定|绑定">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row margintop15">
+                <div class="layui-col-md2 layui-row-label">
+                    备注
+                </div>
+                <div class="layui-col-md6">
+                    <input type="text" id="remark" name="remark" autocomplete="" class="layui-input">
+                </div>
+            </div>
+
+
+            <div class="layui-row margintop15">
+                <div class="layui-col-md2 layui-row-label">
+
+                </div>
+                <div class="layui-col-md6">
+                    <button class="layui-btn layui-btn-normal">保存</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" th:inline="javascript">
+        var menus = [[${menus}]];//所有菜单信息
+        //添加跟节点
+        menus.push({ id:0, pId:0, name:"根目录", open:true, iconSkin:"pIcon01"});
+
+        var treeObj;
+        $(document).ready(function(){
+            treeObj = $.fn.zTree.init($("#treeDemo"), {
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                },
+                callback: {
+                    onClick: zTreeOnClick
+                }
+            }, menus);
+            console.log(treeObj)
+            if(treeObj.getNodes().length > 0){
+                treeObj.expandAll(true);
+            }
+        });
+
+        function zTreeOnClick(event, treeId, treeNode) {
+            console.log(treeNode);
+            console.log(treeNode.id + " , " + treeNode.name);
+
+        }
+
+    </script>
+</body>
+</html>
