@@ -3,54 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <title>首页</title>
-    <link th:replace="template/sys_header :: header"/>
-    <script type="text/javascript" th:replace="template/sys_header :: footer"></script>
+    <meta content="ZyAdmin、后台管理框架、大数据、app" name="description"/>
+    <meta content="ZyAdmin" name="author"/>
+    <meta name="keywords" content="ZyAdmin 后台管理框架 大数据 app"/>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/layui/css/font.css">
+    <link rel="stylesheet" href="/layui/css/login.css">
+    <link rel="stylesheet" href="/layui/css/xadmin.css">
 </head>
 <body style="width: 100%;height:100%;background: url(/images/index_bg2.jpg) no-repeat center;background-size: cover;overflow: hidden;">
 
-    <div class="login">
-        <div class="message">ZyAdmin 管理登录</div>
-        <div id="darkbannerwrap"></div>
+<div class="login layui-anim layui-anim-up">
+    <div class="message">Zy-Admin2.0-管理登录</div>
+    <div id="darkbannerwrap"></div>
 
-        <form method="post" class="layui-form">
-            <input name="username" id="username" placeholder="用户名" type="text" lay-verify="required" class="layui-input">
-            <hr class="hr15">
-            <input name="password" id="password" placeholder="密码" type="password" lay-verify="required" class="layui-input">
-            <hr class="hr15">
-            <input class="loginin" id="login" value="登录" lay-submit="" lay-filter="login" style="width:100%;" type="button">
-            <hr class="hr20">
-            <div>
-                © 朱宇 - 修能信息提供技术支持
-            </div>
-        </form>
-    </div>
+    <form method="post" class="layui-form">
+        <input name="username" id="username" placeholder="用户名" type="text" lay-verify="required" class="layui-input">
+        <hr class="hr15">
+        <input name="password" id="password" lay-verify="required" placeholder="密码" type="password" class="layui-input">
+        <hr class="hr15">
+        <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
+        <hr class="hr20">
+        <div>
+            <a href="https://blog.csdn.net/zhuyu19911016520" target="_blank">朱宇</a> 修能提供技术支持。
+        </div>
+    </form>
+</div>
 
-    <!-- 底部固定区域
-    <div style="position: absolute;bottom: 0;width: 100%;text-align: center;background-color: #f1f1f1;height: 32px;line-height: 32px;">
-        © 朱宇 - 修能信息提供技术支持
-    </div> -->
+<!-- 底部固定区域
+<div style="position: absolute;bottom: 0;width: 100%;text-align: center;background-color: #f1f1f1;height: 32px;line-height: 32px;">
+    © 朱宇 - 修能信息提供技术支持
+</div> -->
 
-    <script type="text/javascript">
-        layui.use(['form'], function(){
-            var form = layui.form;
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/layui/lib/layui/layui.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        layui.use(['form', 'layer'], function () {
+            var form = layui.form,
+                layer = layui.layer;
             //监听提交
-            form.on('submit(login)', function(data){
+            form.on('submit(login)', function (data) {
                 //console.log(data);
                 var userAccount = data.field.username;
                 var userPwd = data.field.password;
                 //发起请求
                 new AjaxRequest({
                     type: "POST",
-                    url: webroot + "sys/login/login?userAccount="+ userAccount + "&userPwd=" + userPwd,
+                    url: webroot + "sys/login/login?userAccount=" + userAccount + "&userPwd=" + userPwd,
                     isShowLoader: true,
-                    success: function(res){
+                    success: function (res) {
                         console.log(res);
-                        if(res){
-                            if(res.resultCode == "0000"){
-                                setCookie("token" , res.resultObj);
+                        if (res) {
+                            if (res.resultCode == "0000") {
+                                setCookie("token", res.resultObj);
                                 window.location.href = "/sys/main";
-                            }else {
-                                layer.alert(res.resultMessage , {icon: 2})
+                            } else {
+                                layer.alert(res.resultMessage, {icon: 2})
                             }
                         }
                     }
@@ -58,6 +70,7 @@
                 return false;
             });
         });
-    </script>
+    })
+</script>
 </body>
 </html>

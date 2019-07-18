@@ -4,109 +4,315 @@
     <meta charset="UTF-8">
     <title>菜单管理</title>
     <link th:replace="template/sys_header :: header"/>
-    <script type="text/javascript" th:replace="template/sys_header :: footer"></script>
 </head>
 <body>
-    <div class="tree_left">
-        <ul id="treeDemo" class="ztree"></ul>
+<div class="tree_left">
+    <ul id="treeDemo" class="ztree"></ul>
+</div>
+<div class="tree_right padding10">
+
+    <div class="layui-row margintop10">
+        <div class="layui-col-md2 layui-row-label">
+            &nbsp;
+        </div>
+        <div class="layui-col-md6" style="text-align: center">
+            <button class="layui-btn layui-btn-big" lay-submit lay-filter="addChildMenu"><i
+                    class="iconfont">&#xe6b9;</i> 新增子菜单
+            </button>
+            <button class="layui-btn layui-btn-danger" lay-submit lay-filter="delMenu"><i class="iconfont">&#xe69d;</i>
+                删除菜单
+            </button>
+        </div>
+
     </div>
-    <div class="tree_right padding10">
-        <div>
 
-            <div class="layui-row margintop15">
-                <div class="layui-col-md2 layui-row-label">
-                    菜单名称
-                </div>
-                <div class="layui-col-md6">
-                    <input type="text" id="menu_name" name="menu_name" lay-verify="required" autocomplete="" class="layui-input">
-                </div>
-            </div>
-
-            <div class="layui-row margintop15">
-                <div class="layui-col-md2 layui-row-label">
-                    路径
-                </div>
-                <div class="layui-col-md6">
-                    <input type="text" id="path" name="path" autocomplete="" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-row margintop15">
-                <div class="layui-col-md2 layui-row-label">
-                    图标
-                </div>
-                <div class="layui-col-md6">
-                    <input type="text" id="icon" name="icon" autocomplete="" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-row margintop15">
-                <div class="layui-col-md2 layui-row-label">
-                    排序号
-                </div>
-                <div class="layui-col-md6">
-                    <input type="text" id="order_num" name="order_num" lay-verify="required" autocomplete="" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-row margintop15">
-                <div class="layui-col-md2 layui-row-label">
-                    状态
-                </div>
-                <div class="layui-col-md6">
-                    <div class="layui-input-block">
-                        <input type="checkbox" name="open2" lay-skin="switch" lay-filter="switchTest" lay-text="已绑定|绑定">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-row margintop15">
-                <div class="layui-col-md2 layui-row-label">
-                    备注
-                </div>
-                <div class="layui-col-md6">
-                    <input type="text" id="remark" name="remark" autocomplete="" class="layui-input">
-                </div>
-            </div>
-
-
-            <div class="layui-row margintop15">
-                <div class="layui-col-md2 layui-row-label">
-
-                </div>
-                <div class="layui-col-md6">
-                    <button class="layui-btn layui-btn-normal">保存</button>
-                </div>
-
-            </div>
+    <div class="layui-row margintop20">
+        <div class="layui-col-md2 layui-row-label">
+            父级菜单
+        </div>
+        <div class="layui-col-md6">
+            <input type="text" id="parentMenuName" class="layui-input" disabled>
         </div>
     </div>
 
-    <script type="text/javascript" th:inline="javascript">
-        var menus = [[${menus}]];//所有菜单信息
-        //添加跟节点
-        menus.push({ id:0, pId:0, name:"根目录", open:true, iconSkin:"pIcon01"});
+    <form lay-filter="form1" class="layui-form margintop20" action="">
+        <input type="hidden" id="menuId" name="menuId" value=""/>
+        <input type="hidden" id="parentId" name="parentId" value=""/>
+        <div class="layui-row margintop15">
+            <div class="layui-col-md2 layui-row-label">
+                菜单名称
+            </div>
+            <div class="layui-col-md6">
+                <input type="text" id="menuName" name="menuName" lay-verify="required" autocomplete=""
+                       class="layui-input">
+            </div>
+        </div>
 
-        var treeObj;
-        $(document).ready(function(){
-            treeObj = $.fn.zTree.init($("#treeDemo"), {
-                data: {
-                    simpleData: {
-                        enable: true
-                    }
-                },
-                callback: {
-                    onClick: zTreeOnClick
+        <div class="layui-row margintop15">
+            <div class="layui-col-md2 layui-row-label">
+                路径
+            </div>
+            <div class="layui-col-md6">
+                <input type="text" id="path" name="path" autocomplete="" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-row margintop15">
+            <div class="layui-col-md2 layui-row-label">
+                图标
+            </div>
+            <div class="layui-col-md6">
+                <input type="text" id="icon" name="icon" autocomplete="" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-row margintop15">
+            <div class="layui-col-md2 layui-row-label">
+                排序号
+            </div>
+            <div class="layui-col-md6">
+                <input type="text" id="orderNum" name="orderNum" lay-verify="number" autocomplete=""
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-row margintop15">
+            <div class="layui-col-md2 layui-row-label">
+                状态
+            </div>
+            <div class="layui-col-md6">
+                <div style="margin-top: 5px;" id="stateRadio">
+                    <input type="radio" name="state" value="启用" title="已启用" checked>
+                    <input type="radio" name="state" value="禁用" title="已禁用">
+                </div>
+            </div>
+        </div>
+        <div class="layui-row margintop15">
+            <div class="layui-col-md2 layui-row-label">
+                备注
+            </div>
+            <div class="layui-col-md6">
+                <input type="text" id="remark" name="remark" autocomplete="" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-row margintop15">
+            <div class="layui-col-md2 layui-row-label">
+
+            </div>
+            <div class="layui-col-md6" style="text-align: center">
+                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveMenu"><i
+                        class="iconfont">&#xe747;</i> &nbsp;保存&nbsp;
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript" th:replace="template/sys_header :: footer"></script>
+<script type="text/javascript" th:inline="javascript">
+    var form = layui.form;
+    form.render();
+
+    var menus = [[${menus}]];//所有菜单信息
+    //添加跟节点
+    menus.push({id: 0, pId: 0, name: "根目录", open: true, iconSkin: "pIcon01"});
+    var zTree;
+    $(function () {
+        zTree = $.fn.zTree.init($("#treeDemo"), {
+            data: {
+                simpleData: {
+                    enable: true
                 }
-            }, menus);
-            console.log(treeObj)
-            if(treeObj.getNodes().length > 0){
-                treeObj.expandAll(true);
+            },
+            callback: {
+                onClick: zTreeOnClick
             }
-        });
+        }, menus);
+        if (zTree.getNodes().length > 0) {
+            zTree.expandAll(true);
+        }
+    });
 
-        function zTreeOnClick(event, treeId, treeNode) {
-            console.log(treeNode);
-            console.log(treeNode.id + " , " + treeNode.name);
-
+    //菜单点击事件
+    function zTreeOnClick(event, treeId, treeNode) {
+        //console.log(treeNode)
+        //加载父节点信息
+        var parentNode = treeNode.getParentNode();
+        if (parentNode) {
+            getById("parentMenuName").value = parentNode.name;
+        }else {
+            treeNode.pId = 0;
+            getById("parentMenuName").value = "根目录";
         }
 
-    </script>
+        //如果不是跟菜单，请求后台
+        if (treeNode.id != 0) {
+            //发起请求
+            new AjaxRequest({
+                type: "GET",
+                url: webroot + "sys/menu/getById?menuId=" + treeNode.id,
+                isShowLoader: true,
+                success: function (res) {
+                    //console.log(res);
+                    if (res) {
+                        if (res.resultCode == "0000") {
+                            var data = res.resultObj;
+                            //给表单控件赋值
+                            form.val('form1', {
+                                "menuId": data.menuId,
+                                "parentId": treeNode.pId,
+                                "menuName": data.menuName,
+                                "path": data.path,
+                                "icon": data.icon,
+                                "orderNum": data.orderNum,
+                                "remark": data.remark
+                            });
+                            if (data.state) {
+                                $("input[name=state][value=禁用]").prop("checked", true);
+                                $("input[name=state][value=启用]").prop("checked", false);
+                            } else {
+                                $("input[name=state][value=禁用]").prop("checked", false);
+                                $("input[name=state][value=启用]").prop("checked", true);
+                            }
+                            form.render();
+                        } else {
+                            layer.alert(res.resultMessage, {icon: 2})
+                        }
+                    }
+                }
+            });
+        }
+    }
+    //移除选中菜单
+    function zTreeRemoveSelectNode() {
+        var nodes = zTree.getSelectedNodes(),
+            treeNode = nodes[0];
+        if (nodes.length == 0) {
+            layer.alert("请先选择一个节点", {icon: 2});
+            return false;
+        }
+        zTree.removeNode(treeNode, true);
+    }
+
+
+    //提交
+    //监听提交
+    form.on('submit(saveMenu)', function (data) {
+        //console.log(JSON.stringify(data.field))
+        if (data.field.state == "启用") {
+            data.field.state = false;
+        } else {
+            data.field.state = true;
+        }
+        //return false;
+        layer.confirm('确定要保存吗?', {icon: 3, title: '提示'}, function (index) {
+            layer.close(index);
+            if (data.field && data.field.menuId != "") {
+                //修改
+                edit(data.field);
+            } else {
+                //新增
+                add(data.field);
+            }
+        });
+        return false;
+    });
+
+    //新增子菜单
+    form.on('submit(addChildMenu)', function (data) {
+        //重置表单
+        $('form')[0].reset();
+        var nodes = zTree.getSelectedNodes(),
+            treeNode = nodes[0];
+        if (nodes.length == 0) {
+            layer.alert("请先选择一个菜单", {icon: 2});
+            return false;
+        }else{
+            getById("menuId").value = "";
+            getById("parentMenuName").value = treeNode.name;
+            getById("parentId").value = treeNode.id;
+        }
+    });
+    //删除菜单
+    form.on('submit(delMenu)', function (data) {
+        var menuId = getById("menuId").value;
+        if (menuId == "") {
+            layer.msg("请选择要删除的菜单")
+            return false;
+        }
+        layer.confirm('确定要删除该菜单吗?', {icon: 3, title: '提示'}, function (index) {
+            layer.close(index);
+            //do something
+            new AjaxRequest({
+                type: "POST",
+                url: webroot + "sys/menu/del?menuId=" + menuId,
+                isShowLoader: true,
+                success: function (res) {
+                    //console.log(res);
+                    if (res) {
+                        if (res.resultCode == "0000") {
+                            //重置表单
+                            $('form')[0].reset();
+                            form.render();
+                            //刷新树
+                            zTreeRemoveSelectNode();
+                            layer.alert("删除成功", {icon: 1});
+                        } else {
+                            layer.alert(res.resultMessage, {icon: 2})
+                        }
+                    }
+                }
+            });
+        });
+    });
+
+    //编辑菜单
+    function edit(field) {
+        new AjaxRequest({
+            type: "POST",
+            url: webroot + "sys/menu/edit",
+            data: JSON.stringify(field),
+            isShowLoader: true,
+            success: function (res) {
+                //console.log(res);
+                if (res) {
+                    if (res.resultCode == "0000") {
+                        var nodes = zTree.getSelectedNodes(),
+                            treeNode = nodes[0];
+                        treeNode.name = field.menuName;
+                        zTree.editName(treeNode);
+                        layer.alert("保存成功", {icon: 1});
+                    } else {
+                        layer.alert(res.resultMessage, {icon: 2})
+                    }
+                }
+            }
+        });
+    }
+
+    //新增菜单
+    function add(field) {
+        console.log(field)
+        new AjaxRequest({
+            type: "POST",
+            url: webroot + "sys/menu/add",
+            data: JSON.stringify(field),
+            isShowLoader: true,
+            success: function (res) {
+                //console.log(res);
+                if (res) {
+                    if (res.resultCode == "0000") {
+                        var menuId = res.resultObj;
+                        var nodes = zTree.getSelectedNodes(),
+                            treeNode = nodes[0];
+                        zTree.addNodes(treeNode, {id: menuId, pId:treeNode.id, name: field.menuName});
+                        layer.alert("保存成功", {icon: 1});
+                    } else {
+                        layer.alert(res.resultMessage, {icon: 2})
+                    }
+                }
+            }
+        });
+    }
+</script>
 </body>
 </html>

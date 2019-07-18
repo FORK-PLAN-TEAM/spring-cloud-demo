@@ -6,8 +6,10 @@ import com.zypcy.framework.fast.common.util.LogUtil;
 import com.zypcy.framework.fast.common.util.RedisUtil;
 import com.zypcy.framework.fast.sys.entity.ZySysRole;
 import com.zypcy.framework.fast.sys.entity.ZySysRoleMenu;
+import com.zypcy.framework.fast.sys.service.IZySysMenuService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -21,6 +23,13 @@ public class FastApplicationTests {
 
     @Test
     public void contextLoads() {
+    }
+
+    @Autowired private IZySysMenuService menuService;
+
+    @Test
+    public void testTree(){
+        System.out.println(JSON.toJSONString(menuService.getMenuTrees()));
     }
 
     @Test
