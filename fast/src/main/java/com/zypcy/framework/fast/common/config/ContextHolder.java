@@ -25,4 +25,30 @@ public class ContextHolder {
     public static ZySysUser getUserInfo(){
         return userInfo.get();
     }
+
+    /**
+     * 获取当前用户Id
+     * @return
+     */
+    public static String getUserId(){
+        ZySysUser user = userInfo.get();
+        if(user != null){
+            return user.getUserId();
+        }else {
+            return "";
+        }
+    }
+
+    /**
+     * 获取当前用户Name
+     * @return
+     */
+    public static String getUserName(){
+        ZySysUser user = userInfo.get();
+        if(user != null){
+            return user.getUserName();
+        }else {
+            return "";
+        }
+    }
 }

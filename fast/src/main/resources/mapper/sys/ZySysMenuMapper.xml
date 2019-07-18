@@ -21,16 +21,15 @@
     </resultMap>
 
     <select id="getMenuTrees"  resultMap="MenuTreesMap">
-        select menu_id as id , parent_id , menu_name as name , icon as icon_skin
+        select menu_id as id , parent_id , menu_name as name
         from zy_sys_menu
-        where state=0 and isdel=0
+        where isdel=0
     </select>
 
     <resultMap id="MenuTreesMap" type="com.zypcy.framework.fast.sys.entity.ZySysTree">
         <result column="id" jdbcType="VARCHAR" property="id" />
         <result column="parent_id" jdbcType="VARCHAR" property="pId" />
         <result column="name" jdbcType="VARCHAR" property="name" />
-        <result column="icon_skin" jdbcType="VARCHAR" property="iconSkin" />
     </resultMap>
 
 </mapper>

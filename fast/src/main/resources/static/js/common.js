@@ -30,7 +30,7 @@ function queryString(name) {
  new AjaxRequest({
         type: "get",
         url: "https://5ae979d7531a580014142797.mockapi.io/api/v1/records",
-        param: "",
+        data: "",
         isShowLoader: true,
         success : function(res){
             console.log(res);
@@ -41,7 +41,7 @@ function queryString(name) {
     function AjaxRequest(opts){
         this.type         = opts.type || "get";
         this.url          = opts.url;
-        this.param        = opts.param || {};
+        this.data        = opts.data || {};
         this.isShowLoader = opts.isShowLoader || false;
         this.success      = opts.success;
         this.error        = opts.error;
@@ -71,7 +71,7 @@ function queryString(name) {
             $.ajax({
                 type: this.type,
                 url: this.url,
-                data: this.param,
+                data: this.data,
                 contentType: 'application/json',
                 dataType: 'json',
                 beforeSend: this.showLoader(),

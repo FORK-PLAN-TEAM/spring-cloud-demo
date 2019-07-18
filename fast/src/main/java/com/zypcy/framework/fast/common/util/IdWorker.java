@@ -15,7 +15,7 @@ public class IdWorker {
 
     private static IdWorker idWorker = new IdWorker(2, 1);
     private static SimpleDateFormat timeFormat = new SimpleDateFormat("yyMMdd");
-    private static SimpleDateFormat timeFormatFull = new SimpleDateFormat("yyMMddHHmmss");
+    private static SimpleDateFormat timeFormatFull = new SimpleDateFormat("yyyyMMddHHmmss");
     private static Random random = new Random();
 
 
