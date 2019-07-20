@@ -2,9 +2,12 @@ package com.zypcy.framework.fast;
 
 import cn.hutool.crypto.SecureUtil;
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zypcy.framework.fast.common.response.PageModel;
 import com.zypcy.framework.fast.common.util.LogUtil;
-import com.zypcy.framework.fast.common.util.RedisUtil;
-import com.zypcy.framework.fast.sys.entity.ZySysRole;
+import com.zypcy.framework.fast.sys.entity.ZySysMenu;
 import com.zypcy.framework.fast.sys.entity.ZySysRoleMenu;
 import com.zypcy.framework.fast.sys.service.IZySysMenuService;
 import org.junit.Test;
@@ -15,7 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -30,6 +32,22 @@ public class FastApplicationTests {
     @Test
     public void testTree(){
         System.out.println(JSON.toJSONString(menuService.getMenuTrees()));
+    }
+
+    @Test
+    public void pageList(){
+        /*ZySysMenu menu = new ZySysMenu();
+        menu.setIsdel(false);
+
+        //current , size
+        //pageindex pagesize
+        Page<ZySysMenu> page = new Page();
+        page.setCurrent(1);
+        page.setSize(2);
+
+        IPage<ZySysMenu> pageList = menuService.page(page , new QueryWrapper<>(menu));
+        System.out.println(JSON.toJSONString(PageModel.convert(pageList)));
+        */
     }
 
     @Test

@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="tree_left">
-    <ul id="treeDemo" class="ztree"></ul>
+    <ul id="menuTree" class="ztree"></ul>
 </div>
 <div class="tree_right padding10">
 
@@ -112,12 +112,12 @@
     var form = layui.form;
     form.render();
 
-    var menus = [[${menus}]];//所有菜单信息
+    var treeDatas = [[${menus}]];//所有菜单信息
     //添加跟节点
-    menus.push({id: 0, pId: 0, name: "根目录", open: true, iconSkin: "pIcon01"});
+    treeDatas.push({id: 0, pId: 0, name: "根目录", open: true, iconSkin: "pIcon01"});
     var zTree;
     $(function () {
-        zTree = $.fn.zTree.init($("#treeDemo"), {
+        zTree = $.fn.zTree.init($("#menuTree"), {
             data: {
                 simpleData: {
                     enable: true
@@ -126,7 +126,7 @@
             callback: {
                 onClick: zTreeOnClick
             }
-        }, menus);
+        }, treeDatas);
         if (zTree.getNodes().length > 0) {
             zTree.expandAll(true);
         }
@@ -147,39 +147,7 @@
         //如果不是跟菜单，请求后台
         if (treeNode.id != 0) {
             //发起请求
-            new AjaxRequest({
-                type: "GET",
-                url: webroot + "sys/menu/getById?menuId=" + treeNode.id,
-                isShowLoader: true,
-                success: function (res) {
-                    //console.log(res);
-                    if (res) {
-                        if (res.resultCode == "0000") {
-                            var data = res.resultObj;
-                            //给表单控件赋值
-                            form.val('form1', {
-                                "menuId": data.menuId,
-                                "parentId": treeNode.pId,
-                                "menuName": data.menuName,
-                                "path": data.path,
-                                "icon": data.icon,
-                                "orderNum": data.orderNum,
-                                "remark": data.remark
-                            });
-                            if (data.state) {
-                                $("input[name=state][value=禁用]").prop("checked", true);
-                                $("input[name=state][value=启用]").prop("checked", false);
-                            } else {
-                                $("input[name=state][value=禁用]").prop("checked", false);
-                                $("input[name=state][value=启用]").prop("checked", true);
-                            }
-                            form.render();
-                        } else {
-                            layer.alert(res.resultMessage, {icon: 2})
-                        }
-                    }
-                }
-            });
+            getMenuById(treeNode.id , treeNode.pId);
         }
     }
     //移除选中菜单
@@ -192,10 +160,44 @@
         }
         zTree.removeNode(treeNode, true);
     }
-
+    //根据Id获取菜单
+    function getMenuById(menuId , pId) {
+        new AjaxRequest({
+            type: "GET",
+            url: webroot + "sys/menu/getById?menuId=" + menuId,
+            isShowLoader: true,
+            success: function (res) {
+                //console.log(res);
+                if (res) {
+                    if (res.resultCode == "0000") {
+                        var data = res.resultObj;
+                        //给表单控件赋值
+                        form.val('form1', {
+                            "menuId": data.menuId,
+                            "parentId": pId,
+                            "menuName": data.menuName,
+                            "path": data.path,
+                            "icon": data.icon,
+                            "orderNum": data.orderNum,
+                            "remark": data.remark
+                        });
+                        if (data.state) {
+                            $("input[name=state][value=禁用]").prop("checked", true);
+                            $("input[name=state][value=启用]").prop("checked", false);
+                        } else {
+                            $("input[name=state][value=禁用]").prop("checked", false);
+                            $("input[name=state][value=启用]").prop("checked", true);
+                        }
+                        form.render();
+                    } else {
+                        layer.alert(res.resultMessage, {icon: 2})
+                    }
+                }
+            }
+        });
+    }
 
     //提交
-    //监听提交
     form.on('submit(saveMenu)', function (data) {
         //console.log(JSON.stringify(data.field))
         if (data.field.state == "启用") {
@@ -276,10 +278,9 @@
                 //console.log(res);
                 if (res) {
                     if (res.resultCode == "0000") {
-                        var nodes = zTree.getSelectedNodes(),
-                            treeNode = nodes[0];
+                        var nodes = zTree.getSelectedNodes(), treeNode = nodes[0];
                         treeNode.name = field.menuName;
-                        zTree.editName(treeNode);
+                        zTree.updateNode(treeNode, true);
                         layer.alert("保存成功", {icon: 1});
                     } else {
                         layer.alert(res.resultMessage, {icon: 2})

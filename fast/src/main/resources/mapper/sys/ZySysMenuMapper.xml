@@ -21,14 +21,14 @@
     </resultMap>
 
     <select id="getMenuTrees"  resultMap="MenuTreesMap">
-        select menu_id as id , parent_id , menu_name as name
+        select menu_id as id , parent_id  as p_id, menu_name as name
         from zy_sys_menu
         where isdel=0
     </select>
 
     <resultMap id="MenuTreesMap" type="com.zypcy.framework.fast.sys.entity.ZySysTree">
         <result column="id" jdbcType="VARCHAR" property="id" />
-        <result column="parent_id" jdbcType="VARCHAR" property="pId" />
+        <result column="p_id" jdbcType="VARCHAR" property="pId" />
         <result column="name" jdbcType="VARCHAR" property="name" />
     </resultMap>
 

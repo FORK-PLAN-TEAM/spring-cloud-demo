@@ -2,6 +2,9 @@ package com.zypcy.framework.fast.sys.service;
 
 import com.zypcy.framework.fast.sys.entity.ZySysOrganization;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zypcy.framework.fast.sys.entity.ZySysTree;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +18,13 @@ public interface IZySysOrganizationService extends IService<ZySysOrganization> {
 
     int add(ZySysOrganization organization);
 
+    ZySysOrganization getOrganizationById(String orgId);
+
+    boolean deleteOrgById(String orgId);
+
+    /**
+     * 获取组织机构树
+     * @return
+     */
+    List<ZySysTree> getOrgTrees();
 }

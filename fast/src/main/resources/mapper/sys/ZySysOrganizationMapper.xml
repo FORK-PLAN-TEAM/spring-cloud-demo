@@ -2,4 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zypcy.framework.fast.sys.mapper.ZySysOrganizationMapper">
 
+    <!--<resultMap id="BaseResultMap" type="com.zypcy.framework.fast.sys.entity.ZySysOrganization">-->
+        <!--<id column="org_id" jdbcType="VARCHAR" property="orgId"/>-->
+        <!--<result column="org_name" jdbcType="VARCHAR" property="orgName"/>-->
+        <!--<result column="org_short_name" jdbcType="VARCHAR" property="orgShortName"/>-->
+        <!--<result column="org_code" jdbcType="VARCHAR" property="orgCode"/>-->
+        <!--<result column="parent_id" jdbcType="VARCHAR" property="parentId"/>-->
+        <!--<result column="remark" jdbcType="VARCHAR" property="remark"/>-->
+        <!--<result column="isdel" jdbcType="BIT" property="isdel"/>-->
+        <!--<result column="order_num" jdbcType="INTEGER" property="orderNum"/>-->
+        <!--<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />-->
+        <!--<result column="create_userid" jdbcType="VARCHAR" property="createUserid"/>-->
+        <!--<result column="create_username" jdbcType="VARCHAR" property="createUsername"/>-->
+        <!--<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />-->
+        <!--<result column="update_userid" jdbcType="VARCHAR" property="updateUserid"/>-->
+        <!--<result column="update_username" jdbcType="VARCHAR" property="updateUsername"/>-->
+    <!--</resultMap>-->
+
+    <!--<select id="getOrgTrees"  resultMap="OrgTreesMap">-->
+        <!--select org_id as id , parent_id  as p_id , org_name as name-->
+        <!--from zy_sys_organization-->
+        <!--where isdel=0-->
+    <!--</select>-->
+
+    <!--<resultMap id="OrgTreesMap" type="com.zypcy.framework.fast.sys.entity.ZySysTree">-->
+        <!--<result column="id" jdbcType="VARCHAR" property="id" />-->
+        <!--<result column="parent_id" jdbcType="VARCHAR" property="pId" />-->
+        <!--<result column="name" jdbcType="VARCHAR" property="name" />-->
+    <!--</resultMap>-->
+
+    <!--<select id="xxx">
+        select * from zy_sys_organization
+        where 1=1
+        <if test="ew.entity.name!=null">
+            AND org_name LIKE CONCAT('%',#{orgName},'%')
+        </if>
+    </select>-->
+    
 </mapper>

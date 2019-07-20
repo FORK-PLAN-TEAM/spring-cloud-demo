@@ -1,5 +1,6 @@
 package com.zypcy.framework.fast;
 
+import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.zypcy.framework.fast.common.config.SpringContextApplication;
 import com.zypcy.framework.fast.common.response.ResponseBodyWrapFactory;
 import org.mybatis.spring.annotation.MapperScan;
@@ -22,5 +23,13 @@ public class FastApplication {
 	@Bean
 	public ResponseBodyWrapFactory getResponseBodyWrapFactory(){
 		return new ResponseBodyWrapFactory();
+	}
+
+	/**
+	 * Mybatis-Plus分页插件
+	 */
+	@Bean
+	public PaginationInterceptor paginationInterceptor() {
+		return new PaginationInterceptor();
 	}
 }
