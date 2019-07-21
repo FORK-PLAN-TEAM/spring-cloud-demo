@@ -1,4 +1,3 @@
-
 //请求根路径
 window.webroot = "http://localhost:8088/";
 
@@ -24,6 +23,14 @@ function queryString(name) {
     return "";
 };
 
+// JS生成UUID
+//此函数生成16位UUID样式为af22-3fa8-4028-8dea-30a2
+function getUUID() {
+    return 'xxxx-xxxx-xxxx-xxxx-xxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+        return v.toString(16);
+    });
+}
 
 /**
  公用ajax加载，请求示例
@@ -106,6 +113,64 @@ function queryString(name) {
 })();
 
 
+/*
+* layui table 公共方法，以下3个为必传参数
+* elem 表格Id
+* url  接口地址
+* cols 要展示的列-集合
+**/
+(function(){
+    function DataTable(opts){
+        this.id           = getUUID();
+        this.elem        = opts.elem;
+        this.url         = opts.url;
+        this.limit       = opts.limit || 10;
+        this.limits      = opts.limits || [5, 10, 15, 20, 30];
+        this.request     = opts.request || {
+            pageName: 'pageIndex', //页码的参数名称，默认：page
+            limitName: 'pageSize' //每页数据量的参数名，默认：limit
+        };
+        this.where       = opts.where || {};
+        this.cols        = opts.cols;
+        this.table = this.render();
+        return this;
+    }
+    DataTable.prototype = {
+        //初始化table表格
+        render: function(){
+           var tableIns = layui.table.render({
+                id: this.id,
+                elem: this.elem,
+                url: webroot + this.url, //数据接口
+                event: true,
+                page: true,
+                limit: this.limit,
+                limits: this.limits,
+                loading: true,
+                request: this.request,
+                where: this.where,
+                parseData: function (res) { //res 即为原始返回的数据
+                    var data = res.resultObj;
+                    return {
+                        "code": 0,         //解析接口状态
+                        "msg": "加载成功", //解析提示文本
+                        "count": data.total, //解析数据长度
+                        "data": data.records //解析数据列表
+                    };
+                },
+                cols: [
+                    this.cols
+                ]
+            });
+           return tableIns;
+        },
+        getTableId : function () {
+            return this.id;
+        }
+    };
+    window.DataTable = DataTable;
+})();
+
 //对Date的扩展，将 Date 转化为指定格式的String
 //月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
 //年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
@@ -163,3 +228,22 @@ function delCookie(key) {
     }
 }
 
+/*
+//js类
+var zhuyu = zy({
+    name : "zhuyu",
+    age : 28
+});
+console.log(zhuyu.getName())
+function zy(opts) {
+    var o = new Object();
+    o.name = opts.name || "zhuyu";
+    o.age = opts.age || 27;
+    o.getName = function () {
+        return o.name;
+    }
+    o.getAge = function () {
+        return o.age;
+    }
+    return o;
+}*/
