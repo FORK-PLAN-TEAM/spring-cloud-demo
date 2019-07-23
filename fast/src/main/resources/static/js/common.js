@@ -131,6 +131,7 @@ function getUUID() {
             limitName: 'pageSize' //每页数据量的参数名，默认：limit
         };
         this.where       = opts.where || {};
+        this.height      = opts.height || ''; //自适应高度：height : 'full-150'
         this.cols        = opts.cols;
         this.table = this.render();
         return this;
@@ -144,6 +145,7 @@ function getUUID() {
                 url: webroot + this.url, //数据接口
                 event: true,
                 page: true,
+                height: this.height,
                 limit: this.limit,
                 limits: this.limits,
                 loading: true,
@@ -160,7 +162,14 @@ function getUUID() {
                 },
                 cols: [
                     this.cols
-                ]
+                ],
+                page: {
+                   layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                   //,curr: 5 //设定初始在第 5 页
+                   ,groups: 1 //只显示 1 个连续页码
+                   ,first: false //不显示首页
+                   ,last: false //不显示尾页
+                }
             });
            return tableIns;
         },

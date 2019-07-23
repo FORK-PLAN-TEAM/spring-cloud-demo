@@ -2,6 +2,8 @@ package com.zypcy.framework.fast.sys.mapper;
 
 import com.zypcy.framework.fast.sys.entity.ZySysUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * <p>
@@ -13,4 +15,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface ZySysUserMapper extends BaseMapper<ZySysUser> {
 
+
+    @Update("update zy_sys_user set isdel=1 where user_id=#{userId}")
+    int deleteOrgById(@Param("userId") String userId);
 }

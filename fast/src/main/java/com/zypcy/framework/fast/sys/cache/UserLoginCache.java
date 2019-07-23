@@ -1,6 +1,6 @@
 package com.zypcy.framework.fast.sys.cache;
 
-import com.zypcy.framework.fast.sys.entity.ZySysUser;
+import com.zypcy.framework.fast.sys.entity.ZySysLoginInfo;
 
 import java.util.HashMap;
 
@@ -9,17 +9,17 @@ import java.util.HashMap;
  */
 public class UserLoginCache {
 
-    private static HashMap<String , ZySysUser> userMap = new HashMap<>();
+    private static HashMap<String , ZySysLoginInfo> userMap = new HashMap<>();
 
     /**
      * 存储用户登录
      * @param hashKey
      * @param token
-     * @param sysUser
+     * @param userInfo
      */
-    public static void saveUserLoginInfo(String hashKey , String token , ZySysUser sysUser){
+    public static void saveUserLoginInfo(String hashKey , String token , ZySysLoginInfo userInfo){
         String key = hashKey + token;
-        userMap.put(key , sysUser);
+        userMap.put(key , userInfo);
     }
 
     /**
@@ -28,7 +28,7 @@ public class UserLoginCache {
      * @param token
      * @return
      */
-    public static ZySysUser getUserLoginInfo(String hashKey , String token){
+    public static ZySysLoginInfo getUserLoginInfo(String hashKey , String token){
         String key = hashKey + token;
         return userMap.get(key);
     }

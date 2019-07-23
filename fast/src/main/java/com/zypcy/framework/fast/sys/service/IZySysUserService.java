@@ -13,4 +13,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IZySysUserService extends IService<ZySysUser> {
 
+    int add(ZySysUser user);
+
+    boolean update(ZySysUser user);
+
+    boolean deleteOrgById(String userId);
 }

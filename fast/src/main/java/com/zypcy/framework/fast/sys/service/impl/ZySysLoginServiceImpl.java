@@ -6,11 +6,14 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zypcy.framework.fast.common.response.ResponseModel;
 import com.zypcy.framework.fast.common.response.ResultEnum;
+import com.zypcy.framework.fast.sys.entity.ZySysLoginInfo;
 import com.zypcy.framework.fast.sys.entity.ZySysUser;
 import com.zypcy.framework.fast.sys.factory.LoginFactory;
 import com.zypcy.framework.fast.sys.mapper.ZySysUserMapper;
 import com.zypcy.framework.fast.sys.service.IZySysLoginService;
+import com.zypcy.framework.fast.sys.service.IZySysUserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -21,6 +24,8 @@ public class ZySysLoginServiceImpl implements IZySysLoginService {
 
     @Autowired
     ZySysUserMapper userMapper;
+    @Autowired
+    IZySysUserRoleService userRoleService;
 
     /**
      * 用户登录
@@ -48,7 +53,7 @@ public class ZySysLoginServiceImpl implements IZySysLoginService {
             if(dbPwd.equals(SecureUtil.md5(userPwd + salt))){
                 sysUser.setLoginTime(System.currentTimeMillis());
                 String token = IdUtil.simpleUUID();
-                LoginFactory.saveUserLoginInfo(token , sysUser);//存储token与用户信息
+                updateLoginIInfo(token , sysUser);
                 model.setResultCode(ResultEnum.SUCCESS.getResultCode());
                 model.setResultMessage("登录成功");
                 model.setResultObj(token);
@@ -60,5 +65,22 @@ public class ZySysLoginServiceImpl implements IZySysLoginService {
             model.setResultMessage("该账号不存在，请使用正确的登录帐号");
             return model;
         }
+    }
+
+    /**
+     * 异步任务做其它事件
+     * 1.把登录用户信息记录到内存中
+     * 2.把登录用户的角色信息记录到内存中
+     */
+    @Async
+    public void updateLoginIInfo(String token , ZySysUser sysUser){
+        ZySysLoginInfo userInfo = new ZySysLoginInfo();
+        userInfo.setSysUser(sysUser);
+
+        //获取用户拥有的角色
+        userInfo.setUserRoles(userRoleService.getUserRoles(sysUser.getUserId()));
+
+        //存储信息到缓存
+        LoginFactory.saveUserLoginInfo(token , userInfo);//存储token与用户信息
     }
 }

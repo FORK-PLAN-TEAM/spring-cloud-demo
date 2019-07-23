@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.zypcy.framework.fast.common.error.ApplicationException;
 import com.zypcy.framework.fast.common.response.ResultEnum;
 import com.zypcy.framework.fast.common.util.LogUtil;
+import com.zypcy.framework.fast.sys.entity.ZySysLoginInfo;
 import com.zypcy.framework.fast.sys.entity.ZySysUser;
 import com.zypcy.framework.fast.sys.factory.LoginFactory;
 import org.springframework.util.StringUtils;
@@ -36,27 +37,25 @@ public class AuthInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        boolean flag = false;
         String token = getTokenByName(request, "token");
-        LogUtil.info("token:" + token);
+        //LogUtil.info("token:" + token);
         if (!StringUtils.isEmpty(token)) {
-            ZySysUser sysUser = LoginFactory.getUserLoginInfo(token);
-            if(sysUser != null && sysUser.getLoginTime() > 0){
+            ZySysLoginInfo userInfo = LoginFactory.getUserLoginInfo(token);
+            if(userInfo != null && userInfo.getSysUser() != null){
+                ZySysUser sysUser = userInfo.getSysUser();
                 //判断是否过期
                 if(!isExpire(sysUser.getLoginTime())){
-                    ContextHolder.setUserInfo(sysUser);
+                    flag = true;
+                    ContextHolder.setUserInfo(userInfo);
                     return true;
-                } else {
-                    //throw new ApplicationException(ResultEnum.ACCOUNT_TIMEOUT);
-                    response.sendRedirect("/sys/login");
-                    return false;
                 }
             }
         }
-
-        if(true){
+        if(!flag){
             //没有携带token,或token中没有数据的请求,拦截掉
             //throw new ApplicationException(ResultEnum.ACCOUNT_NOTFOUND);
-            response.sendRedirect("/sys/login");
+            response.sendRedirect("/");
             return false;
         }
         return true;

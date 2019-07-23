@@ -23,5 +23,5 @@ public interface ZySysOrganizationMapper extends BaseMapper<ZySysOrganization> {
     List<ZySysTree> getOrgTrees();
 
     @Update("update zy_sys_organization set isdel=1 where org_id=#{orgId}")
-    boolean deleteOrgById(@Param("orgId") String orgId);
+    int deleteOrgById(@Param("orgId") String orgId);
 }

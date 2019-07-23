@@ -1,6 +1,7 @@
 package com.zypcy.framework.fast.sys.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -38,7 +39,7 @@ public class ZySysRole implements Serializable {
     private String roleName;
 
     @ApiModelProperty(value = "角色code")
-    private String userCode;
+    private String roleCode;
 
     @ApiModelProperty(value = "备注")
     private String remark;
@@ -66,6 +67,4 @@ public class ZySysRole implements Serializable {
 
     @ApiModelProperty(value = "修改用户姓名")
     private String updateUsername;
-
-
 }

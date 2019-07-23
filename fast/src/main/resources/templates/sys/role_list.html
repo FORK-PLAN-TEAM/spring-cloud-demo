@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>角色列表</title>
+    <link th:replace="template/sys_header :: header"/>
+</head>
+<body>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <!--<div class="layui-card-body ">
+                    <form class="layui-form layui-col-space5">
+                        <div class="layui-inline layui-show-xs-block">
+                            <input class="layui-input"  autocomplete="off" placeholder="开始日" name="start" id="start">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <input class="layui-input"  autocomplete="off" placeholder="截止日" name="end" id="end">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+                        </div>
+                    </form>
+                </div>-->
+                <div class="layui-card-header">
+                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+                    <button class="layui-btn" onclick="add()"><i class="layui-icon"></i>添加角色</button>
+                </div>
+                <div class="layui-card-body">
+                    <table class="layui-table layui-form" id="roleTable"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="operateTpl">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" title="查看" onclick="edit('{{d.roleId}}')" href="javascript:;">
+        <i class="layui-icon">&#xe63c;</i>查看 &nbsp;
+    </a>
+    <a class="layui-btn layui-btn-xs" title="编辑" onclick="edit('{{d.roleId}}')" href="javascript:;">
+        <i class="layui-icon">&#xe642;</i>编辑&nbsp;
+    </a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" title="删除" onclick="del(this,'{{d.roleId}}')"
+       href="javascript:;">
+        <i class="layui-icon">&#xe640;</i>删除&nbsp;
+    </a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" title="权限" onclick="roleMenu(this,'{{d.roleId}}')"
+       href="javascript:;">
+        <i class="iconfont">&#xe699; </i>权限
+    </a>
+</script>
+<script type="text/javascript" th:replace="template/sys_header :: footer"></script>
+<script type="text/javascript" th:inline="javascript">
+    var table = layui.table, $ = layui.jquery;
+    var tableIns;
+    $(function () {
+        console.log($(window).width() +","+ $(window).height());
+        //加载列表 - 默认加载第一个节点数据
+        initTable();
+    });
+    function initTable() {
+        tableIns = new DataTable({
+            elem: '#roleTable',
+            url: 'sys/role/pageList', //数据接口
+            height : 'full-120',
+            cols: [{
+                type: 'checkbox'
+            }, {
+                field: 'roleName', title: '角色名称'
+            }, {
+                field: 'roleCode', title: '角色code'
+            }, {
+                field: 'remark', title: '备注'
+            },  {
+                field: 'orderNum', title: '排序', width: 80, sort: true, unresize: true
+            }, {
+                field: 'createTime', title: '创建时间', width: 180, align: 'center', templet: function (d) {
+                    return new Date(d.createTime).Format("yyyy-MM-dd hh:mm:ss");
+                }
+            }, {
+                field: 'operate', title: '操作', templet: '#operateTpl', align: 'center'
+            }]
+        })
+
+        console.log(tableIns)
+    }
+
+    //重载表格
+    function reloadTable() {
+        table.reload(tableIns.getTableId(), {
+            where : {},
+             page: {
+                pageIndex: 1 //重新从第 1 页开始
+            }
+        })
+    }
+
+    /*用户-删除*/
+    function del(obj, id) {
+        layer.confirm('确认要删除吗？', {icon: 3}, function (index) {
+            //发异步删除数据
+            new AjaxRequest({
+                type: "POST",
+                url: webroot + "sys/role/delete?roleId=" + id,
+                isShowLoader: true,
+                success: function (res) {
+                    if (res.resultCode == "0000") {
+                        //删除列表
+                        //$(obj).parents("tr").remove();
+                        layer.msg('已删除!', {icon: 1, time: 2000});
+                        reloadTable();
+                    } else {
+                        layer.alert(res.resultMessage, {icon: 2})
+                    }
+                }
+            });
+        });
+    }
+
+    //批量删除
+    function delAll() {
+        var checkStatus = table.checkStatus(tableIns.getTableId()), data = checkStatus.data;
+        if (data.length > 0) {
+            layer.confirm('确认要删除吗？', {icon: 3}, function (index) {
+                var ids = [];
+                for (var i = 0; i < data.length; i++) {
+                    ids.push(data[i].roleId)
+                }
+                var id = ids.join(",").toString();
+                new AjaxRequest({
+                    type: "POST",
+                    url: webroot + "sys/role/deleteBatch?roleIds=" + id,
+                    isShowLoader: true,
+                    success: function (res) {
+                        if (res.resultCode == "0000" && res.resultObj) {
+                            layer.alert('删除成功');
+                            //找到所有被选中的，进行删除
+                            $(".layui-table-body .layui-form-checked").parents('tr').remove();
+                        } else {
+                            layer.alert(res.resultMessage, {icon: 2})
+                        }
+                    }
+                });
+            });
+        } else {
+            layer.alert("请选择要删除的项", {icon: 2})
+        }
+    }
+
+    //编辑与新增时把选中的组织机构节点传到弹出层页面
+    function edit(roleId) {
+        xadmin.open('编辑角色', '/sys/role/edit?roleId=' + roleId, 850, 500)
+    }
+
+    function add() {
+        xadmin.open('新增角色', '/sys/role/edit', 850, 500)
+    }
+
+    //编辑或新增后，调用此方法刷新树与列表
+    function refreshlist() {
+        //刷新列表
+        reloadTable();
+    }
+
+    //角色绑定菜单
+    function roleMenu(obj, roleId) {
+        xadmin.open('角色绑定菜单', '/sys/role/roleMenu?roleId=' + roleId, 950, 600);
+    }
+</script>
+</body>
+</html>

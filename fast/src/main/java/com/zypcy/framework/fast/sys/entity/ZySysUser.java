@@ -86,4 +86,8 @@ public class ZySysUser implements Serializable {
     @ApiModelProperty(value = "最后一次登录时间")
     @TableField(exist = false)
     private long loginTime;
+
+    @ApiModelProperty(value = "用户拥有的角色Ids集合")
+    @TableField(exist = false)
+    private String roleIds;
 }

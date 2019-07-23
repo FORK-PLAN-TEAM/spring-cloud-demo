@@ -13,4 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IZySysRoleService extends IService<ZySysRole> {
 
+    int add(ZySysRole role);
+
+    boolean deleteOrgById(String roleId);
 }

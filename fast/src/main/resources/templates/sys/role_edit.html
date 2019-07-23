@@ -2,47 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>新增或编辑组织机构</title>
+    <title>新增或编辑角色</title>
     <link th:replace="template/sys_header :: header"/>
-
 </head>
 <body>
 <form lay-filter="form1" class="layui-form margintop20" action="">
-    <input type="hidden" id="orgId" name="orgId" value=""/>
-    <input type="hidden" id="parentId" name="parentId" value=""/>
+    <input type="hidden" id="roleId" name="roleId" value=""/>
     <div class="layui-row margintop15">
         <div class="layui-col-sm2 layui-row-label">
-            <span class="x-red">*</span>组织机构名称
+            <span class="x-red">*</span>角色名称
         </div>
         <div class="layui-col-sm5">
-            <input type="text" id="orgName" name="orgName" lay-verify="required" autocomplete="" class="layui-input">
+            <input type="text" id="roleName" name="roleName" lay-verify="required" autocomplete="" class="layui-input">
         </div>
         <div class="layui-form-mid layui-word-aux" style="margin-left: 5px;">
-            <span class="x-red">*</span>将会成为组织的名称
+            <span class="x-red">*</span>请输入角色名称
         </div>
     </div>
     <div class="layui-row margintop10">
         <div class="layui-col-sm2 layui-row-label">
-            父级机构
+            角色编号
         </div>
         <div class="layui-col-sm5">
-            <input type="text" id="parentOrgName" autocomplete="" disabled="disabled" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-row margintop10">
-        <div class="layui-col-sm2 layui-row-label">
-            组织机构简称
-        </div>
-        <div class="layui-col-sm5">
-            <input type="text" id="orgShortName" name="orgShortName"  autocomplete="" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-row margintop10">
-        <div class="layui-col-sm2 layui-row-label">
-            机构编号
-        </div>
-        <div class="layui-col-sm5">
-            <input type="text" id="orgCode" name="orgCode" autocomplete="" class="layui-input">
+            <input type="text" id="roleCode" name="roleCode"  autocomplete="" class="layui-input">
         </div>
     </div>
     <div class="layui-row margintop10">
@@ -53,12 +35,13 @@
             <input type="text" id="orderNum" name="orderNum" lay-verify="number" autocomplete="" class="layui-input">
         </div>
     </div>
+
     <div class="layui-row margintop10">
         <div class="layui-col-sm2 layui-row-label">
             备注
         </div>
         <div class="layui-col-sm5">
-            <input type="text" id="remark" name="remark" autocomplete="" class="layui-input">
+            <input type="text" id="remark" name="remark"  autocomplete="" class="layui-input">
         </div>
     </div>
 
@@ -79,25 +62,18 @@
 </form>
 <script type="text/javascript" th:replace="template/sys_header :: footer"></script>
 <script type="text/javascript" th:inline="javascript">
-
-    var table = layui.table, $ = layui.jquery, form = layui.form;
-    var parentId = queryString("parentId");
-    var parentOrgName = decodeURIComponent(queryString("parentOrgName"));
-    var organization = [[${org}]];//组织机构信息
+    var $ = layui.jquery, form = layui.form;
+    var role = [[${role}]];//角色信息
     var isEdit = false;//默认不是编辑模式
-    console.log(organization);
-    getById("parentOrgName").value = parentOrgName;
-    getById("parentId").value = parentId;
-    if(organization && organization.orgId){
+    console.log(role);
+    if(role && role.roleId){
         isEdit = true;//编辑
         form.val('form1', {
-            "orgId" : organization.orgId,
-            "parentId": organization.parentId,
-            "orgName": organization.orgName,
-            "orgShortName": organization.orgShortName,
-            "orgCode": organization.orgCode,
-            "orderNum": organization.orderNum,
-            "remark": organization.remark
+            "roleId" : role.roleId,
+            "roleName": role.roleName,
+            "roleCode": role.roleCode,
+            "remark": role.remark,
+            "orderNum": role.orderNum
         });
     }
 
@@ -118,12 +94,12 @@
     function closeWindow() {
         xadmin.close();
     }
-    
+
     function add(field) {
         console.log("add...");
         new AjaxRequest({
             type: "POST",
-            url: webroot + "sys/organization/add",
+            url: webroot + "sys/role/add",
             data: JSON.stringify(field),
             isShowLoader: true,
             success: function (res) {
@@ -134,7 +110,7 @@
                         layer.alert("保存成功", {icon: 1}, function () {
                             //xadmin.father_reload();//刷新父窗体
                             xadmin.close();//关闭当前frame
-                            parent.refreshlist(orgId , field.orgName , true);
+                            parent.refreshlist();
                         });
                     } else {
                         layer.alert(res.resultMessage, {icon: 2})
@@ -143,12 +119,12 @@
             }
         });
     }
-    
+
     function edit(field) {
         console.log("edit...");
         new AjaxRequest({
             type: "POST",
-            url: webroot + "sys/organization/edit",
+            url: webroot + "sys/role/edit",
             data: JSON.stringify(field),
             isShowLoader: true,
             success: function (res) {
@@ -158,7 +134,7 @@
                         layer.alert("保存成功", {icon: 1}, function () {
                             //xadmin.father_reload();//刷新父窗体
                             xadmin.close();//关闭当前frame
-                            parent.refreshlist(field.orgId , field.orgName , false);
+                            parent.refreshlist();
                         });
                     } else {
                         layer.alert(res.resultMessage, {icon: 2})

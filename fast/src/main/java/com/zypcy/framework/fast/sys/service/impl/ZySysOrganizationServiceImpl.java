@@ -38,7 +38,7 @@ public class ZySysOrganizationServiceImpl extends ServiceImpl<ZySysOrganizationM
         organization.setCreateUsername(ContextHolder.getUserName());
         organization.setCreateTime(LocalDateTime.now());
         organization.setUpdateUserid(ContextHolder.getUserId());
-        organization.setCreateUsername(ContextHolder.getUserName());
+        organization.setUpdateUsername(ContextHolder.getUserName());
         organization.setUpdateTime(LocalDateTime.now());
         return organizationMapper.insert(organization);
     }
@@ -53,7 +53,7 @@ public class ZySysOrganizationServiceImpl extends ServiceImpl<ZySysOrganizationM
 
     @Override
     public boolean deleteOrgById(String orgId) {
-        return organizationMapper.deleteOrgById(orgId);
+        return organizationMapper.deleteOrgById(orgId) > 0 ? true : false;
     }
 
     @Override

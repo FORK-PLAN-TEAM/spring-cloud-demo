@@ -49,7 +49,7 @@ public class ZySysOrganizationController {
     @ApiOperation(value = "返回组织机构列表页面"  , notes = "页面", httpMethod = "GET")
     @GetMapping("list")
     public ModelAndView list(ModelMap map){
-        map.addAttribute("orgs" , organizationService.getOrgTrees());
+        map.addAttribute("orgTrees" , organizationService.getOrgTrees());
         return new ModelAndView("sys/organization_list");
     }
 
@@ -65,7 +65,7 @@ public class ZySysOrganizationController {
         return new ModelAndView("sys/organization_edit");
     }
 
-    @ApiOperation(value = "根据Id获取组织机构" , notes = "api接口", httpMethod = "GET")
+    @ApiOperation(value = "根据父级Id获取组织机构列表" , notes = "api接口", httpMethod = "GET")
     @GetMapping("pageList")
     public IPage<ZySysOrganization> pageList(String orgName , String parentId , int pageIndex , int pageSize){
         Page<ZySysOrganization> page = new Page<>(pageIndex , pageSize);

@@ -19,13 +19,6 @@ public class ZySysLoginController {
     @Autowired
     IZySysLoginService loginService;
 
-    @ApiOperation(value = "登录页面"  , notes = "页面", httpMethod = "GET")
-    @GetMapping
-    public ModelAndView login(){
-        return new ModelAndView("index");
-    }
-
-
     @ApiOperation(value = "登录，成功返回token"  , notes = "api接口", httpMethod = "POST")
     @RequestMapping(value = "/login" , method = RequestMethod.POST)
     public ResponseModel login(String userAccount , String userPwd){
