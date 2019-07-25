@@ -32,8 +32,10 @@ public class ZySysRoleMenu implements Serializable {
     @TableId(value = "id" , type = IdType.INPUT)
     private String id;
 
+    @ApiModelProperty(value = "菜单Id")
     private String menuId;
 
+    @ApiModelProperty(value = "角色Id")
     private String roleId;
 
 

@@ -2,7 +2,7 @@ package com.zypcy.framework.fast.sys.mapper;
 
 import com.zypcy.framework.fast.sys.entity.ZySysMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zypcy.framework.fast.sys.entity.ZySysTree;
+import com.zypcy.framework.fast.sys.dto.ZySysTree;
 
 import java.util.List;
 

@@ -77,7 +77,7 @@
             <span class="x-red">*</span>角色
         </div>
         <div class="layui-col-sm5">
-            <select name="roles" id="roles" lay-verify="required" lay-search="" lay-filter="roles" xm-select="roles" xm-select-skin="normal">
+            <select name="roleIds" id="roleIds" lay-verify="required" lay-search="" lay-filter="roleIds" xm-select="roleIds" xm-select-skin="normal">
                 <option value="">请选择或搜索</option>
                 <option th:each="role: ${roles}" th:text="${role.roleName}" th:value="${role.roleId}"></option>
                 <!--<option value="1">layer</option>
@@ -121,6 +121,7 @@
     var orgId = queryString("orgId");
     var orgName = decodeURIComponent(queryString("orgName"));
     var user = [[${user}]];//组织机构信息
+    var userRoleIds = [[${userRoleIds}]];//用户拥有的角色Id集合
     var isEdit = false;//默认不是编辑模式
     console.log(user);
     getById("orgName").value = orgName;
@@ -136,7 +137,7 @@
             "userPwd": user.userPwd,
             "orderNum": user.orderNum
         });
-        layui.formSelects.value('roles', ["639015815203028992","1"]);
+
         if (user.state) {
             $("input[name=state][value=true]").prop("checked", true);
             $("input[name=state][value=false]").prop("checked", false);
@@ -152,19 +153,25 @@
             $("input[name=sex][value=false]").prop("checked", true);
             $("input[name=sex][value=true]").prop("checked", false);
         }
+
+        //编辑时反选用户已拥有的角色
+        if(userRoleIds){
+            //layui.formSelects.value('roleIds', ["639015815203028992","1"]);
+            layui.formSelects.value('roleIds', userRoleIds);
+        }
         form.render();
     }
 
     $(function () {
         //"1", "639015815203028992"
         form.on('submit(save)', function (data) {
-            //console.log(layui.formSelects.value('roles', 'val'));
+            //console.log(layui.formSelects.value('roleIds', 'val'));
             console.log(data.field);
             //发异步，数据提交
             if(isEdit){
-                //edit(data.field);
+                edit(data.field);
             }else{
-                //add(data.field);
+                add(data.field);
             }
             return false;
         });
@@ -176,7 +183,6 @@
     }
 
     function add(field) {
-        console.log("add...");
         new AjaxRequest({
             type: "POST",
             url: webroot + "sys/user/add",
@@ -201,7 +207,6 @@
     }
 
     function edit(field) {
-        console.log("edit...");
         new AjaxRequest({
             type: "POST",
             url: webroot + "sys/user/edit",

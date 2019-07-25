@@ -20,7 +20,7 @@ public interface ZySysUserRoleMapper extends BaseMapper<ZySysUserRole> {
 
     @Select("select role.role_id , role.role_name , role.role_code from zy_sys_user_role user_role \n" +
             "INNER JOIN zy_sys_role role on user_role.role_id = role.role_id and role.isdel=0\n" +
-            "where user_role.user_id='#{userId}'")
+            "where user_role.user_id=#{userId}")
     List<ZySysRole> getUserRoles(@Param("userId") String userId);
 
 }

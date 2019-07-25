@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zypcy.framework.fast.common.response.ResponseModel;
 import com.zypcy.framework.fast.common.response.ResultEnum;
-import com.zypcy.framework.fast.sys.entity.ZySysLoginInfo;
+import com.zypcy.framework.fast.sys.dto.ZySysLoginInfo;
 import com.zypcy.framework.fast.sys.entity.ZySysUser;
 import com.zypcy.framework.fast.sys.factory.LoginFactory;
 import com.zypcy.framework.fast.sys.mapper.ZySysUserMapper;
@@ -16,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
-import java.time.LocalDateTime;
 
 @Service
 public class ZySysLoginServiceImpl implements IZySysLoginService {

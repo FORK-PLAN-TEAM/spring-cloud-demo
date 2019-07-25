@@ -1,4 +1,4 @@
-package com.zypcy.framework.fast.sys.entity;
+package com.zypcy.framework.fast.sys.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
@@ -28,4 +28,7 @@ public class ZySysTree implements Serializable{
 
     @ApiModelProperty(value = "iconSkin,图标样式")
     private String iconSkin;
+
+    @ApiModelProperty(value = "是否选中")
+    private boolean checked;
 }

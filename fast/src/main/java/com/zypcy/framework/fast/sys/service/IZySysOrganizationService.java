@@ -2,7 +2,7 @@ package com.zypcy.framework.fast.sys.service;
 
 import com.zypcy.framework.fast.sys.entity.ZySysOrganization;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zypcy.framework.fast.sys.entity.ZySysTree;
+import com.zypcy.framework.fast.sys.dto.ZySysTree;
 
 import java.util.List;
 

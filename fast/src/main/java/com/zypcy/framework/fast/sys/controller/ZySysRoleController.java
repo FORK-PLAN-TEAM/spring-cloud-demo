@@ -8,9 +8,7 @@ import com.zypcy.framework.fast.common.config.ContextHolder;
 import com.zypcy.framework.fast.common.error.BusinessException;
 import com.zypcy.framework.fast.common.response.ResultCodeEnum;
 import com.zypcy.framework.fast.common.util.IdWorker;
-import com.zypcy.framework.fast.common.util.LogUtil;
 import com.zypcy.framework.fast.sys.entity.ZySysRole;
-import com.zypcy.framework.fast.sys.entity.ZySysUser;
 import com.zypcy.framework.fast.sys.service.IZySysRoleService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -18,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
@@ -53,21 +50,6 @@ public class ZySysRoleController {
         }
         map.addAttribute("role" ,role);
         return new ModelAndView("sys/role_edit");
-    }
-
-    @ApiOperation(value = "返回角色菜单页面"  , notes = "页面", httpMethod = "GET")
-    @GetMapping("roleMenu")
-    public ModelAndView roleMenu(String roleId , ModelMap map){
-       //查询角色已绑定菜单
-        //如果是超级管理员，则看到所有菜单，如果是普通角色，则看到自己权限内的菜单
-        return new ModelAndView("sys/role_menu");
-    }
-
-    @ApiOperation(value = "返回角色用户页面"  , notes = "页面", httpMethod = "GET")
-    @GetMapping("roleUser")
-    public ModelAndView roleUser(String roleId , ModelMap map){
-        //查询角色已绑定用户
-        return new ModelAndView("sys/role_user");
     }
 
     @ApiOperation(value = "获取角色列表" , notes = "api接口", httpMethod = "GET")

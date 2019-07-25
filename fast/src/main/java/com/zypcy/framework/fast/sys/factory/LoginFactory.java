@@ -5,7 +5,7 @@ import com.zypcy.framework.fast.common.util.RedisUtil;
 import com.zypcy.framework.fast.sys.cache.UserLoginCache;
 import com.zypcy.framework.fast.sys.constant.InitLoaderConstant;
 import com.zypcy.framework.fast.sys.constant.KeyConstant;
-import com.zypcy.framework.fast.sys.entity.ZySysLoginInfo;
+import com.zypcy.framework.fast.sys.dto.ZySysLoginInfo;
 import org.springframework.util.StringUtils;
 
 /**

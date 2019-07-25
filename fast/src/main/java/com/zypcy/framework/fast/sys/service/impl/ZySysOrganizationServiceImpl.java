@@ -2,10 +2,8 @@ package com.zypcy.framework.fast.sys.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zypcy.framework.fast.common.config.ContextHolder;
-import com.zypcy.framework.fast.common.util.IdWorker;
 import com.zypcy.framework.fast.sys.entity.ZySysOrganization;
-import com.zypcy.framework.fast.sys.entity.ZySysTree;
-import com.zypcy.framework.fast.sys.entity.ZySysUser;
+import com.zypcy.framework.fast.sys.dto.ZySysTree;
 import com.zypcy.framework.fast.sys.mapper.ZySysOrganizationMapper;
 import com.zypcy.framework.fast.sys.service.IZySysOrganizationService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -13,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 /**

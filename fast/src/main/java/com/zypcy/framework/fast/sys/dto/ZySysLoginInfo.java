@@ -1,5 +1,7 @@
-package com.zypcy.framework.fast.sys.entity;
+package com.zypcy.framework.fast.sys.dto;
 
+import com.zypcy.framework.fast.sys.entity.ZySysRole;
+import com.zypcy.framework.fast.sys.entity.ZySysUser;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

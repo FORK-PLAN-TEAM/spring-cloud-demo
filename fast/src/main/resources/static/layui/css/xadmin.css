@@ -554,3 +554,6 @@ table th, table td {
     display: inline-block;
     vertical-align: middle;
 }
+
+/*去掉table横向滚动条*/
+.layui-table-body{width: 102% !important; }

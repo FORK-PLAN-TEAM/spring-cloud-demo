@@ -2,7 +2,7 @@ package com.zypcy.framework.fast.sys.mapper;
 
 import com.zypcy.framework.fast.sys.entity.ZySysOrganization;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zypcy.framework.fast.sys.entity.ZySysTree;
+import com.zypcy.framework.fast.sys.dto.ZySysTree;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;

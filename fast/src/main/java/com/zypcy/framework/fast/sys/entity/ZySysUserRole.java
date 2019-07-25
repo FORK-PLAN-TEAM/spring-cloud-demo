@@ -32,9 +32,9 @@ public class ZySysUserRole implements Serializable {
     @TableId(value = "id" , type = IdType.INPUT)
     private String id;
 
+    @ApiModelProperty(value = "用户Id")
     private String userId;
 
+    @ApiModelProperty(value = "角色Id")
     private String roleId;
-
-
 }

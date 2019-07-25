@@ -1,10 +1,6 @@
 package com.zypcy.framework.fast.common.config;
 
-import com.alibaba.fastjson.JSON;
-import com.zypcy.framework.fast.common.error.ApplicationException;
-import com.zypcy.framework.fast.common.response.ResultEnum;
-import com.zypcy.framework.fast.common.util.LogUtil;
-import com.zypcy.framework.fast.sys.entity.ZySysLoginInfo;
+import com.zypcy.framework.fast.sys.dto.ZySysLoginInfo;
 import com.zypcy.framework.fast.sys.entity.ZySysUser;
 import com.zypcy.framework.fast.sys.factory.LoginFactory;
 import org.springframework.util.StringUtils;
@@ -13,8 +9,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.time.ZoneOffset;
-import java.util.Map;
 
 /**
  * 身份认证拦截器，判断是否有权限

@@ -2,7 +2,7 @@ package com.zypcy.framework.fast.sys.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zypcy.framework.fast.sys.entity.ZySysMenu;
-import com.zypcy.framework.fast.sys.entity.ZySysTree;
+import com.zypcy.framework.fast.sys.dto.ZySysTree;
 import com.zypcy.framework.fast.sys.mapper.ZySysMenuMapper;
 import com.zypcy.framework.fast.sys.service.IZySysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;

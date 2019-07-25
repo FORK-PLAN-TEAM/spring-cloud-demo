@@ -9,6 +9,7 @@ import com.zypcy.framework.fast.common.error.BusinessException;
 import com.zypcy.framework.fast.common.response.ResultCodeEnum;
 import com.zypcy.framework.fast.common.util.IdWorker;
 import com.zypcy.framework.fast.sys.entity.ZySysOrganization;
+import com.zypcy.framework.fast.sys.entity.ZySysRole;
 import com.zypcy.framework.fast.sys.entity.ZySysUser;
 import com.zypcy.framework.fast.sys.service.IZySysOrganizationService;
 import com.zypcy.framework.fast.sys.service.IZySysUserRoleService;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -51,9 +54,15 @@ public class ZySysUserController {
         //新增传空对象，编辑则查询数据
         ZySysUser user = new ZySysUser();
         if(!StringUtils.isEmpty(userId)){
-            user = getUserById(ContextHolder.getUserId());
+            user = getUserById(userId);
+
+            //查询当前用户所拥有的角色Id
+            List<String> roleIds = new ArrayList<>();
+            userRoleService.getUserRoles(userId).forEach( zySysRole -> roleIds.add(zySysRole.getRoleId()));
+            map.addAttribute("userRoleIds", roleIds);
         }
         map.addAttribute("user" ,user);
+        //查询当前用户所能访问的角色集合
         map.addAttribute("roles" , userRoleService.getUserRoles(ContextHolder.getUserId()));
         return new ModelAndView("sys/user_edit");
     }
@@ -84,7 +93,7 @@ public class ZySysUserController {
     @ApiOperation(value = "创建用户" , notes = "api接口", httpMethod = "POST")
     @PostMapping("add")
     public String add(@ApiParam(value = "用户实体") @RequestBody ZySysUser user){
-        if(!StringUtils.isEmpty(user.getRoleIds())){
+        if(StringUtils.isEmpty(user.getRoleIds())){
             throw new BusinessException("请给用户选择相应角色");
         }
         user.setUserId(IdWorker.getId());
@@ -101,7 +110,7 @@ public class ZySysUserController {
         if(StringUtils.isEmpty(user.getUserId()) || StringUtils.isEmpty(user.getUserName()) || StringUtils.isEmpty(user.getOrgId())){
             throw new BusinessException("请传入组织Id或用户Id或用户名称");
         }
-        if(!StringUtils.isEmpty(user.getRoleIds())){
+        if(StringUtils.isEmpty(user.getRoleIds())){
             throw new BusinessException("请给用户选择相应角色");
         }
         return userService.update(user);

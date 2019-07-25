@@ -3,8 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <title>角色绑定菜单</title>
+    <link th:replace="template/sys_header :: header"/>
+    <style type="text/css">
+        .role_menu_left{
+            position: absolute;
+            width: 300px;
+            padding: 5px;
+            height: 100%;
+            box-sizing: border-box;
+            overflow: auto;
+            border: solid 1px #f0f0f0;
+            background: #fafafa;
+        }
+        .role_menu_right {
+            position: absolute;
+            left: 300px;
+            right: 0;
+            padding: 5px;
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+    </style>
 </head>
 <body>
-    菜单
+    <div class="role_menu_left">
+        <ul id="roleMenuTree" class="ztree"></ul>
+    </div>
+    <div class="role_menu_right">
+        <div class="layui-row" style="text-align: center;margin-top: 50%;">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="save">&nbsp;&nbsp;&nbsp;<i class="iconfont">&#xe747;</i>
+                &nbsp;保存&nbsp;&nbsp;&nbsp;
+            </button>
+        </div>
+        <div class="layui-row margintop20" style="text-align: center">
+            <button class="layui-btn layui-btn-danger" onclick="closeWindow()">&nbsp;&nbsp;&nbsp;<i class="iconfont">&#xe747;</i>
+                &nbsp;关闭&nbsp;&nbsp;&nbsp;
+            </button>
+        </div>
+    </div>
+
+
+<script type="text/javascript" th:replace="template/sys_header :: footer"></script>
+<script type="text/javascript" th:inline="javascript">
+    var form = layui.form;
+    var roleId = queryString("roleId");//角色Id
+    var treeDatas = [[${roleMenus}]];//所有角色菜单信息
+    console.log(treeDatas);
+    //添加跟节点
+    treeDatas.push({id: 0, pId: 0, name: "根目录", open: true, iconSkin: "pIcon01"});
+    var zTree;
+    $(function () {
+        zTree = $.fn.zTree.init($("#roleMenuTree"), {
+            check: {
+                enable: true
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            }
+        }, treeDatas);
+        if (zTree.getNodes().length > 0) {
+            zTree.expandAll(true);
+        }
+    });
+
+    //关闭当前frame
+    function closeWindow() {
+        xadmin.close();
+    }
+    //提交
+    form.on('submit(save)', function (data) {
+        var checkeds = zTree.getCheckedNodes();
+        console.log(checkeds);
+        if(checkeds.length > 0){
+            var roleMenuTree = { roleId : roleId };
+            var menuIds = [];
+            for(var i=0; i < checkeds.length; i++){
+                if(checkeds[i].id != 0){
+                    menuIds.push(checkeds[i].id)
+                }
+            }
+            roleMenuTree.menuIds = menuIds;
+            layer.confirm('确定要保存吗?', {icon: 3, title: '提示'}, function (index) {
+                layer.close(index);
+
+                saveSelectMenu(roleMenuTree);
+            });
+        }else{
+            layer.alert("请选择菜单" , { icon : 2});
+        }
+        return false;
+    });
+    
+    //ajax提交
+    function saveSelectMenu(roleMenuTree) {
+        new AjaxRequest({
+            type: "POST",
+            url: webroot + "sys/role_menu/save",
+            data: JSON.stringify(roleMenuTree),
+            isShowLoader: true,
+            success: function (res) {
+                if (res) {
+                    if (res.resultCode == "0000" && res.resultObj) {
+                        layer.alert("保存成功", {icon: 1}, function () {
+                            //xadmin.father_reload();//刷新父窗体
+                            xadmin.close();//关闭当前frame
+                        });
+                    } else {
+                        layer.alert(res.resultMessage, {icon: 2})
+                    }
+                }
+            }
+        });
+    }
+</script>
 </body>
 </html>

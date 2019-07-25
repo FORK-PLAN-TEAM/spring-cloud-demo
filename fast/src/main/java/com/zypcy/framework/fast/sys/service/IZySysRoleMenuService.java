@@ -1,7 +1,10 @@
 package com.zypcy.framework.fast.sys.service;
 
-import com.zypcy.framework.fast.sys.entity.ZySysRoleMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zypcy.framework.fast.sys.dto.ZySysTree;
+import com.zypcy.framework.fast.sys.entity.ZySysRoleMenu;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IZySysRoleMenuService extends IService<ZySysRoleMenu> {
 
+    /**
+     * 根据角色获取菜单树
+     * @param roleId
+     * @return
+     */
+    List<ZySysTree> getRoleMenus(String roleId);
 }

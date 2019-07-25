@@ -1,6 +1,6 @@
 package com.zypcy.framework.fast.sys.cache;
 
-import com.zypcy.framework.fast.sys.entity.ZySysLoginInfo;
+import com.zypcy.framework.fast.sys.dto.ZySysLoginInfo;
 
 import java.util.HashMap;
 

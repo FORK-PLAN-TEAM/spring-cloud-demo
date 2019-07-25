@@ -25,7 +25,7 @@
         <!--where isdel=0-->
     <!--</select>-->
 
-    <!--<resultMap id="OrgTreesMap" type="com.zypcy.framework.fast.sys.entity.ZySysTree">-->
+    <!--<resultMap id="OrgTreesMap" type="com.zypcy.framework.fast.sys.dto.ZySysTree">-->
         <!--<result column="id" jdbcType="VARCHAR" property="id" />-->
         <!--<result column="parent_id" jdbcType="VARCHAR" property="pId" />-->
         <!--<result column="name" jdbcType="VARCHAR" property="name" />-->

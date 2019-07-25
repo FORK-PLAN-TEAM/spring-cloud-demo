@@ -1,13 +1,10 @@
 package com.zypcy.framework.fast.common.config;
 
-import com.zypcy.framework.fast.sys.entity.ZySysLoginInfo;
+import com.zypcy.framework.fast.sys.dto.ZySysLoginInfo;
 import com.zypcy.framework.fast.sys.entity.ZySysRole;
 import com.zypcy.framework.fast.sys.entity.ZySysUser;
-import com.zypcy.framework.fast.sys.entity.ZySysUserRole;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * 请求时，通过token获取用户信息
