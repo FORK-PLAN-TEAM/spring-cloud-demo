@@ -26,16 +26,26 @@ public class ZySysUserRoleServiceImpl extends ServiceImpl<ZySysUserRoleMapper, Z
     @Autowired ZySysUserRoleMapper userRoleMapper;
     @Autowired IZySysRoleService roleService;
 
+    /**
+     * 获取用户创建的角色信息
+     * @param userId
+     * @return
+     */
     @Override
-    public List<ZySysRole> getUserRoles(String userId) {
-        if("admin".equals(userId)){
-            //如果是超级管理员则获取所有角色
-            ZySysRole role = new ZySysRole();
-            role.setIsdel(false);
-            return roleService.list(new QueryWrapper<>(role));
-        }else {
-            //否则获取用户自己用户的角色
-            return userRoleMapper.getUserRoles(userId);
-        }
+    public List<ZySysRole> getUserCreateRoles(String userId) {
+        ZySysRole role = new ZySysRole();
+        role.setIsdel(false);
+        role.setCreateUserid(userId);
+        return roleService.list(new QueryWrapper<>(role));
+    }
+
+    /**
+     * 获取用户已保存的角色信息
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<ZySysRole> getUserSaveRoles(String userId) {
+        return userRoleMapper.getUserRoles(userId);
     }
 }

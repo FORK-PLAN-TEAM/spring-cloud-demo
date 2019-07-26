@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户修改密码</title>
+    <link th:replace="template/sys_header :: header"/>
+</head>
+<body>
+
+<form lay-filter="form1" class="layui-form margintop20" action="">
+
+    <div class="layui-row margintop15">
+        <div class="layui-col-sm2 layui-row-label">
+            <span class="x-red">*</span>旧密码
+        </div>
+        <div class="layui-col-sm5">
+            <input type="password" id="oldPwd" name="oldPwd" lay-verify="required" autocomplete="" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux" style="margin-left: 5px;">
+            <span class="x-red">*</span>请输入旧密码
+        </div>
+    </div>
+    <div class="layui-row margintop10">
+        <div class="layui-col-sm2 layui-row-label">
+            <span class="x-red">*</span>新密码
+        </div>
+        <div class="layui-col-sm5">
+            <input type="password" id="newPwd" name="newPwd" lay-verify="required" autocomplete="" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux" style="margin-left: 5px;">
+            <span class="x-red">*</span>不能和旧密码相同
+        </div>
+    </div>
+    <div class="layui-row margintop10">
+        <div class="layui-col-sm2 layui-row-label">
+            <span class="x-red">*</span>重复新密码
+        </div>
+        <div class="layui-col-sm5">
+            <input type="password" id="newPwdRepeat" name="newPwdRepeat" lay-verify="required" autocomplete="" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux" style="margin-left: 5px;">
+            <span class="x-red">*</span>请再次输入新密码
+        </div>
+    </div>
+
+    <div class="layui-row margintop15">
+        <div class="layui-col-sm2 layui-row-label">
+
+        </div>
+        <div class="layui-col-sm5" style="text-align: center">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="save"><i class="iconfont">&#xe747;</i>
+                &nbsp;保存&nbsp;
+            </button>
+            &nbsp;&nbsp;
+            <button class="layui-btn layui-btn-danger" onclick="xadmin.close();"><i class="iconfont">&#xe747;</i>
+                &nbsp;关闭&nbsp;
+            </button>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript" th:replace="template/sys_header :: footer"></script>
+<script type="text/javascript" th:inline="javascript">
+    var form = layui.form , $ = layui.jquery;
+    $(function () {
+        form.on('submit(save)', function (data) {
+            console.log(data.field);
+            var oldPwd = data.field.oldPwd;
+            var newPwd = data.field.newPwd;
+            var newPwdRepeat = data.field.newPwdRepeat;
+            if(oldPwd.length < 6 || newPwd.length < 6){
+                layer.msg("密码不能少于6位" , {icon : 2});
+                return false;
+            }
+            if(oldPwd == newPwd){
+                layer.msg("新旧密码不能相同" , {icon : 2});
+                return false;
+            }
+            if(newPwdRepeat != newPwd){
+                layer.msg("两次输入的新密码不一致" , {icon : 2});
+                return false;
+            }
+            //发异步，数据提交
+            new AjaxRequest({
+                type: "POST",
+                url: webroot + "sys/user/updatePwd?oldPwd=" + oldPwd + "&newPwd=" + newPwd,
+                isShowLoader: true,
+                success: function (res) {
+                    //console.log(res);
+                    if (res) {
+                        if (res.resultCode == "0000" && res.resultObj) {
+                            layer.msg("密码修改成功" , {icon : 1});
+                            xadmin.close();//关闭当前frame
+                        } else {
+                            layer.alert(res.resultMessage, {icon: 2})
+                        }
+                    }
+                }
+            });
+            return false;
+        });
+    })
+
+</script>
+</body>
+</html>

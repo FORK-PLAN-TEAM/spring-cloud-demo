@@ -13,9 +13,32 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IZySysUserService extends IService<ZySysUser> {
 
+    /**
+     * 新增用户信息
+     * @param user
+     * @return
+     */
     int add(ZySysUser user);
 
+    /**
+     * 修改用户信息
+     * @param user
+     * @return
+     */
     boolean update(ZySysUser user);
 
-    boolean deleteOrgById(String userId);
+    /**
+     * 修改密码
+     * @param oldPwd
+     * @param newPwd
+     * @return
+     */
+    boolean updatePwd(String oldPwd ,String newPwd);
+
+    /**
+     * 删除用户
+     * @param userId
+     * @return
+     */
+    boolean deleteById(String userId);
 }

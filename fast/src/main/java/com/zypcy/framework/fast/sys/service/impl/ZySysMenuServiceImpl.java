@@ -33,4 +33,22 @@ public class ZySysMenuServiceImpl extends ServiceImpl<ZySysMenuMapper, ZySysMenu
         return zySysMenus;
     }
 
+    /**
+     * 获取用户拥有的角色菜单
+     * @param roleIds
+     * @return
+     */
+    @Override
+    public List<ZySysMenu> getMenusByRoleId(List<String> roleIds){
+        return menuMapper.getMenusByRoleId(roleIds);
+    }
+
+    /**
+     * 超级管理员获取所有菜单
+     * @return
+     */
+    @Override
+    public List<ZySysMenu> getMenusByAdmin() {
+        return menuMapper.getMenusByAdmin();
+    }
 }

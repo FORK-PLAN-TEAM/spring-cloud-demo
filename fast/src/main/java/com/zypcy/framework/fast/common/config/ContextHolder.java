@@ -4,6 +4,7 @@ import com.zypcy.framework.fast.sys.dto.ZySysLoginInfo;
 import com.zypcy.framework.fast.sys.entity.ZySysRole;
 import com.zypcy.framework.fast.sys.entity.ZySysUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,7 +55,7 @@ public class ContextHolder {
         if (userInfo != null && userInfo.getUserRoles() != null) {
             return userInfo.getUserRoles();
         } else {
-            return null;
+            return new ArrayList<>();
         }
     }
 

@@ -58,6 +58,7 @@ public class ZySysRoleController {
         Page<ZySysRole> page = new Page<>(pageIndex , pageSize);
         ZySysRole role = new ZySysRole();
         role.setIsdel(false);
+        role.setCreateUserid(ContextHolder.getUserId());//只能看到自己创建的角色
         return roleService.page(page , new QueryWrapper<>(role));
     }
 

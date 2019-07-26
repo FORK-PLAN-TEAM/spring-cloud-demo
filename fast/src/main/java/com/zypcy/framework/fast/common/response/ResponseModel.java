@@ -39,41 +39,15 @@ public class ResponseModel<T> {
 
 
     public static ResponseModel failInstance() {
-        return FailInstance.instance;
+        return new ResponseModel()
+                .setResultCode(ResultEnum.FAIL.getResultCode())
+                .setResultMessage(ResultEnum.FAIL.getResultMessage());
     }
 
     public static ResponseModel successInstance() {
-        return SuccessInstance.instance;
-    }
-
-
-    private static class FailInstance {
-        private static final ResponseModel instance = getFailInstance();
-
-        /**
-         * 失败实例
-         *
-         * @return
-         */
-        private static ResponseModel getFailInstance() {
-            return new ResponseModel()
-                    .setResultCode(ResultEnum.FAIL.getResultCode())
-                    .setResultMessage(ResultEnum.FAIL.getResultMessage());
-        }
-    }
-
-    private static class SuccessInstance {
-        private static final ResponseModel instance = getSuccessInstance();
-
-        /**
-         * 成功实例
-         * @return
-         */
-        private static ResponseModel getSuccessInstance() {
-            return new ResponseModel()
-                    .setResultCode(ResultEnum.SUCCESS.getResultCode())
-                    .setResultMessage(ResultEnum.SUCCESS.getResultMessage());
-        }
+        return new ResponseModel()
+                .setResultCode(ResultEnum.SUCCESS.getResultCode())
+                .setResultMessage(ResultEnum.SUCCESS.getResultMessage());
     }
 
     public static class Builder<T> {

@@ -32,7 +32,7 @@ public class ZySysRoleMenuController {
     @Autowired
     IZySysRoleMenuService roleMenuService;
 
-    @ApiOperation(value = "返回角色菜单页面", notes = "页面", httpMethod = "GET")
+    @ApiOperation(value = "角色权限菜单页面", notes = "页面", httpMethod = "GET")
     @GetMapping("menu")
     public ModelAndView roleMenu(String roleId, ModelMap map) {
         //查询角色已绑定菜单

@@ -16,6 +16,7 @@ import com.zypcy.framework.fast.sys.service.IZySysUserRoleService;
 import com.zypcy.framework.fast.sys.service.IZySysUserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -58,14 +59,21 @@ public class ZySysUserController {
 
             //查询当前用户所拥有的角色Id
             List<String> roleIds = new ArrayList<>();
-            userRoleService.getUserRoles(userId).forEach( zySysRole -> roleIds.add(zySysRole.getRoleId()));
+            userRoleService.getUserSaveRoles(userId).forEach( zySysRole -> roleIds.add(zySysRole.getRoleId()));
             map.addAttribute("userRoleIds", roleIds);
         }
         map.addAttribute("user" ,user);
-        //查询当前用户所能访问的角色集合
-        map.addAttribute("roles" , userRoleService.getUserRoles(ContextHolder.getUserId()));
+        //查询当前用户所创建的角色集合
+        map.addAttribute("roles" , userRoleService.getUserCreateRoles(ContextHolder.getUserId()));
         return new ModelAndView("sys/user_edit");
     }
+
+    @ApiOperation(value = "修改密码"  , notes = "页面", httpMethod = "GET")
+    @GetMapping(value = "/updatePwd")
+    public ModelAndView updatePwd(){
+        return new ModelAndView("sys/user_update_pwd");
+    }
+
 
     @ApiOperation(value = "根据组织机构Id获取用户列表" , notes = "api接口", httpMethod = "GET")
     @GetMapping("pageList")
@@ -79,6 +87,10 @@ public class ZySysUserController {
         }
         if(!StringUtils.isEmpty(userName)){
             wrapper.like("user_name" , userName);
+        }
+        //如果是超级管理员，则看所有，否则查看自己创建的用户
+        if(!"admin".equals(ContextHolder.getUserId())){
+            user.setCreateUserid(ContextHolder.getUserId());
         }
         return userService.page(page , wrapper);
     }
@@ -116,6 +128,18 @@ public class ZySysUserController {
         return userService.update(user);
     }
 
+    @ApiOperation(value = "修改密码" , notes = "api接口", httpMethod = "POST")
+    @PostMapping("updatePwd")
+    public boolean updatePwd(@ApiParam(value = "旧密码") String oldPwd ,@ApiParam(value = "新密码") String newPwd){
+        if(StringUtils.isEmpty(oldPwd) || StringUtils.isEmpty(newPwd)){
+            throw new BusinessException("请传入旧密码或新密码");
+        }
+        if(oldPwd.equals(newPwd)){
+            throw new BusinessException("旧密码与新密码不能相同");
+        }
+        return userService.updatePwd(oldPwd , newPwd);
+    }
+
     @ApiOperation(value = "删除用户" , notes = "api接口", httpMethod = "POST")
     @PostMapping("delete")
     public boolean delete(String userId){
@@ -138,7 +162,7 @@ public class ZySysUserController {
         String[] ids = userIds.split(",");
         boolean flag = false;
         for(int i=0; i< ids.length ; i++){
-            flag = userService.deleteOrgById(ids[i]);
+            flag = userService.deleteById(ids[i]);
         }
         return flag;
     }

@@ -5,6 +5,7 @@ import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zypcy.framework.fast.common.config.ContextHolder;
+import com.zypcy.framework.fast.common.error.BusinessException;
 import com.zypcy.framework.fast.common.util.IdWorker;
 import com.zypcy.framework.fast.sys.entity.ZySysUser;
 import com.zypcy.framework.fast.sys.entity.ZySysUserRole;
@@ -52,6 +53,11 @@ public class ZySysUserServiceImpl extends ServiceImpl<ZySysUserMapper, ZySysUser
         return b;
     }
 
+    /**
+     * 修改用户信息
+     * @param user
+     * @return
+     */
     @Transactional
     @Override
     public boolean update(ZySysUser user) {
@@ -66,6 +72,27 @@ public class ZySysUserServiceImpl extends ServiceImpl<ZySysUserMapper, ZySysUser
         saveUserRole(user.getUserId() , user.getRoleIds());
 
         return userMapper.updateById(user) > 0 ? true : false;
+    }
+
+    /**
+     * 修改密码
+     * @return
+     */
+    @Override
+    public boolean updatePwd(String oldPwd ,String newPwd) {
+        String userId = ContextHolder.getUserId();
+        ZySysUser user = userMapper.selectById(userId);
+        if(user != null){
+            String dbOldPwd = SecureUtil.md5(oldPwd + user.getSalt());
+            if(dbOldPwd.equals(user.getUserPwd())){
+                String pwd = SecureUtil.md5(newPwd + user.getSalt());
+                user.setUserPwd(pwd);
+                return userMapper.updateById(user) > 0 ? true : false;
+            }else{
+                throw new BusinessException("请输入正确的旧密码");
+            }
+        }
+        return false;
     }
 
     /**
@@ -85,7 +112,7 @@ public class ZySysUserServiceImpl extends ServiceImpl<ZySysUserMapper, ZySysUser
     }
 
     @Override
-    public boolean deleteOrgById(String userId) {
-        return userMapper.deleteOrgById(userId) > 0 ? true : false;
+    public boolean deleteById(String userId) {
+        return userMapper.deleteById(userId) > 0 ? true : false;
     }
 }

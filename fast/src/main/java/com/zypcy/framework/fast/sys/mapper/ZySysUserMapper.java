@@ -17,5 +17,5 @@ public interface ZySysUserMapper extends BaseMapper<ZySysUser> {
 
 
     @Update("update zy_sys_user set isdel=1 where user_id=#{userId}")
-    int deleteOrgById(@Param("userId") String userId);
+    int deleteById(@Param("userId") String userId);
 }

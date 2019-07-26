@@ -41,6 +41,14 @@ public class ZySysMenuController {
         return new ModelAndView("sys/menu_list");
     }
 
+    @ApiOperation(value = "图标页"  , notes = "页面", httpMethod = "GET")
+    @GetMapping(value = "/icon")
+    public ModelAndView icon(){
+        //menu_icon.html 列出了所有的图标
+        return new ModelAndView("sys/menu_icon");
+    }
+
+
     @ApiOperation(value = "根据Id获取菜单信息"  , notes = "api接口", httpMethod = "GET")
     @GetMapping(value = "/getById")
     public ZySysMenu getById(String menuId){

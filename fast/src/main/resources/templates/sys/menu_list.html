@@ -11,7 +11,7 @@
 </div>
 <div class="tree_right padding10">
 
-    <div class="layui-row margintop10">
+    <!--<div class="layui-row margintop10">
         <div class="layui-col-md2 layui-row-label">
             &nbsp;
         </div>
@@ -24,7 +24,7 @@
             </button>
         </div>
 
-    </div>
+    </div>-->
 
     <div class="layui-row margintop20">
         <div class="layui-col-md2 layui-row-label">
@@ -62,6 +62,9 @@
             </div>
             <div class="layui-col-md6">
                 <input type="text" id="icon" name="icon" autocomplete="" class="layui-input">
+                <div style="position: absolute;right: 0;z-index: 1;top: 0;">
+                    <button type="button" onclick="xadmin.open('选择图标','/sys/menu/icon',1080,810)" class="layui-btn layui-btn-normal">选择图标</button>
+                </div>
             </div>
         </div>
         <div class="layui-row margintop15">
@@ -95,12 +98,15 @@
         </div>
 
         <div class="layui-row margintop15">
-            <div class="layui-col-md2 layui-row-label">
-
-            </div>
-            <div class="layui-col-md6" style="text-align: center">
+            <div class="layui-col-md10" style="text-align: center">
+                <button class="layui-btn layui-btn-big" lay-submit lay-filter="addChildMenu"><i
+                        class="iconfont">&#xe6b9;</i> 新增子菜单
+                </button>&nbsp;&nbsp;
+                <button class="layui-btn layui-btn-danger" lay-submit lay-filter="delMenu"><i class="iconfont">&#xe69d;</i>
+                    删除菜单
+                </button>&nbsp;&nbsp;
                 <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveMenu"><i
-                        class="iconfont">&#xe747;</i> &nbsp;保存&nbsp;
+                        class="iconfont">&#xe747;</i> &nbsp;保存菜单&nbsp;
                 </button>
             </div>
         </div>
@@ -233,6 +239,7 @@
             getById("parentMenuName").value = treeNode.name;
             getById("parentId").value = treeNode.id;
         }
+        return false;
     });
     //删除菜单
     form.on('submit(delMenu)', function (data) {
@@ -265,6 +272,7 @@
                 }
             });
         });
+        return false;
     });
 
     //编辑菜单

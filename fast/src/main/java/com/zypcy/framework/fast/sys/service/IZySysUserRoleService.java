@@ -17,10 +17,16 @@ import java.util.List;
 public interface IZySysUserRoleService extends IService<ZySysUserRole> {
 
     /**
-     * 获取用户的角色信息
+     * 获取用户创建的角色信息
      * @param userId
      * @return
      */
-    List<ZySysRole> getUserRoles(String userId);
+    List<ZySysRole> getUserCreateRoles(String userId);
 
+    /**
+     * 获取用户已保存的角色信息
+     * @param userId
+     * @return
+     */
+    List<ZySysRole> getUserSaveRoles(String userId);
 }

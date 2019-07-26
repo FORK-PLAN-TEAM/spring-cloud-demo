@@ -45,6 +45,10 @@ public class ZySysLoginServiceImpl implements IZySysLoginService {
         Wrapper<ZySysUser> wrapper = new QueryWrapper<>(queryUser);
         ZySysUser sysUser = userMapper.selectOne(wrapper);
         if(sysUser != null){
+            if(sysUser.getState()){
+                model.setResultMessage("该账号已被禁用，请联系管理员");
+                return model;
+            }
             //用登录密码加盐做md5，再与数据库中保存的密码对比
             String dbPwd = sysUser.getUserPwd();
             String salt = sysUser.getSalt();
@@ -76,7 +80,7 @@ public class ZySysLoginServiceImpl implements IZySysLoginService {
         userInfo.setSysUser(sysUser);
 
         //获取用户拥有的角色
-        userInfo.setUserRoles(userRoleService.getUserRoles(sysUser.getUserId()));
+        userInfo.setUserRoles(userRoleService.getUserSaveRoles(sysUser.getUserId()));
 
         //存储信息到缓存
         LoginFactory.saveUserLoginInfo(token , userInfo);//存储token与用户信息
