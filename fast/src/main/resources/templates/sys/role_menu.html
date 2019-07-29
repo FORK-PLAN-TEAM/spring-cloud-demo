@@ -37,7 +37,7 @@
             </button>
         </div>
         <div class="layui-row margintop20" style="text-align: center">
-            <button class="layui-btn layui-btn-danger" onclick="closeWindow()">&nbsp;&nbsp;&nbsp;<i class="iconfont">&#xe747;</i>
+            <button class="layui-btn layui-btn-danger" onclick="xadmin.close()">&nbsp;&nbsp;&nbsp;<i class="iconfont">&#xe747;</i>
                 &nbsp;关闭&nbsp;&nbsp;&nbsp;
             </button>
         </div>
@@ -49,9 +49,9 @@
     var form = layui.form;
     var roleId = queryString("roleId");//角色Id
     var treeDatas = [[${roleMenus}]];//所有角色菜单信息
-    console.log(treeDatas);
+    //console.log(treeDatas);
     //添加跟节点
-    treeDatas.push({id: 0, pId: 0, name: "根目录", open: true, iconSkin: "pIcon01"});
+    //treeDatas.push({id: 0, pId: 0, name: "根目录", open: true, iconSkin: "pIcon01"});
     var zTree;
     $(function () {
         zTree = $.fn.zTree.init($("#roleMenuTree"), {
@@ -69,10 +69,6 @@
         }
     });
 
-    //关闭当前frame
-    function closeWindow() {
-        xadmin.close();
-    }
     //提交
     form.on('submit(save)', function (data) {
         var checkeds = zTree.getCheckedNodes();
@@ -81,9 +77,9 @@
             var roleMenuTree = { roleId : roleId };
             var menuIds = [];
             for(var i=0; i < checkeds.length; i++){
-                if(checkeds[i].id != 0){
+                //if(checkeds[i].id != 0){
                     menuIds.push(checkeds[i].id)
-                }
+                //}
             }
             roleMenuTree.menuIds = menuIds;
             layer.confirm('确定要保存吗?', {icon: 3, title: '提示'}, function (index) {

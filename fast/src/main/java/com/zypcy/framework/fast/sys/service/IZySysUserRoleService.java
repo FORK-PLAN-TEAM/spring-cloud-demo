@@ -28,5 +28,5 @@ public interface IZySysUserRoleService extends IService<ZySysUserRole> {
      * @param userId
      * @return
      */
-    List<ZySysRole> getUserSaveRoles(String userId);
+    List<ZySysRole> getUserRoles(String userId);
 }

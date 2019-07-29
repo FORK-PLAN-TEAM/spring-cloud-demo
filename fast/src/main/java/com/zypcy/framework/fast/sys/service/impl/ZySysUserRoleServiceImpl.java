@@ -45,7 +45,7 @@ public class ZySysUserRoleServiceImpl extends ServiceImpl<ZySysUserRoleMapper, Z
      * @return
      */
     @Override
-    public List<ZySysRole> getUserSaveRoles(String userId) {
+    public List<ZySysRole> getUserRoles(String userId) {
         return userRoleMapper.getUserRoles(userId);
     }
 }

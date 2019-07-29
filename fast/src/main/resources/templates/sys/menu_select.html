@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选择菜单</title>
+    <link th:replace="template/sys_header :: header"/>
+    <style type="text/css">
+        .role_menu_left{
+            position: absolute;
+            width: 300px;
+            padding: 5px;
+            height: 100%;
+            box-sizing: border-box;
+            overflow: auto;
+            border: solid 1px #f0f0f0;
+            background: #fafafa;
+        }
+        .role_menu_right {
+            position: absolute;
+            left: 300px;
+            right: 0;
+            padding: 5px;
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+<body>
+<div class="role_menu_left">
+    <ul id="menuTree" class="ztree"></ul>
+</div>
+<div class="role_menu_right">
+    <div class="layui-row" style="text-align: center;margin-top: 50%;">
+        <button class="layui-btn layui-btn-normal" lay-submit lay-filter="save">&nbsp;&nbsp;&nbsp;<i class="iconfont">&#xe747;</i>
+            &nbsp;保存&nbsp;&nbsp;&nbsp;
+        </button>
+    </div>
+    <div class="layui-row margintop20" style="text-align: center">
+        <button class="layui-btn layui-btn-danger" onclick="xadmin.close()">&nbsp;&nbsp;&nbsp;<i class="iconfont">&#xe747;</i>
+            &nbsp;关闭&nbsp;&nbsp;&nbsp;
+        </button>
+    </div>
+</div>
+
+<script type="text/javascript" th:replace="template/sys_header :: footer"></script>
+<script type="text/javascript" th:inline="javascript">
+    var form = layui.form;
+    var treeDatas = [[${menus}]];//所有角色菜单信息
+    var zTree;
+    $(function () {
+        zTree = $.fn.zTree.init($("#menuTree"), {
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            callback: {
+                onClick: function (event, treeId, treeNode) {
+                    //js、jquery两种方式给父页面控件赋值
+                    //xadmin.getParentWindow().getById("parentId").value = treeNode.id;
+                    //xadmin.getParentWindow().$("#parentMenuName").val(treeNode.name);
+                    //调用父级窗体中的方法
+                    xadmin.getParentWindow().selectMenu(treeNode.id , treeNode.name);
+                }
+            }
+        }, treeDatas);
+        if (zTree.getNodes().length > 0) {
+            zTree.expandAll(true);
+        }
+    });
+
+    //提交
+    form.on('submit(save)', function (data) {
+        xadmin.close();
+        return false;
+    });
+</script>
+</body>
+</html>

@@ -48,6 +48,13 @@ public class ZySysMenuController {
         return new ModelAndView("sys/menu_icon");
     }
 
+    @ApiOperation(value = "选择菜单树页"  , notes = "页面", httpMethod = "GET")
+    @GetMapping(value = "/selectMenu")
+    public ModelAndView selectMenu(ModelMap map){
+        //返回菜单树集合
+        map.addAttribute("menus" , menuService.getMenuTrees());
+        return new ModelAndView("sys/menu_select");
+    }
 
     @ApiOperation(value = "根据Id获取菜单信息"  , notes = "api接口", httpMethod = "GET")
     @GetMapping(value = "/getById")

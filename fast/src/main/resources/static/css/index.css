@@ -17,6 +17,8 @@ body {
     min-height: 100%;
 }
 
+.disabled{background-color: #EFEEF0}
+
 .tree_left{
     position: absolute;
     width: 220px;
@@ -69,6 +71,8 @@ body {
 .margintop10{margin-top: 10px;!important;}
 .margintop15{margin-top: 15px;!important;}
 .margintop20{margin-top: 20px;!important;}
+.margintop30{margin-top: 30px;!important;}
+.margintop40{margin-top: 40px;!important;}
 .marginleft5{margin-left: 5px;!important;}
 .marginleft10{margin-left: 10px;!important;}
 .marginleft15{margin-left: 15px;!important;}

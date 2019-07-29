@@ -9,6 +9,7 @@ import com.zypcy.framework.fast.common.error.BusinessException;
 import com.zypcy.framework.fast.common.response.ResultCodeEnum;
 import com.zypcy.framework.fast.common.util.IdWorker;
 import com.zypcy.framework.fast.common.util.LogUtil;
+import com.zypcy.framework.fast.sys.dto.ZySysTree;
 import com.zypcy.framework.fast.sys.entity.ZySysOrganization;
 import com.zypcy.framework.fast.sys.service.IZySysOrganizationService;
 import io.swagger.annotations.Api;
@@ -63,6 +64,13 @@ public class ZySysOrganizationController {
         }
         map.addAttribute("org" ,organization);
         return new ModelAndView("sys/organization_edit");
+    }
+
+    @ApiOperation(value = "选择组织机构树页面"  , notes = "页面", httpMethod = "GET")
+    @GetMapping("selectOrg")
+    public ModelAndView selectOrg(ModelMap map){
+        map.addAttribute("orgTrees" , organizationService.getOrgTrees());
+        return new ModelAndView("sys/organization_select");
     }
 
     @ApiOperation(value = "根据父级Id获取组织机构列表" , notes = "api接口", httpMethod = "GET")

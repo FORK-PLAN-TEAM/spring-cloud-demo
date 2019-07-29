@@ -1,4 +1,8 @@
 
+//全局弹出层数组，弹出层打开时保存当前窗体window对象信息，
+//弹出层打开后的子窗体可以通过getParentWindow方法从该数组中获取window对象，从而调用父窗体中的方法
+window.zyDialogs = [];
+
 ;!function (win) {
     var $ = layui.jquery,
         form = layui.form,
@@ -66,7 +70,7 @@
     Xadmin.prototype.add_lay_tab = function(title,url,id) {
         element.tabAdd('xbs_tab', {
             title: title
-            ,content: '<iframe tab-id="'+id+'" frameborder="0" src="'+url+'" scrolling="yes" class="x-iframe"></iframe>'
+            ,content: '<iframe tab-id="'+id+'" id="' + id + '" frameborder="0" src="'+url+'" scrolling="yes" class="x-iframe"></iframe>'
             ,id: id
         })
     }
@@ -92,7 +96,7 @@
         if (h == null || h == '') {
             var h=($(window).height() - 50);
         };
-        var index = layer.open({
+        var index = top.layer.open({
             type: 2,
             area: [w+'px', h +'px'],
             fix: false, //不固定
@@ -100,10 +104,23 @@
             shadeClose: false,//点击阴影区域是否关闭
             shade:0.4,
             title: title,
-            content: url
+            content: url ,
+            cancel: function(index, layero){//所有关闭窗口操作需要从全局数组中移除window对象
+                xadmin.close();
+            }
         });
         if(full){
             layer.full(index);
+        }
+
+        //因layer dialog 使用了top打开，因此要把当前的iframe对象添加到全局数组中，子窗体获取数组中的父窗体对象，从而调用父窗体中的方法
+        var id = $(window.frameElement).attr('tab-id');
+        if(id){
+            var pw = window.top.document.getElementById(id).contentWindow;
+            window.top.zyDialogs.push(pw);
+        }else{
+            //第二级以上的弹出层会进入此方法
+            window.top.zyDialogs.push(window);
         }
     }
     /**
@@ -111,9 +128,21 @@
      * @return {[type]} [description]
      */
     Xadmin.prototype.close = function() {
+        if(window.top.zyDialogs.length > 0){
+            window.top.zyDialogs.pop();
+        }
         var index = parent.layer.getFrameIndex(window.name);
         parent.layer.close(index);
     };
+
+    /**
+     * [getParentWindow 从全局数组中获取父窗体window] 需要在xadmin.close之前调用
+     * @return {[type]} [description]
+     */
+    Xadmin.prototype.getParentWindow = function () {
+        return window.top.zyDialogs[ window.top.zyDialogs.length - 1 ];
+    }
+    
     /**
      * [close 关闭弹出层父窗口关闭]
      * @return {[type]} [description]

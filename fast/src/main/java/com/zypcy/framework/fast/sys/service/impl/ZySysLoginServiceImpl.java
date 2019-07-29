@@ -80,7 +80,7 @@ public class ZySysLoginServiceImpl implements IZySysLoginService {
         userInfo.setSysUser(sysUser);
 
         //获取用户拥有的角色
-        userInfo.setUserRoles(userRoleService.getUserSaveRoles(sysUser.getUserId()));
+        userInfo.setUserRoles(userRoleService.getUserRoles(sysUser.getUserId()));
 
         //存储信息到缓存
         LoginFactory.saveUserLoginInfo(token , userInfo);//存储token与用户信息

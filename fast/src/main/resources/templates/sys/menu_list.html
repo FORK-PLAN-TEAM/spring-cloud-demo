@@ -31,7 +31,10 @@
             父级菜单
         </div>
         <div class="layui-col-md6">
-            <input type="text" id="parentMenuName" class="layui-input" disabled>
+            <input type="text" id="parentMenuName" class="layui-input disabled" disabled>
+            <div style="position: absolute;right: 0;z-index: 1;top: 0;">
+                <button type="button" onclick="xadmin.open('选择菜单','/sys/menu/selectMenu',600, 650)" class="layui-btn layui-btn-normal">选择组织</button>
+            </div>
         </div>
     </div>
 
@@ -97,16 +100,27 @@
             </div>
         </div>
 
-        <div class="layui-row margintop15">
+        <div class="layui-row margintop40">
             <div class="layui-col-md10" style="text-align: center">
-                <button class="layui-btn layui-btn-big" lay-submit lay-filter="addChildMenu"><i
-                        class="iconfont">&#xe6b9;</i> 新增子菜单
+                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveMenu">
+                    <i class="iconfont">&#xe747;</i>
+                    保存菜单
                 </button>&nbsp;&nbsp;
-                <button class="layui-btn layui-btn-danger" lay-submit lay-filter="delMenu"><i class="iconfont">&#xe69d;</i>
+                <button class="layui-btn layui-btn-warm" lay-submit lay-filter="resetMenu">
+                    <i class="iconfont">&#xe6aa;</i>
+                    重置内容
+                </button>
+            </div>
+        </div>
+        <div class="layui-row margintop20">
+            <div class="layui-col-md10" style="text-align: center">
+                <button class="layui-btn layui-btn-big" lay-submit lay-filter="addChildMenu">
+                    <i class="iconfont">&#xe6b9;</i>
+                    新增菜单
+                </button>&nbsp;&nbsp;
+                <button class="layui-btn layui-btn-danger" lay-submit lay-filter="delMenu">
+                    <i class="iconfont">&#xe69d;</i>
                     删除菜单
-                </button>&nbsp;&nbsp;
-                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveMenu"><i
-                        class="iconfont">&#xe747;</i> &nbsp;保存菜单&nbsp;
                 </button>
             </div>
         </div>
@@ -118,9 +132,10 @@
     var form = layui.form;
     form.render();
 
+    var isReloadPage = false;//是否刷新页面，当选择了父级菜单后修改或新增时刷新页面
     var treeDatas = [[${menus}]];//所有菜单信息
     //添加跟节点
-    treeDatas.push({id: 0, pId: 0, name: "根目录", open: true, iconSkin: "pIcon01"});
+    //treeDatas.push({id: 0, pId: 0, name: "根目录", open: true, iconSkin: "pIcon01"});
     var zTree;
     $(function () {
         zTree = $.fn.zTree.init($("#menuTree"), {
@@ -135,6 +150,11 @@
         }, treeDatas);
         if (zTree.getNodes().length > 0) {
             zTree.expandAll(true);
+
+            //默认点击第一个节点
+            var firstNode = zTree.getNodes()[0];
+            zTree.selectNode(firstNode);//选择点
+            zTree.setting.callback.onClick(null, zTree.setting.treeId, firstNode);
         }
     });
 
@@ -275,6 +295,17 @@
         return false;
     });
 
+    //重置内容
+    form.on("submit(resetMenu)" , function (data) {
+        layer.confirm('确定要重置菜单吗?', {icon: 3, title: '提示'}, function (index) {
+            layer.close(index);
+            //重置表单
+            $('form')[0].reset();
+            form.render();
+        });
+        return false;
+    })
+
     //编辑菜单
     function edit(field) {
         new AjaxRequest({
@@ -290,6 +321,9 @@
                         treeNode.name = field.menuName;
                         zTree.updateNode(treeNode, true);
                         layer.alert("保存成功", {icon: 1});
+                        if(isReloadPage){
+                            window.location.reload()
+                        }
                     } else {
                         layer.alert(res.resultMessage, {icon: 2})
                     }
@@ -311,16 +345,25 @@
                 if (res) {
                     if (res.resultCode == "0000") {
                         var menuId = res.resultObj;
-                        var nodes = zTree.getSelectedNodes(),
-                            treeNode = nodes[0];
+                        var nodes = zTree.getSelectedNodes(),treeNode = nodes[0];
                         zTree.addNodes(treeNode, {id: menuId, pId:treeNode.id, name: field.menuName});
                         layer.alert("保存成功", {icon: 1});
+                        if(isReloadPage){
+                            window.location.reload()
+                        }
                     } else {
                         layer.alert(res.resultMessage, {icon: 2})
                     }
                 }
             }
         });
+    }
+
+    //选择的父级菜单id与name
+    function selectMenu(menuId , menuName) {
+        isReloadPage = true;
+        getById("parentId").value = menuId;
+        getById("parentMenuName").value = menuName;
     }
 </script>
 </body>

@@ -27,7 +27,10 @@
             所在组织
         </div>
         <div class="layui-col-sm5">
-            <input type="text" id="orgName" autocomplete="" disabled="disabled" class="layui-input">
+            <input type="text" id="orgName" autocomplete="" disabled="disabled" class="layui-input disabled">
+            <div style="position: absolute;right: 0;z-index: 1;top: 0;">
+                <button type="button" onclick="xadmin.open('选择组织','/sys/organization/selectOrg',600, 650)" class="layui-btn layui-btn-normal">选择组织</button>
+            </div>
         </div>
     </div>
     <div class="layui-row margintop10">
@@ -198,8 +201,8 @@
                         var orgId = res.resultObj;
                         layer.alert("保存成功", {icon: 1}, function () {
                             //xadmin.father_reload();//刷新父窗体
+                            xadmin.getParentWindow().refreshlist();
                             xadmin.close();//关闭当前frame
-                            parent.refreshlist();
                         });
                     } else {
                         layer.alert(res.resultMessage, {icon: 2})
@@ -221,8 +224,8 @@
                     if (res.resultCode == "0000") {
                         layer.alert("保存成功", {icon: 1}, function () {
                             //xadmin.father_reload();//刷新父窗体
+                            xadmin.getParentWindow().refreshlist();
                             xadmin.close();//关闭当前frame
-                            parent.refreshlist();
                         });
                     } else {
                         layer.alert(res.resultMessage, {icon: 2})
@@ -230,6 +233,12 @@
                 }
             }
         });
+    }
+
+    //子窗体选择组织机构后调用此方法
+    function selectOrg(orgId , orgName) {
+        getById("orgId").value = orgId;
+        getById("orgName").value = orgName;
     }
 </script>
 </body>

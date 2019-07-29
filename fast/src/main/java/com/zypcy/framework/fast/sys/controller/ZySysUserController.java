@@ -59,7 +59,7 @@ public class ZySysUserController {
 
             //查询当前用户所拥有的角色Id
             List<String> roleIds = new ArrayList<>();
-            userRoleService.getUserSaveRoles(userId).forEach( zySysRole -> roleIds.add(zySysRole.getRoleId()));
+            userRoleService.getUserRoles(userId).forEach( zySysRole -> roleIds.add(zySysRole.getRoleId()));
             map.addAttribute("userRoleIds", roleIds);
         }
         map.addAttribute("user" ,user);
