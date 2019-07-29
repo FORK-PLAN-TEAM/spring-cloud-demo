@@ -23,6 +23,10 @@ public class CashbookServiceImpl extends ServiceImpl<CashbookMapper, Cashbook> i
 
     @Autowired CashbookMapper cashbookMapper;
 
+    @Override
+    public double getTotalAmount(String userId) {
+        return cashbookMapper.getTotalAmount(userId);
+    }
 
     @Override
     public int add(Cashbook cashbook) {

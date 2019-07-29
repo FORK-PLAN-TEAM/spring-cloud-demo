@@ -7,32 +7,35 @@
 </head>
 <body>
 <form lay-filter="form1" class="layui-form margintop20" action="">
-    <input type="hidden" id="roleId" name="roleId" value=""/>
+    <input type="hidden" id="cashId" name="cashId" value=""/>
     <div class="layui-row margintop15">
         <div class="layui-col-sm2 layui-row-label">
-            <span class="x-red">*</span>角色名称
+            <span class="x-red">*</span>入账时间
         </div>
         <div class="layui-col-sm5">
-            <input type="text" id="roleName" name="roleName" lay-verify="required" autocomplete="" class="layui-input">
+            <input type="text" id="recordTime" name="recordTime" lay-verify="required" autocomplete="" class="layui-input">
         </div>
         <div class="layui-form-mid layui-word-aux" style="margin-left: 5px;">
-            <span class="x-red">*</span>请输入角色名称
+            <span class="x-red">*</span>请输入记录入账时间
         </div>
     </div>
     <div class="layui-row margintop10">
         <div class="layui-col-sm2 layui-row-label">
-            角色编号
+            入账内容
         </div>
         <div class="layui-col-sm5">
-            <input type="text" id="roleCode" name="roleCode"  autocomplete="" class="layui-input">
+            <input type="text" id="cashDetail" name="cashDetail"  autocomplete="" class="layui-input">
         </div>
     </div>
     <div class="layui-row margintop10">
         <div class="layui-col-sm2 layui-row-label">
-            排序号
+            账目金额
         </div>
         <div class="layui-col-sm5">
-            <input type="text" id="orderNum" name="orderNum" lay-verify="number" autocomplete="" class="layui-input">
+            <input type="text" id="amount" name="amount" lay-verify="required|number" autocomplete="" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux" style="margin-left: 5px;">
+            <span class="x-red">*</span>单位元
         </div>
     </div>
 
@@ -54,7 +57,7 @@
                 &nbsp;保存&nbsp;
             </button>
             &nbsp;&nbsp;
-            <button class="layui-btn layui-btn-danger" onclick="closeWindow()"><i class="iconfont">&#xe747;</i>
+            <button class="layui-btn layui-btn-danger" onclick="xadmin.close()"><i class="iconfont">&#xe747;</i>
                 &nbsp;关闭&nbsp;
             </button>
         </div>
@@ -62,22 +65,27 @@
 </form>
 <script type="text/javascript" th:replace="template/sys_header :: footer"></script>
 <script type="text/javascript" th:inline="javascript">
-    var $ = layui.jquery, form = layui.form;
-    var role = [[${role}]];//角色信息
+    var $ = layui.jquery, form = layui.form , laydate = layui.laydate;
+    var cashbook = [[${cashbook}]];//角色信息
     var isEdit = false;//默认不是编辑模式
-    console.log(role);
-    if(role && role.roleId){
+    console.log(cashbook);
+    if(cashbook && cashbook.cashId){
         isEdit = true;//编辑
         form.val('form1', {
-            "roleId" : role.roleId,
-            "roleName": role.roleName,
-            "roleCode": role.roleCode,
-            "remark": role.remark,
-            "orderNum": role.orderNum
+            "cashId" : cashbook.cashId,
+            "recordTime": cashbook.recordTime,
+            "cashDetail": cashbook.cashDetail,
+            "amount": cashbook.amount,
+            "remark": cashbook.remark
         });
     }
 
     $(function () {
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#recordTime' //指定元素
+        });
+
         form.on('submit(save)', function (data) {
             console.log(data.field);
             //发异步，数据提交
@@ -89,16 +97,10 @@
             return false;
         });
     })
-
-    //关闭当前frame
-    function closeWindow() {
-        xadmin.close();
-    }
-
     function add(field) {
         new AjaxRequest({
             type: "POST",
-            url: webroot + "sys/role/add",
+            url: webroot + "bus/cashbook/add",
             data: JSON.stringify(field),
             isShowLoader: true,
             success: function (res) {
@@ -122,7 +124,7 @@
     function edit(field) {
         new AjaxRequest({
             type: "POST",
-            url: webroot + "sys/role/edit",
+            url: webroot + "bus/cashbook/edit",
             data: JSON.stringify(field),
             isShowLoader: true,
             success: function (res) {

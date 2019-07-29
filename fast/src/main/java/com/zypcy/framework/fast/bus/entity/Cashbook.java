@@ -1,15 +1,20 @@
 package com.zypcy.framework.fast.bus.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
@@ -28,10 +33,14 @@ public class Cashbook implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(value = "cash_id" , type = IdType.INPUT)
+    @ApiModelProperty(value = "账目Id")
     private String cashId;
 
     @ApiModelProperty(value = "记录时间")
-    private LocalDateTime recordTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date recordTime;
 
     @ApiModelProperty(value = "账本详情")
     private String cashDetail;

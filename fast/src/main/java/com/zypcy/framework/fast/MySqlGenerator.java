@@ -14,6 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * 数据库表实体生成器，可以生成实体、service、mapper、controller
+ * 下面代码硬编码了包 com.zypcy.framework.fast 路径
+ * 1.运行 scanner 方法
+ * 2.输入模块：bus （系统分两大模块：bus、sys，输入bus则会在com.zypcy.framework.fast.bus包下生成各种实体）
+ * 3.输入数据库中的表名，多个表用逗号隔开
+ */
 public class MySqlGenerator {
 
     /**
@@ -50,11 +57,11 @@ public class MySqlGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/fast?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&maxReconnects=15000&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8");
+        dsc.setUrl("jdbc:mysql://47.106.246.108:3306/fast?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&maxReconnects=15000&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.jdbc.Driver");
-        dsc.setUsername("root");
-        dsc.setPassword("root");
+        dsc.setUsername("xnxx");
+        dsc.setPassword("Xnxx85781245!");
         mpg.setDataSource(dsc);
 
         // 包配置

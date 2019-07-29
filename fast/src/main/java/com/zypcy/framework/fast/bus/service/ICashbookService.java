@@ -16,4 +16,6 @@ public interface ICashbookService extends IService<Cashbook> {
     int add(Cashbook cashbook);
 
     boolean deleteBatchById(String cashId);
+
+    double getTotalAmount(String userId);
 }

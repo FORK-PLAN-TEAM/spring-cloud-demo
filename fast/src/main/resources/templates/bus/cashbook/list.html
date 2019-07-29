@@ -27,6 +27,7 @@
                 <div class="layui-card-header">
                     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
                     <button class="layui-btn" onclick="add()"><i class="layui-icon"></i>添加</button>
+                    <span style="float: right; margin-right: 10px;font-size: 16px;">总计：<span th:text="${totalAmount}">0</span> 元</span>
                 </div>
                 <div class="layui-card-body">
                     <table class="layui-table layui-form" id="cashbookTable"></table>
@@ -72,15 +73,17 @@
             cols: [{
                 type: 'checkbox'
             }, {
-                field: 'recordTime', title: '记录时间', width: 180, align: 'center', templet: function (d) {
-                    return new Date(d.createTime).Format("yyyy-MM-dd hh:mm:ss");
+                field: 'recordTime', title: '入账时间', width: 200, align: 'center', templet: function (d) {
+                    return new Date(d.recordTime).Format("yyyy-MM-dd hh:mm");
                 }
+            }, {
+                field: 'cashDetail', title: '入账内容', align: 'center'
             }, {
                 field: 'amount', title: '账目金额', align: 'center'
             }, {
                 field: 'remark', title: '备注', align: 'center'
             }, {
-                field: 'operate', title: '操作', width: 330, templet: '#operateTpl', align: 'left'
+                field: 'operate', title: '操作', width: 330, templet: '#operateTpl', align: 'center'
             }]
         })
 
@@ -160,7 +163,7 @@
 
     //编辑与新增时把选中的组织机构节点传到弹出层页面
     function edit(cashId) {
-        xadmin.open('编辑账目', '/bus/cashbook/edit?roleId=' + cashId, 850, 500)
+        xadmin.open('编辑账目', '/bus/cashbook/edit?cashId=' + cashId, 850, 500)
     }
 
     function add() {

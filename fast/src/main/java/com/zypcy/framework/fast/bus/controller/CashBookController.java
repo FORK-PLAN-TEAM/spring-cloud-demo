@@ -1,6 +1,7 @@
 package com.zypcy.framework.fast.bus.controller;
 
 
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -40,7 +41,8 @@ public class CashbookController {
 
     @ApiOperation(value = "记账本列表页面"  , notes = "页面", httpMethod = "GET")
     @GetMapping("list")
-    public ModelAndView list(){
+    public ModelAndView list(ModelMap map){
+        map.addAttribute("totalAmount",cashbookService.getTotalAmount(ContextHolder.getUserId()));
         return new ModelAndView("bus/cashbook/list");
     }
 
@@ -65,8 +67,14 @@ public class CashbookController {
         cashbook.setIsdel(false);
         cashbook.setCreateUserid(ContextHolder.getUserId());//只能看自己的信息
         //按时间查询
-
-        return cashbookService.page(page , new QueryWrapper<>(cashbook));
+        QueryWrapper<Cashbook> wrapper = new QueryWrapper<>(cashbook);
+        wrapper.orderByDesc("record_time");
+        if(!StringUtils.isEmpty(startTime) && !StringUtils.isEmpty(endTime)){
+            wrapper.between("record_time", startTime , endTime);
+        }else if(!StringUtils.isEmpty(startTime)){
+            wrapper.between("record_time", startTime , startTime + " 23:59:59");
+        }
+        return cashbookService.page(page , wrapper);
     }
 
     @ApiOperation(value = "根据Id获取账目信息" , notes = "api接口", httpMethod = "GET")
@@ -116,8 +124,8 @@ public class CashbookController {
 
     @ApiOperation(value = "批量删除账目" , notes = "api接口", httpMethod = "POST")
     @PostMapping("deleteBatch")
-    public boolean deleteBatchByIds(String cashIdIds){
-        String[] ids = cashIdIds.split(",");
+    public boolean deleteBatchByIds(String cashIds){
+        String[] ids = cashIds.split(",");
         boolean flag = false;
         for(int i=0; i< ids.length ; i++){
             flag = cashbookService.deleteBatchById(ids[i]);
