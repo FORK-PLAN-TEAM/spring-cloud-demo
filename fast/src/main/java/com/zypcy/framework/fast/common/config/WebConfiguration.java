@@ -36,6 +36,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     private List<String> getExcludePath() {
         List<String> excludeList = new ArrayList<>();
         excludeList.add("/");
+        excludeList.add("/health");
         excludeList.add("/css/**");
         excludeList.add("/images/**");
         excludeList.add("/img/**");

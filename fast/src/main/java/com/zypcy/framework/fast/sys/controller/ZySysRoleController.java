@@ -96,7 +96,7 @@ public class ZySysRoleController {
     @PostMapping("delete")
     public boolean delete(String roleId){
         if(!StringUtils.isEmpty(roleId)){
-            ZySysRole role = getById(roleId);
+            ZySysRole role = getRoleById(roleId);
             if(role != null){
                 role.setIsdel(true);
                 roleService.updateById(role);
@@ -114,7 +114,7 @@ public class ZySysRoleController {
         String[] ids = roleIds.split(",");
         boolean flag = false;
         for(int i=0; i< ids.length ; i++){
-            flag = roleService.deleteOrgById(ids[i]);
+            flag = roleService.deleteBatchById(ids[i]);
         }
         return flag;
     }

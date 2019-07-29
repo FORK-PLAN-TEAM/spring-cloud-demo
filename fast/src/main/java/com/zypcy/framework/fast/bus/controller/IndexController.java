@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class IndexController {
 
     @ApiOperation(value = "检查系统是否健康", notes = "返回health表示系统健康", httpMethod = "GET")
-    @RequestMapping("health")
+    @RequestMapping("/health")
     public String health(){
         return "health";
     }

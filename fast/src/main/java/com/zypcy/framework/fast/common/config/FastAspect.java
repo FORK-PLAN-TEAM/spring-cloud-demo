@@ -23,7 +23,7 @@ import java.util.Enumeration;
 public class FastAspect {
 
     //系统框架相关控制器
-    @Pointcut("execution(public * com.zypcy.framework.fast.sys.controller.*.*(..))")
+    @Pointcut("execution(public * com.zypcy.framework.fast.*.controller.*.*(..))")
     public void log(){}
 
     //统计请求的处理时间

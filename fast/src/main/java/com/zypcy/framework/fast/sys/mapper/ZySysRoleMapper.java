@@ -16,5 +16,5 @@ import org.apache.ibatis.annotations.Update;
 public interface ZySysRoleMapper extends BaseMapper<ZySysRole> {
 
     @Update("update zy_sys_role set isdel=1 where role_id=#{roleId}")
-    int deleteOrgById(@Param("roleId") String roleId);
+    int deleteBatchById(@Param("roleId") String roleId);
 }

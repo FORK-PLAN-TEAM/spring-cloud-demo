@@ -20,7 +20,7 @@
                                 <input type="text" id="userName" name="orgName" placeholder="请输入用户姓名"
                                        autocomplete="off" class="layui-input"></div>
                             <div class="layui-inline layui-show-xs-block">
-                                <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>查询
+                                <button class="layui-btn" lay-submit="" lay-filter="search"><i class="layui-icon">&#xe615;</i>查询
                                 </button>
                             </div>
                         </form>
@@ -131,7 +131,7 @@
         //});
 
         //监听查询按钮
-        form.on('submit(sreach)', function (data) {
+        form.on('submit(search)', function (data) {
             searchTable();
             return false;
         });

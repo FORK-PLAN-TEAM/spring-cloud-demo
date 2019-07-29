@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author zhuyu
- * @since 2019-06-13
+ * @since 2019-07-29
  */
 @RestController
 @RequestMapping("/bus/member")
 public class MemberController {
+
 
 }

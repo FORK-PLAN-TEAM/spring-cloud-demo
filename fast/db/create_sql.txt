@@ -146,3 +146,23 @@ create table zy_sys_role_menu
 
 alter table zy_sys_role_menu comment '角色菜单';
 
+
+
+create table bus_cashbook
+(
+   cash_id              varchar(36) not null,
+   record_time          datetime comment '记录时间',
+   cash_detail          text comment '账本详情',
+   amount               double comment '总额',
+   remark               varchar(512) comment '备注',
+   isdel                bool comment '是否删除',
+   create_time          datetime comment '创建时间',
+   create_userid        varchar(36) comment '创建用户Id',
+   create_username      varchar(36) comment '创建人姓名',
+   update_time          datetime comment '修改时间',
+   update_userid        varchar(36) comment '修改用户Id',
+   update_username      varchar(36) comment '修改用户姓名',
+   primary key (cash_id)
+);
+
+alter table bus_cashbook comment '记账本';

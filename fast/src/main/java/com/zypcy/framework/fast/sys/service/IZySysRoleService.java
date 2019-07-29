@@ -15,5 +15,5 @@ public interface IZySysRoleService extends IService<ZySysRole> {
 
     int add(ZySysRole role);
 
-    boolean deleteOrgById(String roleId);
+    boolean deleteBatchById(String roleId);
 }

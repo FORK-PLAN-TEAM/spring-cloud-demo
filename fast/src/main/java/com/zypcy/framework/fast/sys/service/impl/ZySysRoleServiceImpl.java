@@ -36,7 +36,7 @@ public class ZySysRoleServiceImpl extends ServiceImpl<ZySysRoleMapper, ZySysRole
     }
 
     @Override
-    public boolean deleteOrgById(String roleId) {
-        return roleMapper.deleteOrgById(roleId) > 0 ? true : false;
+    public boolean deleteBatchById(String roleId) {
+        return roleMapper.deleteBatchById(roleId) > 0 ? true : false;
     }
 }
