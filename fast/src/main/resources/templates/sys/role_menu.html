@@ -51,7 +51,7 @@
     var treeDatas = [[${roleMenus}]];//所有角色菜单信息
     //console.log(treeDatas);
     //添加跟节点
-    //treeDatas.push({id: 0, pId: 0, name: "根目录", open: true, iconSkin: "pIcon01"});
+    treeDatas.push({id: 0, pId: 0, name: "根目录", open: true, iconSkin: "pIcon01"});
     var zTree;
     $(function () {
         zTree = $.fn.zTree.init($("#roleMenuTree"), {
@@ -77,9 +77,9 @@
             var roleMenuTree = { roleId : roleId };
             var menuIds = [];
             for(var i=0; i < checkeds.length; i++){
-                //if(checkeds[i].id != 0){
+                if(checkeds[i].id != 0){
                     menuIds.push(checkeds[i].id)
-                //}
+                }
             }
             roleMenuTree.menuIds = menuIds;
             layer.confirm('确定要保存吗?', {icon: 3, title: '提示'}, function (index) {

@@ -24,6 +24,7 @@
         select menu_id as id , parent_id  as p_id, menu_name as name
         from zy_sys_menu
         where isdel=0
+        order by order_num asc
     </select>
 
     <resultMap id="MenuTreesMap" type="com.zypcy.framework.fast.sys.dto.ZySysTree">
@@ -43,6 +44,7 @@
             ${roleId}
         </foreach>
         group by menu.menu_id
+        order by menu.order_num asc
     </select>
     <resultMap id="UserMenuMap" type="com.zypcy.framework.fast.sys.entity.ZySysMenu">
         <result column="menu_id" jdbcType="VARCHAR" property="menuId" />
@@ -57,5 +59,6 @@
         select menu.menu_id,menu.menu_name,menu.parent_id,menu.path , menu.icon
         from zy_sys_menu menu
         where menu.isdel=0 and menu.state=0
+        order by menu.order_num asc
     </select>
 </mapper>

@@ -171,6 +171,7 @@
 
     //退出登录
     function loginout() {
+        xadmin.del_data();
         delCookie("token");
         window.location.replace('/');
     }

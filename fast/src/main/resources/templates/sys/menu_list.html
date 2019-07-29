@@ -135,7 +135,7 @@
     var isReloadPage = false;//是否刷新页面，当选择了父级菜单后修改或新增时刷新页面
     var treeDatas = [[${menus}]];//所有菜单信息
     //添加跟节点
-    //treeDatas.push({id: 0, pId: 0, name: "根目录", open: true, iconSkin: "pIcon01"});
+    treeDatas.push({id: 0, pId: 0, name: "根目录", open: true, iconSkin: "pIcon01"});
     var zTree;
     $(function () {
         zTree = $.fn.zTree.init($("#menuTree"), {
