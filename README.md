@@ -1,8 +1,8 @@
 # spring-cloud
 
 #### 项目介绍
-Spring Cloud 微服务的各个组件代码实践
-Fast 快速开发Web框架，基于SpringBoot
+1. Spring Cloud 微服务的各个组件代码实践 
+2. Fast 快速开发Web框架，基于SpringBoot
 
 
 #### 依赖环境
@@ -10,11 +10,12 @@ Fast 快速开发Web框架，基于SpringBoot
 1. JDK 8
 2. Maven 3以上
 3. IDEA
+4. 微服务中的多个组件(eureka、consul、mongodb、prometheus、zipkind等)
 
 #### 使用说明
 
-1. 上面的每个组件代码都有对应博客讲解
-2. 博客地址：https://blog.csdn.net/zhuyu19911016520/column/info/40635
+1. 上面每个项目代码都有对应博客说明
+2. 博客地址：https://blog.csdn.net/zhuyu19911016520
 
 #### 参与贡献
 
