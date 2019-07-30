@@ -4,8 +4,10 @@ package com.zypcy.framework.fast.sys.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zypcy.framework.fast.common.util.IdWorker;
 import com.zypcy.framework.fast.sys.dto.ZySysRoleMenuTree;
+import com.zypcy.framework.fast.sys.dto.ZySysTree;
 import com.zypcy.framework.fast.sys.entity.ZySysRoleMenu;
 import com.zypcy.framework.fast.sys.service.IZySysRoleMenuService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * <p>
@@ -25,6 +28,7 @@ import java.util.Collection;
  * @author zhuyu
  * @since 2019-06-14
  */
+@Api(tags = "sys-角色菜单")
 @RestController
 @RequestMapping("/sys/role_menu")
 public class ZySysRoleMenuController {
@@ -38,6 +42,12 @@ public class ZySysRoleMenuController {
         //查询角色已绑定菜单
         map.addAttribute("roleMenus", roleMenuService.getRoleMenus(roleId));
         return new ModelAndView("sys/role_menu");
+    }
+
+    @ApiOperation(value = "根据角色获取菜单树", notes = "api接口", httpMethod = "POST")
+    @PostMapping("getRoleMenus")
+    public List<ZySysTree> getRoleMenus(@ApiParam(value = "角色Id")String roleId){
+        return roleMenuService.getRoleMenus(roleId);
     }
 
     @Transactional

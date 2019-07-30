@@ -49,7 +49,7 @@ public class ZySysDict implements Serializable {
     @ApiModelProperty(value = "sort")
     private Integer sort;
 
-    private String remarks;
+    private String remark;
 
     private LocalDateTime createTime;
 

@@ -73,6 +73,13 @@ public class ZySysOrganizationController {
         return new ModelAndView("sys/organization_select");
     }
 
+
+    @ApiOperation(value = "获取组织机构树"  , notes = "api接口", httpMethod = "POST")
+    @PostMapping("getOrgTrees")
+    public List<ZySysTree> getOrgTrees(){
+        return organizationService.getOrgTrees();
+    }
+
     @ApiOperation(value = "根据父级Id获取组织机构列表" , notes = "api接口", httpMethod = "GET")
     @GetMapping("pageList")
     public IPage<ZySysOrganization> pageList(String orgName , String parentId , int pageIndex , int pageSize){
@@ -91,7 +98,7 @@ public class ZySysOrganizationController {
 
     @ApiOperation(value = "根据Id获取组织机构" , notes = "api接口", httpMethod = "GET")
     @GetMapping("getById")
-    public ZySysOrganization getById(String orgId){
+    public ZySysOrganization getById(@ApiParam(value = "组织机构Id",required = true)String orgId){
         return organizationService.getOrganizationById(orgId);
     }
 
@@ -120,7 +127,7 @@ public class ZySysOrganizationController {
 
     @ApiOperation(value = "删除组织机构" , notes = "api接口", httpMethod = "POST")
     @PostMapping("delete")
-    public boolean delete(String orgId){
+    public boolean delete(@ApiParam(value = "组织机构Id")String orgId){
         if(!StringUtils.isEmpty(orgId)){
             ZySysOrganization organization = organizationService.getById(orgId);
             if(organization != null){
@@ -136,7 +143,7 @@ public class ZySysOrganizationController {
 
     @ApiOperation(value = "批量删除组织机构" , notes = "api接口", httpMethod = "POST")
     @PostMapping("deleteBatch")
-    public boolean deleteBatchByIds(String orgIds){
+    public boolean deleteBatchByIds(@ApiParam(value = "组织机构Id字符串，以逗号分隔")String orgIds){
         String[] ids = orgIds.split(",");
         boolean flag = false;
         for(int i=0; i< ids.length ; i++){

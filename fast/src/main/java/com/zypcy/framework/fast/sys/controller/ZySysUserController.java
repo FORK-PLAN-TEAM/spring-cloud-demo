@@ -14,6 +14,7 @@ import com.zypcy.framework.fast.sys.entity.ZySysUser;
 import com.zypcy.framework.fast.sys.service.IZySysOrganizationService;
 import com.zypcy.framework.fast.sys.service.IZySysUserRoleService;
 import com.zypcy.framework.fast.sys.service.IZySysUserService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.ibatis.annotations.Param;
@@ -34,6 +35,7 @@ import java.util.List;
  * @author zhuyu
  * @since 2019-06-14
  */
+@Api(tags = "sys-用户管理")
 @RestController
 @RequestMapping("/sys/user")
 public class ZySysUserController {
@@ -77,7 +79,7 @@ public class ZySysUserController {
 
     @ApiOperation(value = "根据组织机构Id获取用户列表" , notes = "api接口", httpMethod = "GET")
     @GetMapping("pageList")
-    public IPage<ZySysUser> pageList(String userName , String orgId , int pageIndex , int pageSize){
+    public IPage<ZySysUser> pageList(@ApiParam(value = "用户名")String userName , @ApiParam(value = "组织Id")String orgId , @ApiParam(value = "页码")int pageIndex , @ApiParam(value = "每页数据量")int pageSize){
         Page<ZySysUser> page = new Page<>(pageIndex , pageSize);
         ZySysUser user = new ZySysUser();
         QueryWrapper<ZySysUser> wrapper = new QueryWrapper<>(user);
@@ -98,7 +100,7 @@ public class ZySysUserController {
 
     @ApiOperation(value = "根据Id获取组织机构" , notes = "api接口", httpMethod = "GET")
     @GetMapping("getById")
-    public ZySysUser getById(String userId){
+    public ZySysUser getById(@ApiParam(value = "用户Id")String userId){
         return getUserById(userId);
     }
 
@@ -142,7 +144,7 @@ public class ZySysUserController {
 
     @ApiOperation(value = "删除用户" , notes = "api接口", httpMethod = "POST")
     @PostMapping("delete")
-    public boolean delete(String userId){
+    public boolean delete(@ApiParam(value = "用户Id")String userId){
         if(!StringUtils.isEmpty(userId)){
             ZySysUser user = userService.getById(userId);
             if(user != null){
@@ -158,7 +160,7 @@ public class ZySysUserController {
 
     @ApiOperation(value = "批量删除用户" , notes = "api接口", httpMethod = "POST")
     @PostMapping("deleteBatch")
-    public boolean deleteBatchByIds(String userIds){
+    public boolean deleteBatchByIds(@ApiParam(value = "用户Id字符串，以逗号分隔")String userIds){
         String[] ids = userIds.split(",");
         boolean flag = false;
         for(int i=0; i< ids.length ; i++){

@@ -6,9 +6,9 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zypcy.framework.fast.common.response.ResponseModel;
 import com.zypcy.framework.fast.common.response.ResultEnum;
+import com.zypcy.framework.fast.sys.cache.UserLoginCache;
 import com.zypcy.framework.fast.sys.dto.ZySysLoginInfo;
 import com.zypcy.framework.fast.sys.entity.ZySysUser;
-import com.zypcy.framework.fast.sys.factory.LoginFactory;
 import com.zypcy.framework.fast.sys.mapper.ZySysUserMapper;
 import com.zypcy.framework.fast.sys.service.IZySysLoginService;
 import com.zypcy.framework.fast.sys.service.IZySysUserRoleService;
@@ -83,6 +83,6 @@ public class ZySysLoginServiceImpl implements IZySysLoginService {
         userInfo.setUserRoles(userRoleService.getUserRoles(sysUser.getUserId()));
 
         //存储信息到缓存
-        LoginFactory.saveUserLoginInfo(token , userInfo);//存储token与用户信息
+        UserLoginCache.saveUserLoginInfo(token , userInfo);//存储token与用户信息
     }
 }

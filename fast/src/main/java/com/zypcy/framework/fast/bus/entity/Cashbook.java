@@ -42,7 +42,10 @@ public class Cashbook implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date recordTime;
 
-    @ApiModelProperty(value = "账本详情")
+    @ApiModelProperty(value = "数据字典id")
+    private String dictId;
+
+    @ApiModelProperty(value = "账本详情-数据字典name")
     private String cashDetail;
 
     @ApiModelProperty(value = "记录金额")

@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <title>组织机构列表</title>
     <link th:replace="template/sys_header :: header"/>
-    <style type="text/css">
-        /*隐藏table表格横向滚动条
-        .layui-table-body{overflow-x: hidden !important;}*/
-    </style>
 </head>
 <body>
 
@@ -42,7 +38,6 @@
             </div>
         </div>
     </div>
-
 
 </div>
 
@@ -146,7 +141,7 @@
         })
     }
 
-    /*用户-删除*/
+    /*删除*/
     function del(obj, id) {
         layer.confirm('确认要删除吗？', {icon : 3} ,function (index) {
             //发异步删除数据
@@ -247,10 +242,6 @@
         }
         //刷新列表
         searchTable();
-    }
-    
-    function zyalert() {
-        console.log("zyalert")
     }
 </script>
 </body>

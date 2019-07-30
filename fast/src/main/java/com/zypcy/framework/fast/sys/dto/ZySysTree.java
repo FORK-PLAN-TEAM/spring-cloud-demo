@@ -31,4 +31,10 @@ public class ZySysTree implements Serializable{
 
     @ApiModelProperty(value = "是否选中")
     private boolean checked;
+
+    @ApiModelProperty(value = "是否有上级")
+    private boolean isParent;
+
+    @ApiModelProperty(value = "存放扩展数据")
+    private String extendData;
 }

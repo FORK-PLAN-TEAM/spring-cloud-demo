@@ -1,8 +1,8 @@
 package com.zypcy.framework.fast.common.config;
 
+import com.zypcy.framework.fast.sys.cache.UserLoginCache;
 import com.zypcy.framework.fast.sys.dto.ZySysLoginInfo;
 import com.zypcy.framework.fast.sys.entity.ZySysUser;
-import com.zypcy.framework.fast.sys.factory.LoginFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -35,7 +35,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         String token = getTokenByName(request, "token");
         //LogUtil.info("token:" + token);
         if (!StringUtils.isEmpty(token)) {
-            ZySysLoginInfo userInfo = LoginFactory.getUserLoginInfo(token);
+            ZySysLoginInfo userInfo = UserLoginCache.getUserLoginInfo(token);
             if(userInfo != null && userInfo.getSysUser() != null){
                 ZySysUser sysUser = userInfo.getSysUser();
                 //判断是否过期

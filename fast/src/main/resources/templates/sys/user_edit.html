@@ -83,8 +83,9 @@
             <span class="x-red">*</span>角色
         </div>
         <div class="layui-col-sm5">
+            <!--多选select-->
             <select name="roleIds" id="roleIds" lay-verify="required" lay-search="" lay-filter="roleIds" xm-select="roleIds" xm-select-skin="normal">
-                <option value="">请选择或搜索</option>
+                <option value="">请选择角色</option>
                 <option th:each="role: ${roles}" th:text="${role.roleName}" th:value="${role.roleId}"></option>
                 <!--<option value="1">layer</option>
                 <option value="2">form</option>

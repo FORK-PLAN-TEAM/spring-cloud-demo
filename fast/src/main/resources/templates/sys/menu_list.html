@@ -106,14 +106,6 @@
                     <i class="iconfont">&#xe747;</i>
                     保存菜单
                 </button>&nbsp;&nbsp;
-                <button class="layui-btn layui-btn-warm" lay-submit lay-filter="resetMenu">
-                    <i class="iconfont">&#xe6aa;</i>
-                    重置内容
-                </button>
-            </div>
-        </div>
-        <div class="layui-row margintop20">
-            <div class="layui-col-md10" style="text-align: center">
                 <button class="layui-btn layui-btn-big" lay-submit lay-filter="addChildMenu">
                     <i class="iconfont">&#xe6b9;</i>
                     新增菜单
@@ -294,17 +286,6 @@
         });
         return false;
     });
-
-    //重置内容
-    form.on("submit(resetMenu)" , function (data) {
-        layer.confirm('确定要重置菜单吗?', {icon: 3, title: '提示'}, function (index) {
-            layer.close(index);
-            //重置表单
-            $('form')[0].reset();
-            form.render();
-        });
-        return false;
-    })
 
     //编辑菜单
     function edit(field) {

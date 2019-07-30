@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据字典列表</title>
+    <link th:replace="template/sys_header :: header"/>
+</head>
+<body>
+<div class="tree_left">
+    <ul id="dictTree" class="ztree"></ul>
+</div>
+<div class="tree_right padding10">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-body">
+                        <form class="layui-form layui-col-space5">
+                            <div class="layui-inline layui-show-xs-block">
+                                <input type="text" id="name" name="name" placeholder="请输入数据字典名称"
+                                       autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-inline layui-show-xs-block">
+                                <input type="text" id="type" name="type" placeholder="请输入数据字典type"
+                                       autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-inline layui-show-xs-block">
+                                <button class="layui-btn" lay-submit="" lay-filter="search"><i class="layui-icon">&#xe615;</i>查询
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="layui-card-header">
+                        <button class="layui-btn" onclick="add()"><i class="layui-icon">&#xe61f;</i>添加字典</button>
+                    </div>
+                    <div class="layui-card-body">
+                        <table class="layui-hide" id="dictTable"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/html" id="operateTpl">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" title="查看" onclick="edit('{{d.id}}')" href="javascript:;">
+        <i class="layui-icon">&#xe63c;</i>查看 &nbsp;
+    </a>
+    <a class="layui-btn layui-btn-xs" title="编辑" onclick="edit('{{d.id}}')" href="javascript:;">
+        <i class="layui-icon">&#xe642;</i>编辑&nbsp;
+    </a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" title="删除" onclick="del(this,'{{d.id}}')" href="javascript:;">
+        <i class="layui-icon">&#xe640;</i>删除
+    </a>
+</script>
+<script type="text/javascript" th:replace="template/sys_header :: footer"></script>
+<script type="text/javascript" th:inline="javascript">
+    var table = layui.table, $ = layui.jquery, form = layui.form;
+    //定义全局变量
+    var zTree, tableIns, selectTreeId = "";
+    $(function () {
+        //异步加载树初始化树
+        initTree();
+
+        //加载列表 - 默认加载第一个节点数据
+        initTable();
+    });
+
+    //异步加载树,默认展开并选中第一个节点，列表加载选中节点的数据
+    function initTree() {
+        var zNodes = [
+            {id: 0, pId: 0, name: "根目录", type: "", open: true, iconSkin: "pIcon01", isParent: true}
+        ];
+        zTree = $.fn.zTree.init($("#dictTree"), {
+            async: {
+                enable: true,
+                url: webroot + "sys/dict/getDictTrees",
+                autoParam: ["id", "times=" + new Date().getTime(), "level=lv"],
+                //otherParam:{"otherParam":"zTreeAsyncTest"},
+                type: "get",
+                dataFilter: filter
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            view: {
+                expandSpeed: "",
+                selectedMulti: false
+            },
+            callback: {
+                beforeClick: beforeClick,
+                beforeAsync: beforeAsync,
+                onClick: treeOnClick
+            }
+        }, zNodes);
+    }
+
+    //树节点点击事件
+    function treeOnClick(event, treeId, treeNode) {
+        selectTreeId = treeNode.id;
+        searchTable();
+        return false;
+    }
+
+    // 数据处理回调函数
+    function filter(treeId, parentNode, childNodes) {
+        //childNodes是ResponseModel类型
+        if (!childNodes) return null;
+        var nodes = [];
+        var results = childNodes.resultObj;
+        for (var i = 0, l = results.length; i < l; i++) {
+            var node = {};
+            node.id = results[i].id;
+            node.name = results[i].name;
+            node.pId = results[i].pId;
+            node.type = results[i].extendData;
+            node.isParent = true;
+            nodes.push(node);
+            //childNodes[i].name = results[i].name.replace(/\.n/g, '.');
+        }
+        return nodes;
+    }
+
+    // 节点点击前回调函数 (treeId -- treeId-对应zTree容器元素的id；；； treeNode -- 点击节点JSON对象)
+    function beforeClick(treeId, treeNode) { // 选中节点
+        if (!treeNode.isParent) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    // 异步加载前回调函数(treeId-对应zTree容器元素的id;;treeNode-进行异步加载的父节点 JSON 数据对象)
+    function beforeAsync(treeId, treeNode) {
+        return true;
+    }
+
+
+    function initTable() {
+        tableIns = new DataTable({
+            elem: '#dictTable',
+            url: 'sys/dict/pageList', //数据接口
+            where: {parentId: selectTreeId},
+            cols: [{
+                type: 'checkbox'
+            }, {
+                field: 'type', title: '类型', width: 140, sort: true
+            }, {
+                field: 'name', title: '名称', align: 'center'
+            }, {
+                field: 'value', title: 'value', width: 120, align: 'center'
+            }, {
+                field: 'remark', title: '备注', align: 'center'
+            }, {
+                field: 'sort', title: '排序', width: 80, align: 'center', sort: true
+            }, {
+                field: 'createTime', title: '创建时间', width: 180, align: 'center', templet: function (d) {
+                    return new Date(d.createTime).Format("yyyy-MM-dd hh:mm:ss");
+                }
+            }, {
+                field: 'operate', title: '操作', toolbar: '#operateTpl', align: 'left', unresize: true
+            }]
+        })
+
+        console.log(tableIns)
+        if (zTree.getNodes().length > 0) {
+            var firstNode = zTree.getNodes()[0];
+            //默认展开根目录
+            zTree.expandNode(firstNode, true);
+            //默认点击第一个节点
+            zTree.selectNode(firstNode);//选择点
+            zTree.setting.callback.onClick(null, zTree.setting.treeId, firstNode);
+        }
+
+        //监听查询按钮
+        form.on('submit(search)', function (data) {
+            searchTable();
+            return false;
+        });
+    }
+
+    //查询-重载表格
+    function searchTable() {
+        var name = getById("name").value;
+        var type = getById("type").value;
+        table.reload(tableIns.getTableId(), {
+            where: {
+                name: name,
+                type: type,
+                parentId: selectTreeId
+            }, page: {
+                pageIndex: 1 //重新从第 1 页开始
+            }
+        })
+    }
+
+    /*删除*/
+    function del(obj, id) {
+        layer.confirm('确认要删除吗？', {icon: 3}, function (index) {
+            //发异步删除数据
+            new AjaxRequest({
+                type: "POST",
+                url: webroot + "sys/dict/delete?id=" + id,
+                isShowLoader: true,
+                success: function (res) {
+                    if (res.resultCode == "0000") {
+                        //删除tree节点 , 找到被删除的节点调用tree的删除方法
+                        var nodes = zTree.getSelectedNodes(), treeNode = nodes[0];
+                        var childrens = treeNode.children;
+                        for (var i = 0; i < childrens.length; i++) {
+                            if (childrens[i].id == id) {
+                                zTree.removeNode(childrens[i], true);
+                            }
+                        }
+                        //删除列表
+                        $(obj).parents("tr").remove();
+                        layer.msg('已删除!', {icon: 1, time: 2000});
+                    } else {
+                        layer.alert(res.resultMessage, {icon: 2})
+                    }
+                }
+            });
+        });
+    }
+
+    //编辑与新增时把选中的组织机构节点传到弹出层页面
+    function edit(id) {
+        var nodes = zTree.getSelectedNodes(), treeNode = nodes[0];
+        var parentId = treeNode.id;
+        var parentName = encodeURIComponent(treeNode.name);
+        xadmin.open('编辑数据字典', '/sys/dict/edit?id=' + id + '&parentId=' + parentId + '&parentName=' + parentName, 850, 500)
+    }
+
+    function add() {
+        var nodes = zTree.getSelectedNodes(), treeNode = nodes[0];
+        var parentId = treeNode.id;
+        var parentName = encodeURIComponent(treeNode.name);
+        var type = treeNode.type;
+        xadmin.open('新增数据字典', '/sys/dict/edit?parentId=' + parentId + '&parentName=' + parentName + "&type=" + type, 850, 500)
+    }
+
+    //编辑或新增后，调用此方法刷新树与列表
+    function refreshlist(id, name, isAdd) {
+        //刷新树
+        var nodes = zTree.getSelectedNodes(), treeNode = nodes[0];
+        if (isAdd) {
+            //zTree.addNodes(treeNode, {id: id, pId: treeNode.id, name: name});
+            zTree.reAsyncChildNodes(treeNode, "refresh");//异步加载树，使用此模式刷新树
+        } else {
+            var childrens = treeNode.children;
+            for (var i = 0; i < childrens.length; i++) {
+                if (childrens[i].id == id) {
+                    childrens[i].name = name;
+                    zTree.updateNode(childrens[i], true);
+                }
+            }
+        }
+        //刷新列表
+        searchTable();
+    }
+</script>
+</body>
+</html>

@@ -2,50 +2,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>新增或编辑账目</title>
+    <title>新增或编辑数据字典</title>
     <link th:replace="template/sys_header :: header"/>
 </head>
 <body>
 <form lay-filter="form1" class="layui-form margintop20" action="">
-    <input type="hidden" id="cashId" name="cashId" value=""/>
-    <input type="hidden" id="dictId" name="dictId" value=""/>
-    <input type="hidden" id="cashDetail" name="cashDetail" value=""/>
+    <input type="hidden" id="id" name="id" value=""/>
+    <input type="hidden" id="parentId" name="parentId" value=""/>
     <div class="layui-row margintop15">
         <div class="layui-col-sm2 layui-row-label">
-            <span class="x-red">*</span>入账时间
+            <span class="x-red">*</span>字典名称
         </div>
         <div class="layui-col-sm5">
-            <input type="text" id="recordTime" name="recordTime" lay-verify="required" autocomplete="" class="layui-input">
+            <input type="text" id="name" name="name" lay-verify="required" autocomplete="" class="layui-input">
         </div>
         <div class="layui-form-mid layui-word-aux" style="margin-left: 5px;">
-            <span class="x-red">*</span>请输入记录入账时间
+            <span class="x-red">*</span>请输入数据字典名称
         </div>
     </div>
     <div class="layui-row margintop10">
         <div class="layui-col-sm2 layui-row-label">
-            <span class="x-red">*</span>入账内容
+            父级字典
         </div>
         <div class="layui-col-sm5">
-            <!--单选select-->
-            <select name="dictSelect" id="dictSelect" lay-verify="required" lay-search>
-                <!--<option value="">请选择或搜索选择</option>
-                <option value="1">layer</option>
-                <option value="2">form</option>-->
-            </select>
+            <input type="text" id="parentName" autocomplete="" disabled="disabled" class="layui-input disabled">
         </div>
     </div>
     <div class="layui-row margintop10">
         <div class="layui-col-sm2 layui-row-label">
-            <span class="x-red">*</span>账目金额
+            type
         </div>
         <div class="layui-col-sm5">
-            <input type="text" id="amount" name="amount" lay-verify="required|number" autocomplete="" class="layui-input">
-        </div>
-        <div class="layui-form-mid layui-word-aux" style="margin-left: 5px;">
-            <span class="x-red">*</span>单位元
+            <input type="text" id="type" name="type"  autocomplete="" class="layui-input">
         </div>
     </div>
-
+    <div class="layui-row margintop10">
+        <div class="layui-col-sm2 layui-row-label">
+            value
+        </div>
+        <div class="layui-col-sm5">
+            <input type="text" id="value" name="value" autocomplete="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-row margintop10">
+        <div class="layui-col-sm2 layui-row-label">
+            排序号
+        </div>
+        <div class="layui-col-sm5">
+            <input type="text" id="sort" name="sort" lay-verify="number" autocomplete="" class="layui-input">
+        </div>
+    </div>
     <div class="layui-row margintop10">
         <div class="layui-col-sm2 layui-row-label">
             备注
@@ -72,40 +78,37 @@
 </form>
 <script type="text/javascript" th:replace="template/sys_header :: footer"></script>
 <script type="text/javascript" th:inline="javascript">
-    var $ = layui.jquery, form = layui.form , laydate = layui.laydate;
-    var cashbook = [[${cashbook}]];//角色信息
+    var table = layui.table, $ = layui.jquery, form = layui.form;
+    var parentId = queryString("parentId");
+    var parentName = decodeURIComponent(queryString("parentName"));
+    var type = queryString("type");
+    var dict = [[${dict}]];//组织机构信息
     var isEdit = false;//默认不是编辑模式
-    console.log(cashbook);
-    if(cashbook && cashbook.cashId){
+    console.log(dict);
+    getById("parentName").value = parentName;
+    getById("parentId").value = parentId;
+    //如果是根目录则可以填写type
+    if(type != ""){
+        $("#type").val(type).addClass("disabled").attr("disabled","disabled");
+    }
+
+    if(dict && dict.id){
         isEdit = true;//编辑
         form.val('form1', {
-            "cashId" : cashbook.cashId,
-            "recordTime": cashbook.recordTime,
-            "dictId" : cashbook.dictId,
-            "cashDetail": cashbook.cashDetail,
-            "amount": cashbook.amount,
-            "remark": cashbook.remark
+            "id" : dict.id,
+            "parentId": dict.parentId,
+            "name": dict.name,
+            "type": dict.type,
+            "value": dict.value,
+            "sort": dict.sort,
+            "remark": dict.remark
         });
-        getDict("JZB",cashbook.dictId);
-    }else{
-        getById("recordTime").value = new Date().Format("yyyy-MM-dd");
-        getDict("JZB","");
+        //$("#remark").text(dict.remark);
     }
 
     $(function () {
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#recordTime' //指定元素
-        });
-
         form.on('submit(save)', function (data) {
-            //把选择的数据字典保存到对应字段中
-            var selectDictId = $("#dictSelect").val();
-            var selectCashDetail = $("#dictSelect").find("option:selected").text();
-            data.field.dictId = selectDictId;
-            data.field.cashDetail = selectCashDetail;
             console.log(data.field);
-            //return false;
             //发异步，数据提交
             if(isEdit){
                 edit(data.field);
@@ -115,20 +118,22 @@
             return false;
         });
     })
+
     function add(field) {
+        console.log("add...");
         new AjaxRequest({
             type: "POST",
-            url: webroot + "bus/cashbook/add",
+            url: webroot + "sys/dict/add",
             data: JSON.stringify(field),
             isShowLoader: true,
             success: function (res) {
                 //console.log(res);
                 if (res) {
                     if (res.resultCode == "0000") {
-                        var orgId = res.resultObj;
+                        var id = res.resultObj;
                         layer.alert("保存成功", {icon: 1}, function () {
                             //xadmin.father_reload();//刷新父窗体
-                            xadmin.getParentWindow().refreshlist();
+                            xadmin.getParentWindow().refreshlist(id , field.name , true);
                             xadmin.close();//关闭当前frame
                         });
                     } else {
@@ -142,7 +147,7 @@
     function edit(field) {
         new AjaxRequest({
             type: "POST",
-            url: webroot + "bus/cashbook/edit",
+            url: webroot + "sys/dict/edit",
             data: JSON.stringify(field),
             isShowLoader: true,
             success: function (res) {
@@ -151,39 +156,9 @@
                     if (res.resultCode == "0000") {
                         layer.alert("保存成功", {icon: 1}, function () {
                             //xadmin.father_reload();//刷新父窗体
-                            xadmin.getParentWindow().refreshlist();
+                            xadmin.getParentWindow().refreshlist(field.id , field.name , false);
                             xadmin.close();//关闭当前frame
                         });
-                    } else {
-                        layer.alert(res.resultMessage, {icon: 2})
-                    }
-                }
-            }
-        });
-    }
-
-    /**
-     * 获取数据字典
-     * @param type   字典type
-     * @param dictId 业务保存字典的值，用来反选
-     */
-    function getDict(type,dictId) {
-        new AjaxRequest({
-            type: "GET",
-            url: webroot + "sys/dict/getByType?type=" + type,
-            isShowLoader: true,
-            success: function (res) {
-                console.log(res);
-                if (res) {
-                    if (res.resultCode == "0000" && res.resultObj) {
-                        var optStr = '<option value="">请选择或搜索选择</option>';
-                        for(var i=0; i < res.resultObj.length; i++){
-                            var dict = res.resultObj[i];
-                            var selected = dict.id == dictId ? "selected" : " ";
-                            optStr += '<option value="'+dict.id+'" '+selected+'>'+dict.name+'</option>';
-                        }
-                        $("#dictSelect").append(optStr);
-                        form.render();
                     } else {
                         layer.alert(res.resultMessage, {icon: 2})
                     }

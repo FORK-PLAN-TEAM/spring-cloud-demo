@@ -7,9 +7,12 @@ import com.zypcy.framework.fast.common.config.ContextHolder;
 import com.zypcy.framework.fast.common.error.BusinessException;
 import com.zypcy.framework.fast.common.response.ResponseModel;
 import com.zypcy.framework.fast.common.util.IdWorker;
+import com.zypcy.framework.fast.sys.dto.ZySysTree;
 import com.zypcy.framework.fast.sys.entity.ZySysMenu;
 import com.zypcy.framework.fast.sys.service.IZySysMenuService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -27,6 +31,7 @@ import java.time.LocalDateTime;
  * @author zhuyu
  * @since 2019-06-14
  */
+@Api(tags = "sys-菜单管理")
 @RestController
 @RequestMapping("/sys/menu")
 public class ZySysMenuController {
@@ -56,9 +61,15 @@ public class ZySysMenuController {
         return new ModelAndView("sys/menu_select");
     }
 
+    @ApiOperation(value = "获取所有菜单树"  , notes = "api接口", httpMethod = "POST")
+    @PostMapping(value = "/getMenuTrees")
+    public List<ZySysTree> getMenuTrees(){
+        return menuService.getMenuTrees();
+    }
+
     @ApiOperation(value = "根据Id获取菜单信息"  , notes = "api接口", httpMethod = "GET")
     @GetMapping(value = "/getById")
-    public ZySysMenu getById(String menuId){
+    public ZySysMenu getById(@ApiParam(value = "菜单Id")String menuId){
         ZySysMenu menu = new ZySysMenu();
         menu.setMenuId(menuId);
         menu.setIsdel(false);
@@ -67,7 +78,7 @@ public class ZySysMenuController {
 
     @ApiOperation(value = "新增菜单"  , notes = "api接口", httpMethod = "POST")
     @PostMapping(value = "/add")
-    public String add(@RequestBody ZySysMenu menu){
+    public String add(@ApiParam(value = "菜单实体")@RequestBody ZySysMenu menu){
         String menuId = IdWorker.getId();
         menu.setMenuId(menuId);
         menu.setIsdel(false);
@@ -83,7 +94,7 @@ public class ZySysMenuController {
 
     @ApiOperation(value = "编辑菜单"  , notes = "api接口", httpMethod = "POST")
     @PostMapping(value = "/edit")
-    public boolean edit(@RequestBody ZySysMenu menu){
+    public boolean edit(@ApiParam(value = "菜单实体")@RequestBody ZySysMenu menu){
         if(StringUtils.isEmpty(menu.getMenuId()) || StringUtils.isEmpty(menu.getMenuName())){
             throw new BusinessException("请传入菜单Id或菜单名称");
         }
@@ -95,7 +106,7 @@ public class ZySysMenuController {
 
     @ApiOperation(value = "删除菜单"  , notes = "api接口", httpMethod = "POST")
     @PostMapping(value = "/del")
-    public boolean del(String menuId){
+    public boolean del(@ApiParam(value = "菜单Id",required = true)String menuId){
         if(StringUtils.isEmpty(menuId)){
             throw new BusinessException("请传入菜单Id");
         }

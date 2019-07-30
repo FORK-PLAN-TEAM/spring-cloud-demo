@@ -10,6 +10,7 @@ import com.zypcy.framework.fast.common.response.ResultCodeEnum;
 import com.zypcy.framework.fast.common.util.IdWorker;
 import com.zypcy.framework.fast.sys.entity.ZySysRole;
 import com.zypcy.framework.fast.sys.service.IZySysRoleService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import java.time.LocalDateTime;
  * @author zhuyu
  * @since 2019-06-14
  */
+@Api(tags = "sys-角色管理")
 @RestController
 @RequestMapping("/sys/role")
 public class ZySysRoleController {
@@ -65,7 +67,7 @@ public class ZySysRoleController {
 
     @ApiOperation(value = "根据Id获取角色信息" , notes = "api接口", httpMethod = "GET")
     @GetMapping("getById")
-    public ZySysRole getById(String roleId){
+    public ZySysRole getById(@ApiParam(value = "角色Id",required = true)String roleId){
         return getRoleById(roleId);
     }
 
@@ -94,7 +96,7 @@ public class ZySysRoleController {
 
     @ApiOperation(value = "删除角色" , notes = "api接口", httpMethod = "POST")
     @PostMapping("delete")
-    public boolean delete(String roleId){
+    public boolean delete(@ApiParam(value = "角色Id")String roleId){
         if(!StringUtils.isEmpty(roleId)){
             ZySysRole role = getRoleById(roleId);
             if(role != null){
@@ -110,7 +112,7 @@ public class ZySysRoleController {
 
     @ApiOperation(value = "批量删除角色" , notes = "api接口", httpMethod = "POST")
     @PostMapping("deleteBatch")
-    public boolean deleteBatchByIds(String roleIds){
+    public boolean deleteBatchByIds(@ApiParam(value = "角色Id字符串，以逗号分隔")String roleIds){
         String[] ids = roleIds.split(",");
         boolean flag = false;
         for(int i=0; i< ids.length ; i++){
