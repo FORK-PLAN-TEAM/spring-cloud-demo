@@ -2,7 +2,7 @@
 
 #### 项目介绍
 1. Spring Cloud 微服务的各个组件代码实践 
-2. Fast 快速开发Web框架，基于SpringBoot
+2. Fast 快速开发Web框架，集成用户、菜单、角色权限功能，基于SpringBoot + layui + mysql
 
 
 #### 依赖环境
