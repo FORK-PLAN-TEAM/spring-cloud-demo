@@ -1,6 +1,6 @@
 //请求根路径
 //window.webroot = "https://www.zypcy.cn/";
-window.webroot = "http://localhost:8088/";
+window.webroot = "http://192.168.68.138:8088/";
 
 function getById(id) {
     return document.getElementById(id);

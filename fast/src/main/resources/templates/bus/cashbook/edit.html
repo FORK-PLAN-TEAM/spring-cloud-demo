@@ -86,10 +86,10 @@
             "amount": cashbook.amount,
             "remark": cashbook.remark
         });
-        getDict("JZB",cashbook.dictId);
+        getDictByType("JZB" , "dictSelect",cashbook.dictId);
     }else{
         getById("recordTime").value = new Date().Format("yyyy-MM-dd");
-        getDict("JZB","");
+        getDictByType("JZB" , "dictSelect");
     }
 
     $(function () {
@@ -154,36 +154,6 @@
                             xadmin.getParentWindow().refreshlist();
                             xadmin.close();//关闭当前frame
                         });
-                    } else {
-                        layer.alert(res.resultMessage, {icon: 2})
-                    }
-                }
-            }
-        });
-    }
-
-    /**
-     * 获取数据字典
-     * @param type   字典type
-     * @param dictId 业务保存字典的值，用来反选
-     */
-    function getDict(type,dictId) {
-        new AjaxRequest({
-            type: "GET",
-            url: webroot + "sys/dict/getByType?type=" + type,
-            isShowLoader: true,
-            success: function (res) {
-                console.log(res);
-                if (res) {
-                    if (res.resultCode == "0000" && res.resultObj) {
-                        var optStr = '<option value="">请选择或搜索选择</option>';
-                        for(var i=0; i < res.resultObj.length; i++){
-                            var dict = res.resultObj[i];
-                            var selected = dict.id == dictId ? "selected" : " ";
-                            optStr += '<option value="'+dict.id+'" '+selected+'>'+dict.name+'</option>';
-                        }
-                        $("#dictSelect").append(optStr);
-                        form.render();
                     } else {
                         layer.alert(res.resultMessage, {icon: 2})
                     }

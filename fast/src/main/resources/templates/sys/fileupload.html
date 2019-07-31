@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>文件上传示例</title>
+    <link th:replace="template/sys_header :: header"/>
+</head>
+<body>
+<div style="padding: 30px;width: 900px;">
+    <h2>文件上传示例</h2>
+    <hr/>
+    <button class="layui-btn layui-btn-normal" id="btnUpload">选择文件</button>
+    <button class="layui-btn" id="btnStartUpload">开始上传</button>
+    <div id="fileContent" class="layui-upload-list layui-hide">
+        <table class="layui-table">
+            <thead>
+            <tr>
+                <th>文件名</th>
+                <th>大小</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="demoList">
+            <!--<tr id="upload-1564555926567-0">
+                <td>common.js</td>
+                <td>9.9kb</td>
+                <td><span style="color: #FF5722;">上传失败</span></td>
+                <td>
+                    <button class="layui-btn layui-btn-xs demo-reload">重传</button>
+                    <button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>
+                </td>
+            </tr>-->
+            </tbody>
+        </table>
+    </div>
+    <!--<form method="POST" enctype="multipart/form-data" action="/sys/attach/upload?attachNo=123456">
+        <p>
+            文件：<input type="file" name="file"/>
+        </p>
+        <p>
+            <input type="submit" value="上传"/>
+        </p>
+    </form>-->
+</div>
+
+<script type="text/javascript" th:replace="template/sys_header :: footer"></script>
+<script type="text/javascript" th:inline="javascript">
+    var upload = layui.upload; //得到 upload 对象
+    var attachNo = "123";
+    //创建一个上传组件
+    var demoListView = $("#demoList")
+    upload.render({
+        elem: '#btnUpload'
+        , url: '/sys/attach/upload'
+        , multiple: true  //是否允许多文件上传。设置 true即可开启。不支持ie8/9
+        , auto: false     //默认选择文件后自动上传，这里手动上传btnStartUpload
+        , bindAction: '#btnStartUpload'
+        , accept: 'file' //允许上传的文件类型,file表示所有文件，images（图片）、video（视频）、audio（音频）
+        , size: 20        //最大允许上传的文件大小
+        , data: {         //请求上传接口的额外参数。如：data: {id: 'xxx'}
+            attachNo: attachNo
+        }
+        ,choose: function(obj){
+            $("#fileContent").removeClass("layui-hide");
+            var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+            //读取本地文件
+            obj.preview(function(index, file, result){
+                var tr = $(['<tr id="upload-'+ index +'">'
+                    ,'<td>'+ file.name +'</td>'
+                    ,'<td>'+ (file.size/1014).toFixed(1) +'kb</td>'
+                    ,'<td>等待上传</td>'
+                    ,'<td>'
+                    ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                    ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                    ,'</td>'
+                    ,'</tr>'].join(''));
+
+                //单个重传
+                tr.find('.demo-reload').on('click', function(){
+                    obj.upload(index, file);
+                });
+                //删除
+                tr.find('.demo-delete').on('click', function(){
+                    delete files[index]; //删除对应的文件
+                    tr.remove();
+                    uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                });
+                demoListView.append(tr);
+            });
+        }
+        , done: function (res, index, upload) { //上传后的回调
+            //res（服务端响应信息）、index（当前文件的索引）、upload（重新上传的方法，一般在文件上传失败后使用）
+            console.log(res);
+            if(res && res.resultCode == '0000'){//上传成功
+                var attach = res.resultObj;
+
+                var tr = demoListView.find('tr#upload-'+ index)
+                    ,tds = tr.children();
+                tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                tds.eq(3).html('<button class="layui-btn layui-btn-xs layui-btn-danger">删除</button>').on('click', function(){
+                    layer.confirm("确定要删除吗？",{icon : 2} , function (index) {
+                        layer.close(index);
+                        console.log("attachId:" + attach.attachId);
+                        //编写业务代码，进行删除，不删除文件，只删除业务中保存的附件Id即可
+
+                    })
+                }); //操作
+                return delete this.files[index]; //删除文件队列已经上传成功的文件
+            }
+            this.error(index, upload);
+        }
+        ,error: function(index, upload){
+            var tr = demoListView.find('tr#upload-'+ index)
+                ,tds = tr.children();
+            tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+            tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+        }
+    })
+</script>
+</body>
+</html>

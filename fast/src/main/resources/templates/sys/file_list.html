@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>文件上传示例</title>
+    <link th:replace="template/sys_header :: header"/>
+</head>
+<body>
+<div style="padding: 30px;width: 900px;">
+    <h2>已上传文件(前20个附件)</h2>
+    <hr/>
+    <a href="/sys/attach/upload" style="margin-top: 10px;font-size: 16px">上传文件</a>
+    <div id="fileContent" class="layui-upload-list">
+        <table class="layui-table">
+            <thead>
+            <tr>
+                <th>文件名</th>
+                <th>旧文件名</th>
+                <th>大小kb</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="attach: ${attachs}" id="${attach.attachId}">
+                    <td th:text="${attach.attachName}">common.js</td>
+                    <td th:text="${attach.attachOldName}">common.js</td>
+                    <td th:text="${#numbers.formatDecimal(attach.attachSize / 1024.0,1,2)}">9.9kb</td>
+                    <td><span style="color: #5FB878;">上传成功</span></td>
+                    <td>
+                        <a target="_blank" th:href="@{/sys/attach/view/{id}(id=${attach.attachId})}" class="layui-btn layui-btn-xs layui-btn-normal">预览</a> &emsp;
+                        <a th:href="@{/sys/attach/download/{id}(id=${attach.attachId})}" class="layui-btn layui-btn-xs layui-btn-normal">下载</a> &emsp;
+                        <a th:href="@{/sys/attach/delete/{id}(id=${attach.attachId})}" class="layui-btn layui-btn-xs layui-btn-danger">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript" th:replace="template/sys_header :: footer"></script>
+
+</body>
+</html>

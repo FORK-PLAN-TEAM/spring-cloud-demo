@@ -46,6 +46,7 @@ public class WebConfiguration implements WebMvcConfigurer {
         excludeList.add("/sys/login/login");
         excludeList.add("/v2/api-docs/**");
         excludeList.add("/swagger-ui.html");
+        excludeList.add("/sys/attach/**");//开放附件上传下载
         return excludeList;
     }
 

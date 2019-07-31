@@ -16,7 +16,7 @@ import org.apache.ibatis.annotations.Update;
  */
 public interface CashbookMapper extends BaseMapper<Cashbook> {
 
-    @Select("select sum(amount) from bus_cashbook where create_userid=#{createUserid} and isdel=0 ")
+    @Select("select IFNULL(sum(amount),0) as amount from bus_cashbook where create_userid=#{createUserid} and isdel=0 ")
     double getTotalAmount(@Param("createUserid")String createUserid);
 
     @Update("update bus_cashbook set isdel=1 where cash_id=#{cashId}")
