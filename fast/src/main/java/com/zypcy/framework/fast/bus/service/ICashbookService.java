@@ -1,5 +1,6 @@
 package com.zypcy.framework.fast.bus.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zypcy.framework.fast.bus.entity.Cashbook;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -18,4 +19,6 @@ public interface ICashbookService extends IService<Cashbook> {
     boolean deleteBatchById(String cashId);
 
     double getTotalAmount(String userId);
+
+    IPage<Cashbook> pageList(String startTime , String endTime,int pageIndex , int pageSize);
 }

@@ -88,10 +88,10 @@ create table zy_sys_dict
    value                varchar(100) comment 'value',
    type                 varchar(100) comment '类型，同一类型数据字典类型一样',
    sort                 int comment 'sort',
-   remarks              varchar(255),
-   create_time          datetime,
-   update_time          datetime,
-   isdel                bool,
+   remark               varchar(255) comment '备注',
+   create_time          datetime comment '创建时间',
+   update_time          datetime comment '修改时间',
+   isdel                bool comment '是否删除，0未删除，1已删除',
    primary key (id)
 );
 
@@ -148,11 +148,33 @@ alter table zy_sys_role_menu comment '角色菜单';
 
 
 
+create table zy_sys_attach
+(
+   attach_id            varchar(36) not null,
+   attach_no            varchar(36) comment '上传多个附件用attach_no标识',
+   attach_name          varchar(128) comment '文件名',
+   attach_old_name      varchar(128) comment '文件旧名称',
+   attach_size          bigint comment '文件大小',
+   attach_path          varchar(128) comment '附件路径',
+   attach_suffix        varchar(64) comment '附件后缀',
+   contentType          varchar(64) comment '文件contentType，下载相关',
+   md5                  varchar(64) comment 'md5值，实现秒传功能',
+   isdel                bool comment '是否删除，0未删除，1已删除',
+   create_time          datetime comment '上传时间',
+   description          varchar(512) comment '附件描述，可做扩展备用字段',
+   primary key (attach_id)
+);
+
+alter table zy_sys_attach comment '附件表，同一用户上传多个附件请用attach_no';
+
+
+
 create table bus_cashbook
 (
    cash_id              varchar(36) not null,
    record_time          datetime comment '记录时间',
-   cash_detail          text comment '账本详情',
+   cash_detail          text comment '账本详情-数据字典name值',
+   dict_id              varchar(36) comment '数据字典id',
    amount               double comment '总额',
    remark               varchar(512) comment '备注',
    isdel                bool comment '是否删除',

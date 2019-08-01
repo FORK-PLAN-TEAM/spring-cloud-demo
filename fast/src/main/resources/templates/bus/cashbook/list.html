@@ -25,8 +25,9 @@
                     </form>
                 </div>
                 <div class="layui-card-header">
-                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="iconfont">&#xe69d; </i>批量删除</button>
                     <button class="layui-btn" onclick="add()"><i class="layui-icon"></i>添加</button>
+                    <a class="layui-btn" href="/bus/cashbook/export"><i class="iconfont">&#xe73f; </i>导出</a>
                     <span style="float: right; margin-right: 10px;font-size: 16px;">总计：<span th:text="${totalAmount}">0</span> 元</span>
                 </div>
                 <div class="layui-card-body">
@@ -74,7 +75,7 @@
                 type: 'checkbox'
             }, {
                 field: 'recordTime', title: '入账时间', width: 200, align: 'center', templet: function (d) {
-                    return new Date(d.recordTime).Format("yyyy-MM-dd hh:mm");
+                    return new Date(d.recordTime).Format("yyyy-MM-dd");
                 }
             }, {
                 field: 'cashDetail', title: '入账内容', align: 'center'

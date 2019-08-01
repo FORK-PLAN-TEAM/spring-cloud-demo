@@ -91,6 +91,22 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.2.54</version>
 		</dependency>
+		<!-- poi 导出word、excel -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml-schemas</artifactId>
+			<version>3.9</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -132,6 +148,28 @@
 				</configuration>
 			</plugin>
 		</plugins>
+
+		<!-- 定义包含这些资源文件，通过方法能在jar包中获取这些文件 -->
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+					<include>**/*.yml</include>
+				</includes>
+				<!--是否替换资源中的属性-->
+				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+				<!--是否替换资源中的属性-->
+				<filtering>false</filtering>
+			</resource>
+		</resources>
 	</build>
 
 </project>

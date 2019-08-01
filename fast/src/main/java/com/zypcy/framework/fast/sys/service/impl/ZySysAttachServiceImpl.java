@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zypcy.framework.fast.common.error.BusinessException;
+import com.zypcy.framework.fast.common.util.FilePathUtil;
 import com.zypcy.framework.fast.common.util.IdWorker;
 import com.zypcy.framework.fast.sys.entity.ZySysAttach;
 import com.zypcy.framework.fast.sys.mapper.ZySysAttachMapper;
@@ -30,9 +31,6 @@ import java.util.List;
  */
 @Service
 public class ZySysAttachServiceImpl extends ServiceImpl<ZySysAttachMapper, ZySysAttach> implements IZySysAttachService {
-
-    //获取项目根目录
-    private static String filePath = FileUtil.getAbsolutePath("classpath:");
 
     @Autowired
     ZySysAttachMapper attachMapper;
@@ -84,7 +82,7 @@ public class ZySysAttachServiceImpl extends ServiceImpl<ZySysAttachMapper, ZySys
 
             //把文件写到当前发布目录下(按年月日存放)
             String attachName = IdWorker.getDateId() + suffix;
-            String path = getFilePath() + "/" + attachName;
+            String path = FilePathUtil.getFileUploadPath() + attachName;
             file.transferTo(new File(path));
 
             attach = new ZySysAttach();
@@ -104,20 +102,5 @@ public class ZySysAttachServiceImpl extends ServiceImpl<ZySysAttachMapper, ZySys
             throw new BusinessException("文件上传失败");
         }
         return attach;
-    }
-
-    //获取文件存储路径
-    private String getFilePath() {
-        int len = filePath.indexOf("fast");
-        String path = filePath;
-        if (len > 0) {
-            path = filePath.substring(0, len) + "fast/upload/";
-        }
-        //文件路径按年月日存放
-        path = path + DateUtil.format(new Date(), "yyyy/MM/dd");
-        if(!FileUtil.exist(path)){
-            FileUtil.mkdir(path);
-        }
-        return path;
     }
 }

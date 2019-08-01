@@ -68,7 +68,7 @@ public class ZySysAttachController {
      * @param id 文件id
      * @return
      */
-    @ApiOperation(value = "预览附件", notes = "api", httpMethod = "GET")
+    @ApiOperation(value = "预览附件（支持图片、txt、pdf）", notes = "api", httpMethod = "GET")
     @GetMapping("/view/{id}")
     public ResponseEntity<Object> serveFileOnline(@PathVariable String id) throws IOException{
         ZySysAttach attach = attachService.getById(id);
