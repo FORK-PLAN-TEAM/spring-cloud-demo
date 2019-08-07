@@ -123,6 +123,18 @@
 			<artifactId>itextpdf</artifactId>
 			<version>5.5.3</version>
 		</dependency>
+		<!-- zxing -->
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>core</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>net.glxn</groupId>
+			<artifactId>qrgen</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<!-- zxing -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
