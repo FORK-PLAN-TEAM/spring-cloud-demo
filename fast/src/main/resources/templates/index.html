@@ -39,6 +39,7 @@
 
 <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 <script th:src="@{/layui/lib/layui/layui.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/js/base64.js}"></script>
 <script type="text/javascript" th:src="@{/js/common.js}"></script>
 <script type="text/javascript">
     $(function () {
@@ -48,8 +49,9 @@
             //监听提交
             form.on('submit(login)', function (data) {
                 //console.log(data);
-                var userAccount = data.field.username;
-                var userPwd = data.field.password;
+                //对用户名和密码进行加密
+                var userAccount = Base64.encode(data.field.username);
+                var userPwd = Base64.encode(data.field.password);
                 //发起请求
                 new AjaxRequest({
                     type: "POST",

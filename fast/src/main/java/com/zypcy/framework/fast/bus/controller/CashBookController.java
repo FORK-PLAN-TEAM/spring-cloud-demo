@@ -29,6 +29,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -141,7 +143,6 @@ public class CashbookController {
     @GetMapping(value = "/export")
     @ApiOperation(value = "导出账目信息", notes = "api接口", httpMethod = "GET")
     public void export(HttpServletResponse response, String startTime, String endTime) throws IOException {
-        WordUtil.testReplaceDoc();
         String userId = ContextHolder.getUserId();
         Cashbook cashbook = new Cashbook();
         cashbook.setIsdel(false);
@@ -165,8 +166,8 @@ public class CashbookController {
                 item.getAmount().toString(),
                 item.getRemark()
         }).collect(Collectors.toList());
-        HSSFWorkbook workbook = ExcelUtil.getHSSFWorkbook("账目信息", title, exportDataList.toArray(new String[list.size()][title.length]), null);
+        HSSFWorkbook workbook = ExcelUtil.getHSSFWorkbook("账目信息", title, exportDataList, null);
+        ExcelUtil.setResponseStream(response, "账目信息" +IdWorker.getDateId()+ ".xls");
         workbook.write(response.getOutputStream());
-        ExcelUtil.setResponseStream(response, "账目信息" +IdWorker.getDateId()+ ".xlsx");
     }
 }

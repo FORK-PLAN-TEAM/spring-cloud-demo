@@ -49,11 +49,11 @@ public class ExcelUtil {
      *
      * @param sheetName sheet名称
      * @param title     标题
-     * @param values    内容
+     * @param values    内容 , 内容数组与标题的列一一对应
      * @param wb        HSSFWorkbook对象
      * @return
      */
-    public static HSSFWorkbook getHSSFWorkbook(String sheetName, String[] title, String[][] values, HSSFWorkbook wb) {
+    public static HSSFWorkbook getHSSFWorkbook(String sheetName, String[] title, List<String[]> values, HSSFWorkbook wb) {
         // 第一步，创建一个HSSFWorkbook，对应一个Excel文件
         if (wb == null) {
             wb = new HSSFWorkbook();
@@ -77,11 +77,12 @@ public class ExcelUtil {
         }
 
         //创建内容
-        for (int i = 0; i < values.length; i++) {
+        for (int i = 0; i < values.size(); i++) {
             row = sheet.createRow(i + 1);
-            for (int j = 0; j < values[i].length; j++) {
+            String[] cols = values.get(i);
+            for (int j = 0; j < cols.length; j++) {
                 //将内容按顺序赋给对应的列对象
-                row.createCell(j).setCellValue(values[i][j]);
+                row.createCell(j).setCellValue(cols[j]);
             }
         }
         return wb;

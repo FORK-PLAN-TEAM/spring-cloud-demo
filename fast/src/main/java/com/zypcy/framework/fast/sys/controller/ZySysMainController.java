@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Api(tags = "Sys-后台主页")
 @RestController
@@ -58,14 +59,13 @@ public class ZySysMainController {
             //获取当前人所拥有的角色菜单
             List<ZySysRole> userRoles = ContextHolder.getSysUserRoles();
             if(userRoles.size() > 0){
-                List<String> roleIds = new ArrayList<>();
-                userRoles.forEach( role -> roleIds.add(role.getRoleId()));
+                List<String> roleIds = userRoles.stream().map( item -> item.getRoleId()).collect(Collectors.toList());
                 //根据角色Id获取菜单信息
                 menus = menuService.getMenusByRoleId(roleIds);
             }
         }
 
-        StringBuilder sb = new StringBuilder();
+        StringBuffer sb = new StringBuffer();
         //只生成三级菜单，根目录的parentId=0
         List<ZySysMenu> firstMenus = getMenuByParentId(menus , "0");
         for(ZySysMenu menu : firstMenus){
@@ -119,13 +119,7 @@ public class ZySysMainController {
      * @return
      */
     private List<ZySysMenu> getMenuByParentId(List<ZySysMenu> menus , String parentId){
-        List<ZySysMenu> pMenus = new ArrayList<>();
-        menus.forEach( item -> {
-            if(parentId.equals(item.getParentId())){
-                pMenus.add(item);
-            }
-        });
-        return pMenus;
+        return menus.stream().filter( item -> parentId.equals(item.getParentId())).collect(Collectors.toList());
     }
 
     private String getPath(String path){

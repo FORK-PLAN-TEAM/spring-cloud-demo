@@ -17,7 +17,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -109,5 +111,25 @@ public class FastApplicationTests {
         roleMenu.setMenuId(index);
         roleMenu.setRoleId(index);
         return roleMenu;
+    }
+
+    @Test
+    public void testStream(){
+        List<ZySysRoleMenu> lists = new ArrayList<>();
+        for(int i=0 ; i < 100; i++){
+            String index = i + "";
+            String menuId = i  % 10 == 0 ? "green" : "zhuyu";
+            ZySysRoleMenu roleMenu = new ZySysRoleMenu();
+            roleMenu.setId(index);
+            roleMenu.setMenuId(menuId);
+            roleMenu.setRoleId(index);
+            lists.add(roleMenu);
+        }
+        long d1 = System.currentTimeMillis();
+        List<String> roleIds = lists.stream().map(item -> item.getRoleId()).collect(Collectors.toList());
+        System.out.println(JSON.toJSONString(roleIds));
+        //long i = lists.parallelStream().filter( item -> "green".equals(item.getMenuId())).count();
+        //lists.parallelStream().filter( item -> "zhuyu".equals(item.getMenuId())).collect(Collectors.toList());
+        //System.out.println("i:" + i + " , time:" + (System.currentTimeMillis() - d1));
     }
 }
