@@ -28,7 +28,7 @@
                     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="iconfont">&#xe69d; </i>批量删除</button>
                     <button class="layui-btn" onclick="add()"><i class="layui-icon"></i>添加</button>
                     <a class="layui-btn" href="/bus/cashbook/export"><i class="iconfont">&#xe73f; </i>导出</a>
-                    <span style="float: right; margin-right: 10px;font-size: 16px;">总计：<span th:text="${totalAmount}">0</span> 元</span>
+                    <span style="float: right; margin-right: 10px;font-size: 16px;">总计(当日)：<i class="iconfont">&#xe6fe;</i><span th:text="${amounts.zhichu}">0</span> &nbsp;&nbsp; <i class="iconfont">&#xe6b9;</i><span th:text="${amounts.shouru}">0</span> <span style="cursor: pointer;" onclick="xadmin.open('记账统计','/bus/cashbook/statistics',800,500)">查看</span></span>
                 </div>
                 <div class="layui-card-body">
                     <table class="layui-table layui-form" id="cashbookTable"></table>
@@ -74,6 +74,10 @@
             cols: [{
                 type: 'checkbox'
             }, {
+                field: 'cashType', title: '类型', width: 100, align: 'center', templet: function (d) {
+                    return d.cashType == "0" ? "支出" : "收入";
+                }
+            }, {
                 field: 'recordTime', title: '入账时间', width: 200, align: 'center', templet: function (d) {
                     return new Date(d.recordTime).Format("yyyy-MM-dd");
                 }
@@ -88,7 +92,7 @@
             }]
         })
 
-        console.log(tableIns)
+        //console.log(tableIns)
         //监听查询按钮
         form.on('submit(search)', function (data) {
             searchTable();

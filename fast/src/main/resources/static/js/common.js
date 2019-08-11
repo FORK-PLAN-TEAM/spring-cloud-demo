@@ -125,8 +125,8 @@ function getUUID() {
         this.id           = getUUID();
         this.elem        = opts.elem;
         this.url         = opts.url;
-        this.limit       = opts.limit || 10;
-        this.limits      = opts.limits || [5, 10, 15, 20, 30];
+        this.limit       = opts.limit || 15;
+        this.limits      = opts.limits || [10, 15, 20, 30];
         this.request     = opts.request || {
             pageName: 'pageIndex', //页码的参数名称，默认：page
             limitName: 'pageSize' //每页数据量的参数名，默认：limit

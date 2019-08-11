@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zypcy.framework.fast.bus.entity.Cashbook;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Map;
+
 /**
  * <p>
  * 记账本 服务类
@@ -18,7 +20,19 @@ public interface ICashbookService extends IService<Cashbook> {
 
     boolean deleteBatchById(String cashId);
 
-    double getTotalAmount(String userId);
+    /**
+     * 统计当日金额
+     * @param userId
+     * @return
+     */
+    Map<String,String> getCurrentDayAmount(String userId);
+
+    /**
+     * 统计一段时间内的金额
+     * @param userId
+     * @return
+     */
+    Map<String,String> getTimeSlotAmount(String userId , String startTime, String endTime);
 
     IPage<Cashbook> pageList(String startTime , String endTime,int pageIndex , int pageSize);
 }

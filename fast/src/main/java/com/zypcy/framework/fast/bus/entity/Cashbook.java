@@ -37,6 +37,9 @@ public class Cashbook implements Serializable {
     @ApiModelProperty(value = "账目Id")
     private String cashId;
 
+    @ApiModelProperty(value = "账本类型，1:支出，2:收入")
+    private String cashType;
+
     @ApiModelProperty(value = "记录时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")

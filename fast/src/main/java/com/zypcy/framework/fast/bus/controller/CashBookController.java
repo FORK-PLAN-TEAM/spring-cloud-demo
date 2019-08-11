@@ -2,6 +2,7 @@ package com.zypcy.framework.fast.bus.controller;
 
 
 import cn.hutool.core.date.DateUtil;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -11,6 +12,7 @@ import com.zypcy.framework.fast.common.error.BusinessException;
 import com.zypcy.framework.fast.common.response.ResultCodeEnum;
 import com.zypcy.framework.fast.common.util.ExcelUtil;
 import com.zypcy.framework.fast.common.util.IdWorker;
+import com.zypcy.framework.fast.common.util.LogUtil;
 import com.zypcy.framework.fast.common.util.WordUtil;
 import com.zypcy.framework.fast.sys.entity.ZySysRole;
 import io.swagger.annotations.Api;
@@ -32,6 +34,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -53,7 +56,7 @@ public class CashbookController {
     @ApiOperation(value = "记账本列表页面", notes = "页面", httpMethod = "GET")
     @GetMapping("list")
     public ModelAndView list(ModelMap map) {
-        map.addAttribute("totalAmount", cashbookService.getTotalAmount(ContextHolder.getUserId()));
+        map.addAttribute("amounts", cashbookService.getCurrentDayAmount(ContextHolder.getUserId()));
         return new ModelAndView("bus/cashbook/list");
     }
 
@@ -69,6 +72,11 @@ public class CashbookController {
         return new ModelAndView("bus/cashbook/edit");
     }
 
+    @ApiOperation(value = "返回记账本统计页面", notes = "页面", httpMethod = "GET")
+    @GetMapping("statistics")
+    public ModelAndView statistics(){
+        return new ModelAndView("bus/cashbook/statistics");
+    }
 
     @ApiOperation(value = "获取记账本列表", notes = "api接口", httpMethod = "GET")
     @GetMapping("pageList")
@@ -138,6 +146,15 @@ public class CashbookController {
         cashbook.setCashId(cashId);
         cashbook.setIsdel(false);
         return cashbookService.getOne(new QueryWrapper<>(cashbook));
+    }
+
+    @ApiOperation(value = "统计一段时间段内的记账金额", notes = "api接口", httpMethod = "POST")
+    @PostMapping("getTimeSlotAmount")
+    public Map<String,String> getTimeSlotAmount(@ApiParam(value = "开始时间") String startTime, @ApiParam(value = "结束时间") String endTime){
+        if(StringUtils.isEmpty(startTime) || StringUtils.isEmpty(endTime)){
+            throw new BusinessException("请传入开始或结束时间");
+        }
+        return cashbookService.getTimeSlotAmount(ContextHolder.getUserId() , startTime , endTime);
     }
 
     @GetMapping(value = "/export")

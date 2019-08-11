@@ -12,6 +12,17 @@
     <input type="hidden" id="cashDetail" name="cashDetail" value=""/>
     <div class="layui-row margintop15">
         <div class="layui-col-sm2 layui-row-label">
+            <span class="x-red">*</span>入账类型
+        </div>
+        <div class="layui-col-sm5">
+            <select name="typeSelect" id="typeSelect" lay-verify="required" lay-search>
+                <option value="0">支出</option>
+                <option value="1">收入</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-row margintop10">
+        <div class="layui-col-sm2 layui-row-label">
             <span class="x-red">*</span>入账时间
         </div>
         <div class="layui-col-sm5">
@@ -80,6 +91,7 @@
         isEdit = true;//编辑
         form.val('form1', {
             "cashId" : cashbook.cashId,
+            "cashType": cashbook.cashType,
             "recordTime": cashbook.recordTime,
             "dictId" : cashbook.dictId,
             "cashDetail": cashbook.cashDetail,
@@ -87,6 +99,11 @@
             "remark": cashbook.remark
         });
         getDictByType("JZB" , "dictSelect",cashbook.dictId);
+        if(cashbook.cashType == "0"){
+            $("#typeSelect").val("0");
+        }else{
+            $("#typeSelect").val("1");
+        }
     }else{
         getById("recordTime").value = new Date().Format("yyyy-MM-dd");
         getDictByType("JZB" , "dictSelect");
@@ -104,7 +121,9 @@
             var selectCashDetail = $("#dictSelect").find("option:selected").text();
             data.field.dictId = selectDictId;
             data.field.cashDetail = selectCashDetail;
-            console.log(data.field);
+            var selectCashType = $("#typeSelect").val();
+            data.field.cashType = selectCashType;
+            //console.log(data.field);
             //return false;
             //发异步，数据提交
             if(isEdit){

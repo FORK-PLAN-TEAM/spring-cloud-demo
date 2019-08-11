@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 /**
  * <p>
@@ -27,9 +28,26 @@ public class CashbookServiceImpl extends ServiceImpl<CashbookMapper, Cashbook> i
 
     @Autowired CashbookMapper cashbookMapper;
 
+    /**
+     * 统计当日金额
+     * @param userId
+     * @return
+     */
     @Override
-    public double getTotalAmount(String userId) {
-        return cashbookMapper.getTotalAmount(userId);
+    public Map<String,String> getCurrentDayAmount(String userId) {
+        return cashbookMapper.getCurrentDayAmount(userId);
+    }
+
+    /**
+     * 统计一段时间内的金额
+     * @param userId
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @Override
+    public Map<String, String> getTimeSlotAmount(String userId, String startTime, String endTime) {
+        return cashbookMapper.getTimeSlotAmount(userId , startTime , endTime);
     }
 
     @Override
@@ -55,10 +73,10 @@ public class CashbookServiceImpl extends ServiceImpl<CashbookMapper, Cashbook> i
         String userId = ContextHolder.getUserId();//只能看自己的信息
         Page<Cashbook> page = new Page<>(pageIndex , pageSize);
         Cashbook cashbook = new Cashbook();
-        cashbook.setIsdel(false);
-        if(!"admin".equals(userId)){
+        //if(!"admin".equals(userId)){
             cashbook.setCreateUserid(userId);
-        }
+        //}
+        cashbook.setIsdel(false);
         //按时间查询
         QueryWrapper<Cashbook> wrapper = new QueryWrapper<>(cashbook);
         wrapper.orderByDesc("record_time");
