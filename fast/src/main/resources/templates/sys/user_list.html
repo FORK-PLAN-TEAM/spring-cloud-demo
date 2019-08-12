@@ -106,21 +106,21 @@
             }, {
                 field: 'userAccount', title: '登录帐号', align: 'center'
             }, {
-                field: 'sex', title: '性别', width: 100, align: 'center', templet: function (d) {
+                field: 'sex', title: '性别', width: 70, align: 'center', templet: function (d) {
                     return d.sex ? "女" : "男";
                 }
             }, {
-                field: 'state', title: '状态', width: 100, align: 'center', templet: function (d) {
+                field: 'state', title: '状态', width: 70, align: 'center', templet: function (d) {
                     return d.state ? "已禁用" : "正常";
                 }
             }, {
-                field: 'orderNum', title: '排序', width: 80, sort: true, unresize: true, align: 'center'
+                field: 'orderNum', title: '排序', width: 70, sort: true, unresize: true, align: 'center'
             }, {
-                field: 'createTime', title: '创建时间', width: 180, align: 'center', templet: function (d) {
-                    return new Date(d.createTime).Format("yyyy-MM-dd hh:mm:ss");
+                field: 'createTime', title: '创建时间', width: 120, align: 'center', templet: function (d) {
+                    return new Date(d.createTime).Format("yyyy-MM-dd");
                 }
             }, {
-                field: 'operate', title: '操作', templet: '#operateTpl', width: 250, align: 'left'
+                field: 'operate', title: '操作', templet: '#operateTpl', width: 220, align: 'center'
             }]
         })
 

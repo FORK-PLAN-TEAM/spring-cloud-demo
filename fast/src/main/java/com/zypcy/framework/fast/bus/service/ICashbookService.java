@@ -34,5 +34,14 @@ public interface ICashbookService extends IService<Cashbook> {
      */
     Map<String,String> getTimeSlotAmount(String userId , String startTime, String endTime);
 
-    IPage<Cashbook> pageList(String startTime , String endTime,int pageIndex , int pageSize);
+    /**
+     * 翻页查询
+     * @param cashType  账目类型
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @param pageIndex 页码
+     * @param pageSize  每页数据量
+     * @return
+     */
+    IPage<Cashbook> pageList(String cashType, String startTime , String endTime,int pageIndex , int pageSize);
 }

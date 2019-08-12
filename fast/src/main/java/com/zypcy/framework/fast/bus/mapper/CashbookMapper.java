@@ -25,8 +25,8 @@ public interface CashbookMapper extends BaseMapper<Cashbook> {
     Map<String,String> getCurrentDayAmount(@Param("createUserid")String createUserid);
 
     @Select("select \n" +
-            "(select IFNULL(sum(amount),0) from bus_cashbook where DATE_FORMAT( record_time, '%Y%m%d' )>= DATE_FORMAT(#{startTime} , '%Y%m%d' ) and DATE_FORMAT( record_time, '%Y%m%d' )< DATE_FORMAT(#{endTime} , '%Y%m%d' ) and create_userid=#{createUserid} and cash_type=0 and isdel=0) as zhichu ,\n" +
-            "(select IFNULL(sum(amount),0) from bus_cashbook where DATE_FORMAT( record_time, '%Y%m%d' )>= DATE_FORMAT(#{startTime} , '%Y%m%d' ) and DATE_FORMAT( record_time, '%Y%m%d' )< DATE_FORMAT(#{endTime} , '%Y%m%d' ) and create_userid=#{createUserid} and cash_type=1 and isdel=0) as shouru\n")
+            "(select IFNULL(sum(amount),0) from bus_cashbook where DATE_FORMAT( record_time, '%Y%m%d' )>= DATE_FORMAT(#{startTime} , '%Y%m%d' ) and DATE_FORMAT( record_time, '%Y%m%d' )<= DATE_FORMAT(#{endTime} , '%Y%m%d' ) and create_userid=#{createUserid} and cash_type=0 and isdel=0) as zhichu ,\n" +
+            "(select IFNULL(sum(amount),0) from bus_cashbook where DATE_FORMAT( record_time, '%Y%m%d' )>= DATE_FORMAT(#{startTime} , '%Y%m%d' ) and DATE_FORMAT( record_time, '%Y%m%d' )<= DATE_FORMAT(#{endTime} , '%Y%m%d' ) and create_userid=#{createUserid} and cash_type=1 and isdel=0) as shouru\n")
     Map<String, String> getTimeSlotAmount(@Param("createUserid")String createUserid, @Param("startTime")String startTime, @Param("endTime")String endTime);
 
     @Update("update bus_cashbook set isdel=1 where cash_id=#{cashId}")

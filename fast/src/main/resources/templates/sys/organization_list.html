@@ -100,8 +100,6 @@
             cols : [{
                 type: 'checkbox'
             }, {
-                field: 'orgId', title: 'ID', width: 150, sort: true
-            }, {
                 field: 'orgName', title: '组织机构名称', align: 'center'
             }, {
                 field: 'orgShortName', title: '组织机构简称', align: 'center'
@@ -112,7 +110,7 @@
                     return new Date(d.createTime).Format("yyyy-MM-dd hh:mm:ss");
                 }
             }, {
-                field: 'operate', title: '操作', toolbar: '#operateTpl', align: 'left', unresize: true
+                field: 'operate', title: '操作', width: 230, toolbar: '#operateTpl', align: 'left', unresize: true
             }]
         })
 

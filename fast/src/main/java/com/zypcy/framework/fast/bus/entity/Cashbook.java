@@ -37,7 +37,7 @@ public class Cashbook implements Serializable {
     @ApiModelProperty(value = "账目Id")
     private String cashId;
 
-    @ApiModelProperty(value = "账本类型，1:支出，2:收入")
+    @ApiModelProperty(value = "账目类型，0:支出，1:收入")
     private String cashType;
 
     @ApiModelProperty(value = "记录时间")

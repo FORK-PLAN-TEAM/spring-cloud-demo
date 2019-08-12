@@ -368,7 +368,8 @@ body{
 }
 
 .layui-table td, .layui-table th{
-    min-width: 80px;
+    /*min-width: 80px;*/
+    min-width: 50px;
 }
 
 table th, table td {
@@ -555,5 +556,5 @@ table th, table td {
     vertical-align: middle;
 }
 
-/*去掉table横向滚动条*/
-.layui-table-body{width: 102% !important; }
+/*去掉table横向滚动条
+.layui-table-body{width: 102% !important; }*/

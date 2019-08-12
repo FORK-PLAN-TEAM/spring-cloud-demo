@@ -14,6 +14,18 @@
                 <div class="layui-card-body ">
                     <form class="layui-form layui-col-space5">
                         <div class="layui-inline layui-show-xs-block">
+                            <div class="layui-col-sm5 layui-row-label" style="text-align: left;">
+                                账目类型：
+                            </div>
+                            <div class="layui-col-sm7">
+                                <select name="typeSelect" id="typeSelect" lay-search>
+                                    <option value="">所有</option>
+                                    <option value="0">支出</option>
+                                    <option value="1">收入</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
                             <input class="layui-input"  autocomplete="off" placeholder="开始日期" name="startTime" id="startTime">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
@@ -72,13 +84,13 @@
             url: 'bus/cashbook/pageList', //数据接口
             //height : 'full-120',
             cols: [{
-                type: 'checkbox'
+                type: 'checkbox', minWidth: 50 , style : "min-width: 50px;"
             }, {
-                field: 'cashType', title: '类型', width: 100, align: 'center', templet: function (d) {
+                field: 'cashType', title: '账目类型', width: 100, align: 'center', templet: function (d) {
                     return d.cashType == "0" ? "支出" : "收入";
                 }
             }, {
-                field: 'recordTime', title: '入账时间', width: 200, align: 'center', templet: function (d) {
+                field: 'recordTime', title: '入账时间', width: 150, align: 'center', templet: function (d) {
                     return new Date(d.recordTime).Format("yyyy-MM-dd");
                 }
             }, {
@@ -88,7 +100,7 @@
             }, {
                 field: 'remark', title: '备注', align: 'center'
             }, {
-                field: 'operate', title: '操作', width: 330, templet: '#operateTpl', align: 'center'
+                field: 'operate', title: '操作', width: 280, templet: '#operateTpl', align: 'center'
             }]
         })
 
@@ -102,10 +114,12 @@
 
     //查询
     function searchTable() {
+        var cashType = $("#typeSelect").val();
         var startTime = getById("startTime").value;
         var endTime = getById("endTime").value;
         table.reload(tableIns.getTableId(), {
             where: {
+                cashType : cashType ,
                 startTime: startTime ,
                 endTime : endTime
             }, page: {

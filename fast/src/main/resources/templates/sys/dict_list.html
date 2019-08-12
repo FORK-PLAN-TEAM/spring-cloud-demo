@@ -147,21 +147,19 @@
             cols: [{
                 type: 'checkbox'
             }, {
-                field: 'type', title: '类型', width: 140, sort: true
+                field: 'type', title: '类型', width: 130, sort: true
             }, {
-                field: 'name', title: '名称', align: 'center'
+                field: 'name', title: '名称',width: 130, align: 'center'
             }, {
-                field: 'value', title: 'value', width: 120, align: 'center'
-            }, {
-                field: 'remark', title: '备注', align: 'center'
-            }, {
+                field: 'value', title: 'value', width: 80, align: 'center'
+            },{
                 field: 'sort', title: '排序', width: 80, align: 'center', sort: true
             }, {
-                field: 'createTime', title: '创建时间', width: 180, align: 'center', templet: function (d) {
-                    return new Date(d.createTime).Format("yyyy-MM-dd hh:mm:ss");
+                field: 'createTime', title: '创建时间', width: 120, align: 'center', templet: function (d) {
+                    return new Date(d.createTime).Format("yyyy-MM-dd");
                 }
             }, {
-                field: 'operate', title: '操作', toolbar: '#operateTpl', align: 'left', unresize: true
+                field: 'operate', title: '操作', toolbar: '#operateTpl', align: 'center', unresize: true
             }]
         })
 

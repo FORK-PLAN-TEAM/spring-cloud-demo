@@ -99,11 +99,7 @@
             "remark": cashbook.remark
         });
         getDictByType("JZB" , "dictSelect",cashbook.dictId);
-        if(cashbook.cashType == "0"){
-            $("#typeSelect").val("0");
-        }else{
-            $("#typeSelect").val("1");
-        }
+        $("#typeSelect").val(cashbook.cashType);
     }else{
         getById("recordTime").value = new Date().Format("yyyy-MM-dd");
         getDictByType("JZB" , "dictSelect");

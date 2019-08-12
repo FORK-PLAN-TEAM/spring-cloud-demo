@@ -80,8 +80,8 @@ public class CashbookController {
 
     @ApiOperation(value = "获取记账本列表", notes = "api接口", httpMethod = "GET")
     @GetMapping("pageList")
-    public IPage<Cashbook> pageList(@ApiParam(value = "开始时间") String startTime, @ApiParam(value = "结束时间") String endTime, int pageIndex, int pageSize) {
-        return cashbookService.pageList(startTime, endTime, pageIndex, pageSize);
+    public IPage<Cashbook> pageList(@ApiParam(value = "账目类型") String cashType, @ApiParam(value = "开始时间") String startTime, @ApiParam(value = "结束时间") String endTime, int pageIndex, int pageSize) {
+        return cashbookService.pageList(cashType , startTime, endTime, pageIndex, pageSize);
     }
 
     @ApiOperation(value = "根据Id获取账目信息", notes = "api接口", httpMethod = "GET")
@@ -176,8 +176,9 @@ public class CashbookController {
         }
         //得到要导出的list集合
         List<Cashbook> list = cashbookService.list(wrapper);
-        String[] title = {"记录时间", "入账内容", "账目金额", "备注"};
+        String[] title = {"账目类型" ,"记录时间", "入账内容", "账目金额", "备注"};
         List<String[]> exportDataList = list.stream().map(item -> new String[]{
+                item.getCashType().equals("0") ? "支出" : "收入" ,
                 DateUtil.format(item.getRecordTime() , "yyyy-MM-dd"),
                 item.getCashDetail(),
                 item.getAmount().toString(),
