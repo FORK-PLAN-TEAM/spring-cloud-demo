@@ -172,6 +172,7 @@ alter table zy_sys_attach comment '附件表，同一用户上传多个附件请
 create table bus_cashbook
 (
    cash_id              varchar(36) not null,
+   cash_type            varchar(1) comment '账目类型，0:支出，1:收入',
    record_time          datetime comment '记录时间',
    cash_detail          text comment '账本详情-数据字典name值',
    dict_id              varchar(36) comment '数据字典id',

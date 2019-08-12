@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -32,14 +33,14 @@ public class ZySysRoleMenuServiceImpl extends ServiceImpl<ZySysRoleMenuMapper, Z
             return roleMenuMapper.getAdminRoleMenus(roleId);
         }else{
             //返回自己角色内的菜单
-            String currentRoleIds = "";
-            List<ZySysRole> roles = ContextHolder.getSysUserRoles();
+            String currentRoleIds = ContextHolder.getSysUserRoles().stream().map( role -> role.getRoleId()).collect(Collectors.joining(","));
+            /*List<ZySysRole> roles = ContextHolder.getSysUserRoles();
             for(int i=0; i < roles.size() ; i++){
                 if(i > 0){
                     currentRoleIds += ",";
                 }
                 currentRoleIds += "'"+ roles.get(i).getRoleId() + "'";
-            }
+            }*/
             return roleMenuMapper.getRoleMenus(currentRoleIds ,roleId);
         }
     }

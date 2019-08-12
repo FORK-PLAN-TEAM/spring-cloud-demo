@@ -5,10 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
@@ -17,6 +14,21 @@ public class LambdaTest {
 
     @Test
     public void contextLoads() {
+    }
+
+    /**
+     * 把List中的项生成字符串，以逗号拼接
+     */
+    @Test
+    public void testJoinDouhao(){
+        List<String> roles = new ArrayList<>();
+        roles.add("1");
+        roles.add("2");
+        roles.add("3");
+        roles.add("4");
+
+        String result= roles.stream().collect(Collectors.joining(","));
+        System.out.println(result);
     }
 
     @Test
