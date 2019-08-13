@@ -87,6 +87,10 @@ public class ZySysUser implements Serializable {
     @TableField(exist = false)
     private long loginTime;
 
+    @ApiModelProperty(value = "登录平台：Pc、Wx、App")
+    @TableField(exist = false)
+    private String loginPlatform;
+
     @ApiModelProperty(value = "用户拥有的角色Ids集合")
     @TableField(exist = false)
     private String roleIds;

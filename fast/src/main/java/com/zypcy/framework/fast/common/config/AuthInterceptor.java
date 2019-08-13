@@ -43,6 +43,8 @@ public class AuthInterceptor implements HandlerInterceptor {
                     flag = true;
                     ContextHolder.setUserInfo(userInfo);
                     return true;
+                }else {
+                    UserLoginCache.removeLoginInfo(token);
                 }
             }
         }

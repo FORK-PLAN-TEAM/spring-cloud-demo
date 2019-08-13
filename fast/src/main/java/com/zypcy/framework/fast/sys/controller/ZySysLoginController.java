@@ -25,11 +25,11 @@ public class ZySysLoginController {
 
     @ApiOperation(value = "登录接口，用户名和密码请用base64加密后传入，成功返回token"  , notes = "api接口", httpMethod = "POST")
     @RequestMapping(value = "/login" , method = RequestMethod.POST)
-    public ResponseModel login(@ApiParam(name = "用户名") String userAccount ,@ApiParam(name = "密码") String userPwd){
+    public ResponseModel login(@ApiParam(name = "登录平台：Pc、Wx、App") String platform , @ApiParam(name = "用户名") String userAccount ,@ApiParam(name = "密码") String userPwd){
         if(StringUtils.isEmpty(userAccount) || StringUtils.isEmpty(userPwd)){
             throw new BusinessException("请传入用户名或密码");
         }
-        return loginService.login(Base64.decodeStr(userAccount) , Base64.decodeStr(userPwd));
+        return loginService.login(platform , Base64.decodeStr(userAccount) , Base64.decodeStr(userPwd));
     }
 
 }

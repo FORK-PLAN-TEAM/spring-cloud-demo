@@ -27,12 +27,13 @@ public class ZySysLoginServiceImpl implements IZySysLoginService {
 
     /**
      * 用户登录
+     * @param platform 登录平台：Pc、Wx、App
      * @param userAccount 登录帐号
      * @param userPwd 登录密码
      * @return
      */
     @Override
-    public ResponseModel login(String userAccount, String userPwd) {
+    public ResponseModel login(String platform , String userAccount, String userPwd) {
         ResponseModel model = ResponseModel.failInstance();
         if(StringUtils.isEmpty(userAccount) || StringUtils.isEmpty(userPwd)){
             model.setResultMessage("请输入登录帐号或密码");
@@ -54,6 +55,7 @@ public class ZySysLoginServiceImpl implements IZySysLoginService {
             String salt = sysUser.getSalt();
             if(dbPwd.equals(SecureUtil.md5(userPwd + salt))){
                 sysUser.setLoginTime(System.currentTimeMillis());
+                sysUser.setLoginPlatform(platform);
                 String token = IdUtil.simpleUUID();
                 updateLoginIInfo(token , sysUser);
                 model.setResultCode(ResultEnum.SUCCESS.getResultCode());

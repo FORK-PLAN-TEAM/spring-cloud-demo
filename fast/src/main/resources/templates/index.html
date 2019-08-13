@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>首页</title>
+    <title>ZyAdmin管理系统</title>
     <meta content="ZyAdmin、后台管理框架、大数据、app" name="description"/>
     <meta content="ZyAdmin" name="author"/>
     <meta name="keywords" content="ZyAdmin 后台管理框架 大数据 app"/>
@@ -79,7 +79,7 @@
                 //发起请求
                 new AjaxRequest({
                     type: "POST",
-                    url: webroot + "sys/login/login?userAccount=" + userAccount + "&userPwd=" + userPwd,
+                    url: webroot + "sys/login/login?platform=Pc&userAccount=" + userAccount + "&userPwd=" + userPwd,
                     isShowLoader: true,
                     success: function (res) {
                         console.log(res);

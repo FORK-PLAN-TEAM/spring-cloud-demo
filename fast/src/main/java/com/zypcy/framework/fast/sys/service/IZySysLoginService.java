@@ -10,10 +10,11 @@ public interface IZySysLoginService {
 
     /**
      * 用户登录
+     * @param platform 登录平台：Pc、Wx、App
      * @param userAccount 登录帐号
      * @param userPwd 登录密码
      * @return
      */
-    ResponseModel login(String userAccount , String userPwd);
+    ResponseModel login(String platform ,String userAccount , String userPwd);
 
 }

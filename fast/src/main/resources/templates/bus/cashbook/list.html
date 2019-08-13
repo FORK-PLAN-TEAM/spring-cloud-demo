@@ -22,6 +22,7 @@
                                     <option value="">所有</option>
                                     <option value="0">支出</option>
                                     <option value="1">收入</option>
+                                    <option value="2">笔记</option>
                                 </select>
                             </div>
                         </div>
@@ -87,7 +88,14 @@
                 type: 'checkbox', minWidth: 50 , style : "min-width: 50px;"
             }, {
                 field: 'cashType', title: '账目类型', width: 100, align: 'center', templet: function (d) {
-                    return d.cashType == "0" ? "支出" : "收入";
+                    //0:支出，1:收入，2:笔记
+                    if(d.cashType == "0"){
+                        return "支出";
+                    }else if(d.cashType == "1"){
+                        return "收入";
+                    }else if(d.cashType == "2"){
+                        return "笔记";
+                    }
                 }
             }, {
                 field: 'recordTime', title: '入账时间', width: 150, align: 'center', templet: function (d) {

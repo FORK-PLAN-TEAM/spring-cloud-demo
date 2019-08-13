@@ -16,6 +16,18 @@ public class LambdaTest {
     public void contextLoads() {
     }
 
+    @Test
+    public void testHashMap(){
+        HashMap<String , String> userMap = new HashMap<>();
+        userMap.put("name" , "zhuyu");
+        userMap.put("name" , "zhangsan");
+        System.out.println(userMap.get("name"));
+
+        userMap.remove("name");
+
+        System.out.println(userMap.get("name"));
+    }
+
     /**
      * 把List中的项生成字符串，以逗号拼接
      */

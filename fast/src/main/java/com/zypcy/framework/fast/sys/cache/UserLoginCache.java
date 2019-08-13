@@ -8,6 +8,7 @@ import com.zypcy.framework.fast.sys.dto.ZySysLoginInfo;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 根据配置文件中的配置，存储登录会话信息
@@ -21,8 +22,19 @@ public class UserLoginCache {
     /**
      * 本地内存缓存
      */
-    private static HashMap<String , ZySysLoginInfo> userMap = new HashMap<>();
+    private static Map<String , ZySysLoginInfo> userMap = new HashMap<>();
 
+    /**
+     * 获取所有登录信息
+     * @return
+     */
+    public static Map<String , ZySysLoginInfo> getAllUserInfo(){
+        if(InitLoaderConstant.SessionStickType.equals("local")){
+            return userMap;
+        }else {
+            return RedisUtil.Hash.getAll(ZySysLoginInfo.class , KeyConstant.Sys_Token);
+        }
+    }
 
     /**
      * 存储用户登录
@@ -55,5 +67,22 @@ public class UserLoginCache {
             }
         }
         return userInfo;
+    }
+
+    /**
+     * 清除登录信息
+     * @param token
+     */
+    public static void removeLoginInfo(String token){
+        try {
+            if (InitLoaderConstant.SessionStickType.equals("local")) {
+                String key = KeyConstant.Sys_Token + token;
+                userMap.remove(key);
+            } else {
+                RedisUtil.Hash.del(KeyConstant.Sys_Token, token);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
