@@ -24,6 +24,10 @@ public class RedisUtil {
     //private Sets SET = new Sets();
     //private SortSet SORTSET = new SortSet();
 
+    public static StringRedisTemplate getRedisTemplate(){
+        return redisTemplate;
+    }
+
     public static class Strings {
 
         /**
@@ -195,10 +199,10 @@ public class RedisUtil {
         public static <T> List<T> multiSet(Class<T> clazz, List<String> keys) {
             List<String> list = redisTemplate.opsForValue().multiGet(keys);
             List<T> newList = new ArrayList<T>();
+            //Type type = new TypeToken<List<T>>(){}.getType();
             for (String s : list) {
                 if (s != null && !s.isEmpty()) {
-                    Type type = new TypeToken<List<T>>(){}.getType();
-                    newList.add((T) JSON.parseObject(s, type));
+                    newList.add(JSON.parseObject(s, clazz));
                 }
                 else {
                     newList.add(null);
@@ -546,7 +550,7 @@ public class RedisUtil {
          * @param fieid 要删除的HashKey
          * @return 成功返回true，否则返回false
          */
-        public static boolean del(String key, String fieid) {
+        public static boolean del(String key, Object fieid) {
             long s = redisTemplate.opsForHash().delete(key , fieid);
             return s == 1;
         }
@@ -557,9 +561,9 @@ public class RedisUtil {
          * @param fieids 要删除的HashKey的数组
          * @return 成功返回true，否则返回false
          */
-        public static boolean del(String key, String[] fieids) {
+        public static boolean del(String key, Object[] fieids) {
             long s = 0;
-            for (String fieid : fieids) {
+            for (Object fieid : fieids) {
                 long f = redisTemplate.opsForHash().delete(key , fieid);
                 s += f;
             }
@@ -598,11 +602,11 @@ public class RedisUtil {
          * @param fieid 存储的HashKey
          * @return 存储对应的值
          */
-        public static <T> List<T> get(Class<T> clazz, String key, String fieid) {
+        public static <T> T get(Class<T> clazz, String key, String fieid) {
             String s = get(key, fieid);
             if (s != null && !s.isEmpty()){
-                Type type = new TypeToken<List<T>>(){}.getType();
-                return JSON.parseObject(s, type);
+                //Type type = new TypeToken<List<T>>(){}.getType();
+                return JSON.parseObject(s, clazz);
             }
             else{
                 return null;
@@ -628,13 +632,12 @@ public class RedisUtil {
         public static <T> Map<String, T> getAll(Class<T> clazz, String key) {
             Map<Object,Object> map = getAll(key);
             Map<String, T> newMap = new HashMap<String, T>();
-            Iterator<Map.Entry<Object,Object>> iter = map.entrySet().iterator();
-            while (iter.hasNext()) {
-                Map.Entry entry = (Map.Entry) iter.next();
+            Iterator<Map.Entry<Object,Object>> iterator = map.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry entry = iterator.next();
                 String field = (String) entry.getKey();
                 String val = (String) entry.getValue();
-                Type type = new TypeToken<Map<String , T>>(){}.getType();
-                newMap.put(field, (T) JSON.parseObject(val, type));
+                newMap.put(field, JSON.parseObject(val , clazz));
             }
             return newMap;
         }
@@ -701,10 +704,10 @@ public class RedisUtil {
         public static <T> List<T> values(Class<T> clazz, String key) {
             List<Object> list = values(key);
             List<T> newList = new ArrayList<T>();
-            Type type = new TypeToken<List<T>>(){}.getType();
+            //Type type = new TypeToken<T>(){}.getType();
             for (Object s : list) {
                 if (s != null) {
-                    newList.add((T) JSON.parseObject(s.toString(), type));
+                    newList.add(JSON.parseObject(s.toString(), clazz));
                 }
             }
             return newList;
@@ -755,8 +758,8 @@ public class RedisUtil {
          * @param fieids 存储位置
          * @return 指定fieids的所有值列表
          */
-        public static List<Object> multiGet(String key, List<String> fieids) {
-            return redisTemplate.opsForHash().multiGet(key , Arrays.asList(fieids));
+        public static List<Object> multiGet(String key, List<Object> fieids) {
+            return redisTemplate.opsForHash().multiGet(key , fieids);
         }
 
         /**
@@ -769,12 +772,11 @@ public class RedisUtil {
         public static <T> List<T> multiGet(Class<T> clazz, String key, String fieids) {
             List<Object> list = multiGet(key, fieids);
             List<T> newList = new ArrayList<T>();
-            Type type = new TypeToken<List<T>>(){}.getType();
+            //Type type = new TypeToken<List<T>>(){}.getType();
             for (Object s : list) {
-                if (s == null)
-                    newList.add(null);
-                else
-                    newList.add((T) JSON.parseObject(s.toString(), type));
+                if (s != null) {
+                    newList.add(JSON.parseObject(s.toString(), clazz));
+                }
             }
             return newList;
         }
@@ -786,15 +788,14 @@ public class RedisUtil {
          * @param fields 存储位置
          * @return 指定fieids的所有值列表
          */
-        public static <T> List<T> multiGet(Class<T> clazz, String key, List<String> fields) {
+        public static <T> List<T> multiGet(Class<T> clazz, String key, List<Object> fields) {
             List<Object> list = multiGet(key, fields);
             List<T> newList = new ArrayList<T>();
-            Type type = new TypeToken<List<T>>(){}.getType();
+            //Type type = new TypeToken<List<T>>(){}.getType();
             for (Object s : list) {
-                if (s == null)
-                    newList.add(null);
-                else
-                    newList.add((T) JSON.parseObject(s.toString(), type));
+                if (s != null) {
+                    newList.add(JSON.parseObject(s.toString(), clazz));
+                }
             }
             return newList;
         }
@@ -887,9 +888,9 @@ public class RedisUtil {
         public static <T> Set<T> difference(Class<T> clazz, String key1 , String key2) {
             Set<String> set = difference(key1 , key2);
             Set<T> newSet = new HashSet<T>();
-            Type type = new TypeToken<Set<T>>(){}.getType();
+            //Type type = new TypeToken<Set<T>>(){}.getType();
             for (String s : set)
-                newSet.add((T) JSON.parseObject(s, type));
+                newSet.add(JSON.parseObject(s, clazz));
 
             return newSet;
         }
@@ -915,9 +916,9 @@ public class RedisUtil {
         public static <T> Set<T> diff(Class<T> clazz, String key , List<String> list) {
             Set<String> set = difference(key , list);
             Set<T> newSet = new HashSet<T>();
-            Type type = new TypeToken<Set<T>>(){}.getType();
+            //Type type = new TypeToken<Set<T>>(){}.getType();
             for (String s : set)
-                newSet.add((T) JSON.parseObject(s, type));
+                newSet.add(JSON.parseObject(s, clazz));
 
             return newSet;
         }
@@ -943,10 +944,10 @@ public class RedisUtil {
         public static <T> Set<T> inter(Class<T> clazz, String key1 , String key2) {
             Set<String> set = intersect(key1 , key2);
             Set<T> newSet = new HashSet<T>();
-            Type type = new TypeToken<Set<T>>(){}.getType();
+            //Type type = new TypeToken<Set<T>>(){}.getType();
             for (String s : set) {
                 if (s != null && !s.isEmpty())
-                    newSet.add((T) JSON.parseObject(s, type));
+                    newSet.add(JSON.parseObject(s, clazz));
             }
             return newSet;
         }
@@ -971,10 +972,10 @@ public class RedisUtil {
         public static <T> Set<T> inter(Class<T> clazz, String key ,List<String> list) {
             Set<String> set = intersect(key , list);
             Set<T> newSet = new HashSet<T>();
-            Type type = new TypeToken<Set<T>>(){}.getType();
+            //Type type = new TypeToken<Set<T>>(){}.getType();
             for (String s : set) {
                 if (s != null && !s.isEmpty())
-                    newSet.add((T) JSON.parseObject(s, type));
+                    newSet.add(JSON.parseObject(s, clazz));
             }
             return newSet;
         }
@@ -1090,10 +1091,10 @@ public class RedisUtil {
         public static <T> Set<T> union(Class<T> clazz, String key ,String... keys) {
             Set<String> set = redisTemplate.opsForSet().union(key , Arrays.asList(keys));
             Set<T> newSet = new HashSet<T>();
-            Type type = new TypeToken<Set<T>>(){}.getType();
+            //Type type = new TypeToken<Set<T>>(){}.getType();
             for (String s : set) {
                 if (s != null && !s.isEmpty())
-                    newSet.add((T) JSON.parseObject(s, type));
+                    newSet.add(JSON.parseObject(s, clazz));
             }
             return newSet;
         }
@@ -1120,10 +1121,10 @@ public class RedisUtil {
         public static <T> Set<T> union(Class<T> clazz, String key ,List<String> list) {
             Set<String> set = union(key , list);
             Set<T> newSet = new HashSet<T>();
-            Type type = new TypeToken<Set<T>>(){}.getType();
+            //Type type = new TypeToken<Set<T>>(){}.getType();
             for (String s : set) {
                 if (s != null && !s.isEmpty())
-                    newSet.add((T) JSON.parseObject(s, type));
+                    newSet.add(JSON.parseObject(s, clazz));
             }
             return newSet;
         }
@@ -1256,10 +1257,10 @@ public class RedisUtil {
 
             Set<String> set = rangeByScore(key, min, max);
             Set<T> newSet = new HashSet<T>();
-            Type type = new TypeToken<Set<T>>(){}.getType();
+            //Type type = new TypeToken<Set<T>>(){}.getType();
             for (String s : set) {
                 if (s != null && !s.isEmpty())
-                    newSet.add((T) JSON.parseObject(s,  type));
+                    newSet.add(JSON.parseObject(s,  clazz));
             }
             return newSet;
         }
@@ -1481,10 +1482,10 @@ public class RedisUtil {
         public static <T> List<T> sort(Class<T> clazz, String key) {
             List<String> list = sort(key);
             List<T> newList = new ArrayList<T>();
-            Type type = new TypeToken<List<T>>(){}.getType();
+            //Type type = new TypeToken<List<T>>(){}.getType();
             for (String s : list) {
                 if (s != null && !s.isEmpty())
-                    newList.add((T) JSON.parseObject(s, type));
+                    newList.add(JSON.parseObject(s, clazz));
             }
 
             return newList;
@@ -1541,6 +1542,14 @@ public class RedisUtil {
         public static Set<String> keys(String pattern) {
             Set<String> set = redisTemplate.keys(pattern);
             return set;
+        }
+
+        /**
+         * 获取所有key的数量
+         * @return
+         */
+        public static int countKeys(){
+            return redisTemplate.keys("*").size();
         }
     }
 }

@@ -38,12 +38,14 @@
                             <tr>
                                 <th style="text-align: center;">收入</th>
                                 <th style="text-align: center;">支出</th>
+                                <th style="text-align: center;">结余</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td align="center" id="shouru">0</td>
                                 <td align="center" id="zhichu">0</td>
+                                <td align="center" id="jieyu">0</td>
                             </tr>
                         </tbody>
                     </table>
@@ -100,9 +102,9 @@
             isShowLoader: true,
             success: function (res) {
                 if (res.resultCode == "0000" && res.resultObj) {
-                    console.log(res);
                     $("#shouru").text(res.resultObj.shouru);
                     $("#zhichu").text(res.resultObj.zhichu);
+                    $("#jieyu").text(res.resultObj.shouru - res.resultObj.zhichu);
                 } else {
                     layer.alert(res.resultMessage, {icon: 2})
                 }

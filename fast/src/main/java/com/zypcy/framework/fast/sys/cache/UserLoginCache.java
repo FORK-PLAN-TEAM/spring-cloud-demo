@@ -76,8 +76,7 @@ public class UserLoginCache {
     public static void removeLoginInfo(String token){
         try {
             if (InitLoaderConstant.SessionStickType.equals("local")) {
-                String key = KeyConstant.Sys_Token + token;
-                userMap.remove(key);
+                userMap.remove(token);
             } else {
                 RedisUtil.Hash.del(KeyConstant.Sys_Token, token);
             }

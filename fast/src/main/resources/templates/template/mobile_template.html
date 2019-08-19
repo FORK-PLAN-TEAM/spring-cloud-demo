@@ -3,45 +3,55 @@
     <meta content="ZyAdmin、wx端、ZyAdmin微信端、大数据、app" name="description"/>
     <meta content="ZyAdmin" name="author"/>
     <meta name="keywords" content="ZyAdmin ZyAdmin微信端 大数据 app" />
-    <meta name="renderer" content="webkit|ie-comp|ie-stand">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
-    <link rel="stylesheet" th:href="@{/weui/weui.min.css}">
-    <link rel="stylesheet" th:href="@{/weui/wx_index.css}">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <link rel="stylesheet" th:href="${StaticResourcePath}+@{'weuix/css/weui.css'}">
+    <link rel="stylesheet" th:href="${StaticResourcePath}+@{'weuix/css/weuix.css'}">
+    <link rel="stylesheet" th:href="@{/weuix/css/wx_index.css}">
 </div>
 
 <div th:fragment="footer">
-    <script type="text/javascript" th:src="@{/weui/zepto.min.js}"></script>
-    <script type="text/javascript" th:src="@{/weui/weui.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/base64.js}"></script>
+    <script type="text/javascript" th:src="${StaticResourcePath}+@{'weuix/js/zepto.min.js'}"></script>
+    <script type="text/javascript" th:src="${StaticResourcePath}+@{'weuix/js/zepto.weui.js'}"></script>
+    <script type="text/javascript" th:src="${StaticResourcePath}+@{'weuix/js/swipe.js'}"></script>
+    <script type="text/javascript" th:src="${StaticResourcePath}+@{'js/base64.js'}"></script>
     <script type="text/javascript" th:src="@{/js/common.js}"></script>
+</div>
 
+
+<div th:fragment="footer_company">
+    <div class="weui-footer" style="margin-top: 25px;margin-bottom: 60px;">
+        <p class="weui-footer__links">
+            <a href="javascript:void(0);" class="weui-footer__link">朱宇</a>
+            <a href="javascript:void(0);" class="weui-footer__link">修能信息</a>
+        </p>
+        <p class="weui-footer__text">Copyright © 2016-2019 QQ：645906265</p>
+    </div>
 </div>
 
 <div th:fragment="footer_menu">
-    <div id="footer_menu" class="weui-tabbar">
+
+    <div id="footer_menu" class="weui-tabbar tab-bottom">
         <a href="/wx/index" class="weui-tabbar__item weui-bar__item_on">
-                    <span style="display: inline-block;position: relative;">
-                        <img src="/weui/images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
-                        <!--<span class="weui-badge" style="position: absolute;top: -2px;right: -13px;">8</span>-->
-                    </span>
+            <i class="icon icon-27 f27 weui-tabbar__icon"></i>
             <p class="weui-tabbar__label">首页</p>
         </a>
         <a href="/wx/index/xn" class="weui-tabbar__item">
-            <img src="/weui/images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
+            <i class="icon icon-28 f27 weui-tabbar__icon"></i>
             <p class="weui-tabbar__label">修能</p>
         </a>
-        <a href="/wx/index/fx" class="weui-tabbar__item">
+        <a href="/wx/index/jz" class="weui-tabbar__item">
                     <span style="display: inline-block;position: relative;">
-                        <img src="/weui/images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
+                        <i class="icon icon-29 f27 weui-tabbar__icon"></i>
                         <span class="weui-badge weui-badge_dot" style="position: absolute;top: 0;right: -6px;"></span>
                     </span>
-            <p class="weui-tabbar__label">发现</p>
+            <p class="weui-tabbar__label">记账</p>
         </a>
         <a href="/wx/index/my" class="weui-tabbar__item">
-            <img src="/weui/images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
-            <p class="weui-tabbar__label">我</p>
+            <i class="icon icon-30 f27 weui-tabbar__icon"></i>
+            <p class="weui-tabbar__label f-green">我</p>
         </a>
     </div>
+
 </div>
 

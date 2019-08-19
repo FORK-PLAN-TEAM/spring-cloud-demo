@@ -5,8 +5,13 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.reflect.TypeToken;
 import com.zypcy.framework.fast.common.response.PageModel;
 import com.zypcy.framework.fast.common.util.LogUtil;
+import com.zypcy.framework.fast.common.util.RedisUtil;
+import com.zypcy.framework.fast.sys.cache.DictCache;
+import com.zypcy.framework.fast.sys.constant.KeyConstant;
+import com.zypcy.framework.fast.sys.entity.ZySysDict;
 import com.zypcy.framework.fast.sys.entity.ZySysMenu;
 import com.zypcy.framework.fast.sys.entity.ZySysRoleMenu;
 import com.zypcy.framework.fast.sys.service.IZySysMenuService;
@@ -15,7 +20,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.StringUtils;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -131,5 +138,27 @@ public class FastApplicationTests {
         //long i = lists.parallelStream().filter( item -> "green".equals(item.getMenuId())).count();
         //lists.parallelStream().filter( item -> "zhuyu".equals(item.getMenuId())).collect(Collectors.toList());
         //System.out.println("i:" + i + " , time:" + (System.currentTimeMillis() - d1));
+    }
+
+    @Test
+    public void testRedisHash(){
+        //List<ZySysDict> dicts = DictCache.getDictsByPId("649036610398617600");
+        //System.out.println(dicts);
+        //RedisUtil.Hash.put(KeyConstant.Dict_Info , "666587637553332224" , "红包");
+        //RedisUtil.Hash.put(KeyConstant.Dict_Info , "666587637553332224" , "购物");
+//        String str = RedisUtil.Hash.get(KeyConstant.Dict_Parent_Info , "1");
+//        Type type = new TypeToken<List<String>>(){}.getType();
+//        List<String> ids = new ArrayList<>();
+//        if(!StringUtils.isEmpty(str)){
+//            ids = JSON.parseObject(str , type);
+//        }
+//        ids.add("2");
+//        RedisUtil.Hash.put(KeyConstant.Dict_Parent_Info , "1" , ids);
+//
+//        str = RedisUtil.Hash.get(KeyConstant.Dict_Parent_Info , "1");
+//        List<String> ids2 = JSON.parseObject(str , type);
+//        ids2.add("3");
+//
+//        RedisUtil.Hash.put(KeyConstant.Dict_Parent_Info , "1" , ids2);
     }
 }

@@ -8,7 +8,6 @@ function getById(id) {
 
 //是否是string类型
 function isString(s) {
-
     return typeof( s ) == "string";
 };
 
@@ -149,6 +148,13 @@ function setCookie(key, value) {
     var cookie = key + "=" + encodeURIComponent(value) + "; expires=" + exp.toUTCString() + "; path=/";
     window.document.cookie = cookie;
 }
+//过期时间，以小时为单位
+function setCookie(key, value , time) {
+    var exp = new Date();
+    exp.setTime(exp.getTime() + (1000 * 60 * 60 * time)); // 过期时间time小时
+    var cookie = key + "=" + encodeURIComponent(value) + "; expires=" + exp.toUTCString() + "; path=/";
+    window.document.cookie = cookie;
+}
 
 function getCookie(key) {
     var idx = document.cookie.indexOf(key + "=");
@@ -193,15 +199,15 @@ function zy(opts) {
 
 
 /**
- * select 标签生成，根据type获取数据字典
- * @param type           字典type
+ * select 标签生成，根据parentId获取数据字典
+ * @param parentId       字典parentId
  * @param selectElemId   select标签的Id
  * @param dictId         可选填，业务保存字典的值，用来反选，
  */
-function getDictByType(type , selectElemId , dictId) {
+function getDictByPId(parentId , selectElemId , dictId) {
     new AjaxRequest({
         type: "GET",
-        url: webroot + "sys/dict/getByType?type=" + type,
+        url: webroot + "sys/dict/getByParentId?parentId=" + parentId,
         isShowLoader: true,
         success: function (res) {
             console.log(res);
@@ -225,3 +231,57 @@ function getDictByType(type , selectElemId , dictId) {
         }
     });
 }
+
+
+/**
+ * 微信端登录页
+ */
+function wxlogin(okCallBack) {
+    $.login({
+        title: 'ZyAdmin',
+        text: '请登录后查看',
+        username: '',  // 默认用户名
+        password: '',  // 默认密码
+        onOK: function (username, password) {
+            //点击确认，登录
+            if(username == ""){
+                return false;
+            }
+            if(password == ""){
+                return false;
+            }
+            $.showLoading("正在登录");
+
+            var userAccount = Base64.encode(username);
+            var userPwd = Base64.encode(password);
+            //发起请求
+            new AjaxRequest({
+                type: "POST",
+                url: webroot + "sys/login/login?platform=Wx&userAccount=" + userAccount + "&userPwd=" + userPwd,
+                isShowLoader: false,
+                success: function (res) {
+                    $.hideLoading();
+                    console.log(res);
+                    if (res) {
+                        if (res.resultCode == "0000" && res.resultObj != "") {
+                            delCookie("token")
+                            setCookie("token", res.resultObj , 24 * 30);//token 存储30天
+                            //window.location.href = "/sys/main";
+                            $.closeModal();
+                            if(okCallBack){
+                                return okCallBack();
+                            }
+                        } else {
+                            $.toast(res.resultMessage, "cancel");
+                            wxlogin();
+                        }
+                    }
+                }
+            });
+        },
+        onCancel: function () {
+            wxlogin();
+        }
+    });
+}
+

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zypcy.framework.fast.common.error.BusinessException;
 import com.zypcy.framework.fast.common.util.IdWorker;
 import com.zypcy.framework.fast.common.util.LogUtil;
+import com.zypcy.framework.fast.sys.cache.DictCache;
 import com.zypcy.framework.fast.sys.dto.ZySysTree;
 import com.zypcy.framework.fast.sys.entity.ZySysDict;
 import com.zypcy.framework.fast.sys.entity.ZySysOrganization;
@@ -30,6 +31,9 @@ import java.util.List;
  * 数据字典 前端控制器
  * </p>
  *
+ *  getByParentId ，根据父级Id查询数据字典，只查询直属下级
+ *  getByType ， 根据type查询数据字典，会查询所有下级
+ *
  * @author zhuyu
  * @since 2019-06-14
  */
@@ -52,7 +56,7 @@ public class ZySysDictController {
     public ModelAndView edit(@ApiParam(value = "数据字典Id",required=true)String id , ModelMap map){
         ZySysDict dict = new ZySysDict();
         if(!StringUtils.isEmpty(id)){
-            dict = dictService.getById(id);
+            dict = DictCache.getDictById(id);//dictService.getById(id);
         }
         map.addAttribute("dict" , dict);
         return new ModelAndView("sys/dict_edit");
@@ -68,30 +72,32 @@ public class ZySysDictController {
     @ApiOperation(value = "根据Id获取字典信息"  , notes = "api接口", httpMethod = "GET")
     @GetMapping(value = "/getById")
     public ZySysDict getById(@ApiParam(value = "数据字典Id",required=true)String id){
-        return dictService.getById(id);
+        //return dictService.getById(id);
+        return DictCache.getDictById(id);
     }
 
-    @ApiOperation(value = "根据ParentId获取字典信息"  , notes = "api接口", httpMethod = "GET")
+    @ApiOperation(value = "根据ParentId获取字典信息，只获取下级字典"  , notes = "api接口", httpMethod = "GET")
     @GetMapping(value = "/getByParentId")
     public List<ZySysDict> getByParentId(@ApiParam(value = "数据字典ParentId",required=true)String parentId){
         if(StringUtils.isEmpty(parentId)){
             throw new BusinessException("请传入parentId");
         }
-        return dictService.getByParentId(parentId);
+        //return dictService.getByParentId(parentId);
+        return DictCache.getDictsByPId(parentId);
     }
 
-    @ApiOperation(value = "根据Type获取字典信息"  , notes = "api接口", httpMethod = "GET")
+    @ApiOperation(value = "根据Type获取字典信息，能获取多级字典"  , notes = "api接口", httpMethod = "GET")
     @GetMapping(value = "/getByType")
     public List<ZySysDict> getByType(@ApiParam(value = "数据字典type",required=true)String type){
         if(StringUtils.isEmpty(type)){
             throw new BusinessException("请传入type");
         }
         //根据type获取数据字典会把所有字典都取出来，因此过滤掉自己
-        List<ZySysDict> dicts = dictService.getByType(type);
-        if(dicts.size() > 0){
-            dicts.remove(0);
-        }
-        return dicts;
+        //List<ZySysDict> dicts = dictService.getByType(type);
+        //if(dicts.size() > 0){
+        //    dicts.remove(0);
+        //}
+        return dictService.getByType(type);
     }
 
     @ApiOperation(value = "获取数据字典列表" , notes = "api接口", httpMethod = "GET")
@@ -122,6 +128,9 @@ public class ZySysDictController {
         dict.setCreateTime(LocalDateTime.now());
         dict.setUpdateTime(LocalDateTime.now());
         dictService.save(dict);
+
+        //加入到缓存
+        DictCache.addDict(dict);
         return id;
     }
 
@@ -132,6 +141,10 @@ public class ZySysDictController {
             throw new BusinessException("请传入正确参数");
         }
         dict.setUpdateTime(LocalDateTime.now());
+
+        //更新缓存
+        DictCache.updateDict(dict);
+
         return dictService.updateById(dict);
     }
 
@@ -142,6 +155,7 @@ public class ZySysDictController {
         if(StringUtils.isEmpty(id)){
             throw new BusinessException("请传入数据字典Id");
         }
+        //通过type删除所有
         //先删除下级，再删除本级
         ZySysDict childDict = new ZySysDict();
         childDict.setParentId(id);
@@ -151,6 +165,10 @@ public class ZySysDictController {
         }
         ZySysDict dict = dictService.getById(id);
         dict.setIsdel(true);
+
+        //删除缓存
+        DictCache.delDictById(id);
+
         return dictService.updateById(dict);
     }
 

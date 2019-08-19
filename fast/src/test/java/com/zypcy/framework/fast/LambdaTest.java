@@ -3,6 +3,7 @@ package com.zypcy.framework.fast;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
@@ -16,11 +17,42 @@ public class LambdaTest {
     public void contextLoads() {
     }
 
+
     @Test
-    public void testHashMap(){
-        HashMap<String , String> userMap = new HashMap<>();
-        userMap.put("name" , "zhuyu");
-        userMap.put("name" , "zhangsan");
+    public void testAsync() {
+
+        long d1 = System.currentTimeMillis();
+
+        async();
+
+        f();
+
+        System.out.println(System.currentTimeMillis() - d1);
+    }
+
+    public void f(){
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i < 1000 ; i++){
+            String s = i+",";
+            sb.append(s);
+        }
+        System.out.println(sb.toString());
+    }
+
+    @Async
+    public void async() {
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {
+
+        }
+    }
+
+    @Test
+    public void testHashMap() {
+        HashMap<String, String> userMap = new HashMap<>();
+        userMap.put("name", "zhuyu");
+        userMap.put("name", "zhangsan");
         System.out.println(userMap.get("name"));
 
         userMap.remove("name");
@@ -32,19 +64,19 @@ public class LambdaTest {
      * 把List中的项生成字符串，以逗号拼接
      */
     @Test
-    public void testJoinDouhao(){
+    public void testJoinDouhao() {
         List<String> roles = new ArrayList<>();
         roles.add("1");
         roles.add("2");
         roles.add("3");
         roles.add("4");
 
-        String result= roles.stream().collect(Collectors.joining(","));
+        String result = roles.stream().collect(Collectors.joining(","));
         System.out.println(result);
     }
 
     @Test
-    public void testLambda(){
+    public void testLambda() {
         List<Transaction> transactions = initData();
         //1.找出2011年发生的所有交易，并按交易额排序，由低到高
         //List<Transaction> transactions1 = transactions.stream().filter( t -> t.getYear() == 2011).sorted(Comparator.comparing(Transaction :: getValue)).collect(Collectors.toList());
@@ -68,19 +100,19 @@ public class LambdaTest {
         //System.out.println("transaction8:"+transaction8.get().toString());
     }
 
-    private List<Transaction> initData(){
-        Trader raoul = new Trader("Raoul" , "cambridge");
-        Trader mario = new Trader("Mario" , "milan");
-        Trader alan = new Trader("Alan" , "cambridge");
-        Trader brian = new Trader("Brian" , "cambridge");
+    private List<Transaction> initData() {
+        Trader raoul = new Trader("Raoul", "cambridge");
+        Trader mario = new Trader("Mario", "milan");
+        Trader alan = new Trader("Alan", "cambridge");
+        Trader brian = new Trader("Brian", "cambridge");
 
         List<Transaction> transactions = Arrays.asList(
-                new Transaction(brian , 2011 , 300),
-                new Transaction(raoul , 2012 , 1000),
-                new Transaction(raoul , 2011 , 400),
-                new Transaction(mario , 2012 , 710),
-                new Transaction(mario , 2012 , 700),
-                new Transaction(alan , 2012 , 950)
+                new Transaction(brian, 2011, 300),
+                new Transaction(raoul, 2012, 1000),
+                new Transaction(raoul, 2011, 400),
+                new Transaction(mario, 2012, 710),
+                new Transaction(mario, 2012, 700),
+                new Transaction(alan, 2012, 950)
         );
         return transactions;
     }
@@ -88,7 +120,10 @@ public class LambdaTest {
     public class Trader {
         private String name;
         private String city;
-        public Trader(){}
+
+        public Trader() {
+        }
+
         public Trader(String name, String city) {
             this.name = name;
             this.city = city;
@@ -119,11 +154,14 @@ public class LambdaTest {
         }
     }
 
-    public class Transaction{
+    public class Transaction {
         private Trader trader;
         private int year;
         private int value;
-        public Transaction(){}
+
+        public Transaction() {
+        }
+
         public Transaction(Trader trader, int year, int value) {
             this.trader = trader;
             this.year = year;

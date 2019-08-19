@@ -5,24 +5,71 @@
     <title>ZyAdmin-我</title>
     <link th:replace="template/mobile_template :: header"/>
 </head>
-<body>
-<div style="height: 100%;position: absolute;top: 0;right: 0;bottom: 0;left: 0;">
-    <div class="weui-tab">
-        <div class="weui-tab__panel">
-            <!-- 内容区域 -->
-            我-开发中...
-
+<body style="background: #eee;">
+<div class="weui-tab">
+    <div class="container" style="margin-bottom: 50px;">
+        <div class="weui-header bg-blue">
+            <div class="weui-header-left"> <a class="icon icon-109 f-white"></a>  </div>
+            <h1 class="weui-header-title">ZyAdmin</h1>
+            <div class="weui-header-right"><a class="icon icon-22 f-white"></a></div>
         </div>
-        <!-- 底部菜单 -->
-        <div th:replace="template/mobile_template :: footer_menu"></div>
+        <div class="my_top">
+            <div class="my_top_head"><img src="/images/head.jpg"></div>
+            <div>
+                <span class="my_top_title">刘德华</span>
+                <span class="my_top_remark">WeUI由微信官方设计团队为微信内网页和微信小程序量身设计，令用户的使用感知更加统一</span>
+            </div>
+            <!--<div class="weui-avatar-circle">
+                <img src="/images/head.jpg">
+                <span class="weui-icon-success weui-icon-safe-warn"></span>
+            </div>-->
+        </div>
+        <ul class="my_list_ui">
+            <li><a href="#"><span class="float_lf">我的信息</span> <i class="float_rt icon icon-108"></i><span class="float_rt">查看更多</span></a></li>
+        </ul>
+
+        <ul class="my_gridbox_ui">
+            <li><a href="#"><i class="icon icon-1 fontsize28"></i><span>待付款</span></a></li>
+            <li><a href="#"><i class="icon icon-2 fontsize28"></i><span>待确认</span></a></li>
+            <li><a href="#"><i class="icon icon-11 fontsize28"></i><span>待出团</span></a></li>
+            <li><a href="#"><i class="icon icon-14 fontsize28"></i><span>待评价</span></a></li>
+        </ul>
+
+        <ul class="my_list_ui">
+            <li><a href="#"><i class="float_lf icon icon-5"></i><span class="float_lf">我的收藏</span> </a></li>
+            <li><a href="#"><i class="float_lf icon icon-48"></i><span class="float_lf">我的咖友</span> </a></li>
+            <li><a href="#"><i class="float_lf icon icon-54"></i><span class="float_lf">我的福利</span> </a></li>
+            <li><a href="#"><i class="float_lf icon icon-61"></i><span class="float_lf">我的咖券</span> </a></li>
+            <li><a href="#"><i class="float_lf icon icon-67"></i><span class="float_lf">我的消息</span> </a></li>
+            <li><a href="#"><i class="float_lf icon icon-102"></i><span class="float_lf">账户设置</span> </a></li>
+        </ul>
     </div>
+    <!-- 底部菜单 -->
+    <div th:replace="template/mobile_template :: footer_menu"></div>
 </div>
 
 <script type="text/javascript" th:replace="template/mobile_template :: footer"></script>
 <script type="text/javascript" th:inline="javascript">
     $(function () {
         $("#footer_menu a").eq(3).addClass("weui-bar__item_on").siblings().removeClass("weui-bar__item_on");
+        //判断是否登录，未登录要先登录，然后查询个人信息
+        var token = getCookie("token");
+        if(token && token != ""){
+            //查询数据
+            loadData();
+        }else {
+            wxlogin(function () {
+                loadData();
+            });
+        }
     });
+
+    //加载用户数据
+    function loadData() {
+        console.log("loadData...");
+
+    }
+
 </script>
 </body>
 </html>

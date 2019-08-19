@@ -110,6 +110,11 @@ public class ZySysUserController {
         if(StringUtils.isEmpty(user.getRoleIds())){
             throw new BusinessException("请给用户选择相应角色");
         }
+        //验证该帐号未注册
+        if(userService.existsUserAccount(user.getUserAccount())){
+            throw new BusinessException("登录帐号已被使用，请输入新的登录帐号");
+        }
+
         user.setUserId(IdWorker.getId());
         int flag = userService.add(user);
         if(!(flag > 0)){

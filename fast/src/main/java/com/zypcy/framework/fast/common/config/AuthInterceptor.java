@@ -39,7 +39,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             if(userInfo != null && userInfo.getSysUser() != null){
                 ZySysUser sysUser = userInfo.getSysUser();
                 //判断是否过期
-                if(!isExpire(sysUser.getLoginTime())){
+                if(!isExpire(sysUser.getLoginTime() , sysUser.getLoginPlatform())){
                     flag = true;
                     ContextHolder.setUserInfo(userInfo);
                     return true;
@@ -82,12 +82,22 @@ public class AuthInterceptor implements HandlerInterceptor {
      * @param time token生成时间
      * @return
      */
-    public boolean isExpire(long time) {
+
+    /**
+     * 判断token是否过期
+     * @param time token生成时间
+     * @param loginPlatform 登录平台：Pc、Wx、Android、IOS
+     * @return
+     */
+    public boolean isExpire(long time , String loginPlatform) {
         long currentTime = System.currentTimeMillis();
-        if ((currentTime - time) > (tokenExpireTime * 60 * 1000)) {
+        //Pc过期时间根据配置文件中的tokenExpireTime来，其他客户端token 30天过期
+        long expiresTime = "Pc".equals(loginPlatform) ? (tokenExpireTime * 60 * 1000) : (1000 * 60 * 60 * 24 * 30);
+        if ((currentTime - time) > expiresTime) {
             //已过期
             return true;
         }
+
         return false;
     }
 }

@@ -2,13 +2,16 @@ package com.zypcy.framework.fast.ScheduleTask;
 
 import cn.hutool.core.date.DateUtil;
 import com.zypcy.framework.fast.common.util.LogUtil;
+import com.zypcy.framework.fast.common.util.RedisUtil;
 import com.zypcy.framework.fast.sys.cache.UserLoginCache;
+import com.zypcy.framework.fast.sys.constant.KeyConstant;
 import com.zypcy.framework.fast.sys.dto.ZySysLoginInfo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,7 +24,7 @@ public class ClearLoginSessionTask {
     @Value("${sys.token.expireTime:120}")
     private long tokenExpireTime;
 
-    //添加定时任务，例如：60秒打印一次
+    //添加定时任务，例如：60秒执行一次
     @Async
     @Scheduled(cron = "0/60 * * * * ?")
     public void configureTasks() {

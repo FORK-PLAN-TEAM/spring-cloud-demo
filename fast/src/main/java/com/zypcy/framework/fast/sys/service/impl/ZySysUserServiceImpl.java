@@ -115,4 +115,15 @@ public class ZySysUserServiceImpl extends ServiceImpl<ZySysUserMapper, ZySysUser
     public boolean deleteById(String userId) {
         return userMapper.deleteById(userId) > 0 ? true : false;
     }
+
+
+    /**
+     * 该帐号是否存在
+     * @param userAccount
+     * @return
+     */
+    @Override
+    public boolean existsUserAccount(String userAccount) {
+        return userMapper.existsUserAccount(userAccount) > 0 ? true : false;
+    }
 }

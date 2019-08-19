@@ -26,10 +26,10 @@ public class WxIndexController {
         return new ModelAndView("wx/menu_xn");
     }
 
-    @ApiOperation(value = "发现", notes = "页面", httpMethod = "GET")
-    @GetMapping("/fx")
+    @ApiOperation(value = "记账", notes = "页面", httpMethod = "GET")
+    @GetMapping("/jz")
     public ModelAndView fx(ModelMap map) {
-        return new ModelAndView("wx/menu_fx");
+        return new ModelAndView("wx/menu_jz");
     }
 
     @ApiOperation(value = "我", notes = "页面", httpMethod = "GET")

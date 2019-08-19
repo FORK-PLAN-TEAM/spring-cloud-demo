@@ -99,11 +99,11 @@
             "amount": cashbook.amount,
             "remark": cashbook.remark
         });
-        getDictByType("JZB" , "dictSelect",cashbook.dictId);
+        getDictByPId("649036610398617600" , "dictSelect",cashbook.dictId);
         $("#typeSelect").val(cashbook.cashType);
     }else{
         getById("recordTime").value = new Date().Format("yyyy-MM-dd");
-        getDictByType("JZB" , "dictSelect");
+        getDictByPId("649036610398617600" , "dictSelect");
     }
 
     $(function () {

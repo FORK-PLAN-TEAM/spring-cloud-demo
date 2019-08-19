@@ -25,6 +25,12 @@ public interface IZySysDictService extends IService<ZySysDict> {
     List<ZySysTree> getDictTrees(String parentId);
 
     /**
+     * 获取所有删除字典，未删除的
+     * @return
+     */
+    List<ZySysDict> getAllDicts();
+
+    /**
      * 根据parentId 获取数据字典
      * @param parentId
      * @return

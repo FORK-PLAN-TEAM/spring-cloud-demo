@@ -38,6 +38,13 @@ public class ZySysDictServiceImpl extends ServiceImpl<ZySysDictMapper, ZySysDict
     }
 
     @Override
+    public List<ZySysDict> getAllDicts() {
+        ZySysDict dict = new ZySysDict();
+        dict.setIsdel(false);
+        return dictMapper.selectList(new QueryWrapper<>(dict));
+    }
+
+    @Override
     public List<ZySysDict> getByParentId(String parentId) {
         ZySysDict dict = new ZySysDict();
         dict.setParentId(parentId);

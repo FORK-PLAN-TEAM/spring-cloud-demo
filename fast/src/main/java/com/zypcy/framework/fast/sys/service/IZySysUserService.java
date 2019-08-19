@@ -41,4 +41,10 @@ public interface IZySysUserService extends IService<ZySysUser> {
      * @return
      */
     boolean deleteById(String userId);
+
+    /**
+     * 该帐号是否存在
+     * @return
+     */
+    boolean existsUserAccount(String userAccount);
 }
