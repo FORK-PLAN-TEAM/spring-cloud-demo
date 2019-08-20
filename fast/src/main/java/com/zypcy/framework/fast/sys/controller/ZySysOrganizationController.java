@@ -36,7 +36,7 @@ import java.util.List;
  * @author zhuyu
  * @since 2019-06-14
  */
-@Api(tags = "Sys-组织机构")
+@Api(tags = "sys-组织机构")
 @RestController
 @RequestMapping("sys/organization")
 public class ZySysOrganizationController {

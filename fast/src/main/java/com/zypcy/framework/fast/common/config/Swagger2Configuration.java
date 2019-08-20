@@ -45,10 +45,10 @@ public class Swagger2Configuration {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("接口文档")
-                .description("Zy相关接口的文档")
+                .description("ZyAdmin相关接口的文档")
                 // 作者信息
-                .contact(new Contact("oKong", "https://blog.csdn.net/zhuyu19911016520", "645906265@qq.com"))
-                .termsOfServiceUrl("http://www.zypcy.cn")
+                .contact(new Contact("Zhuyu", "https://blog.csdn.net/zhuyu19911016520", "645906265@qq.com"))
+                .termsOfServiceUrl("https://www.zypcy.cn")
                 .version("1.0")
                 .build();
     }

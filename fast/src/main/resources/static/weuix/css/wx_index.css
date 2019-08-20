@@ -2,6 +2,12 @@
 a,li {text-decoration:none; -moz-transition: all .2s ease-in; -webkit-transition: all .2s ease-in; -o-transition: all .2s ease-in; transition: all .2s ease-in}
 ol,ul,li {list-style:none;}
 
+.fontsize14{font-size:14px;!important;}
+.fontsize15{font-size:15px;!important;}
+.fontsize16{font-size:16px;!important;}
+.fontsize18{font-size:18px;!important;}
+.fontsize20{font-size:20px;!important;}
+.fontsize22{font-size:22px;!important;}
 .fontsize24{font-size:24px;!important;}
 .fontsize26{font-size:26px;!important;}
 .fontsize28{font-size:28px;!important;}
@@ -46,7 +52,7 @@ ol,ul,li {list-style:none;}
     position: absolute;
     left: 20%;
     top: 0;
-    margin: 80px 0 0 -35px;
+    margin: 50px 0 0 -35px;
 }
 .my_top_head img {
     width: 100%;
@@ -60,7 +66,7 @@ ol,ul,li {list-style:none;}
     position: absolute;
     left: 45%;
     top: 0;
-    margin: 80px 0 0 -35px;
+    margin: 50px 0 0 -35px;
 }
 .my_top_remark{
     color:#f3efdc;
@@ -70,7 +76,7 @@ ol,ul,li {list-style:none;}
     position: absolute;
     left: 45%;
     top: 0;
-    margin: 110px 0 0 -35px;
+    margin: 85px 0 0 -35px;
 }
 
 .my_list_ui{
@@ -148,7 +154,14 @@ ol,ul,li {list-style:none;}
 }
 
 
-
-
+.cashbook_table{
+    width: 100%;
+}
+.cashbook_table th{
+    text-align: center;
+}
+.cashbook_table td{
+    text-align: center;
+}
 
 

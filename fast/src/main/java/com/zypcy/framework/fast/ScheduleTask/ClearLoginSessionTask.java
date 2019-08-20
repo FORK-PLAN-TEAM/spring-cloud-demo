@@ -2,6 +2,7 @@ package com.zypcy.framework.fast.ScheduleTask;
 
 import cn.hutool.core.date.DateUtil;
 import com.zypcy.framework.fast.common.util.LogUtil;
+import com.zypcy.framework.fast.common.util.LoginExpiresUtil;
 import com.zypcy.framework.fast.common.util.RedisUtil;
 import com.zypcy.framework.fast.sys.cache.UserLoginCache;
 import com.zypcy.framework.fast.sys.constant.KeyConstant;
@@ -34,23 +35,9 @@ public class ClearLoginSessionTask {
             String token = entry.getKey();
             ZySysLoginInfo loginInfo = entry.getValue();
             //登录信息过期后从内存中移除
-            if(loginInfo != null && loginInfo.getSysUser() != null && isExpire(loginInfo.getSysUser().getLoginTime())){
+            if(loginInfo != null && loginInfo.getSysUser() != null && LoginExpiresUtil.isExpire(tokenExpireTime , loginInfo.getSysUser().getLoginTime() , loginInfo.getSysUser().getLoginPlatform())){
                 UserLoginCache.removeLoginInfo(token);
             }
         }
-    }
-
-    /**
-     * 判断token是否过期
-     * @param time token生成时间
-     * @return
-     */
-    public boolean isExpire(long time) {
-        long currentTime = System.currentTimeMillis();
-        if ((currentTime - time) > (tokenExpireTime * 60 * 1000)) {
-            //已过期
-            return true;
-        }
-        return false;
     }
 }

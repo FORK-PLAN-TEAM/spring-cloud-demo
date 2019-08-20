@@ -36,12 +36,6 @@ public class FastApplicationTests {
     public void contextLoads() {
     }
 
-    @Autowired private IZySysMenuService menuService;
-
-    @Test
-    public void testTree(){
-        System.out.println(JSON.toJSONString(menuService.getMenuTrees()));
-    }
 
     @Test
     public void pageList(){

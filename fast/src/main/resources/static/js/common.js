@@ -82,6 +82,7 @@ function getUUID() {
                 contentType: 'application/json',
                 dataType: 'json',
                 beforeSend: this.showLoader(),
+                timeout : 5000 ,
                 success: function(res){
                     self.hideLoader();
                     if (res != null && res != "") {
@@ -96,7 +97,6 @@ function getUUID() {
                     }
                 },
                 error: function (xhr, type, errorThrown) {
-                    console.log("error:" + JSON.stringify(xhr) + "\n" + type + "\n" + errorThrown);
                     self.hideLoader();
                     if(self.error){
                         if (Object.prototype.toString.call(self.error) === "[object Function]") {
@@ -105,6 +105,7 @@ function getUUID() {
                             console.log("callBack is not a function");
                         }
                     }
+                    console.log("error:" + JSON.stringify(xhr) + "\n" + type + "\n" + errorThrown);
                 }
             });
         }
@@ -208,7 +209,7 @@ function getDictByPId(parentId , selectElemId , dictId) {
     new AjaxRequest({
         type: "GET",
         url: webroot + "sys/dict/getByParentId?parentId=" + parentId,
-        isShowLoader: true,
+        isShowLoader: false,
         success: function (res) {
             console.log(res);
             if (res) {
@@ -223,9 +224,11 @@ function getDictByPId(parentId , selectElemId , dictId) {
                         optStr += '<option value="'+dict.id+'" '+selected+'>'+dict.name+'</option>';
                     }
                     $("#" + selectElemId).append(optStr);
-                    form.render();
+                    if(typeof(form) != "undefined"){
+                        form.render();
+                    }
                 } else {
-                    layer.alert(res.resultMessage, {icon: 2})
+                    alert(res.resultMessage, {icon: 2})
                 }
             }
         }
@@ -280,8 +283,21 @@ function wxlogin(okCallBack) {
             });
         },
         onCancel: function () {
-            wxlogin();
+            //取消
         }
     });
 }
 
+//wx端存储用户信息
+function wxSetUserInfo(userInfo) {
+    var info = JSON.stringify(userInfo);
+    localStorage.setItem('userInfo',Base64.encode(info));
+}
+//wx端获取用户信息
+function wxGetUserInfo() {
+    var info = localStorage.getItem('userInfo');
+    if(info && info != ""){
+        var userInfo = JSON.parse(Base64.decode(info));
+        return userInfo;
+    }
+}

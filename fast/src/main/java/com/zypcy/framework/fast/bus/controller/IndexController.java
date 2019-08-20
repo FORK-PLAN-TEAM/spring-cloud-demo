@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-@Api(tags = "业务首页控制器")
+@Api(tags = "bus-业务首页控制器")
 @RestController
 public class IndexController {
 

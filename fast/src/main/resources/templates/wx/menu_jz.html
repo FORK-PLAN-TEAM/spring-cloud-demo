@@ -9,23 +9,421 @@
 
 <div style="height: 100%;position: absolute;top: 0;right: 0;bottom: 0;left: 0;">
     <div class="weui-tab">
-        <div class="weui-tab__panel">
+        <div class="container" style="margin-bottom: 50px;">
+            <div class="bg-blue weui-header ">
+                <h1 class="weui-header-title">账目列表</h1>
+                <div class="weui-header-right" onclick="add()"><a href="javascript:;" class="f-white">添加</a></div>
+            </div>
+            <div class="weui-search-bar">
+                <input type="search" class="search-input" id="search" placeholder="选择类型"><button onclick="searchList()" class="weui-btn weui-btn_mini weui-btn_primary"><i class="icon icon-4"></i></button>
+            </div>
             <!-- 内容区域 -->
-            记账-开发中...
+            <table class="cashbook_table">
+                <thead>
+                <tr>
+                    <th width="15%">类型</th>
+                    <th width="35%">时间</th>
+                    <th width="25%">内容</th>
+                    <th width="25%">金额</th>
+                </tr>
+                </thead>
+                <tbody id="tableList">
+                <!--<tr>
+                    <td>支出</td>
+                    <td>2019-08-12</td>
+                    <td>吃饭</td>
+                    <td>12</td>
+                </tr>-->
+                </tbody>
+            </table>
 
+            <!-- 底部公司简介 -->
+            <div th:replace="template/mobile_template :: footer_company"></div>
         </div>
         <!-- 底部菜单 -->
         <div th:replace="template/mobile_template :: footer_menu"></div>
     </div>
 </div>
 
+<!-- 新增、修改账目信息modal -->
+<div id="cashModal" class="weui-popup__container" style="display: none; opacity: 1;z-index: 501">
+    <div class="weui-popup__overlay"></div>
+    <div class="weui-popup__modal" style="background-color: #faf8f2;">
+        <div style="margin-top: 5px;">
+            <div class="page-hd">
+                <h1 class="page-hd-title" id="cashModal_title">新增账目</h1>
+            </div>
+            <div class="weui-cells weui-cells_form">
+                <input type="hidden" id="cashId" name="cashId" value=""/>
+                <input type="hidden" id="dictId" name="dictId" value=""/>
+                <input type="hidden" id="cashDetail" name="cashDetail" value=""/>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">账目类型</label></div>
+                    <div class="weui-cell__bd">
+                        <select name="typeSelect" id="typeSelect" class="weui-select" style="height: 1.485em;line-height: 1.485em;padding-left: 0px; ">
+                            <option value="0">支出</option>
+                            <option value="1">收入</option>
+                            <option value="2">笔记</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">入账时间</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input"  id="recordTime" name="recordTime" type="text">
+                        <!--<input class="weui-input" value="" id="recordTime" name="recordTime" type="date">-->
+                    </div>
+
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">入账内容</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <select name="dictSelect" id="dictSelect" class="weui-select" style="height: 1.485em;line-height: 1.485em;padding-left: 0px; ">
+                            <!--<option value="">请选择</option>
+                            <option value="1">layer</option>
+                            <option value="2">form</option>-->
+                        </select>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">账目金额</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" id="amount" name="amount" pattern="[0-9]*" placeholder="请输入金额" type="number">
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <textarea id="remark" class="weui-textarea" placeholder="请输入备注" rows="3" onkeyup="textarea(this);"></textarea>
+                        <div class="weui-textarea-counter"><span>0</span>/<i>200</i></div>
+                    </div>
+                    <i class="weui-icon-clear" onclick="cleararea(this)"></i>
+                </div>
+            </div>
+            <div class="weui-btn-area" style="text-align: center;">
+                <a href="javascript:save();" class="weui-btn weui-btn_mini bg-blue fontsize16">&nbsp;&nbsp;保存&nbsp;&nbsp;</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="javascript:;" class="weui-btn weui-btn_mini  bg-red fontsize16 close-popup">&nbsp;&nbsp;关闭&nbsp;&nbsp;</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script type="text/javascript" th:replace="template/mobile_template :: footer"></script>
 <script type="text/javascript" th:inline="javascript">
+
+    var cashType = "",
+        pageIndex = 0,
+        pageSize = 15,
+        isLoading = false,
+        datas = new Array();//{key:id,value:cashbook}
+
     $(function () {
         $("#footer_menu a").eq(2).addClass("weui-bar__item_on").siblings().removeClass("weui-bar__item_on");
+        initSelect();
         //判断是否登录，未登录跳转登录，已登录查询个人记账信息
+        var token = getCookie("token");
+        if (token && token != "") {
+            //查询账目数据
+            getListData();
+        } else {
+            wxlogin(function () {
+                loadUserInfo();
+            });
+        }
 
+        //下拉加载更多
+        $(window).scroll(function () {
+            var scrollTop = $(this).scrollTop();
+            var scrollHeight = $(document).height();
+            var windowHeight = $(this).height();
+
+            if (scrollTop + windowHeight >= scrollHeight) {
+                if (token && token != "") {
+                    getListData();
+                }
+            }
+        });
+
+        //解决表单控件不能回弹 只有微信ios有这个问题
+        $("input,select,textarea").blur(function(){
+            setTimeout(function (args) {
+                const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
+                window.scrollTo(0, Math.max(scrollHeight - 1, 0));
+            }, 100);
+        });
+
+        $("#recordTime").calendar({
+            dateFormat: 'yyyy-mm-dd',
+            onChange: function (p, values, displayValues) {
+                console.log(values, displayValues);
+            }
+        });
+        //加载入账内容数据字典
+        getDictByPId("649036610398617600" , "dictSelect");
     });
+
+    //加载用户数据
+    function loadUserInfo() {
+        //发起请求
+        new AjaxRequest({
+            type: "GET",
+            url: webroot + "sys/user",
+            isShowLoader: false,
+            success: function (res) {
+                //console.log(res);
+                if (res) {
+                    if (res.resultCode == "0000" && res.resultObj != "") {
+                        var userInfo = res.resultObj;
+                        $.showLoading(userInfo.userName + " 欢迎回来")
+                        //存储到localStorage中
+                        wxSetUserInfo(userInfo);
+                        setTimeout(function () {
+                            $.hideLoading();
+                            getListData();
+                        }, 1000)
+                    } else {
+                        $.toast(res.resultMessage, "cancel");
+                    }
+                }
+            },
+            error: function (err) {
+                alert('Ajax error!')
+            }
+        });
+    }
+
+    //查询列表
+    function searchList() {
+        isLoading = false;
+        pageIndex=0;
+        $('#tableList').html('');
+        getListData();
+    }
+
+    //加载记账列表数据
+    function getListData() {
+        if (isLoading) return;
+        isLoading = true;
+        pageIndex++;
+        var url = webroot + "bus/cashbook/pageList?cashType="+cashType+"&pageSize="+pageSize+"&pageIndex="+ pageIndex;
+        $.showLoading("正在加载");
+        new AjaxRequest({
+            type: "GET",
+            url: url,
+            data : null ,
+            isShowLoader: false,
+            success: function (res) {
+                $.hideLoading();
+                console.log(res);
+                isLoading = false;
+                if (res) {
+                    if (res.resultCode == "0000" && res.resultObj != "") {
+                        var data = res.resultObj;
+
+                        var totalCount = data.total;
+                        if (pageIndex * pageSize >= totalCount) {
+                            isLoading = true;
+                        }
+                        var listData = data.records;
+                        //展示数据
+                        var html = "";
+                        for (var i = 0; i < listData.length; i++) {
+                            setItem(listData[i].cashId , listData[i]);
+                            html += '<tr id="tr_'+ listData[i].cashId +'" onclick="update(\''+listData[i].cashId +'\')">';
+                            html += '<td>'+ getCashTypeText(listData[i].cashType) +'</td>';
+                            html += '<td>'+ listData[i].recordTime +'</td>';
+                            html += '<td>'+ listData[i].cashDetail +'</td>';
+                            html += '<td>'+ listData[i].amount +'</td>';
+                            html += '</tr>';
+                        }
+                        $("#tableList").append(html);
+                    } else {
+                        $.toast(res.resultMessage, "cancel");
+                    }
+                }
+            },
+            error: function (err) {
+                $.hideLoading();
+            }
+        });
+    }
+    
+    function getCashTypeText(cashType) {
+        if(cashType == "0"){
+            return "支出";
+        }else if(cashType == "1"){
+            return "收入";
+        }else if(cashType == "2"){
+            return "笔记";
+        }
+    }
+    //初始化select
+    function initSelect() {
+        $("#search").select({
+            title: "选择账目类型",
+            items: [
+                {
+                    title: "所有",
+                    value: "",
+                },
+                {
+                    title: "支出",
+                    value: "0",
+                },
+                {
+                    title: "收入",
+                    value: "1",
+                },
+                {
+                    title: "笔记",
+                    value: "2",
+                }
+            ],
+            onChange: function(d) {
+                console.log(d);
+                cashType = d.values;
+                //searchList();
+            }
+        });
+    }
+
+    //新增账目
+    function add() {
+        resetForm();
+        $('#cashModal_title').text('新增账目');
+        $('#cashModal').addClass("weui-popup__container--visible").show();
+    }
+    //重置form
+    function resetForm() {
+        $('#cashId').val('');
+        $('#dictId').val('');
+        $('#cashDetail').val('');
+        $('#typeSelect').val(0);
+        $('#recordTime').val(new Date().Format("yyyy-MM-dd"));
+        $('#dictSelect').val('');
+        $('#amount').val('');
+        $('#remark').val('');
+    }
+    //修改账目
+    function update(cashId) {
+        var cashbook = getItem(cashId);
+        $('#cashId').val(cashbook.cashId);
+        $('#dictId').val(cashbook.dictId);
+        $('#cashDetail').val(cashbook.cashDetail);
+        $('#typeSelect').val(cashbook.cashType);
+        $('#recordTime').val(cashbook.recordTime);
+        $('#dictSelect').val(cashbook.dictId);
+        $('#amount').val(cashbook.amount);
+        $('#remark').val(cashbook.remark);
+
+        $('#cashModal_title').text('修改账目');
+        $('#cashModal').addClass("weui-popup__container--visible").show();
+    }
+
+    //保存账目信息
+    function save() {
+        var cashbook = {
+            cashId : $('#cashId').val(),
+            dictId : $('#dictSelect').val(),
+            cashDetail : $("#dictSelect").find("option:selected").text(),
+            cashType : $('#typeSelect').val(),
+            recordTime : $('#recordTime').val(),
+            amount : $('#amount').val(),
+            remark : $('#remark').val()
+        };
+        var url = webroot + "bus/cashbook/" + (cashbook.cashId != "" ? "edit" : "add");
+
+        $.showLoading("正在保存")
+        new AjaxRequest({
+            type: "POST",
+            url: url,
+            data: JSON.stringify(cashbook),
+            isShowLoader: false,
+            success: function (res) {
+                $.hideLoading();
+                //console.log(res);
+                if (res) {
+                    if (res.resultCode == "0000") {
+                        $.toast("保存成功")
+                        var id = res.resultObj;
+                        if(cashbook.cashId != ""){
+                            //如果是编辑，更新这行数据
+                            var childs = $('#tr_' + id).children();
+                            childs.eq(0).text(getCashTypeText(cashbook.cashType));
+                            childs.eq(1).text(cashbook.recordTime);
+                            childs.eq(2).text(cashbook.cashDetail);
+                            childs.eq(3).text(cashbook.amount);
+                        }else{
+                            //如果是新增，则在最上面插入一行
+                            //searchList()
+                            var html = '<tr id="tr_'+ id +'" onclick="update(\''+ id +'\')">';
+                            html += '<td>'+ getCashTypeText(cashbook.cashType) +'</td>';
+                            html += '<td>'+ cashbook.recordTime +'</td>';
+                            html += '<td>'+ cashbook.cashDetail +'</td>';
+                            html += '<td>'+ cashbook.amount +'</td>';
+                            html += '</tr>';
+                            $('#tableList').before(html);
+                        }
+                        cashbook.cashId = id;
+                        delItem(id);
+                        setItem(id , cashbook);
+                        $('#cashModal').removeClass("weui-popup__container--visible").hide();
+                        resetForm();
+                    } else {
+                        $.toast(res.resultMessage,"forbidden")
+                    }
+                }
+            }
+        });
+    }
+
+    //从数据中获取账目信息
+    function getItem(cashId) {
+        for(i = 0; i < datas.length; i++) {
+            if(datas[i].key == cashId) {
+                return datas[i].value;
+            }
+        }
+    }
+    //把账目信息设置到数组中
+    function setItem(cashId , _value) {
+        var cb = { key : cashId , value : _value};
+        datas.push(cb)
+    }
+    //删除账目信息
+    function delItem(cashId) {
+        for(i = 0; i < datas.length; i++) {
+            if(datas[i].key == cashId) {
+                datas.splice(i, 1);
+            }
+        }
+    }
+    
+    //计算textarea输入文字个数
+    function textarea(input) {
+        var content = $(input);
+        var max =  content.next().find('i') .text();
+        var value = content.val();
+        if (value.length>0) {
+            value = value.replace(/\n|\r/gi,"");
+            var len = value.length;
+            content.next().find('span').text(len) ;
+            if(len>max){
+                content.next().addClass('f-red');
+            }else{
+                content.next().removeClass('f-red');
+            }
+        }
+    }
+    function cleararea(obj){
+        $(obj).prev().find('.weui-textarea').val("");
+        return false;
+    }
+
 </script>
 </body>
 </html>

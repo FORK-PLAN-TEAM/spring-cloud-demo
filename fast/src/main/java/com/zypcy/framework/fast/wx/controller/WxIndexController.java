@@ -1,5 +1,7 @@
 package com.zypcy.framework.fast.wx.controller;
 
+import com.zypcy.framework.fast.common.config.ContextHolder;
+import com.zypcy.framework.fast.sys.entity.ZySysUser;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +30,14 @@ public class WxIndexController {
 
     @ApiOperation(value = "记账", notes = "页面", httpMethod = "GET")
     @GetMapping("/jz")
-    public ModelAndView fx(ModelMap map) {
+    public ModelAndView jz(ModelMap map) {
         return new ModelAndView("wx/menu_jz");
+    }
+
+    @ApiOperation(value = "记账-新增、编辑", notes = "页面", httpMethod = "GET")
+    @GetMapping("/jz_edit")
+    public ModelAndView jz_edit(ModelMap map) {
+        return new ModelAndView("wx/menu_jz_edit");
     }
 
     @ApiOperation(value = "我", notes = "页面", httpMethod = "GET")
@@ -37,4 +45,5 @@ public class WxIndexController {
     public ModelAndView my(ModelMap map) {
         return new ModelAndView("wx/menu_my");
     }
+
 }

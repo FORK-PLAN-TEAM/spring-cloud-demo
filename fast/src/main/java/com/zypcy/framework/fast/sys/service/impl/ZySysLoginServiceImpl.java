@@ -53,6 +53,7 @@ public class ZySysLoginServiceImpl implements IZySysLoginService {
             String salt = sysUser.getSalt();
             if(dbPwd.equals(SecureUtil.md5(userPwd + salt))){
                 sysUser.setSalt(null);
+                sysUser.setUserAccount(null);
                 sysUser.setUserPwd(null);
                 sysUser.setLoginTime(System.currentTimeMillis());
                 sysUser.setLoginPlatform(platform);

@@ -2,7 +2,6 @@ package com.zypcy.framework.fast;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.google.common.collect.Maps;
-import com.zypcy.framework.fast.common.config.SpringContextApplication;
 import com.zypcy.framework.fast.common.response.ResponseBodyWrapFactory;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;

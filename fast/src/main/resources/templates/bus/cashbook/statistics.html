@@ -104,7 +104,8 @@
                 if (res.resultCode == "0000" && res.resultObj) {
                     $("#shouru").text(res.resultObj.shouru);
                     $("#zhichu").text(res.resultObj.zhichu);
-                    $("#jieyu").text(res.resultObj.shouru - res.resultObj.zhichu);
+                    var jieyu = (res.resultObj.shouru - res.resultObj.zhichu).toFixed(2);
+                    $("#jieyu").text(jieyu);
                 } else {
                     layer.alert(res.resultMessage, {icon: 2})
                 }

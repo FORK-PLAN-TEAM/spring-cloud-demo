@@ -8,6 +8,8 @@ import com.zypcy.framework.fast.common.config.ContextHolder;
 import com.zypcy.framework.fast.common.error.BusinessException;
 import com.zypcy.framework.fast.common.response.ResultCodeEnum;
 import com.zypcy.framework.fast.common.util.IdWorker;
+import com.zypcy.framework.fast.sys.cache.UserLoginCache;
+import com.zypcy.framework.fast.sys.dto.ZySysLoginInfo;
 import com.zypcy.framework.fast.sys.entity.ZySysOrganization;
 import com.zypcy.framework.fast.sys.entity.ZySysRole;
 import com.zypcy.framework.fast.sys.entity.ZySysUser;
@@ -98,10 +100,16 @@ public class ZySysUserController {
     }
 
 
-    @ApiOperation(value = "根据Id获取组织机构" , notes = "api接口", httpMethod = "GET")
+    @ApiOperation(value = "根据Id获取用户信息" , notes = "api接口", httpMethod = "GET")
     @GetMapping("getById")
     public ZySysUser getById(@ApiParam(value = "用户Id")String userId){
         return getUserById(userId);
+    }
+
+    @ApiOperation(value = "根据Token获取用户信息" , notes = "api接口", httpMethod = "GET")
+    @GetMapping()
+    public ZySysUser getByToken(){
+        return ContextHolder.getSysUser();
     }
 
     @ApiOperation(value = "创建用户" , notes = "api接口", httpMethod = "POST")

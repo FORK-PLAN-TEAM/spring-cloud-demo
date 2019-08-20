@@ -2,23 +2,17 @@ package com.zypcy.framework.fast.bus.controller;
 
 
 import cn.hutool.core.date.DateUtil;
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zypcy.framework.fast.bus.service.ICashbookService;
 import com.zypcy.framework.fast.common.config.ContextHolder;
 import com.zypcy.framework.fast.common.error.BusinessException;
 import com.zypcy.framework.fast.common.response.ResultCodeEnum;
 import com.zypcy.framework.fast.common.util.ExcelUtil;
 import com.zypcy.framework.fast.common.util.IdWorker;
-import com.zypcy.framework.fast.common.util.LogUtil;
-import com.zypcy.framework.fast.common.util.WordUtil;
-import com.zypcy.framework.fast.sys.entity.ZySysRole;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import lombok.var;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
@@ -31,8 +25,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -45,7 +37,7 @@ import java.util.stream.Collectors;
  * @author zhuyu
  * @since 2019-07-29
  */
-@Api(tags = "记账本")
+@Api(tags = "bus-记账本")
 @RestController
 @RequestMapping("/bus/cashbook")
 public class CashbookController {
@@ -103,14 +95,15 @@ public class CashbookController {
 
     @ApiOperation(value = "修改账目", notes = "api接口", httpMethod = "POST")
     @PostMapping("edit")
-    public boolean update(@ApiParam(value = "记账本实体") @RequestBody Cashbook cashbook) {
+    public String update(@ApiParam(value = "记账本实体") @RequestBody Cashbook cashbook) {
         if (StringUtils.isEmpty(cashbook.getCashId())) {
             throw new BusinessException("请传入账目Id");
         }
         cashbook.setUpdateTime(LocalDateTime.now());
         cashbook.setUpdateUserid(ContextHolder.getUserId());
         cashbook.setUpdateUsername(ContextHolder.getUserName());
-        return cashbookService.updateById(cashbook);
+        cashbookService.updateById(cashbook);
+        return cashbook.getCashId();
     }
 
     @ApiOperation(value = "删除账目", notes = "api接口", httpMethod = "POST")

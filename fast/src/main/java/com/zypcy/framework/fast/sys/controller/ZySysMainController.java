@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Api(tags = "Sys-后台主页")
+@Api(tags = "sys-后台主页")
 @RestController
 @RequestMapping("sys/main")
 public class ZySysMainController {

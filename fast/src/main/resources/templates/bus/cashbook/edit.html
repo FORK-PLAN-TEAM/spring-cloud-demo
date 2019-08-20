@@ -141,7 +141,6 @@
                 //console.log(res);
                 if (res) {
                     if (res.resultCode == "0000") {
-                        var orgId = res.resultObj;
                         layer.alert("保存成功", {icon: 1}, function () {
                             //xadmin.father_reload();//刷新父窗体
                             xadmin.getParentWindow().refreshlist();

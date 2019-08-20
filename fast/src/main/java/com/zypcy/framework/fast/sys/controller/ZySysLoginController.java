@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-@Api(tags = "Sys-登录")
+@Api(tags = "sys-登录")
 @RestController
 @RequestMapping("sys/login")
 public class ZySysLoginController {
