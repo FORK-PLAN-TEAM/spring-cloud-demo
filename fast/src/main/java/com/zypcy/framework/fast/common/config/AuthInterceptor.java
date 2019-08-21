@@ -7,7 +7,6 @@ import com.zypcy.framework.fast.sys.entity.ZySysUser;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,7 +32,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         boolean flag = false;
-        String token = getTokenByName(request, "token");
+        String token = LoginExpiresUtil.getTokenByName(request, "token");
         //LogUtil.info("token:" + token);
         if (!StringUtils.isEmpty(token)) {
             ZySysLoginInfo userInfo = UserLoginCache.getUserLoginInfo(token);
@@ -56,24 +55,5 @@ public class AuthInterceptor implements HandlerInterceptor {
             return false;
         }
         return true;
-    }
-
-    /**
-     * 根据名称获取Token
-     * @param request
-     * @param name
-     * @return
-     */
-    public String getTokenByName(HttpServletRequest request, String name) {
-        String result = "";
-        Cookie[] cookies = request.getCookies();//这样便可以获取一个cookie数组
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(name)) {
-                    result = cookie.getValue();
-                }
-            }
-        }
-        return result;
     }
 }

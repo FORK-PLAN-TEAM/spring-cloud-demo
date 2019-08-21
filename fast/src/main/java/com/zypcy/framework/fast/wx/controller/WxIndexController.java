@@ -34,12 +34,6 @@ public class WxIndexController {
         return new ModelAndView("wx/menu_jz");
     }
 
-    @ApiOperation(value = "记账-新增、编辑", notes = "页面", httpMethod = "GET")
-    @GetMapping("/jz_edit")
-    public ModelAndView jz_edit(ModelMap map) {
-        return new ModelAndView("wx/menu_jz_edit");
-    }
-
     @ApiOperation(value = "我", notes = "页面", httpMethod = "GET")
     @GetMapping("/my")
     public ModelAndView my(ModelMap map) {

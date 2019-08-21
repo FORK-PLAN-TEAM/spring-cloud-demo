@@ -1,5 +1,8 @@
 package com.zypcy.framework.fast.common.util;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
 public class LoginExpiresUtil {
 
     /**
@@ -22,4 +25,22 @@ public class LoginExpiresUtil {
         return false;
     }
 
+    /**
+     * 根据名称获取Token
+     * @param request
+     * @param name
+     * @return
+     */
+    public static String getTokenByName(HttpServletRequest request, String name) {
+        String result = "";
+        Cookie[] cookies = request.getCookies();//这样便可以获取一个cookie数组
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(name)) {
+                    result = cookie.getValue();
+                }
+            }
+        }
+        return result;
+    }
 }

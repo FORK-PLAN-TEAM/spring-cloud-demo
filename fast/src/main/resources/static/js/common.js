@@ -1,6 +1,6 @@
 //请求根路径
 //window.webroot = "https://www.zypcy.cn/";
-window.webroot = "http://localhost:8088/";
+window.webroot = "/";//http://localhost:8088/";
 
 function getById(id) {
     return document.getElementById(id);
@@ -97,6 +97,8 @@ function getUUID() {
                     }
                 },
                 error: function (xhr, type, errorThrown) {
+                    //console.log(xhr);
+                    //console.log("error:" + JSON.stringify(xhr) + "\n" + type + "\n" + errorThrown);
                     self.hideLoader();
                     if(self.error){
                         if (Object.prototype.toString.call(self.error) === "[object Function]") {
@@ -105,7 +107,11 @@ function getUUID() {
                             console.log("callBack is not a function");
                         }
                     }
-                    console.log("error:" + JSON.stringify(xhr) + "\n" + type + "\n" + errorThrown);
+                    //服务端返回主页，表明token失效
+                    var responseURL = xhr.responseURL;
+                    if(responseURL == "http://localhost:8088/" || responseURL == "https://www.zypcy.cn/"){
+                        delCookie("token");
+                    }
                 }
             });
         }
