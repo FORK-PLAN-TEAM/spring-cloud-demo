@@ -1,12 +1,17 @@
 package com.zypcy.framework.fast;
 
+import com.zypcy.framework.fast.common.util.LogUtil;
+import com.zypcy.framework.fast.sys.async.InitLoaderAsync;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
@@ -17,35 +22,24 @@ public class LambdaTest {
     public void contextLoads() {
     }
 
+    @Autowired
+    InitLoaderAsync loaderAsync;
 
     @Test
-    public void testAsync() {
+    public void testAsyncFuture() throws InterruptedException,ExecutionException{
 
-        long d1 = System.currentTimeMillis();
+        LogUtil.info("开始async");
 
-        async();
+        Future<List<String>> future1 = loaderAsync.getList();
+        Future<List<String>> future2 = loaderAsync.getList2();
 
-        f();
-
-        System.out.println(System.currentTimeMillis() - d1);
-    }
-
-    public void f(){
-        StringBuilder sb = new StringBuilder();
-        for(int i=0; i < 1000 ; i++){
-            String s = i+",";
-            sb.append(s);
+        for(int i=0; i < 10;i++){
+            LogUtil.info("i：" + i);
         }
-        System.out.println(sb.toString());
-    }
-
-    @Async
-    public void async() {
-        try {
-            Thread.sleep(1000);
-        } catch (Exception e) {
-
-        }
+        List<String> list1 = future1.get();
+        LogUtil.info("list size1：" + list1.size());
+        List<String> list2 = future1.get();
+        LogUtil.info("list size2：" + list2.size());
     }
 
     @Test

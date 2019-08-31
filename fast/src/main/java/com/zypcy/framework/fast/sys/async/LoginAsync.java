@@ -22,7 +22,7 @@ public class LoginAsync {
      * 1.把登录用户信息记录到内存中
      * 2.把登录用户的角色信息记录到内存中
      */
-    @Async
+    @Async("taskExecutor")
     public void updateLoginIInfo(String token , ZySysUser sysUser){
         ZySysLoginInfo userInfo = new ZySysLoginInfo();
         userInfo.setSysUser(sysUser);

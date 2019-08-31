@@ -26,7 +26,6 @@ public class ClearLoginSessionTask {
     private long tokenExpireTime;
 
     //添加定时任务，例如：60秒执行一次
-    @Async
     @Scheduled(cron = "0/60 * * * * ?")
     public void configureTasks() {
         LogUtil.info("ClearLoginSessionTask执行定时任务时间: " + DateUtil.now());
