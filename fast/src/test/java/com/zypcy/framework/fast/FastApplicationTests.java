@@ -36,23 +36,7 @@ public class FastApplicationTests {
     public void contextLoads() {
     }
 
-
-    @Test
-    public void pageList(){
-        /*ZySysMenu menu = new ZySysMenu();
-        menu.setIsdel(false);
-
-        //current , size
-        //pageindex pagesize
-        Page<ZySysMenu> page = new Page();
-        page.setCurrent(1);
-        page.setSize(2);
-
-        IPage<ZySysMenu> pageList = menuService.page(page , new QueryWrapper<>(menu));
-        System.out.println(JSON.toJSONString(PageModel.convert(pageList)));
-        */
-    }
-
+    /*
     @Test
     public void md5() {
         String data = "123456" + "123456";
@@ -70,17 +54,9 @@ public class FastApplicationTests {
     public void testRedis() {
 
         //Strings
-        ZySysRoleMenu menu1 = setZySysRoleMenu("16");
-        ZySysRoleMenu menu2 = setZySysRoleMenu("17");
-        ZySysRoleMenu menu3 = setZySysRoleMenu("18");
         //RedisUtil.Strings.set("name" , menu1);
         //LogUtil.info("Strings:" + JSON.toJSONString(RedisUtil.Strings.get(ZySysRoleMenu.class , "name")));
 
-		List<ZySysRoleMenu> list = new ArrayList<>();
-		for(int i=0; i < 10; i++){
-			String index = i+"";
-			list.add(setZySysRoleMenu(index));
-		}
         //Hashs
         //RedisUtil.Hash.put("hashKey" , "ZySysRoleMenu" , list);
         //List<ZySysRoleMenu> resultHash = RedisUtil.Hash.get(ZySysRoleMenu.class, "hashKey", "ZySysRoleMenu");
@@ -106,13 +82,6 @@ public class FastApplicationTests {
         //LogUtil.info("SortSet:" + JSON.toJSONString(resultSortSet));
     }
 
-    private ZySysRoleMenu setZySysRoleMenu(String index) {
-        ZySysRoleMenu roleMenu = new ZySysRoleMenu();
-        roleMenu.setId(index);
-        roleMenu.setMenuId(index);
-        roleMenu.setRoleId(index);
-        return roleMenu;
-    }
 
     @Test
     public void testStream(){
@@ -136,23 +105,23 @@ public class FastApplicationTests {
 
     @Test
     public void testRedisHash(){
-        //List<ZySysDict> dicts = DictCache.getDictsByPId("649036610398617600");
-        //System.out.println(dicts);
-        //RedisUtil.Hash.put(KeyConstant.Dict_Info , "666587637553332224" , "红包");
-        //RedisUtil.Hash.put(KeyConstant.Dict_Info , "666587637553332224" , "购物");
-//        String str = RedisUtil.Hash.get(KeyConstant.Dict_Parent_Info , "1");
-//        Type type = new TypeToken<List<String>>(){}.getType();
-//        List<String> ids = new ArrayList<>();
-//        if(!StringUtils.isEmpty(str)){
-//            ids = JSON.parseObject(str , type);
-//        }
-//        ids.add("2");
-//        RedisUtil.Hash.put(KeyConstant.Dict_Parent_Info , "1" , ids);
-//
-//        str = RedisUtil.Hash.get(KeyConstant.Dict_Parent_Info , "1");
-//        List<String> ids2 = JSON.parseObject(str , type);
-//        ids2.add("3");
-//
-//        RedisUtil.Hash.put(KeyConstant.Dict_Parent_Info , "1" , ids2);
-    }
+        List<ZySysDict> dicts = DictCache.getDictsByPId("649036610398617600");
+        System.out.println(dicts);
+        RedisUtil.Hash.put(KeyConstant.Dict_Info , "666587637553332224" , "红包");
+        RedisUtil.Hash.put(KeyConstant.Dict_Info , "666587637553332224" , "购物");
+        String str = RedisUtil.Hash.get(KeyConstant.Dict_Parent_Info , "1");
+        Type type = new TypeToken<List<String>>(){}.getType();
+        List<String> ids = new ArrayList<>();
+        if(!StringUtils.isEmpty(str)){
+            ids = JSON.parseObject(str , type);
+        }
+        ids.add("2");
+        RedisUtil.Hash.put(KeyConstant.Dict_Parent_Info , "1" , ids);
+
+        str = RedisUtil.Hash.get(KeyConstant.Dict_Parent_Info , "1");
+        List<String> ids2 = JSON.parseObject(str , type);
+        ids2.add("3");
+
+        RedisUtil.Hash.put(KeyConstant.Dict_Parent_Info , "1" , ids2);
+    }*/
 }

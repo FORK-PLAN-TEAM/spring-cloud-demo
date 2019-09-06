@@ -9,6 +9,10 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 此类暂时未使用，返回的是MybatisPlus的IPage类，再由table.js控件转成需要的格式
+ * @param <T>
+ */
 @ApiModel(value = "PageListModel", description = "Layui-Table控件需要的数据结构")
 @Data
 @Accessors(chain = true)
@@ -27,7 +31,7 @@ public class PageModel<T> implements Serializable{
      *  size   : PageSize 每页显示多少条数据
      *  total  : 总数据条数
      */
-
+/**
     @ApiModelProperty(value = "成功为0")
     private int code;
 
@@ -40,12 +44,12 @@ public class PageModel<T> implements Serializable{
     @ApiModelProperty(value = "列表数据集合")
     private List<T> data;
 
-    /**
+
      * 把Mybatis-Plus翻页插件查询的数据转换为，layui-table控件需要的格式
      * @param pages
      * @param <T>
      * @return
-     */
+
     public static <T> PageModel<T> convert(IPage<T> pages){
         PageModel model = new PageModel();
         model.setCode(0); //非0则失败
@@ -53,5 +57,5 @@ public class PageModel<T> implements Serializable{
         model.setCount(pages.getTotal());
         model.setData(pages.getRecords());
         return model;
-    }
+    }*/
 }

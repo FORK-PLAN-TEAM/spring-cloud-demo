@@ -22,6 +22,7 @@ public class LambdaTest {
     public void contextLoads() {
     }
 
+    /*
     @Autowired
     InitLoaderAsync loaderAsync;
 
@@ -54,9 +55,7 @@ public class LambdaTest {
         System.out.println(userMap.get("name"));
     }
 
-    /**
-     * 把List中的项生成字符串，以逗号拼接
-     */
+
     @Test
     public void testJoinDouhao() {
         List<String> roles = new ArrayList<>();
@@ -195,4 +194,5 @@ public class LambdaTest {
                     '}';
         }
     }
+    */
 }
