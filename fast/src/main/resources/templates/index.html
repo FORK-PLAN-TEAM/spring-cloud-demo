@@ -9,9 +9,9 @@
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link rel="stylesheet" href="/layui/css/font.css">
-    <link rel="stylesheet" href="/layui/css/login.css">
-    <link rel="stylesheet" href="/layui/css/xadmin.css">
+    <link rel="stylesheet" th:href="${StaticResourcePath}+@{'layui/css/font.css'}">
+    <link rel="stylesheet" th:href="${StaticResourcePath}+@{'layui/css/login.css'}">
+    <link rel="stylesheet" th:href="${StaticResourcePath}+@{'layui/css/xadmin.css'}">
 </head>
 <body style="width: 100%;height:100%;background: url(/images/index_bg2.jpg) no-repeat center;background-size: cover;overflow: hidden;">
 
@@ -38,11 +38,10 @@
 <div style="position: absolute;bottom: 0;width: 100%;text-align: center;background-color: #f1f1f1;height: 32px;line-height: 32px;">
     © 朱宇 - 修能信息提供技术支持
 </div> -->
-
-<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
-<script th:src="@{/layui/lib/layui/layui.js}" charset="utf-8"></script>
-<script type="text/javascript" th:src="@{/js/base64.js}"></script>
-<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="${StaticResourcePath}+@{'js/jquery.min.js'}" charset="utf-8"></script>
+<script type="text/javascript" th:src="${StaticResourcePath}+@{'layui/lib/layui/layui.js'}" charset="utf-8"></script>
+<script type="text/javascript" th:src="${StaticResourcePath}+@{'js/base64.js'}" charset="utf-8"></script>
+<script type="text/javascript" th:src="${StaticResourcePath}+@{'js/common.js'}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
     $(function () {
 
