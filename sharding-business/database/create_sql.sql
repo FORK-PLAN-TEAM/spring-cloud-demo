@@ -53,7 +53,7 @@ CREATE TABLE `t_order0` (
   `order_id` bigint(20) NOT NULL,
   `member_id` varchar(36) DEFAULT NULL,
   `order_code` varchar(36) DEFAULT NULL,
-  `order_amount` double DEFAULT NULL,
+  `order_amount` varchar(20) DEFAULT NULL,
   `status` varchar(1) DEFAULT '1',
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`order_id`)

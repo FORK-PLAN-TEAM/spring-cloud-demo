@@ -7,13 +7,6 @@ spring:
     active: dev
   cloud:
     consul:
-      host: localhost
-      port: 8500
-      config:
-        enabled: true
-        format: YAML
-        data-key: data    #表示consul上面的KEY值(或者说文件的名字) 默认是data
-
       # 服务发现配置
       discovery:
         # 启用服务发现

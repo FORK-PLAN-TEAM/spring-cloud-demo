@@ -24,7 +24,7 @@ public class OrderController {
         order.setOrderId(IdWorker.getLongId());
         order.setMemberId(IdWorker.getLongId());
         order.setCreateTime(new Date());
-        order.setOrderAmount("330.2");
+        order.setOrderAmount("331.2");
         order.setOrderCode("abc");
         order.setStatus("1");
         return orderRepository.save(order);

@@ -6,10 +6,6 @@ spring:
     active: dev
   application:
     name: gateway-dynamic-route
-  redis:
-    host: 120.78.215.14
-    port: 6379
-    password: YiZheng123456
   cloud:
     gateway:
       discovery:

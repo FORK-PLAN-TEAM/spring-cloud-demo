@@ -2,7 +2,7 @@ package com.zypcy.springcloud.consulservice;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "student")
+@ConfigurationProperties(prefix = "student") //对应consul配置中心上 student 前缀开始的配置信息
 public class StudentConfig {
 
     private String name;
