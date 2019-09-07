@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 @Api(tags = "bus-记账本")
 @RestController
 @RequestMapping("/bus/cashbook")
-public class CashbookController {
+public class CashBookController {
 
     @Autowired
     private ICashbookService cashbookService;
