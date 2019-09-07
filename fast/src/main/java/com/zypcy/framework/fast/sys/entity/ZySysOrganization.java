@@ -11,21 +11,12 @@ import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
- * <p>
  * 组织机构
- * </p>
- *
  * @author zhuyu
  * @since 2019-06-14
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @TableName("zy_sys_organization")
 @ApiModel(value = "ZySysOrganization对象", description = "组织机构")
 public class ZySysOrganization implements Serializable {
@@ -75,5 +66,115 @@ public class ZySysOrganization implements Serializable {
     @ApiModelProperty(value = "修改用户姓名")
     private String updateUsername;
 
+    public String getOrgId() {
+        return orgId;
+    }
 
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
+
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
+    }
+
+    public String getOrgShortName() {
+        return orgShortName;
+    }
+
+    public void setOrgShortName(String orgShortName) {
+        this.orgShortName = orgShortName;
+    }
+
+    public String getOrgCode() {
+        return orgCode;
+    }
+
+    public void setOrgCode(String orgCode) {
+        this.orgCode = orgCode;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Boolean getIsdel() {
+        return isdel;
+    }
+
+    public void setIsdel(Boolean isdel) {
+        this.isdel = isdel;
+    }
+
+    public Integer getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(Integer orderNum) {
+        this.orderNum = orderNum;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getCreateUserid() {
+        return createUserid;
+    }
+
+    public void setCreateUserid(String createUserid) {
+        this.createUserid = createUserid;
+    }
+
+    public String getCreateUsername() {
+        return createUsername;
+    }
+
+    public void setCreateUsername(String createUsername) {
+        this.createUsername = createUsername;
+    }
+
+    public LocalDateTime getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getUpdateUserid() {
+        return updateUserid;
+    }
+
+    public void setUpdateUserid(String updateUserid) {
+        this.updateUserid = updateUserid;
+    }
+
+    public String getUpdateUsername() {
+        return updateUsername;
+    }
+
+    public void setUpdateUsername(String updateUsername) {
+        this.updateUsername = updateUsername;
+    }
 }

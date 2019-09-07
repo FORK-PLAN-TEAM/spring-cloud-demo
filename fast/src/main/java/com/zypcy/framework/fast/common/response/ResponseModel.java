@@ -2,8 +2,6 @@ package com.zypcy.framework.fast.common.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.experimental.Accessors;
 
 /**
  * 统一数据返回实体
@@ -11,8 +9,6 @@ import lombok.experimental.Accessors;
  * @author zhuyu
  */
 @ApiModel(value = "ResponseModel", description = "统一数据返回实体")
-@Data
-@Accessors(chain = true)
 public class ResponseModel<T> {
 
     /**
@@ -39,15 +35,17 @@ public class ResponseModel<T> {
 
 
     public static ResponseModel failInstance() {
-        return new ResponseModel()
-                .setResultCode(ResultEnum.FAIL.getResultCode())
-                .setResultMessage(ResultEnum.FAIL.getResultMessage());
+        ResponseModel responseModel =  new ResponseModel();
+        responseModel.setResultCode(ResultEnum.FAIL.getResultCode());
+        responseModel.setResultMessage(ResultEnum.FAIL.getResultMessage());
+        return responseModel;
     }
 
     public static ResponseModel successInstance() {
-        return new ResponseModel()
-                .setResultCode(ResultEnum.SUCCESS.getResultCode())
-                .setResultMessage(ResultEnum.SUCCESS.getResultMessage());
+        ResponseModel responseModel =  new ResponseModel();
+        responseModel.setResultCode(ResultEnum.SUCCESS.getResultCode());
+        responseModel.setResultMessage(ResultEnum.SUCCESS.getResultMessage());
+        return responseModel;
     }
 
     public static class Builder<T> {
@@ -60,10 +58,11 @@ public class ResponseModel<T> {
         }
 
         public final <T> ResponseModel<T> build() {
-            return new ResponseModel<T>()
-                    .setResultCode(code)
-                    .setResultMessage(message)
-                    .setResultObj((T) obj);
+            ResponseModel<T> model =  new ResponseModel<T>();
+            model.setResultCode(code);
+            model.setResultMessage(message);
+            model.setResultObj((T) obj);
+            return model;
         }
 
         public Builder code(String code) {
@@ -80,6 +79,54 @@ public class ResponseModel<T> {
             this.obj = obj;
             return this;
         }
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public T getObj() {
+            return obj;
+        }
+
+        public void setObj(T obj) {
+            this.obj = obj;
+        }
     }
 
+
+    public String getResultCode() {
+        return resultCode;
+    }
+
+    public void setResultCode(String resultCode) {
+        this.resultCode = resultCode;
+    }
+
+    public String getResultMessage() {
+        return resultMessage;
+    }
+
+    public void setResultMessage(String resultMessage) {
+        this.resultMessage = resultMessage;
+    }
+
+    public T getResultObj() {
+        return resultObj;
+    }
+
+    public void setResultObj(T resultObj) {
+        this.resultObj = resultObj;
+    }
 }

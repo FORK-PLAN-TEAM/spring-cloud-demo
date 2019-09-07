@@ -1,13 +1,11 @@
 package com.zypcy.framework.fast.common.util;
 
-import lombok.Data;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 
 /**
  * word 基础参数
  * zhuyu
  */
-@Data
 public class WordBaseParam {
 
     /**
@@ -22,4 +20,28 @@ public class WordBaseParam {
      * 字体大小
      */
     int fontSize = 11;
+
+    public ParagraphAlignment getAlign() {
+        return align;
+    }
+
+    public void setAlign(ParagraphAlignment align) {
+        this.align = align;
+    }
+
+    public String getFontFamily() {
+        return fontFamily;
+    }
+
+    public void setFontFamily(String fontFamily) {
+        this.fontFamily = fontFamily;
+    }
+
+    public int getFontSize() {
+        return fontSize;
+    }
+
+    public void setFontSize(int fontSize) {
+        this.fontSize = fontSize;
+    }
 }

@@ -1,13 +1,11 @@
 package com.zypcy.framework.fast.common.util;
 
-import lombok.Data;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 
 /**
  * word 图片内容参数
  * zhuyu
  */
-@Data
 public class WordImgParam extends WordBaseParam{
 
     /**
@@ -31,5 +29,29 @@ public class WordImgParam extends WordBaseParam{
         super.setAlign(align);
         super.setFontFamily(fontFamily);
         super.setFontSize(fontSize);
+    }
+
+    public String[] getImgs() {
+        return imgs;
+    }
+
+    public void setImgs(String[] imgs) {
+        this.imgs = imgs;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 }

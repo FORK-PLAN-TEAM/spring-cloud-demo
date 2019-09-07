@@ -3,18 +3,11 @@ package com.zypcy.framework.fast.sys.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @ApiModel(value = "ZySysTree对象", description = "树对象")
 public class ZySysTree implements Serializable{
-
 
     @ApiModelProperty(value = "id")
     private String id;
@@ -37,4 +30,60 @@ public class ZySysTree implements Serializable{
 
     @ApiModelProperty(value = "存放扩展数据")
     private String extendData;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getpId() {
+        return pId;
+    }
+
+    public void setpId(String pId) {
+        this.pId = pId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getIconSkin() {
+        return iconSkin;
+    }
+
+    public void setIconSkin(String iconSkin) {
+        this.iconSkin = iconSkin;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    public boolean isParent() {
+        return isParent;
+    }
+
+    public void setParent(boolean parent) {
+        isParent = parent;
+    }
+
+    public String getExtendData() {
+        return extendData;
+    }
+
+    public void setExtendData(String extendData) {
+        this.extendData = extendData;
+    }
 }

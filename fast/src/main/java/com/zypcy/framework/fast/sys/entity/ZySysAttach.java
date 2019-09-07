@@ -10,21 +10,12 @@ import java.io.Serializable;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
- * <p>
  * 附件表，同一用户上传多个附件请用attach_no
- * </p>
- *
  * @author zhuyu
  * @since 2019-07-31
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @TableName("zy_sys_attach")
 @ApiModel(value = "ZySysAttach对象", description = "附件表，同一用户上传多个附件请用attach_no")
 public class ZySysAttach implements Serializable {
@@ -67,5 +58,103 @@ public class ZySysAttach implements Serializable {
     @ApiModelProperty(value = "附件描述，可做扩展备用字段")
     private String description;
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
+    public String getAttachId() {
+        return attachId;
+    }
+
+    public void setAttachId(String attachId) {
+        this.attachId = attachId;
+    }
+
+    public String getAttachNo() {
+        return attachNo;
+    }
+
+    public void setAttachNo(String attachNo) {
+        this.attachNo = attachNo;
+    }
+
+    public String getAttachName() {
+        return attachName;
+    }
+
+    public void setAttachName(String attachName) {
+        this.attachName = attachName;
+    }
+
+    public String getAttachOldName() {
+        return attachOldName;
+    }
+
+    public void setAttachOldName(String attachOldName) {
+        this.attachOldName = attachOldName;
+    }
+
+    public Long getAttachSize() {
+        return attachSize;
+    }
+
+    public void setAttachSize(Long attachSize) {
+        this.attachSize = attachSize;
+    }
+
+    public String getAttachPath() {
+        return attachPath;
+    }
+
+    public void setAttachPath(String attachPath) {
+        this.attachPath = attachPath;
+    }
+
+    public String getAttachSuffix() {
+        return attachSuffix;
+    }
+
+    public void setAttachSuffix(String attachSuffix) {
+        this.attachSuffix = attachSuffix;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public String getMd5() {
+        return md5;
+    }
+
+    public void setMd5(String md5) {
+        this.md5 = md5;
+    }
+
+    public Boolean getIsdel() {
+        return isdel;
+    }
+
+    public void setIsdel(Boolean isdel) {
+        this.isdel = isdel;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

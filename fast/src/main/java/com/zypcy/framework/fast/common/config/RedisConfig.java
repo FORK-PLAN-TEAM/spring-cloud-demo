@@ -1,6 +1,6 @@
 package com.zypcy.framework.fast.common.config;
 
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,10 +11,10 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @EnableCaching
 @Configuration
-@AllArgsConstructor
 public class RedisConfig {
 
-    private final RedisConnectionFactory factory;
+    @Autowired
+    private RedisConnectionFactory factory;
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate() {

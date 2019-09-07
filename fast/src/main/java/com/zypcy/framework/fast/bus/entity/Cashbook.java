@@ -11,9 +11,6 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -24,9 +21,6 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @author zhuyu
  * @since 2019-07-29
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @TableName("bus_cashbook")
 @ApiModel(value = "Cashbook对象", description = "记账本")
 public class Cashbook implements Serializable {
@@ -78,5 +72,119 @@ public class Cashbook implements Serializable {
     @ApiModelProperty(value = "修改用户姓名")
     private String updateUsername;
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
+    public String getCashId() {
+        return cashId;
+    }
+
+    public void setCashId(String cashId) {
+        this.cashId = cashId;
+    }
+
+    public String getCashType() {
+        return cashType;
+    }
+
+    public void setCashType(String cashType) {
+        this.cashType = cashType;
+    }
+
+    public Date getRecordTime() {
+        return recordTime;
+    }
+
+    public void setRecordTime(Date recordTime) {
+        this.recordTime = recordTime;
+    }
+
+    public String getDictId() {
+        return dictId;
+    }
+
+    public void setDictId(String dictId) {
+        this.dictId = dictId;
+    }
+
+    public String getCashDetail() {
+        return cashDetail;
+    }
+
+    public void setCashDetail(String cashDetail) {
+        this.cashDetail = cashDetail;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Boolean getIsdel() {
+        return isdel;
+    }
+
+    public void setIsdel(Boolean isdel) {
+        this.isdel = isdel;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getCreateUserid() {
+        return createUserid;
+    }
+
+    public void setCreateUserid(String createUserid) {
+        this.createUserid = createUserid;
+    }
+
+    public String getCreateUsername() {
+        return createUsername;
+    }
+
+    public void setCreateUsername(String createUsername) {
+        this.createUsername = createUsername;
+    }
+
+    public LocalDateTime getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getUpdateUserid() {
+        return updateUserid;
+    }
+
+    public void setUpdateUserid(String updateUserid) {
+        this.updateUserid = updateUserid;
+    }
+
+    public String getUpdateUsername() {
+        return updateUsername;
+    }
+
+    public void setUpdateUsername(String updateUsername) {
+        this.updateUsername = updateUsername;
+    }
 }

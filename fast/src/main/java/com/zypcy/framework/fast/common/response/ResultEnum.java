@@ -1,6 +1,5 @@
 package com.zypcy.framework.fast.common.response;
 
-import lombok.Getter;
 
 public enum ResultEnum {
 
@@ -25,14 +24,20 @@ public enum ResultEnum {
     ACCOUNT_TIMEOUT(ResultCodeEnum.ACCOUNT_TIMEOUT, "身份令牌超时");
 
 
-    @Getter
     private String resultCode;
 
-    @Getter
     private String resultMessage;
 
     ResultEnum(String resultCode, String resultMessage) {
         this.resultCode = resultCode;
         this.resultMessage = resultMessage;
+    }
+
+    public String getResultCode() {
+        return resultCode;
+    }
+
+    public String getResultMessage() {
+        return resultMessage;
     }
 }

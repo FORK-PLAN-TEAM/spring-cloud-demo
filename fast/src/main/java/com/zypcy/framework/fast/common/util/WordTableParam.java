@@ -1,6 +1,5 @@
 package com.zypcy.framework.fast.common.util;
 
-import lombok.Data;
 
 import java.util.List;
 
@@ -8,7 +7,6 @@ import java.util.List;
  * word 表格内容参数
  * zhuyu
  */
-@Data
 public class WordTableParam extends WordBaseParam{
 
     /**
@@ -62,5 +60,70 @@ public class WordTableParam extends WordBaseParam{
      */
     public int getCols(){
         return header.length;
+    }
+
+
+    public int getRowHeight() {
+        return rowHeight;
+    }
+
+    public void setRowHeight(int rowHeight) {
+        this.rowHeight = rowHeight;
+    }
+
+    public int getColWidth() {
+        return colWidth;
+    }
+
+    public void setColWidth(int colWidth) {
+        this.colWidth = colWidth;
+    }
+
+    public int getTop() {
+        return top;
+    }
+
+    public void setTop(int top) {
+        this.top = top;
+    }
+
+    public int getLeft() {
+        return left;
+    }
+
+    public void setLeft(int left) {
+        this.left = left;
+    }
+
+    public int getBottom() {
+        return bottom;
+    }
+
+    public void setBottom(int bottom) {
+        this.bottom = bottom;
+    }
+
+    public int getRight() {
+        return right;
+    }
+
+    public void setRight(int right) {
+        this.right = right;
+    }
+
+    public String[] getHeader() {
+        return header;
+    }
+
+    public void setHeader(String[] header) {
+        this.header = header;
+    }
+
+    public List<String[]> getValues() {
+        return values;
+    }
+
+    public void setValues(List<String[]> values) {
+        this.values = values;
     }
 }

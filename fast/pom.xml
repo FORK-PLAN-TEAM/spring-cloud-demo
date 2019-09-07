@@ -79,13 +79,6 @@
 
 		<!-- 下面是开发工具 -->
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<!--<version>1.16.22</version>-->
-			<!--<scope>provided</scope>-->
-			<!--<optional>true</optional>-->
-		</dependency>
-		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
 			<version>2.9.2</version>
@@ -168,15 +161,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<!--<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.5</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>-->
 			<!-- mybatis generator 自动生成代码插件 -->
 			<plugin>
 				<groupId>egov-china.mybatis.generator</groupId>

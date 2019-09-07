@@ -9,21 +9,12 @@ import java.io.Serializable;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
- * <p>
  * 菜单
- * </p>
- *
  * @author zhuyu
  * @since 2019-06-14
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @TableName("zy_sys_menu")
 @ApiModel(value = "ZySysMenu对象", description = "菜单")
 public class ZySysMenu implements Serializable {
@@ -76,5 +67,123 @@ public class ZySysMenu implements Serializable {
     @ApiModelProperty(value = "修改用户姓名")
     private String updateUsername;
 
+    public String getMenuId() {
+        return menuId;
+    }
 
+    public void setMenuId(String menuId) {
+        this.menuId = menuId;
+    }
+
+    public String getMenuName() {
+        return menuName;
+    }
+
+    public void setMenuName(String menuName) {
+        this.menuName = menuName;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public Boolean getState() {
+        return state;
+    }
+
+    public void setState(Boolean state) {
+        this.state = state;
+    }
+
+    public Boolean getIsdel() {
+        return isdel;
+    }
+
+    public void setIsdel(Boolean isdel) {
+        this.isdel = isdel;
+    }
+
+    public Integer getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(Integer orderNum) {
+        this.orderNum = orderNum;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getCreateUserid() {
+        return createUserid;
+    }
+
+    public void setCreateUserid(String createUserid) {
+        this.createUserid = createUserid;
+    }
+
+    public String getCreateUsername() {
+        return createUsername;
+    }
+
+    public void setCreateUsername(String createUsername) {
+        this.createUsername = createUsername;
+    }
+
+    public LocalDateTime getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getUpdateUserid() {
+        return updateUserid;
+    }
+
+    public void setUpdateUserid(String updateUserid) {
+        this.updateUserid = updateUserid;
+    }
+
+    public String getUpdateUsername() {
+        return updateUsername;
+    }
+
+    public void setUpdateUsername(String updateUsername) {
+        this.updateUsername = updateUsername;
+    }
 }
