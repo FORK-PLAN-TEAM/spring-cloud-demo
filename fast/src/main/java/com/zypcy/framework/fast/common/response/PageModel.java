@@ -3,8 +3,6 @@ package com.zypcy.framework.fast.common.response;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,8 +12,6 @@ import java.util.List;
  * @param <T>
  */
 @ApiModel(value = "PageListModel", description = "Layui-Table控件需要的数据结构")
-@Data
-@Accessors(chain = true)
 public class PageModel<T> implements Serializable{
 
     /**

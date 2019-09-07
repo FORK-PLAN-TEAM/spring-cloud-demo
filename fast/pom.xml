@@ -81,7 +81,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.16.22</version>
+			<!--<version>1.16.22</version>-->
 			<!--<scope>provided</scope>-->
 			<!--<optional>true</optional>-->
 		</dependency>
@@ -168,7 +168,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
+			<!--<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.5</version>
@@ -176,7 +176,7 @@
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
-			</plugin>
+			</plugin>-->
 			<!-- mybatis generator 自动生成代码插件 -->
 			<plugin>
 				<groupId>egov-china.mybatis.generator</groupId>
