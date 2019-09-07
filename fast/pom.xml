@@ -178,6 +178,11 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok-maven-plugin</artifactId>
+				<version>1.18.0.0</version>
+			</plugin>
 			<!-- mybatis generator 自动生成代码插件 -->
 			<plugin>
 				<groupId>egov-china.mybatis.generator</groupId>
