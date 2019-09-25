@@ -33,6 +33,15 @@
                             <input class="layui-input"  autocomplete="off" placeholder="截止日期" name="endTime" id="endTime">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
+                            <div class="layui-col-sm5 layui-row-label">
+                                入账内容：
+                            </div>
+                            <div class="layui-col-sm7">
+                                <select name="dictSelect" id="dictSelect" lay-search>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
                             <button class="layui-btn"  lay-submit="" lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
                         </div>
                     </form>
@@ -75,6 +84,9 @@
         laydate.render({
             elem: '#endTime' //指定元素
         });
+
+        //加载入账内容数据字典到select
+        getDictByPId("649036610398617600" , "dictSelect");
 
         //加载列表 - 默认加载第一个节点数据
         initTable();
@@ -125,11 +137,15 @@
         var cashType = $("#typeSelect").val();
         var startTime = getById("startTime").value;
         var endTime = getById("endTime").value;
+        var selectDictId = $("#dictSelect").val();
+        //var selectCashDetail = $("#dictSelect").find("option:selected").text();
+
         table.reload(tableIns.getTableId(), {
             where: {
                 cashType : cashType ,
                 startTime: startTime ,
-                endTime : endTime
+                endTime : endTime,
+                dictId: selectDictId
             }, page: {
                 pageIndex: 1 //重新从第 1 页开始
             }

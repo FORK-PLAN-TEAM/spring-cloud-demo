@@ -39,9 +39,10 @@ public interface ICashbookService extends IService<Cashbook> {
      * @param cashType  账目类型
      * @param startTime 开始时间
      * @param endTime   结束时间
+     * @param dictId   入账内容，数据字典
      * @param pageIndex 页码
      * @param pageSize  每页数据量
      * @return
      */
-    IPage<Cashbook> pageList(String cashType, String startTime , String endTime,int pageIndex , int pageSize);
+    IPage<Cashbook> pageList(String cashType, String startTime , String endTime, String dictId, int pageIndex , int pageSize);
 }

@@ -69,7 +69,7 @@ public class CashbookServiceImpl extends ServiceImpl<CashbookMapper, Cashbook> i
 
 
     @Override
-    public IPage<Cashbook> pageList(String cashType, String startTime, String endTime, int pageIndex, int pageSize) {
+    public IPage<Cashbook> pageList(String cashType, String startTime, String endTime, String dictId, int pageIndex, int pageSize) {
         String userId = ContextHolder.getUserId();//只能看自己的信息
         Page<Cashbook> page = new Page<>(pageIndex , pageSize);
         Cashbook cashbook = new Cashbook();
@@ -79,6 +79,9 @@ public class CashbookServiceImpl extends ServiceImpl<CashbookMapper, Cashbook> i
         cashbook.setIsdel(false);
         if(!StringUtils.isEmpty(cashType)){
             cashbook.setCashType(cashType);
+        }
+        if(!StringUtils.isEmpty(dictId)){
+            cashbook.setDictId(dictId);
         }
         //按时间查询
         QueryWrapper<Cashbook> wrapper = new QueryWrapper<>(cashbook);

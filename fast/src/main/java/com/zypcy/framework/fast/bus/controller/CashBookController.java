@@ -30,10 +30,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * <p>
  * 记账本 前端控制器
- * </p>
- *
  * @author zhuyu
  * @since 2019-07-29
  */
@@ -72,8 +69,9 @@ public class CashBookController {
 
     @ApiOperation(value = "获取记账本列表", notes = "api接口", httpMethod = "GET")
     @GetMapping("pageList")
-    public IPage<Cashbook> pageList(@ApiParam(value = "账目类型") String cashType, @ApiParam(value = "开始时间") String startTime, @ApiParam(value = "结束时间") String endTime, int pageIndex, int pageSize) {
-        return cashbookService.pageList(cashType , startTime, endTime, pageIndex, pageSize);
+    public IPage<Cashbook> pageList(@ApiParam(value = "账目类型") String cashType, @ApiParam(value = "开始时间") String startTime, @ApiParam(value = "结束时间") String endTime,
+                                  @ApiParam(value = "账本详情-数据字典id") String dictId,int pageIndex, int pageSize) {
+        return cashbookService.pageList(cashType , startTime, endTime,dictId, pageIndex, pageSize);
     }
 
     @ApiOperation(value = "根据Id获取账目信息", notes = "api接口", httpMethod = "GET")
