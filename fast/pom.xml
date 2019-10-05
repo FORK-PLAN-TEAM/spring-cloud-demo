@@ -133,6 +133,15 @@
         </dependency>
         <!-- zxing -->
 
+		<!-- 日志打印项目 -->
+		<dependency>
+			<groupId>com.zypcy.log</groupId>
+			<artifactId>logfilter</artifactId>
+			<version>0.0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/resources/lib/logfilter-0.0.1.jar</systemPath>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -168,6 +177,11 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
+					<encoding>UTF-8</encoding>
+					<compilerArguments>
+						<!-- 打包本地lib中的jar到部署包中 -->
+						<extdirs>${project.basedir}/src/main/resources/lib</extdirs>
+					</compilerArguments>
 				</configuration>
 			</plugin>
 			<!-- mybatis generator 自动生成代码插件 -->

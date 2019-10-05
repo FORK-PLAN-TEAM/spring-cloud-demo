@@ -3,6 +3,7 @@ package com.zypcy.framework.fast;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.google.common.collect.Maps;
 import com.zypcy.framework.fast.common.response.ResponseBodyWrapFactory;
+import com.zypcy.log.logfilter.EnableLogFilter;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +15,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import javax.annotation.Resource;
 import java.util.Map;
 
+@EnableLogFilter
 @EnableAsync
 @SpringBootApplication
 @MapperScan({"com.zypcy.framework.fast.sys.mapper" , "com.zypcy.framework.fast.bus.mapper"})
