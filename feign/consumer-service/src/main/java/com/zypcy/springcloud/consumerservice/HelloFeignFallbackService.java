@@ -11,4 +11,9 @@ public class HelloFeignFallbackService implements HelloFeignService{
     public String hello(String name) {
         return "未找到" + name ;
     }
+
+    @Override
+    public Person createPerson(Person person) {
+        return null;
+    }
 }
