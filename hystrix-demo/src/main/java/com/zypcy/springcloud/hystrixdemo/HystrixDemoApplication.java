@@ -13,6 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Random;
 
+/**
+ * HystrixDashboard 需要通过 actuator 配置暴露端口，management.endpoints.web.exposure.include=*
+ * HystrixDashboard 访问地址：http://localhost:port/hystrix ，进入Dashboard界面，在文本框输入 http://localhost:port/actuator/hystrix.stream
+ * 多个项目的HystrixDashboard，可以通过turbine聚合
+ * 参考：https://blog.csdn.net/zhuyu19911016520/article/details/85561096
+ */
 @RestController
 @EnableHystrixDashboard
 @EnableHystrix
