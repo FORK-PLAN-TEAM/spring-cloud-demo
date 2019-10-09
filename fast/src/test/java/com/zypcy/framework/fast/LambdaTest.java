@@ -1,7 +1,5 @@
 package com.zypcy.framework.fast;
 
-import com.zypcy.framework.fast.common.util.LogUtil;
-import com.zypcy.framework.fast.sys.async.InitLoaderAsync;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +19,7 @@ public class LambdaTest {
     @Test
     public void contextLoads() {
     }
+
 
     /*
     @Autowired

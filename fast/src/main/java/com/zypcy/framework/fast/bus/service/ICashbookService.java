@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zypcy.framework.fast.bus.entity.Cashbook;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,4 +46,12 @@ public interface ICashbookService extends IService<Cashbook> {
      * @return
      */
     IPage<Cashbook> pageList(String cashType, String startTime , String endTime, String dictId, int pageIndex , int pageSize);
+
+    /**
+     * 统计每人，某天、不同类型、不同类别的账目数据
+     * @param createUserId
+     * @param sTime
+     * @return
+     */
+    List<Cashbook> statisticsDayAmount(String createUserId , String sTime);
 }

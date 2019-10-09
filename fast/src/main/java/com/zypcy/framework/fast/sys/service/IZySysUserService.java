@@ -3,6 +3,8 @@ package com.zypcy.framework.fast.sys.service;
 import com.zypcy.framework.fast.sys.entity.ZySysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户表 服务类
@@ -47,4 +49,10 @@ public interface IZySysUserService extends IService<ZySysUser> {
      * @return
      */
     boolean existsUserAccount(String userAccount);
+
+    /**
+     * 获取所有正常用户的userId
+     * @return
+     */
+    List<String> listAllUserId();
 }

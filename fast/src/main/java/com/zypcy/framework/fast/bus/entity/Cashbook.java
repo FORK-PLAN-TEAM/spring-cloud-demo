@@ -14,10 +14,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
- * <p>
  * 记账本
- * </p>
- *
  * @author zhuyu
  * @since 2019-07-29
  */

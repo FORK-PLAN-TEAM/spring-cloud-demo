@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -125,5 +126,14 @@ public class ZySysUserServiceImpl extends ServiceImpl<ZySysUserMapper, ZySysUser
     @Override
     public boolean existsUserAccount(String userAccount) {
         return userMapper.existsUserAccount(userAccount) > 0 ? true : false;
+    }
+
+    /**
+     * 获取所有正常用户的userId
+     * @return
+     */
+    @Override
+    public List<String> listAllUserId() {
+        return userMapper.listAllUserId();
     }
 }

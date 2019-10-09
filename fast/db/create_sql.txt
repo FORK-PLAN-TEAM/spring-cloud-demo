@@ -190,3 +190,19 @@ create table bus_cashbook
 );
 
 alter table bus_cashbook comment '记账本';
+
+
+create table bus_cashbook_statistics
+(
+   sid                  varchar(36) not null,
+   create_userid        varchar(36) comment '用户Id',
+   syear                int comment '年份',
+   smonth               int comment '月份',
+   cash_type            varchar(1) comment '账目类型，0:支出，1:收入',
+   dict_id              varchar(36) comment '账本类别-数据字典id',
+   cash_category        varchar(64) comment '账本类别-数据字典dict_id的value值',
+   amount               double(16,2) comment '总额',
+   primary key (sid)
+);
+
+alter table bus_cashbook_statistics comment '定时任务统计用户不同月份-不同类型-不同类别数据';

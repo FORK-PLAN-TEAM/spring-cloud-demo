@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -93,5 +94,16 @@ public class CashbookServiceImpl extends ServiceImpl<CashbookMapper, Cashbook> i
             wrapper.between("record_time", startTime , startTime + " 23:59:59");
         }
         return cashbookMapper.selectPage(page , wrapper);
+    }
+
+    /**
+     * 统计每人，某天、不同类型、不同类别的账目数据
+     * @param createUserId
+     * @param sTime
+     * @return
+     */
+    @Override
+    public List<Cashbook> statisticsDayAmount(String createUserId, String sTime) {
+        return cashbookMapper.statisticsDayAmount(createUserId , sTime);
     }
 }

@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户表 Mapper 接口
@@ -22,4 +24,7 @@ public interface ZySysUserMapper extends BaseMapper<ZySysUser> {
 
     @Select(" select count(user_id) from zy_sys_user where user_account=#{userAccount} ")
     int existsUserAccount(@Param("userAccount") String userAccount);
+
+    @Select("select user_id from zy_sys_user where isdel = 0 and state=0")
+    List<String> listAllUserId();
 }
