@@ -20,7 +20,6 @@ public class LambdaTest {
     public void contextLoads() {
     }
 
-
     /*
     @Autowired
     InitLoaderAsync loaderAsync;
