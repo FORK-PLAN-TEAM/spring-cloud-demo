@@ -38,10 +38,12 @@ public class ZySysLoginServiceImpl implements IZySysLoginService {
             return model;
         }
 
-        ZySysUser queryUser = new ZySysUser();
-        queryUser.setUserAccount(userAccount);
-        //queryUser.setUserPwd(userPwd);
-        Wrapper<ZySysUser> wrapper = new QueryWrapper<>(queryUser);
+        //根据手机号和登录账户 or 查询
+        QueryWrapper<ZySysUser> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_account" , userAccount)
+                .or()
+                .eq("cell_phone" , userAccount);
+
         ZySysUser sysUser = userMapper.selectOne(wrapper);
         if(sysUser != null){
             if(sysUser.getState()){
@@ -67,7 +69,7 @@ public class ZySysLoginServiceImpl implements IZySysLoginService {
             }
             return model;
         }else {
-            model.setResultMessage("该账号不存在，请使用正确的登录帐号");
+            model.setResultMessage("请输入正确的手机号或登录帐号");
             return model;
         }
     }

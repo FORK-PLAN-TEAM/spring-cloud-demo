@@ -167,11 +167,11 @@ public class CashBookController {
         }
         //得到要导出的list集合
         List<Cashbook> list = cashbookService.list(wrapper);
-        String[] title = {"账目类型" ,"记录时间", "入账内容", "账目金额", "备注"};
+        String[] title = {"账目类型" ,"记录时间", "入账类别", "账目金额", "备注"};
         List<String[]> exportDataList = list.stream().map(item -> new String[]{
                 item.getCashType().equals("0") ? "支出" : "收入" ,
                 DateUtil.format(item.getRecordTime() , "yyyy-MM-dd"),
-                item.getCashDetail(),
+                item.getCashCategory(),
                 item.getAmount().toString(),
                 item.getRemark()
         }).collect(Collectors.toList());

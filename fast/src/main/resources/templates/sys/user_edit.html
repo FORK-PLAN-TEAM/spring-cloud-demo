@@ -8,7 +8,7 @@
 
 </head>
 <body>
-<form lay-filter="form1" class="layui-form margintop20" action="">
+<form lay-filter="form1" class="layui-form margintop20 marginbottom10" action="">
     <input type="hidden" id="userId" name="userId" value=""/>
     <input type="hidden" id="orgId" name="orgId" value=""/>
     <div class="layui-row margintop15">
@@ -24,7 +24,7 @@
     </div>
     <div class="layui-row margintop10">
         <div class="layui-col-sm2 layui-row-label">
-            所在组织
+            <span class="x-red">*</span>所在组织
         </div>
         <div class="layui-col-sm5">
             <input type="text" id="orgName" autocomplete="" disabled="disabled" class="layui-input disabled">
@@ -35,26 +35,34 @@
     </div>
     <div class="layui-row margintop10">
         <div class="layui-col-sm2 layui-row-label">
-            用户编号
+            <span class="x-red">*</span>用户编号
         </div>
         <div class="layui-col-sm5">
-            <input type="text" id="userCode" name="userCode"  autocomplete="" class="layui-input">
+            <input type="text" id="userCode" name="userCode" lay-verify="required"  autocomplete="" class="layui-input">
         </div>
     </div>
     <div class="layui-row margintop10">
         <div class="layui-col-sm2 layui-row-label">
-            登录帐号
+            <span class="x-red">*</span>手机号码
         </div>
         <div class="layui-col-sm5">
-            <input type="text" id="userAccount" name="userAccount"  autocomplete="" class="layui-input">
+            <input type="text" id="cellPhone" name="cellPhone" lay-verify="required"  autocomplete="" class="layui-input">
         </div>
     </div>
     <div class="layui-row margintop10">
         <div class="layui-col-sm2 layui-row-label">
-            登录密码
+            <span class="x-red">*</span>登录帐号
         </div>
         <div class="layui-col-sm5">
-            <input type="password" id="userPwd" name="userPwd" autocomplete="" class="layui-input">
+            <input type="text" id="userAccount" name="userAccount" lay-verify="required" autocomplete="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-row margintop10">
+        <div class="layui-col-sm2 layui-row-label">
+            <span class="x-red">*</span>登录密码
+        </div>
+        <div class="layui-col-sm5">
+            <input type="password" id="userPwd" name="userPwd" lay-verify="required" autocomplete="" class="layui-input">
         </div>
     </div>
     <div class="layui-row margintop10">
@@ -140,6 +148,7 @@
             "orgId": user.orgId,
             "userName": user.userName,
             "userCode": user.userCode,
+            "cellPhone" : user.cellPhone,
             "userAccount": user.userAccount,
             "userPwd": user.userPwd,
             "orderNum": user.orderNum

@@ -34,7 +34,7 @@
                         </div>
                         <div class="layui-inline layui-show-xs-block">
                             <div class="layui-col-sm5 layui-row-label">
-                                入账内容：
+                                入账类别：
                             </div>
                             <div class="layui-col-sm7">
                                 <select name="dictSelect" id="dictSelect" lay-search>
@@ -85,7 +85,7 @@
             elem: '#endTime' //指定元素
         });
 
-        //加载入账内容数据字典到select
+        //加载入账类别数据字典到select
         getDictByPId("649036610398617600" , "dictSelect");
 
         //加载列表 - 默认加载第一个节点数据
@@ -114,7 +114,7 @@
                     return new Date(d.recordTime).Format("yyyy-MM-dd");
                 }
             }, {
-                field: 'cashDetail', title: '入账内容', align: 'center'
+                field: 'cashCategory', title: '入账类别', align: 'center'
             }, {
                 field: 'amount', title: '账目金额', align: 'center'
             }, {

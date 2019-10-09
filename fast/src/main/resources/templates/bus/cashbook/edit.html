@@ -9,7 +9,7 @@
 <form lay-filter="form1" class="layui-form margintop20" action="">
     <input type="hidden" id="cashId" name="cashId" value=""/>
     <input type="hidden" id="dictId" name="dictId" value=""/>
-    <input type="hidden" id="cashDetail" name="cashDetail" value=""/>
+    <input type="hidden" id="cashCategory" name="cashCategory" value=""/>
     <div class="layui-row margintop15">
         <div class="layui-col-sm2 layui-row-label">
             <span class="x-red">*</span>入账类型
@@ -35,7 +35,7 @@
     </div>
     <div class="layui-row margintop10">
         <div class="layui-col-sm2 layui-row-label">
-            <span class="x-red">*</span>入账内容
+            <span class="x-red">*</span>入账类别
         </div>
         <div class="layui-col-sm5">
             <!--单选select-->
@@ -95,7 +95,7 @@
             "cashType": cashbook.cashType,
             "recordTime": cashbook.recordTime,
             "dictId" : cashbook.dictId,
-            "cashDetail": cashbook.cashDetail,
+            "cashCategory": cashbook.cashCategory,
             "amount": cashbook.amount,
             "remark": cashbook.remark
         });
@@ -115,9 +115,9 @@
         form.on('submit(save)', function (data) {
             //把选择的数据字典保存到对应字段中
             var selectDictId = $("#dictSelect").val();
-            var selectCashDetail = $("#dictSelect").find("option:selected").text();
+            var selectCashCategory = $("#dictSelect").find("option:selected").text();
             data.field.dictId = selectDictId;
-            data.field.cashDetail = selectCashDetail;
+            data.field.cashCategory = selectCashCategory;
             var selectCashType = $("#typeSelect").val();
             data.field.cashType = selectCashType;
             //console.log(data.field);

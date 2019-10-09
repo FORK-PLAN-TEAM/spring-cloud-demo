@@ -23,7 +23,7 @@
                 <tr>
                     <th width="15%">类型</th>
                     <th width="35%">时间</th>
-                    <th width="25%">内容</th>
+                    <th width="25%">类别</th>
                     <th width="25%">金额</th>
                 </tr>
                 </thead>
@@ -56,7 +56,7 @@
             <div class="weui-cells weui-cells_form">
                 <input type="hidden" id="cashId" name="cashId" value=""/>
                 <input type="hidden" id="dictId" name="dictId" value=""/>
-                <input type="hidden" id="cashDetail" name="cashDetail" value=""/>
+                <input type="hidden" id="cashCategory" name="cashCategory" value=""/>
                 <div class="weui-cell">
                     <div class="weui-cell__hd"><label class="weui-label">账目类型</label></div>
                     <div class="weui-cell__bd">
@@ -79,7 +79,7 @@
                 </div>
                 <div class="weui-cell">
                     <div class="weui-cell__hd">
-                        <label class="weui-label">入账内容</label>
+                        <label class="weui-label">入账类别</label>
                     </div>
                     <div class="weui-cell__bd">
                         <select name="dictSelect" id="dictSelect" class="weui-select" style="height: 1.485em;line-height: 1.485em;padding-left: 0px; ">
@@ -162,7 +162,7 @@
                 console.log(values, displayValues);
             }
         });
-        //加载入账内容数据字典
+        //加载入账类别数据字典
         getDictByPId("649036610398617600" , "dictSelect");
     });
 
@@ -236,7 +236,7 @@
                             html += '<tr id="tr_'+ listData[i].cashId +'" onclick="update(\''+listData[i].cashId +'\')">';
                             html += '<td>'+ getCashTypeText(listData[i].cashType) +'</td>';
                             html += '<td>'+ listData[i].recordTime +'</td>';
-                            html += '<td>'+ listData[i].cashDetail +'</td>';
+                            html += '<td>'+ listData[i].cashCategory +'</td>';
                             html += '<td>'+ listData[i].amount +'</td>';
                             html += '</tr>';
                         }
@@ -301,7 +301,7 @@
     function resetForm() {
         $('#cashId').val('');
         $('#dictId').val('');
-        $('#cashDetail').val('');
+        $('#cashCategory').val('');
         $('#typeSelect').val(0);
         $('#recordTime').val(new Date().Format("yyyy-MM-dd"));
         $('#dictSelect').val('');
@@ -311,9 +311,10 @@
     //修改账目
     function update(cashId) {
         var cashbook = getItem(cashId);
+        console.log(cashbook);
         $('#cashId').val(cashbook.cashId);
         $('#dictId').val(cashbook.dictId);
-        $('#cashDetail').val(cashbook.cashDetail);
+        $('#cashCategory').val(cashbook.cashCategory);
         $('#typeSelect').val(cashbook.cashType);
         $('#recordTime').val(cashbook.recordTime);
         $('#dictSelect').val(cashbook.dictId);
@@ -329,7 +330,7 @@
         var cashbook = {
             cashId : $('#cashId').val(),
             dictId : $('#dictSelect').val(),
-            cashDetail : $("#dictSelect").find("option:selected").text(),
+            cashCategory : $("#dictSelect").find("option:selected").text(),
             cashType : $('#typeSelect').val(),
             recordTime : $('#recordTime').val(),
             amount : $('#amount').val(),
@@ -355,7 +356,7 @@
                             var childs = $('#tr_' + id).children();
                             childs.eq(0).text(getCashTypeText(cashbook.cashType));
                             childs.eq(1).text(cashbook.recordTime);
-                            childs.eq(2).text(cashbook.cashDetail);
+                            childs.eq(2).text(cashbook.cashCategory);
                             childs.eq(3).text(cashbook.amount);
                         }else{
                             //如果是新增，则在最上面插入一行
@@ -363,7 +364,7 @@
                             var html = '<tr id="tr_'+ id +'" onclick="update(\''+ id +'\')">';
                             html += '<td>'+ getCashTypeText(cashbook.cashType) +'</td>';
                             html += '<td>'+ cashbook.recordTime +'</td>';
-                            html += '<td>'+ cashbook.cashDetail +'</td>';
+                            html += '<td>'+ cashbook.cashCategory +'</td>';
                             html += '<td>'+ cashbook.amount +'</td>';
                             html += '</tr>';
                             $('#tableList').before(html);

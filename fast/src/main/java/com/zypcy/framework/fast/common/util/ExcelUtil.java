@@ -22,10 +22,10 @@ import java.util.List;
  * 5、将生成的HSSFWorkbook放入HttpServletResponse中响应到前端页面
  * 使用方法:
      List<Cashbook> list = getDatalist();
-     String[] title = {"记录时间", "入账内容", "账目金额", "备注"};
+     String[] title = {"记录时间", "入账类别", "账目金额", "备注"};
      List<String[]> exportDataList = list.parallelStream().map(item -> new String[]{
        DateUtil.format(item.getRecordTime() , "yyyy-MM-dd"),
-       item.getCashDetail(),
+       item.getCashCategory(),
        item.getAmount().toString(),
        item.getRemark()
      }).collect(Collectors.toList());

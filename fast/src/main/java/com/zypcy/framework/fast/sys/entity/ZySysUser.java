@@ -35,6 +35,9 @@ public class ZySysUser implements Serializable {
     @ApiModelProperty(value = "用户编号")
     private String userCode;
 
+    @ApiModelProperty(value = "手机号，登录帐号")
+    private String cellPhone;
+
     @ApiModelProperty(value = "登录帐号")
     private String userAccount;
 
@@ -244,5 +247,13 @@ public class ZySysUser implements Serializable {
 
     public void setRoleIds(String roleIds) {
         this.roleIds = roleIds;
+    }
+
+    public String getCellPhone() {
+        return cellPhone;
+    }
+
+    public void setCellPhone(String cellPhone) {
+        this.cellPhone = cellPhone;
     }
 }

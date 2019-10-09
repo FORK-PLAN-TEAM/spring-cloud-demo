@@ -15,7 +15,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import javax.annotation.Resource;
 import java.util.Map;
 
-@EnableLogFilter
+//@EnableLogFilter
 @EnableAsync
 @SpringBootApplication
 @MapperScan({"com.zypcy.framework.fast.sys.mapper" , "com.zypcy.framework.fast.bus.mapper"})

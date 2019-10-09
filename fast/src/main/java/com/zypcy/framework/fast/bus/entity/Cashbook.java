@@ -42,8 +42,8 @@ public class Cashbook implements Serializable {
     @ApiModelProperty(value = "账本详情-数据字典id")
     private String dictId;
 
-    @ApiModelProperty(value = "账本详情-数据字典name")
-    private String cashDetail;
+    @ApiModelProperty(value = "入账类别-数据字典name")
+    private String cashCategory;
 
     @ApiModelProperty(value = "记录金额")
     private Double amount;
@@ -108,12 +108,12 @@ public class Cashbook implements Serializable {
         this.dictId = dictId;
     }
 
-    public String getCashDetail() {
-        return cashDetail;
+    public String getCashCategory() {
+        return cashCategory;
     }
 
-    public void setCashDetail(String cashDetail) {
-        this.cashDetail = cashDetail;
+    public void setCashCategory(String cashCategory) {
+        this.cashCategory = cashCategory;
     }
 
     public Double getAmount() {

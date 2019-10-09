@@ -33,6 +33,7 @@ create table zy_sys_user
    org_id               varchar(36) comment '组织机构id',
    user_name            varchar(36) comment '用户姓名',
    user_code            varchar(36) comment '用户编号',
+   cell_phone           varchar(18) comment '手机号，登录帐号',
    user_account         varchar(36) comment '登录帐号',
    user_pwd             varchar(36) comment '登录密码',
    salt                 varchar(36) comment '盐：密码加密key',
