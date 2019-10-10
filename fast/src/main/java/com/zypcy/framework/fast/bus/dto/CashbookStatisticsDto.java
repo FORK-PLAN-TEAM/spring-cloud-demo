@@ -9,31 +9,22 @@ import java.util.Map;
 @ApiModel(value = "CashbookStatisticsDto对象", description = "按月统计数据与按类别数据")
 public class CashbookStatisticsDto {
 
-    private CashbookShouZhiDto months;
-    private List<CashbookStatistics> categoryShouru;
-    private List<CashbookStatistics> categoryZhichu;
+    private List<CashbookStatistics> months;
+    private List<CashbookStatistics> categorys;
 
-    public CashbookShouZhiDto getMonths() {
+    public List<CashbookStatistics> getMonths() {
         return months;
     }
 
-    public void setMonths(CashbookShouZhiDto months) {
+    public void setMonths(List<CashbookStatistics> months) {
         this.months = months;
     }
 
-    public List<CashbookStatistics> getCategoryShouru() {
-        return categoryShouru;
+    public List<CashbookStatistics> getCategorys() {
+        return categorys;
     }
 
-    public void setCategoryShouru(List<CashbookStatistics> categoryShouru) {
-        this.categoryShouru = categoryShouru;
-    }
-
-    public List<CashbookStatistics> getCategoryZhichu() {
-        return categoryZhichu;
-    }
-
-    public void setCategoryZhichu(List<CashbookStatistics> categoryZhichu) {
-        this.categoryZhichu = categoryZhichu;
+    public void setCategorys(List<CashbookStatistics> categorys) {
+        this.categorys = categorys;
     }
 }

@@ -1,6 +1,5 @@
 package com.zypcy.framework.fast.bus.service;
 
-import com.zypcy.framework.fast.bus.dto.CashbookShouZhiDto;
 import com.zypcy.framework.fast.bus.entity.Cashbook;
 import com.zypcy.framework.fast.bus.entity.CashbookStatistics;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -29,7 +28,7 @@ public interface ICashbookStatisticsService extends IService<CashbookStatistics>
      * @param endTime
      * @return
      */
-    Future<CashbookShouZhiDto> statisticsByMonth(String userId , String startTime, String endTime);
+    Future<List<CashbookStatistics>> statisticsByMonth(String userId , String startTime, String endTime);
 
     /**
      * 按数据字典类别统计用户账目数据
@@ -38,6 +37,6 @@ public interface ICashbookStatisticsService extends IService<CashbookStatistics>
      * @param endTime
      * @return
      */
-    Future<List<CashbookStatistics>> statisticsByCategory(String userId, int cashType , String startTime, String endTime);
+    Future<List<CashbookStatistics>> statisticsByCategory(String userId, String startTime, String endTime);
 
 }

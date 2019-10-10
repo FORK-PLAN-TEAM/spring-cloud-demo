@@ -1,6 +1,5 @@
 package com.zypcy.framework.fast.bus.controller;
 
-import com.zypcy.framework.fast.bus.dto.CashbookShouZhiDto;
 import com.zypcy.framework.fast.bus.dto.CashbookStatisticsDto;
 import com.zypcy.framework.fast.bus.entity.CashbookStatistics;
 import com.zypcy.framework.fast.bus.service.ICashbookStatisticsService;
@@ -50,17 +49,14 @@ public class CashbookStatisticsController {
             throw new BusinessException("请传入开始或结束时间");
         }
         //异步执行三个统计方法
-        Future<CashbookShouZhiDto> fmonths = statisticsService.statisticsByMonth(ContextHolder.getUserId(), startTime, endTime);
-        Future<List<CashbookStatistics>> fcategoryZhichu = statisticsService.statisticsByCategory(ContextHolder.getUserId(), 0, startTime, endTime);
-        Future<List<CashbookStatistics>> fcategoryShouru = statisticsService.statisticsByCategory(ContextHolder.getUserId(), 1, startTime, endTime);
+        Future<List<CashbookStatistics>> fmonths = statisticsService.statisticsByMonth(ContextHolder.getUserId(), startTime, endTime);
+        Future<List<CashbookStatistics>> fcategorys = statisticsService.statisticsByCategory(ContextHolder.getUserId(), startTime, endTime);
 
         CashbookStatisticsDto statisticsDto = new CashbookStatisticsDto();
-        CashbookShouZhiDto months = fmonths.get();
-        List<CashbookStatistics> categoryZhichu = fcategoryZhichu.get();
-        List<CashbookStatistics> categoryShouru = fcategoryShouru.get();
+        List<CashbookStatistics> months = fmonths.get();
+        List<CashbookStatistics> categorys = fcategorys.get();
         statisticsDto.setMonths(months);
-        statisticsDto.setCategoryZhichu(categoryZhichu);
-        statisticsDto.setCategoryShouru(categoryShouru);
+        statisticsDto.setCategorys(categorys);
         return statisticsDto;
     }
 }

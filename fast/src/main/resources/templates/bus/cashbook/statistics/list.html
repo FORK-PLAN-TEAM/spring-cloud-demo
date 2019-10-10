@@ -45,9 +45,10 @@
                                 <table class="layui-table layui-form">
                                     <thead>
                                     <tr>
-                                        <th style="text-align: center;">收入</th>
-                                        <th style="text-align: center;">支出</th>
-                                        <th style="text-align: center;">结余</th>
+                                        <th style="text-align: center;">年</th>
+                                        <th style="text-align: center;">月</th>
+                                        <th style="text-align: center;">类型</th>
+                                        <th style="text-align: center;">金额</th>
                                     </tr>
                                     </thead>
                                     <tbody id="monthStatistics">
@@ -55,9 +56,13 @@
                                             <td align="center">0</td>
                                             <td align="center">0</td>
                                             <td align="center">0</td>
+                                            <td align="center">0</td>
                                         </tr>
                                     </tbody>
                                 </table>
+                                <div>
+                                    总收入：<span id="totalShouru">0</span> ， 总支出：<span id="totalZhichu">0</span> ，结余：<span id="totalJieyu">0</span>
+                                </div>
                             </div>
                         </div>
 
@@ -144,11 +149,10 @@
                 console.log(res);
                 if (res.resultCode == "0000" && res.resultObj) {
                     var monthData = res.resultObj.months;
-                    var categoryZhichu = res.resultObj.categoryZhichu;
-                    var categoryShouru = res.resultObj.categoryShouru;
+                    var categoryData = res.resultObj.categorys;
 
                     initMonthData(monthData)
-                    initCategoryData(categoryZhichu , categoryShouru)
+                    initCategoryData(categoryData)
                 } else {
                     layer.alert(res.resultMessage, {icon: 2})
                 }
@@ -158,36 +162,52 @@
 
     //展示月份统计数据
     function initMonthData(monthData){
-        var html = ' <tr >\n' +
-            '<td align="center">'+monthData.shouru+'</td>\n' +
-            '<td align="center">'+monthData.zhichu+'</td>\n' +
-            '<td align="center">'+(monthData.shouru - monthData.zhichu)+'</td>\n' +
-            '</tr>';
-        $("#monthStatistics").html('').append(html)
+        var html = ''
+        var totalZhichu = 0 , totalShouru=0 , totalJieyu = 0;
+        for(var i = 0; i< monthData.length; i++){
+            var cashTypeText = '其他';
+            if(monthData[i].cashType == 0){
+                cashTypeText = "支出";
+                totalZhichu += monthData[i].amount;
+            }else if(monthData[i].cashType == 1){
+                cashTypeText = "收入";
+                totalShouru += monthData[i].amount;
+            }
+            html+='<tr >\n' +
+                '<td align="center">'+ monthData[i].syear+'</td>\n' +
+                '<td align="center">'+ monthData[i].smonth+'</td>\n' +
+                '<td align="center">'+ cashTypeText +'</td>\n' +
+                '<td align="center">'+ monthData[i].amount+'</td>\n' +
+                '</tr>';
+        }
+        if(html != ''){
+            $("#monthStatistics").html('').append(html)
+        }else{
+            $("#monthStatistics").html('').append('<tr><td colspan="4" style="text-align: center;">暂无数据</td></tr>');
+        }
+        totalJieyu = totalShouru - totalZhichu;
+        getById('totalZhichu').innerText = totalZhichu;
+        getById('totalShouru').innerText = totalShouru;
+        getById('totalJieyu').innerText = totalJieyu;
     }
 
     //展示类别统计数据
-    function initCategoryData(zhichuData , shouruDate){
+    function initCategoryData(categoryData){
         var html = '';
-        for(var i = 0; i< shouruDate.length; i++){
+        for(var i = 0; i< categoryData.length; i++){
             html+='<tr >\n' +
-                '<td align="center">'+shouruDate[i].syear+'</td>\n' +
-                '<td align="center">'+shouruDate[i].smonth+'</td>\n' +
-                '<td align="center">'+(shouruDate[i].cashType == 0 ? '支出' : '收入')+'</td>\n' +
-                '<td align="center">'+shouruDate[i].cashCategory+'</td>\n' +
-                '<td align="center">'+shouruDate[i].amount+'</td>\n' +
+                '<td align="center">'+ categoryData[i].syear+'</td>\n' +
+                '<td align="center">'+ categoryData[i].smonth+'</td>\n' +
+                '<td align="center">'+(categoryData[i].cashType == 0 ? '支出' : '收入')+'</td>\n' +
+                '<td align="center">'+ categoryData[i].cashCategory+'</td>\n' +
+                '<td align="center">'+ categoryData[i].amount+'</td>\n' +
                 '</tr>';
         }
-        for(var i = 0; i< zhichuData.length; i++){
-            html+='<tr >\n' +
-                '<td align="center">'+zhichuData[i].syear+'</td>\n' +
-                '<td align="center">'+zhichuData[i].smonth+'</td>\n' +
-                '<td align="center">'+(zhichuData[i].cashType == 0 ? '支出' : '收入')+'</td>\n' +
-                '<td align="center">'+zhichuData[i].cashCategory+'</td>\n' +
-                '<td align="center">'+zhichuData[i].amount+'</td>\n' +
-                '</tr>';
+        if(html != ''){
+            $("#categoryStatistics").html('').append(html)
+        }else{
+            $("#categoryStatistics").html('').append('<tr><td colspan="5" style="text-align: center;">暂无数据</td></tr>');
         }
-        $("#categoryStatistics").html('').append(html);
     }
 
 </script>
