@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>按月统计</title>
+    <link th:replace="template/sys_header :: header"/>
+</head>
+<body>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <form class="layui-form layui-col-space5">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label" style="text-align: left;">开始日期</label>
+                                <div class="layui-input-inline">
+                                    <input class="layui-input"  autocomplete="off" placeholder="开始日期" name="startTime" id="startTime">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">截止日期</label>
+                                <div class="layui-input-inline">
+                                    <input class="layui-input"  autocomplete="off" placeholder="截止日期" name="endTime" id="endTime">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <button class="layui-btn"  lay-submit="" lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">按月统计</li>
+                        <li>按类别统计</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <!-- 按月统计 -->
+                        <div class="layui-tab-item layui-show">
+                            <div class="layui-card-body padding20">
+                                <table class="layui-table layui-form">
+                                    <thead>
+                                    <tr>
+                                        <th style="text-align: center;">收入</th>
+                                        <th style="text-align: center;">支出</th>
+                                        <th style="text-align: center;">结余</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="monthStatistics">
+                                        <tr >
+                                            <td align="center">0</td>
+                                            <td align="center">0</td>
+                                            <td align="center">0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- 按类别统计 -->
+                        <div class="layui-tab-item">
+                            <div class="layui-card-body padding20">
+                                <table class="layui-table layui-form">
+                                    <thead>
+                                    <tr>
+                                        <th style="text-align: center;">年</th>
+                                        <th style="text-align: center;">月</th>
+                                        <th style="text-align: center;">类型</th>
+                                        <th style="text-align: center;">类别</th>
+                                        <th style="text-align: center;">金额</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="categoryStatistics">
+                                        <tr >
+                                            <td align="center">0</td>
+                                            <td align="center">0</td>
+                                            <td align="center">0</td>
+                                            <td align="center">0</td>
+                                            <td align="center">0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" th:replace="template/sys_header :: footer"></script>
+<script type="text/javascript" th:inline="javascript">
+    var table = layui.table, $ = layui.jquery , form = layui.form , laydate = layui.laydate;
+    $(function () {
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#startTime', //指定元素
+            type: 'month'
+        });
+
+        laydate.render({
+            elem: '#endTime', //指定元素
+            type: 'month'
+        });
+
+        // 获取当前年月
+        var dt = new Date();
+        var st = dt.Format("yyyy-MM");
+        $("#startTime").val(st);
+        $("#endTime").val(st);
+
+        loadData();
+
+        //监听查询按钮
+        form.on('submit(search)', function (data) {
+            loadData();
+            return false;
+        });
+    })
+
+    function loadData() {
+        var startTime = getById("startTime").value;
+        var endTime = getById("endTime").value;
+        if(startTime == ""){
+            layer.alert("请选择开始时间", {icon: 2})
+            return false;
+        }
+        if(endTime == ""){
+            layer.alert("请选择截止时间", {icon: 2})
+            return false;
+        }
+        new AjaxRequest({
+            type: "POST",
+            url: webroot + "bus/cashbook/statistics/data?startTime="+startTime + "&endTime=" + endTime,
+            //data : JSON.stringify({startTime : startTime ,endTime : endTime }) ,
+            isShowLoader: true,
+            success: function (res) {
+                console.log(res);
+                if (res.resultCode == "0000" && res.resultObj) {
+                    var monthData = res.resultObj.months;
+                    var categoryZhichu = res.resultObj.categoryZhichu;
+                    var categoryShouru = res.resultObj.categoryShouru;
+
+                    initMonthData(monthData)
+                    initCategoryData(categoryZhichu , categoryShouru)
+                } else {
+                    layer.alert(res.resultMessage, {icon: 2})
+                }
+            }
+        });
+    }
+
+    //展示月份统计数据
+    function initMonthData(monthData){
+        var html = ' <tr >\n' +
+            '<td align="center">'+monthData.shouru+'</td>\n' +
+            '<td align="center">'+monthData.zhichu+'</td>\n' +
+            '<td align="center">'+(monthData.shouru - monthData.zhichu)+'</td>\n' +
+            '</tr>';
+        $("#monthStatistics").html('').append(html)
+    }
+
+    //展示类别统计数据
+    function initCategoryData(zhichuData , shouruDate){
+        var html = '';
+        for(var i = 0; i< shouruDate.length; i++){
+            html+='<tr >\n' +
+                '<td align="center">'+shouruDate[i].syear+'</td>\n' +
+                '<td align="center">'+shouruDate[i].smonth+'</td>\n' +
+                '<td align="center">'+(shouruDate[i].cashType == 0 ? '支出' : '收入')+'</td>\n' +
+                '<td align="center">'+shouruDate[i].cashCategory+'</td>\n' +
+                '<td align="center">'+shouruDate[i].amount+'</td>\n' +
+                '</tr>';
+        }
+        for(var i = 0; i< zhichuData.length; i++){
+            html+='<tr >\n' +
+                '<td align="center">'+zhichuData[i].syear+'</td>\n' +
+                '<td align="center">'+zhichuData[i].smonth+'</td>\n' +
+                '<td align="center">'+(zhichuData[i].cashType == 0 ? '支出' : '收入')+'</td>\n' +
+                '<td align="center">'+zhichuData[i].cashCategory+'</td>\n' +
+                '<td align="center">'+zhichuData[i].amount+'</td>\n' +
+                '</tr>';
+        }
+        $("#categoryStatistics").html('').append(html);
+    }
+
+</script>
+</body>
+</html>

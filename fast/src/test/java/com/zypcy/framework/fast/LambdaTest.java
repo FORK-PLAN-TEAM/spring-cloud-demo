@@ -1,5 +1,9 @@
 package com.zypcy.framework.fast;
 
+import com.zypcy.framework.fast.bus.entity.Cashbook;
+import com.zypcy.framework.fast.bus.service.ICashbookService;
+import com.zypcy.framework.fast.bus.service.ICashbookStatisticsService;
+import com.zypcy.framework.fast.sys.service.IZySysUserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,46 @@ public class LambdaTest {
     @Test
     public void contextLoads() {
     }
+
+    /*@Autowired
+    private IZySysUserService userService;
+    @Autowired
+    private ICashbookService cashbookService;
+    @Autowired
+    private ICashbookStatisticsService statisticsService;
+
+    @Test
+    public void testInit(){
+        List<String> days = new ArrayList<>();
+        for(int i=7; i<= 9 ;i++){
+            for(int j=1 ; j <= 31 ; j++){
+                String day = "20190"+ i;
+                if(j < 10){
+                    day = day + "0" + j;
+                }else{
+                    day = day + j;
+                }
+                days.add(day);
+            }
+        }
+        for(int j=1 ; j <= 9 ; j++){
+            String day = "201910";
+            if(j < 10){
+                day = day + "0" + j;
+            }else{
+                day = day + j;
+            }
+            days.add(day);
+        }
+        days.stream().forEach(yesterDay -> {
+            userService.listAllUserId().stream().forEach(id -> {
+                //统计结果cashbooks：recordTime、cashType、dictId、cashCategory、amount
+                List<Cashbook> cashbooks = cashbookService.statisticsDayAmount(id , yesterDay);
+                //保存每人每天的账目数据到统计表
+                statisticsService.saveOrUpdate(id , cashbooks);
+            });
+        });
+    }*/
 
     /*
     @Autowired
