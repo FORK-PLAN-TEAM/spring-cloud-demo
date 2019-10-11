@@ -46,6 +46,9 @@ public class CashbookStatistics implements Serializable {
     @ApiModelProperty(value = "总额")
     private Double amount;
 
+    @ApiModelProperty(value = "扩展字段，收入金额，不属于数据库")
+    public Double extendAmount;
+
     public String getSid() {
         return sid;
     }
@@ -108,5 +111,13 @@ public class CashbookStatistics implements Serializable {
 
     public void setAmount(Double amount) {
         this.amount = amount;
+    }
+
+    public Double getExtendAmount() {
+        return extendAmount;
+    }
+
+    public void setExtendAmount(Double extendAmount) {
+        this.extendAmount = extendAmount;
     }
 }

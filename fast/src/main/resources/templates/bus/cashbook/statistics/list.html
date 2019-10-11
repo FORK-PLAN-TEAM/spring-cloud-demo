@@ -47,8 +47,8 @@
                                     <tr>
                                         <th style="text-align: center;">年</th>
                                         <th style="text-align: center;">月</th>
-                                        <th style="text-align: center;">类型</th>
-                                        <th style="text-align: center;">金额</th>
+                                        <th style="text-align: center;">收入金额</th>
+                                        <th style="text-align: center;">支出金额</th>
                                     </tr>
                                     </thead>
                                     <tbody id="monthStatistics">
@@ -165,18 +165,12 @@
         var html = ''
         var totalZhichu = 0 , totalShouru=0 , totalJieyu = 0;
         for(var i = 0; i< monthData.length; i++){
-            var cashTypeText = '其他';
-            if(monthData[i].cashType == 0){
-                cashTypeText = "支出";
-                totalZhichu += monthData[i].amount;
-            }else if(monthData[i].cashType == 1){
-                cashTypeText = "收入";
-                totalShouru += monthData[i].amount;
-            }
+            totalZhichu += monthData[i].amount;
+            totalShouru += monthData[i].extendAmount;
             html+='<tr >\n' +
                 '<td align="center">'+ monthData[i].syear+'</td>\n' +
                 '<td align="center">'+ monthData[i].smonth+'</td>\n' +
-                '<td align="center">'+ cashTypeText +'</td>\n' +
+                '<td align="center">'+ monthData[i].extendAmount+'</td>\n' +
                 '<td align="center">'+ monthData[i].amount+'</td>\n' +
                 '</tr>';
         }
@@ -188,7 +182,7 @@
         totalJieyu = totalShouru - totalZhichu;
         getById('totalZhichu').innerText = totalZhichu;
         getById('totalShouru').innerText = totalShouru;
-        getById('totalJieyu').innerText = totalJieyu;
+        getById('totalJieyu').innerText = totalJieyu.toFixed(2);
     }
 
     //展示类别统计数据
