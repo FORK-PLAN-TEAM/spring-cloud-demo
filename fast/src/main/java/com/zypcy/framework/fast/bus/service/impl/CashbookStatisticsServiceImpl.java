@@ -27,6 +27,23 @@ public class CashbookStatisticsServiceImpl extends ServiceImpl<CashbookStatistic
     @Autowired
     private CashbookStatisticsMapper statisticsMapper;
 
+    @Override
+    public void testTaskSaveData(String userId, String yesterDay) {
+        int syear = Integer.parseInt(yesterDay.substring(0,4));
+        int smonth = Integer.parseInt(yesterDay.substring(4,6));
+
+        CashbookStatistics statistics = new CashbookStatistics();
+        statistics.setSid(IdWorker.getFullDateId());
+        statistics.setCreateUserid(userId);
+        statistics.setSyear(syear);
+        statistics.setSmonth(smonth);
+        statistics.setCashType("0");
+        statistics.setDictId("0");
+        statistics.setCashCategory("test task");
+        statistics.setAmount(0.00);
+        statisticsMapper.insert(statistics);
+    }
+
     private CashbookStatistics initCashbookStatistics(String userId , Cashbook cashbook){
         CashbookStatistics statistics = new CashbookStatistics();
         statistics.setSid(IdWorker.getDateId());

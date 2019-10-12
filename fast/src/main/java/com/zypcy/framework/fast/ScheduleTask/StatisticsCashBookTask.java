@@ -36,9 +36,11 @@ public class StatisticsCashBookTask {
         userService.listAllUserId().stream().forEach(id -> {
             LogUtil.info("userId:" + id + " , yesterDay:" + yesterDay);
             //统计结果cashbooks：recordTime、cashType、dictId、cashCategory、amount
-            List<Cashbook> cashbooks = cashbookService.statisticsDayAmount(id , yesterDay);
+            //List<Cashbook> cashbooks = cashbookService.statisticsDayAmount(id , yesterDay);
             //保存每人每天的账目数据到统计表
-            statisticsService.saveOrUpdate(id , cashbooks);
+            //statisticsService.saveOrUpdate(id , cashbooks);
+
+            statisticsService.testTaskSaveData(id , yesterDay);
         });
     }
 

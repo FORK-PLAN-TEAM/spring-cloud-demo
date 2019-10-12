@@ -14,6 +14,8 @@ import java.util.concurrent.Future;
  */
 public interface ICashbookStatisticsService extends IService<CashbookStatistics> {
 
+    void testTaskSaveData(String userId ,String yesterDay);
+
     /**
      * 新增或更新累加账目统计数据
      * @param userId
