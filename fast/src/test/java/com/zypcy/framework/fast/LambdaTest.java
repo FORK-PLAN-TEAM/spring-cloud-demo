@@ -1,6 +1,7 @@
 package com.zypcy.framework.fast;
 
 import com.alibaba.fastjson.JSON;
+import com.zypcy.framework.fast.bus.dto.CashbookSaveDto;
 import com.zypcy.framework.fast.bus.entity.Cashbook;
 import com.zypcy.framework.fast.bus.entity.CashbookStatistics;
 import com.zypcy.framework.fast.bus.service.ICashbookService;
@@ -8,6 +9,7 @@ import com.zypcy.framework.fast.bus.service.ICashbookStatisticsService;
 import com.zypcy.framework.fast.sys.service.IZySysUserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.scheduling.annotation.Async;
@@ -26,6 +28,25 @@ public class LambdaTest {
     public void contextLoads() {
     }
 
+    /*
+    测试ModelMapper映射
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Test
+    public void testModelMapper(){
+        CashbookSaveDto saveDto = new CashbookSaveDto();
+        saveDto.setAmount(20.00);
+        saveDto.setCashCategory("12");
+        saveDto.setCashId("a");
+        saveDto.setCashType("b");
+        saveDto.setIsdel(false);
+        saveDto.setRecordTime(new Date());
+        saveDto.setRemark("remark");
+
+        Cashbook cashbook = modelMapper.map(saveDto , Cashbook.class);
+        System.out.println(JSON.toJSON(cashbook));
+    }*/
 
     /*@Autowired
     private IZySysUserService userService;

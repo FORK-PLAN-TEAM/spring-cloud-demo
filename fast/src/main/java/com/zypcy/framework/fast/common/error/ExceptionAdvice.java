@@ -3,6 +3,7 @@ package com.zypcy.framework.fast.common.error;
 
 import com.zypcy.framework.fast.common.response.ResponseModel;
 import com.zypcy.framework.fast.common.response.ResultCodeEnum;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,7 +28,15 @@ public class ExceptionAdvice {
         }else if (e instanceof BusinessException) {
             BusinessException be = (BusinessException) e;
             return ResponseModel.Builder.builder().code(be.getCode()).message(be.getMessage()).build();
-        }else {
+        }else if(e instanceof MethodArgumentNotValidException){
+            MethodArgumentNotValidException me = (MethodArgumentNotValidException)e;
+            String msg = me.getBindingResult().getFieldError().getDefaultMessage();
+            return ResponseModel.Builder.builder()
+                    .code(ResultCodeEnum.FAIL)
+                    .message(msg)
+                    .build();
+        }
+        else {
             //默认异常处理
             return ResponseModel.Builder.builder()
                     .code(ResultCodeEnum.FAIL)

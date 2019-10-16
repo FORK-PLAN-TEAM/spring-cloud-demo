@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.google.common.collect.Maps;
 import com.zypcy.framework.fast.common.response.ResponseBodyWrapFactory;
 import com.zypcy.log.logfilter.EnableLogFilter;
+import org.modelmapper.ModelMapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -58,6 +59,15 @@ public class FastApplication {
 			vars.put("StaticResourcePath", env.getProperty("sys.static.res.path","/"));//静态资源路径，默认使用本地，发布环境使用https://res.zypcy.cn
 			viewResolver.setStaticVariables(vars);
 		}
+	}
+
+	/**
+	 * 对象与对象的赋值
+	 * @return
+	 */
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
 	}
 
 }

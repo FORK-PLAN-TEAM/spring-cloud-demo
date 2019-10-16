@@ -4,6 +4,7 @@ package com.zypcy.framework.fast.bus.controller;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.zypcy.framework.fast.bus.dto.CashbookSaveDto;
 import com.zypcy.framework.fast.bus.service.ICashbookService;
 import com.zypcy.framework.fast.common.config.ContextHolder;
 import com.zypcy.framework.fast.common.error.BusinessException;
@@ -14,6 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -23,6 +25,7 @@ import com.zypcy.framework.fast.bus.entity.Cashbook;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -41,6 +44,8 @@ public class CashBookController {
 
     @Autowired
     private ICashbookService cashbookService;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @ApiOperation(value = "记账本列表页面", notes = "页面", httpMethod = "GET")
     @GetMapping("list")
@@ -82,7 +87,8 @@ public class CashBookController {
 
     @ApiOperation(value = "创建账目", notes = "api接口", httpMethod = "POST")
     @PostMapping("add")
-    public String add(@ApiParam(value = "角色实体") @RequestBody Cashbook cashbook) {
+    public String add(@ApiParam(value = "角色实体") @Valid @RequestBody CashbookSaveDto cashbookDto) {
+        Cashbook cashbook = modelMapper.map(cashbookDto , Cashbook.class);
         cashbook.setCashId(IdWorker.getId());
         int flag = cashbookService.add(cashbook);
         if (!(flag > 0)) {
@@ -93,7 +99,9 @@ public class CashBookController {
 
     @ApiOperation(value = "修改账目", notes = "api接口", httpMethod = "POST")
     @PostMapping("edit")
-    public String update(@ApiParam(value = "记账本实体") @RequestBody Cashbook cashbook) {
+    public String update(@ApiParam(value = "记账本实体") @RequestBody CashbookSaveDto cashbookDto) {
+        Cashbook cashbook = modelMapper.map(cashbookDto , Cashbook.class);
+        cashbook.setCashId(IdWorker.getId());
         if (StringUtils.isEmpty(cashbook.getCashId())) {
             throw new BusinessException("请传入账目Id");
         }
