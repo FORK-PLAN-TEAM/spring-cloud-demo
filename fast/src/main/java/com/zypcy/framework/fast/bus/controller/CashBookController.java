@@ -99,9 +99,8 @@ public class CashBookController {
 
     @ApiOperation(value = "修改账目", notes = "api接口", httpMethod = "POST")
     @PostMapping("edit")
-    public String update(@ApiParam(value = "记账本实体") @RequestBody CashbookSaveDto cashbookDto) {
+    public String edit(@ApiParam(value = "记账本实体") @Valid @RequestBody CashbookSaveDto cashbookDto) {
         Cashbook cashbook = modelMapper.map(cashbookDto , Cashbook.class);
-        cashbook.setCashId(IdWorker.getId());
         if (StringUtils.isEmpty(cashbook.getCashId())) {
             throw new BusinessException("请传入账目Id");
         }

@@ -13,6 +13,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 /**
  *
  * 记账本
@@ -29,20 +32,25 @@ public class Cashbook implements Serializable {
     @ApiModelProperty(value = "账目Id")
     private String cashId;
 
+    @NotBlank(message = "账目类型不能为空")
     @ApiModelProperty(value = "账目类型，0:支出，1:收入，2:笔记")
     private String cashType;
 
+    @NotNull(message = "记录时间不能为空")
     @ApiModelProperty(value = "记录时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date recordTime;
 
+    @NotBlank(message = "入账类别详情不能为空")
     @ApiModelProperty(value = "账本详情-数据字典id")
     private String dictId;
 
+    @NotBlank(message = "入账类别详情不能为空")
     @ApiModelProperty(value = "入账类别-数据字典name")
     private String cashCategory;
 
+    @NotNull(message = "金额不能为空")
     @ApiModelProperty(value = "记录金额")
     private Double amount;
 
