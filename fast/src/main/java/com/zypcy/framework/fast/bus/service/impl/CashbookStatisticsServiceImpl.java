@@ -136,16 +136,45 @@ public class CashbookStatisticsServiceImpl extends ServiceImpl<CashbookStatistic
 
     @Async
     @Override
-    public void updateByCashbook(Double oldAmount, Cashbook cashbook) {
-        CashbookStatistics oldStatistics = getStatisticsExists(cashbook.getCreateUserid() , cashbook);
-        if(oldStatistics != null){
-            //更新，减去之前金额，加上更新后的金额
-            oldStatistics.setAmount(oldStatistics.getAmount() - oldAmount + cashbook.getAmount());
+    public void updateByCashbook(Cashbook oldCashbook, Cashbook cashbook) {
+        cashbook.setCreateUserid(oldCashbook.getCreateUserid());
+        //比较修改后的数据是否一致，不一致则减去之前数据，新增之后数据，一致则只修改金额
+        String oldTime = DateUtil.format(oldCashbook.getRecordTime() , "yyyyMMdd");
+        String nowTime = DateUtil.format(cashbook.getRecordTime() , "yyyyMMdd");
+        if(oldCashbook.getCashType().equals(cashbook.getCashType())
+                && oldCashbook.getDictId().equals(cashbook.getDictId())
+                && timeIsEqual(oldTime , nowTime)){
+            //时间与类型相等，则说明在原有数据上修改金额
+            CashbookStatistics oldStatistics = getStatisticsExists(cashbook.getCreateUserid() , cashbook);
+            double amount = oldStatistics.getAmount() + cashbook.getAmount() - oldCashbook.getAmount();
+            oldStatistics.setAmount(amount);
             statisticsMapper.updateById(oldStatistics);
+        }else{
+            //减去之前数据，新增之后数据
+            CashbookStatistics oldStatistics = getStatisticsExists(oldCashbook.getCreateUserid() , oldCashbook);
+            double amount = oldStatistics.getAmount() - oldCashbook.getAmount();
+            oldStatistics.setAmount(amount);
+            statisticsMapper.updateById(oldStatistics);
+
+            addByCashbook(cashbook);
+        }
+    }
+
+    /**
+     * 判断开始时间与结束时间是否相等，时间格式：yyyyMMdd
+     * @param oldTime
+     * @param nowTime
+     * @return
+     */
+    private boolean timeIsEqual(String oldTime, String nowTime){
+        int startYear = Integer.parseInt(oldTime.substring(0,4));
+        int startMonth = Integer.parseInt(oldTime.substring(4,6));
+        int endYear = Integer.parseInt(nowTime.substring(0,4));
+        int endMonth = Integer.parseInt(nowTime.substring(4,6));
+        if(startYear == endYear && startMonth == endMonth){
+            return true;
         }else {
-            //新增
-            CashbookStatistics statistics = initCashbookStatistics(cashbook.getCreateUserid() , cashbook);
-            statisticsMapper.insert(statistics);
+            return false;
         }
     }
 

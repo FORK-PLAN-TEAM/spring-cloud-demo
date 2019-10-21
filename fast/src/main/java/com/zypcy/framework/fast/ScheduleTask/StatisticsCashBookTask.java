@@ -32,7 +32,7 @@ public class StatisticsCashBookTask {
 
     @Scheduled(cron = "0 0 1 * * ?")*/
     public void statisticsCashBook() {
-        /**/String yesterDay = DateUtil.offsetDay(new Date() , -1).toString("yyyyMMdd");//昨天
+        /*String yesterDay = DateUtil.offsetDay(new Date() , -1).toString("yyyyMMdd");//昨天
         userService.listAllUserId().stream().forEach(id -> {
             LogUtil.info("userId:" + id + " , yesterDay:" + yesterDay);
             //统计结果cashbooks：recordTime、cashType、dictId、cashCategory、amount
@@ -41,7 +41,7 @@ public class StatisticsCashBookTask {
             //statisticsService.saveOrUpdate(id , cashbooks);
 
             statisticsService.testTaskSaveData(id , yesterDay);
-        });
+        });*/
     }
 
 }

@@ -117,7 +117,7 @@ public class CashBookController {
         cashbook.setUpdateUserid(ContextHolder.getUserId());
         cashbook.setUpdateUsername(ContextHolder.getUserName());
         cashbookService.updateById(cashbook);
-        statisticsService.updateByCashbook(oldCashbook.getAmount() , cashbook);//更新统计信息
+        statisticsService.updateByCashbook(oldCashbook , cashbook);//更新统计信息
         return cashbook.getCashId();
     }
 

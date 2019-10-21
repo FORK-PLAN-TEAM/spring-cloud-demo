@@ -69,7 +69,7 @@ public class LambdaTest {
                 days.add(day);
             }
         }
-        for(int j=1 ; j <= 9 ; j++){
+        for(int j=9 ; j <= 21 ; j++){
             String day = "201910";
             if(j < 10){
                 day = day + "0" + j;
