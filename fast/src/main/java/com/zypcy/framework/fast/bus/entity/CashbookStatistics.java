@@ -1,6 +1,7 @@
 package com.zypcy.framework.fast.bus.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -47,6 +48,7 @@ public class CashbookStatistics implements Serializable {
     private Double amount;
 
     @ApiModelProperty(value = "扩展字段，收入金额，不属于数据库")
+    @TableField(exist = false)
     public Double extendAmount;
 
     public String getSid() {

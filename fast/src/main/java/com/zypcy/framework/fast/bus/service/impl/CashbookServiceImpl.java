@@ -74,9 +74,9 @@ public class CashbookServiceImpl extends ServiceImpl<CashbookMapper, Cashbook> i
         String userId = ContextHolder.getUserId();//只能看自己的信息
         Page<Cashbook> page = new Page<>(pageIndex , pageSize);
         Cashbook cashbook = new Cashbook();
-        //if(!"admin".equals(userId)){
+        if(!"admin".equals(userId)){
             cashbook.setCreateUserid(userId);
-        //}
+        }
         cashbook.setIsdel(false);
         if(!StringUtils.isEmpty(cashType)){
             cashbook.setCashType(cashType);

@@ -5,7 +5,6 @@ import com.zypcy.framework.fast.common.util.LogUtil;
 import com.zypcy.framework.fast.sys.async.InitLoaderAsync;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 
 /**
@@ -56,10 +55,12 @@ public class PrintTask {
     @Autowired
     InitLoaderAsync loaderAsync;
 
+
     //添加定时任务，例如：10秒打印一次s
-    @Scheduled(cron = "0/60 * * * * ?")
+    @Scheduled(cron = "0/30 * * * * ?")
     public void configureTasks() {
         LogUtil.info("PrintTask执行定时任务时间: " + DateUtil.now());
-        loaderAsync.getList();
+        //loaderAsync.getList();
+
     }
 }

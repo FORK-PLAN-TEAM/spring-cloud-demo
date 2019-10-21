@@ -74,7 +74,7 @@
 <script type="text/javascript" th:replace="template/sys_header :: footer"></script>
 <script type="text/javascript" th:inline="javascript">
     var table = layui.table, $ = layui.jquery , form = layui.form , laydate = layui.laydate;
-    var tableIns;
+    var tableIns , userId = [[${userId}]];
     $(function () {
         //执行一个laydate实例
         laydate.render({
@@ -92,36 +92,42 @@
         initTable();
     });
     function initTable() {
+        var cols = [{
+            type: 'checkbox', minWidth: 50 , style : "min-width: 50px;"
+        }, {
+            field: 'cashType', title: '账目类型', width: 100, align: 'center', templet: function (d) {
+                //0:支出，1:收入，2:笔记
+                if(d.cashType == "0"){
+                    return "支出";
+                }else if(d.cashType == "1"){
+                    return "收入";
+                }else if(d.cashType == "2"){
+                    return "笔记";
+                }
+            }
+        }, {
+            field: 'recordTime', title: '入账时间', width: 150, align: 'center', templet: function (d) {
+                return new Date(d.recordTime).Format("yyyy-MM-dd");
+            }
+        }, {
+            field: 'cashCategory', title: '入账类别', align: 'center'
+        }, {
+            field: 'amount', title: '账目金额', align: 'center'
+        }, {
+            field: 'remark', title: '备注', align: 'center'
+        }, {
+            field: 'operate', title: '操作', width: 280, templet: '#operateTpl', align: 'center'
+        }];
+        if(userId != "" && userId == "admin"){
+            var userName = { field: 'createUsername', title: '创建人', width: 120 , align: 'center'};
+            cols.push(userName);
+        }
+
         tableIns = new DataTable({
             elem: '#cashbookTable',
             url: 'bus/cashbook/pageList', //数据接口
             //height : 'full-120',
-            cols: [{
-                type: 'checkbox', minWidth: 50 , style : "min-width: 50px;"
-            }, {
-                field: 'cashType', title: '账目类型', width: 100, align: 'center', templet: function (d) {
-                    //0:支出，1:收入，2:笔记
-                    if(d.cashType == "0"){
-                        return "支出";
-                    }else if(d.cashType == "1"){
-                        return "收入";
-                    }else if(d.cashType == "2"){
-                        return "笔记";
-                    }
-                }
-            }, {
-                field: 'recordTime', title: '入账时间', width: 150, align: 'center', templet: function (d) {
-                    return new Date(d.recordTime).Format("yyyy-MM-dd");
-                }
-            }, {
-                field: 'cashCategory', title: '入账类别', align: 'center'
-            }, {
-                field: 'amount', title: '账目金额', align: 'center'
-            }, {
-                field: 'remark', title: '备注', align: 'center'
-            }, {
-                field: 'operate', title: '操作', width: 280, templet: '#operateTpl', align: 'center'
-            }]
+            cols: cols
         })
 
         //console.log(tableIns)

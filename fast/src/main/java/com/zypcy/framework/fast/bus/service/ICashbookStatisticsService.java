@@ -41,4 +41,22 @@ public interface ICashbookStatisticsService extends IService<CashbookStatistics>
      */
     Future<List<CashbookStatistics>> statisticsByCategory(String userId, String startTime, String endTime);
 
+    /**
+     * 记录账目数据后更新统计信息
+     * @param cashbook
+     */
+    void addByCashbook(Cashbook cashbook);
+
+    /**
+     * 修改账目数据后更新统计信息
+     * @param oldAmount 之前的金额
+     * @param cashbook  修改后金额
+     */
+    void updateByCashbook(Double oldAmount , Cashbook cashbook);
+
+    /**
+     * 删除账目数据后更新统计信息
+     * @param cashbook
+     */
+    void deleteByCashbook(Cashbook cashbook);
 }

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zypcy.framework.fast.bus.dto.CashbookSaveDto;
 import com.zypcy.framework.fast.bus.service.ICashbookService;
+import com.zypcy.framework.fast.bus.service.ICashbookStatisticsService;
 import com.zypcy.framework.fast.common.config.ContextHolder;
 import com.zypcy.framework.fast.common.error.BusinessException;
 import com.zypcy.framework.fast.common.response.ResultCodeEnum;
@@ -45,12 +46,15 @@ public class CashBookController {
     @Autowired
     private ICashbookService cashbookService;
     @Autowired
+    private ICashbookStatisticsService statisticsService;
+    @Autowired
     private ModelMapper modelMapper;
 
     @ApiOperation(value = "记账本列表页面", notes = "页面", httpMethod = "GET")
     @GetMapping("list")
     public ModelAndView list(ModelMap map) {
         map.addAttribute("amounts", cashbookService.getCurrentDayAmount(ContextHolder.getUserId()));
+        map.addAttribute("userId" , ContextHolder.getUserId());
         return new ModelAndView("bus/cashbook/list");
     }
 
@@ -94,6 +98,7 @@ public class CashBookController {
         if (!(flag > 0)) {
             throw new BusinessException("操作失败，请重试");
         }
+        statisticsService.addByCashbook(cashbook);//记录统计信息
         return cashbook.getCashId();
     }
 
@@ -104,10 +109,15 @@ public class CashBookController {
         if (StringUtils.isEmpty(cashbook.getCashId())) {
             throw new BusinessException("请传入账目Id");
         }
+        Cashbook oldCashbook = getById(cashbook.getCashId());
+        if(oldCashbook == null){
+            throw new BusinessException("请传入正确的账目Id");
+        }
         cashbook.setUpdateTime(LocalDateTime.now());
         cashbook.setUpdateUserid(ContextHolder.getUserId());
         cashbook.setUpdateUsername(ContextHolder.getUserName());
         cashbookService.updateById(cashbook);
+        statisticsService.updateByCashbook(oldCashbook.getAmount() , cashbook);//更新统计信息
         return cashbook.getCashId();
     }
 
@@ -115,10 +125,11 @@ public class CashBookController {
     @PostMapping("delete")
     public boolean delete(String cashId) {
         if (!StringUtils.isEmpty(cashId)) {
-            Cashbook role = getCashbookById(cashId);
-            if (role != null) {
-                role.setIsdel(true);
-                cashbookService.updateById(role);
+            Cashbook cashbook = getCashbookById(cashId);
+            if (cashbook != null) {
+                cashbook.setIsdel(true);
+                cashbookService.updateById(cashbook);
+                statisticsService.deleteByCashbook(cashbook);//删除统计信息
                 return true;
             } else {
                 throw new BusinessException(ResultCodeEnum.DATA_NOTFOUND, "请传入正确的Id");

@@ -61,14 +61,8 @@ public class CashbookStatisticsServiceImpl extends ServiceImpl<CashbookStatistic
     @Override
     public void saveOrUpdate(String userId ,List<Cashbook> cashbooks) {
         cashbooks.stream().forEach( cashbook -> {
-            //查询该用改年月，该类型，改类别下是否存在
-            CashbookStatistics queryStatistics = new CashbookStatistics();
-            queryStatistics.setCreateUserid(userId);
-            queryStatistics.setSyear(DateUtil.year(cashbook.getRecordTime()));
-            queryStatistics.setSmonth(DateUtil.month(cashbook.getRecordTime()) + 1);
-            queryStatistics.setCashType(cashbook.getCashType());
-            queryStatistics.setDictId(cashbook.getDictId());
-            CashbookStatistics oldStatistics = statisticsMapper.selectOne(new QueryWrapper<>(queryStatistics));
+            //查询该用该年月，该类型，改类别下是否存在
+            CashbookStatistics oldStatistics = getStatisticsExists(userId , cashbook);
             if(oldStatistics != null){
                 //更新，累加当天金额
                 oldStatistics.setAmount(oldStatistics.getAmount() + cashbook.getAmount());
@@ -79,6 +73,22 @@ public class CashbookStatisticsServiceImpl extends ServiceImpl<CashbookStatistic
                 statisticsMapper.insert(statistics);
             }
         });
+    }
+
+    /**
+     * 查询该用户该年月，该类型，改类别下是否存在数据
+     * @param userId
+     * @param cashbook
+     * @return
+     */
+    private CashbookStatistics getStatisticsExists(String userId ,Cashbook cashbook){
+        CashbookStatistics queryStatistics = new CashbookStatistics();
+        queryStatistics.setCreateUserid(userId);
+        queryStatistics.setSyear(DateUtil.year(cashbook.getRecordTime()));
+        queryStatistics.setSmonth(DateUtil.month(cashbook.getRecordTime()) + 1);
+        queryStatistics.setCashType(cashbook.getCashType());
+        queryStatistics.setDictId(cashbook.getDictId());
+        return statisticsMapper.selectOne(new QueryWrapper<>(queryStatistics));
     }
 
     //按月统计用户账目数据
@@ -105,5 +115,45 @@ public class CashbookStatisticsServiceImpl extends ServiceImpl<CashbookStatistic
         int endYear = Integer.parseInt(endTime.substring(0,4));
         int endMonth = Integer.parseInt(endTime.substring(4,6));
         return new AsyncResult<>(statisticsMapper.statisticsByCategory(userId , startYear , startMonth , endYear , endMonth));
+    }
+
+
+    @Async
+    @Override
+    public void addByCashbook(Cashbook cashbook) {
+        //查询该用户该年月，该类型，改类别下是否存在
+        CashbookStatistics oldStatistics = getStatisticsExists(cashbook.getCreateUserid() , cashbook);
+        if(oldStatistics != null){
+            //新增，累加当天金额
+            oldStatistics.setAmount(oldStatistics.getAmount() + cashbook.getAmount());
+            statisticsMapper.updateById(oldStatistics);
+        }else {
+            //新增
+            CashbookStatistics statistics = initCashbookStatistics(cashbook.getCreateUserid() , cashbook);
+            statisticsMapper.insert(statistics);
+        }
+    }
+
+    @Async
+    @Override
+    public void updateByCashbook(Double oldAmount, Cashbook cashbook) {
+        CashbookStatistics oldStatistics = getStatisticsExists(cashbook.getCreateUserid() , cashbook);
+        if(oldStatistics != null){
+            //更新，减去之前金额，加上更新后的金额
+            oldStatistics.setAmount(oldStatistics.getAmount() - oldAmount + cashbook.getAmount());
+            statisticsMapper.updateById(oldStatistics);
+        }else {
+            //新增
+            CashbookStatistics statistics = initCashbookStatistics(cashbook.getCreateUserid() , cashbook);
+            statisticsMapper.insert(statistics);
+        }
+    }
+
+    @Async
+    @Override
+    public void deleteByCashbook(Cashbook cashbook) {
+        CashbookStatistics oldStatistics = getStatisticsExists(cashbook.getCreateUserid() , cashbook);
+        oldStatistics.setAmount(oldStatistics.getAmount() - cashbook.getAmount());
+        statisticsMapper.updateById(oldStatistics);
     }
 }

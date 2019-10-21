@@ -29,10 +29,10 @@ public class StatisticsCashBookTask {
     /**
      * 定时任务，每天凌晨1点执行一次
      * 统计每个用户，某天、不同类型、不同类别的账目数据
-     */
-    @Scheduled(cron = "0 0 1 * * ?")
+
+    @Scheduled(cron = "0 0 1 * * ?")*/
     public void statisticsCashBook() {
-        String yesterDay = DateUtil.offsetDay(new Date() , -1).toString("yyyyMMdd");//昨天
+        /**/String yesterDay = DateUtil.offsetDay(new Date() , -1).toString("yyyyMMdd");//昨天
         userService.listAllUserId().stream().forEach(id -> {
             LogUtil.info("userId:" + id + " , yesterDay:" + yesterDay);
             //统计结果cashbooks：recordTime、cashType、dictId、cashCategory、amount
