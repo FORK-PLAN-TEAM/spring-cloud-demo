@@ -1,5 +1,6 @@
 package com.zypcy.framework.fast;
 
+import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.zypcy.framework.fast.bus.dto.CashbookSaveDto;
 import com.zypcy.framework.fast.bus.entity.Cashbook;
@@ -15,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -58,9 +60,15 @@ public class LambdaTest {
     @Test
     public void testInit(){
         List<String> days = new ArrayList<>();
-        for(int i=7; i<= 9 ;i++){
+        for(int i=7; i<= 10 ;i++){
             for(int j=1 ; j <= 31 ; j++){
-                String day = "20190"+ i;
+                String day = "2019";
+                if(i < 10){
+                    day += "0" + i;
+                }else {
+                    day += i;
+                }
+
                 if(j < 10){
                     day = day + "0" + j;
                 }else{
@@ -69,17 +77,23 @@ public class LambdaTest {
                 days.add(day);
             }
         }
-        for(int j=9 ; j <= 21 ; j++){
-            String day = "201910";
-            if(j < 10){
-                day = day + "0" + j;
-            }else{
-                day = day + j;
-            }
-            days.add(day);
-        }
-        days.stream().forEach(yesterDay -> {
-            userService.listAllUserId().stream().forEach(id -> {
+//        for(int j=1 ; j <= 30 ; j++){
+//            String day = "201910";
+//            if(j < 10){
+//                day = day + "0" + j;
+//            }else{
+//                day = day + j;
+//            }
+//            days.add(day);
+//        }
+        days.forEach(yesterDay -> {
+//            userService.listAllUserId().stream().forEach(id -> {
+//                //统计结果cashbooks：recordTime、cashType、dictId、cashCategory、amount
+//                List<Cashbook> cashbooks = cashbookService.statisticsDayAmount(id , yesterDay);
+//                //保存每人每天的账目数据到统计表
+//                statisticsService.saveOrUpdate(id , cashbooks);
+//            });
+            Arrays.asList("647558326242541568","637456537509986304").forEach(id -> {
                 //统计结果cashbooks：recordTime、cashType、dictId、cashCategory、amount
                 List<Cashbook> cashbooks = cashbookService.statisticsDayAmount(id , yesterDay);
                 //保存每人每天的账目数据到统计表

@@ -28,10 +28,10 @@ public interface CashbookStatisticsMapper extends BaseMapper<CashbookStatistics>
     //        "group by cash_category\n" +
     //        "order by syear , smonth asc , amount desc")
     @Select("(select syear,smonth,cash_type,cash_category,sum(amount) as amount from bus_cashbook_statistics where create_userid=#{userId} and syear>=#{startYear} and syear<=#{endYear} and smonth>=#{startMonth} and smonth<=#{endMonth} and cash_type=1\n" +
-            "group by cash_category)\n" +
+            "group by syear,smonth,cash_category)\n" +
             "union\n" +
             "(select syear,smonth,cash_type,cash_category,sum(amount) as amount from bus_cashbook_statistics where create_userid=#{userId} and syear>=#{startYear} and syear<=#{endYear} and smonth>=#{startMonth} and smonth<=#{endMonth} and cash_type=0\n" +
-            "group by cash_category)\n" +
-            "order by cash_type desc, syear , smonth asc , amount desc")
+            "group by syear,smonth,cash_category)\n" +
+            "order by syear , smonth asc , cash_type desc,amount desc")
     List<CashbookStatistics> statisticsByCategory(@Param("userId")String userId, @Param("startYear")int startYear, @Param("startMonth")int startMonth , @Param("endYear")int endYear , @Param("endMonth")int endMonth);
 }

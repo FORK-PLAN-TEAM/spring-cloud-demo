@@ -34,7 +34,7 @@ public interface CashbookMapper extends BaseMapper<Cashbook> {
 
     //统计每人某天、不同类型、不同类别的账目数据
     @Select("select record_time,cash_type,cash_category,dict_id,sum(amount) as amount from bus_cashbook where create_userid=#{createUserId} and date_format(record_time,'%Y%m%d')=#{sTime}\n" +
-            "group by date_format(record_time,'%Y%m%d'),dict_id,cash_type")
+            " and isdel=0 group by date_format(record_time,'%Y%m%d'),dict_id,cash_type")
     List<Cashbook> statisticsDayAmount(String createUserId , String sTime);
 
     @Update("update bus_cashbook set isdel=1 where cash_id=#{cashId}")
