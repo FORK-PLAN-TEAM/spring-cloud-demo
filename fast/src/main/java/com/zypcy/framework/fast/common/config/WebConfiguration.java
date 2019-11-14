@@ -43,7 +43,7 @@ public class WebConfiguration implements WebMvcConfigurer {
         excludeList.add("/js/**");
         excludeList.add("/layui/**");
         excludeList.add("/error");
-        excludeList.add("/sys/login/login");
+        excludeList.add("/sys/login/**");
         excludeList.add("/sys/attach/**");//开放附件上传下载
         excludeList.add("/demo/**");//开放demo示例中的所有内容
         excludeList.add("/weuix/**");//开放所有微信端页面
