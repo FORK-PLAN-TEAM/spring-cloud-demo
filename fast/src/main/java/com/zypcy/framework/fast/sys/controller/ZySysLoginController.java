@@ -2,6 +2,7 @@ package com.zypcy.framework.fast.sys.controller;
 
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.CircleCaptcha;
+import cn.hutool.captcha.LineCaptcha;
 import cn.hutool.core.codec.Base64;
 import com.zypcy.framework.fast.common.error.BusinessException;
 import com.zypcy.framework.fast.common.response.ResponseModel;
@@ -37,7 +38,8 @@ public class ZySysLoginController {
     public void verifyCode(HttpServletRequest request, HttpServletResponse response){
         try {
             //定义图形验证码的长、宽、验证码字符数、干扰元素个数
-            CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(150, 60, 4, 16);
+            //CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(140, 45, 4, 12);
+            LineCaptcha captcha = CaptchaUtil.createLineCaptcha(140, 45, 4, 12);
             //图形验证码写出，可以写出到文件，也可以写出到流
             //captcha.write(response.getOutputStream());
             String code = captcha.getCode();
