@@ -5,16 +5,26 @@
     <meta name="keywords" content="ZyAdmin ZyAdmin微信端 大数据 app" />
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <link rel="stylesheet" th:href="${StaticResourcePath}+@{'weuix/css/weui.css'}">
-    <link rel="stylesheet" th:href="${StaticResourcePath}+@{'weuix/css/weuix.css'}">
+    <div th:if="${SysProfiles} == 'prod'">
+        <link rel="stylesheet" th:href="${StaticResourcePath}+@{'weuix/css/??weui.css,weuix.css'}">
+    </div>
+    <div th:if="${SysProfiles} == 'dev'">
+        <link rel="stylesheet" th:href="${StaticResourcePath}+@{'weuix/css/weui.css'}">
+        <link rel="stylesheet" th:href="${StaticResourcePath}+@{'weuix/css/weuix.css'}">
+    </div>
     <link rel="stylesheet" th:href="@{/weuix/css/wx_index.css}">
 </div>
 
 <div th:fragment="footer">
-    <script type="text/javascript" th:src="${StaticResourcePath}+@{'weuix/js/zepto.min.js'}"></script>
-    <script type="text/javascript" th:src="${StaticResourcePath}+@{'weuix/js/zepto.weui.js'}"></script>
-    <script type="text/javascript" th:src="${StaticResourcePath}+@{'weuix/js/swipe.js'}"></script>
-    <script type="text/javascript" th:src="${StaticResourcePath}+@{'js/base64.js'}"></script>
+    <div th:if="${SysProfiles} == 'prod'">
+        <script type="text/javascript" th:src="${StaticResourcePath}+@{'??weuix/js/zepto.min.js,weuix/js/zepto.weui.js,weuix/js/swipe.js,js/base64.js'}"></script>
+    </div>
+    <div th:if="${SysProfiles} == 'dev'">
+        <script type="text/javascript" th:src="${StaticResourcePath}+@{'weuix/js/zepto.min.js'}"></script>
+        <script type="text/javascript" th:src="${StaticResourcePath}+@{'weuix/js/zepto.weui.js'}"></script>
+        <script type="text/javascript" th:src="${StaticResourcePath}+@{'weuix/js/swipe.js'}"></script>
+        <script type="text/javascript" th:src="${StaticResourcePath}+@{'js/base64.js'}"></script>
+    </div>
     <script type="text/javascript" th:src="@{/js/common.js}"></script>
 </div>
 
