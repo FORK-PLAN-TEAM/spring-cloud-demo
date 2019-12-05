@@ -50,7 +50,7 @@
     © 朱宇 - 修能信息提供技术支持
 </div> -->
 <div th:if="${SysProfiles} == 'prod'">
-    <link rel="stylesheet" th:href="${StaticResourcePath}+@{'??js/jquery.min.js,js/base64.js,layui/lib/layui/layui.js'}">
+    <script type="text/javascript" th:src="${StaticResourcePath}+@{'??js/jquery.min.js,js/base64.js,layui/lib/layui/layui.js'}"></script>
 </div>
 <div th:if="${SysProfiles} == 'dev'">
     <script type="text/javascript" th:src="${StaticResourcePath}+@{'js/jquery.min.js'}" charset="utf-8"></script>
