@@ -8,14 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>ZyAdmin后台管理系统</title>
     <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
-    <div th:if="${SysProfiles} == 'prod'">
-        <link rel="stylesheet" th:href="${StaticResourcePath}+@{'??layui/css/font.css,layui/css/xadmin.css,css/ztree/zTreeStyle/zTreeStyle.css'}">
-    </div>
-    <div th:if="${SysProfiles} == 'dev'">
-        <link rel="stylesheet" th:href="${StaticResourcePath}+@{'layui/css/font.css'}">
-        <link rel="stylesheet" th:href="${StaticResourcePath}+@{'layui/css/xadmin.css'}">
-        <link rel="stylesheet" th:href="${StaticResourcePath}+@{'css/ztree/zTreeStyle/zTreeStyle.css'}">
-    </div>
+    <link rel="stylesheet" th:href="${StaticResourcePath}+@{'layui/css/font.css'}">
+    <link rel="stylesheet" th:href="${StaticResourcePath}+@{'layui/css/xadmin.css'}">
+    <link rel="stylesheet" th:href="${StaticResourcePath}+@{'css/ztree/zTreeStyle/zTreeStyle.css'}">
     <link rel="stylesheet" th:href="@{/css/index.css}">
 </div>
 
@@ -28,20 +23,14 @@
             document.write('<script type="text/javascript" src="' + js + '"><\/script>');
         }
     </script>-->
-
-    <div th:if="${SysProfiles} == 'prod'">
-        <script type="text/javascript" th:src="${StaticResourcePath}+@{'js/??jquery.min.js,base64.js,jquery.ztree.all.min.js,jquery.qrcode.js'}"></script>
-    </div>
-    <div th:if="${SysProfiles} == 'dev'">
-        <script type="text/javascript" th:src="${StaticResourcePath}+@{'js/jquery.min.js'}"></script>
-        <script type="text/javascript" th:src="${StaticResourcePath}+@{'js/jquery.ztree.all.min.js'}"></script>
-        <script type="text/javascript" th:src="${StaticResourcePath}+@{'js/base64.js'}"></script>
-        <script type="text/javascript" th:src="${StaticResourcePath}+@{'js/jquery.qrcode.js'}"></script>
-    </div>
+    <script type="text/javascript" th:src="${StaticResourcePath}+@{'js/jquery.min.js'}"></script>
     <!--<script type="text/javascript" th:src="@{/layui/lib/layui/layui.js}" charset="utf-8"></script>-->
     <script type="text/javascript" th:src="${StaticResourcePath}+@{'layui/lib/layui/layui.all.js'}" charset="utf-8"></script>
     <script type="text/javascript" th:src="${StaticResourcePath}+@{'layui/lib/layui/lay/modules/formSelects-v4.js'}" charset="utf-8"></script>
     <script type="text/javascript" th:src="@{/layui/js/xadmin.js}"></script>
+    <script type="text/javascript" th:src="${StaticResourcePath}+@{'js/jquery.ztree.all.min.js'}"></script>
+    <script type="text/javascript" th:src="${StaticResourcePath}+@{'js/base64.js'}"></script>
+    <script type="text/javascript" th:src="${StaticResourcePath}+@{'js/jquery.qrcode.js'}"></script>
     <script type="text/javascript" th:src="@{/js/common.js}" th:inline="javascript"></script>
     <script type="text/javascript" th:src="@{/js/datatable.js}"></script>
 
