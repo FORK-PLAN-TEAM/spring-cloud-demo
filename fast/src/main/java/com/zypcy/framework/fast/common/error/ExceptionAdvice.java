@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 全局统一异常处理
  * 捕获异常，产生异常时，统一返回错误信息
@@ -16,6 +18,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @ControllerAdvice
 public class ExceptionAdvice {
+
+    //此方法把请求转发给SpringBoot的错误处理，它能根据请求头是否有text/html，来返回页面还是json数据
+    //@ExceptionHandler(value = Exception.class)
+    //public String handle1(Exception e , HttpServletRequest request) {
+    //    request.setAttribute("javax.servlet.error.status_code" , 400);
+    //    return "forward:/error";
+    //}
 
     @ResponseBody
     @ExceptionHandler(value = Exception.class)

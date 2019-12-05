@@ -57,6 +57,7 @@ public class FastApplication {
 		if(viewResolver != null) {
 			Map<String, Object> vars = Maps.newHashMap();
 			vars.put("StaticResourcePath", env.getProperty("sys.static.res.path","/"));//静态资源路径，默认使用本地，发布环境使用https://res.zypcy.cn
+			vars.put("SysProfiles" , env.getProperty("spring.profiles.active" , "dev"));
 			viewResolver.setStaticVariables(vars);
 		}
 	}
