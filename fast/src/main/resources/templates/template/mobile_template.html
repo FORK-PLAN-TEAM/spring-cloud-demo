@@ -17,14 +17,14 @@
 
 <div th:fragment="footer">
     <div th:if="${SysProfiles} == 'prod'">
-        <script type="text/javascript" th:src="${StaticResourcePath}+@{'??weuix/js/zepto.min.js,weuix/js/zepto.weui.js,weuix/js/swipe.js,js/base64.js'}"></script>
+        <script type="text/javascript" th:src="${StaticResourcePath}+@{'weuix/js/??zepto.min.js,zepto.weui.js,swipe.js'}"></script>
     </div>
     <div th:if="${SysProfiles} == 'dev'">
         <script type="text/javascript" th:src="${StaticResourcePath}+@{'weuix/js/zepto.min.js'}"></script>
         <script type="text/javascript" th:src="${StaticResourcePath}+@{'weuix/js/zepto.weui.js'}"></script>
         <script type="text/javascript" th:src="${StaticResourcePath}+@{'weuix/js/swipe.js'}"></script>
-        <script type="text/javascript" th:src="${StaticResourcePath}+@{'js/base64.js'}"></script>
     </div>
+    <script type="text/javascript" th:src="${StaticResourcePath}+@{'js/base64.js'}"></script>
     <script type="text/javascript" th:src="@{/js/common.js}"></script>
 </div>
 

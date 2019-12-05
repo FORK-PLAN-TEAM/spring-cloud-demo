@@ -30,27 +30,23 @@
     </script>-->
 
     <div th:if="${SysProfiles} == 'prod'">
-        <script type="text/javascript" th:src="${StaticResourcePath}+@{'??js/jquery.min.js,js/base64.js,js/jquery.ztree.all.min.js,js/jquery.qrcode.js,layui/lib/layui/layui.all.js,layui/lib/layui/lay/modules/formSelects-v4.js'}"></script>
-        <script type="text/javascript" th:src="@{/js/common.js}" th:inline="javascript"></script>
-        <script type="text/javascript" th:src="@{/js/datatable.js}"></script>
-        <script type="text/javascript" th:src="@{/layui/js/xadmin.js}"></script>
+        <script type="text/javascript" th:src="${StaticResourcePath}+@{'js/??jquery.min.js,base64.js,jquery.ztree.all.min.js,jquery.qrcode.js'}"></script>
     </div>
     <div th:if="${SysProfiles} == 'dev'">
         <script type="text/javascript" th:src="${StaticResourcePath}+@{'js/jquery.min.js'}"></script>
-        <!--<script type="text/javascript" th:src="@{/layui/lib/layui/layui.js}" charset="utf-8"></script>-->
-        <script type="text/javascript" th:src="${StaticResourcePath}+@{'layui/lib/layui/layui.all.js'}" charset="utf-8"></script>
-        <script type="text/javascript" th:src="${StaticResourcePath}+@{'layui/lib/layui/lay/modules/formSelects-v4.js'}" charset="utf-8"></script>
-        <script type="text/javascript" th:src="@{/layui/js/xadmin.js}"></script>
         <script type="text/javascript" th:src="${StaticResourcePath}+@{'js/jquery.ztree.all.min.js'}"></script>
         <script type="text/javascript" th:src="${StaticResourcePath}+@{'js/base64.js'}"></script>
         <script type="text/javascript" th:src="${StaticResourcePath}+@{'js/jquery.qrcode.js'}"></script>
-        <script type="text/javascript" th:src="@{/js/common.js}" th:inline="javascript"></script>
-        <script type="text/javascript" th:src="@{/js/datatable.js}"></script>
     </div>
+    <!--<script type="text/javascript" th:src="@{/layui/lib/layui/layui.js}" charset="utf-8"></script>-->
+    <script type="text/javascript" th:src="${StaticResourcePath}+@{'layui/lib/layui/layui.all.js'}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="${StaticResourcePath}+@{'layui/lib/layui/lay/modules/formSelects-v4.js'}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/layui/js/xadmin.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common.js}" th:inline="javascript"></script>
+    <script type="text/javascript" th:src="@{/js/datatable.js}"></script>
 
     <script type="text/javascript" th:inline="javascript">
-        var StaticResourcePath  = [[${StaticResourcePath}]];
-        window.StaticResourcePath = StaticResourcePath;
+        window.StaticResourcePath  = [[${StaticResourcePath}]];
     </script>
 
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
