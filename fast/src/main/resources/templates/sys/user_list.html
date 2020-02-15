@@ -40,12 +40,17 @@
     </div>
 </div>
 
-<script type="text/html" id="operateTpl">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" title="查看" onclick="edit('{{d.userId}}')" href="javascript:;">
-        <i class="layui-icon">&#xe63c;</i>查看 &nbsp;
+<script type="text/html" id="queryTpl">
+    <a title="查看" onclick="edit('{{d.userId}}')" href="javascript:;">
+        {{d.userName}}
     </a>
+</script>
+<script type="text/html" id="operateTpl">
     <a class="layui-btn layui-btn-xs" title="编辑" onclick="edit('{{d.userId}}')" href="javascript:;">
         <i class="layui-icon">&#xe642;</i>编辑&nbsp;
+    </a>
+    <a class="layui-btn layui-btn-xs" title="改密码" onclick="updatePwd('{{d.userId}}')" href="javascript:;">
+        <i class="layui-icon">&#xe642;</i>改密码&nbsp;
     </a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" title="删除" onclick="del(this,'{{d.userId}}')"
        href="javascript:;">
@@ -102,25 +107,25 @@
             cols: [{
                 type: 'checkbox'
             }, {
-                field: 'userName', title: '用户姓名', align: 'center'
+                field: 'userName', title: '用户姓名', align: 'center', templet: '#queryTpl'
             }, {
-                field: 'userAccount', title: '登录帐号', align: 'center'
+                field: 'userAccount', title: '登录帐号',  align: 'center'
             }, {
-                field: 'sex', title: '性别', width: 70, align: 'center', templet: function (d) {
+                field: 'sex', title: '性别', width: 75, align: 'center', templet: function (d) {
                     return d.sex ? "女" : "男";
                 }
             }, {
-                field: 'state', title: '状态', width: 70, align: 'center', templet: function (d) {
+                field: 'state', title: '状态', width: 75, align: 'center', templet: function (d) {
                     return d.state ? "已禁用" : "正常";
                 }
             }, {
-                field: 'orderNum', title: '排序', width: 70, sort: true, unresize: true, align: 'center'
+                field: 'orderNum', title: '排序', width: 75, sort: true, unresize: true, align: 'center'
             }, {
                 field: 'createTime', title: '创建时间', width: 120, align: 'center', templet: function (d) {
                     return new Date(d.createTime).Format("yyyy-MM-dd");
                 }
             }, {
-                field: 'operate', title: '操作', templet: '#operateTpl', width: 230, align: 'center'
+                field: 'operate', title: '操作', templet: '#operateTpl', width: 240, align: 'center'
             }]
         })
 
@@ -215,6 +220,11 @@
         var orgId = treeNode.id;
         var orgName = encodeURIComponent(treeNode.name);
         xadmin.open('新增用户', '/sys/user/edit?orgId=' + orgId + '&orgName=' + orgName, 950, 550)
+    }
+
+    /*修改密码*/
+    function updatePwd(userId) {
+        xadmin.open('修改密码','/sys/user/updatePwd?userId=' + userId, 780 , 300)
     }
 
     //编辑或新增后，调用此方法刷新树与列表

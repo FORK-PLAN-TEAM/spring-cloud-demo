@@ -145,14 +145,11 @@ public class ZySysUserController {
 
     @ApiOperation(value = "修改密码" , notes = "api接口", httpMethod = "POST")
     @PostMapping("updatePwd")
-    public boolean updatePwd(@ApiParam(value = "旧密码") String oldPwd ,@ApiParam(value = "新密码") String newPwd){
-        if(StringUtils.isEmpty(oldPwd) || StringUtils.isEmpty(newPwd)){
+    public boolean updatePwd(@ApiParam(value = "新密码") String newPwd , @ApiParam(value = "用户Id") String userId ){
+        if(StringUtils.isEmpty(newPwd)){
             throw new BusinessException("请传入旧密码或新密码");
         }
-        if(oldPwd.equals(newPwd)){
-            throw new BusinessException("旧密码与新密码不能相同");
-        }
-        return userService.updatePwd(oldPwd , newPwd);
+        return userService.updatePwd(newPwd , userId);
     }
 
     @ApiOperation(value = "删除用户" , notes = "api接口", httpMethod = "POST")

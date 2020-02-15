@@ -31,11 +31,11 @@ public interface IZySysUserService extends IService<ZySysUser> {
 
     /**
      * 修改密码
-     * @param oldPwd
      * @param newPwd
+     * @param userId
      * @return
      */
-    boolean updatePwd(String oldPwd ,String newPwd);
+    boolean updatePwd(String newPwd , String userId);
 
     /**
      * 删除用户

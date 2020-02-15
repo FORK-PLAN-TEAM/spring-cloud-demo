@@ -11,17 +11,6 @@
 
     <div class="layui-row margintop15">
         <div class="layui-col-sm2 layui-row-label">
-            <span class="x-red">*</span>旧密码
-        </div>
-        <div class="layui-col-sm5">
-            <input type="password" id="oldPwd" name="oldPwd" lay-verify="required" autocomplete="" class="layui-input">
-        </div>
-        <div class="layui-form-mid layui-word-aux" style="margin-left: 5px;">
-            <span class="x-red">*</span>请输入旧密码
-        </div>
-    </div>
-    <div class="layui-row margintop10">
-        <div class="layui-col-sm2 layui-row-label">
             <span class="x-red">*</span>新密码
         </div>
         <div class="layui-col-sm5">
@@ -63,17 +52,13 @@
 <script type="text/javascript" th:inline="javascript">
     var form = layui.form , $ = layui.jquery;
     $(function () {
+        var userId = queryString("userId") || '';
         form.on('submit(save)', function (data) {
             console.log(data.field);
-            var oldPwd = data.field.oldPwd;
             var newPwd = data.field.newPwd;
             var newPwdRepeat = data.field.newPwdRepeat;
-            if(oldPwd.length < 6 || newPwd.length < 6){
+            if(newPwd.length < 6){
                 layer.msg("密码不能少于6位" , {icon : 2});
-                return false;
-            }
-            if(oldPwd == newPwd){
-                layer.msg("新旧密码不能相同" , {icon : 2});
                 return false;
             }
             if(newPwdRepeat != newPwd){
@@ -83,14 +68,16 @@
             //发异步，数据提交
             new AjaxRequest({
                 type: "POST",
-                url: webroot + "sys/user/updatePwd?oldPwd=" + oldPwd + "&newPwd=" + newPwd,
+                url: webroot + "sys/user/updatePwd?newPwd=" + newPwd + "&userId=" + userId,
                 isShowLoader: true,
                 success: function (res) {
-                    //console.log(res);
+                    console.log(res);
                     if (res) {
                         if (res.resultCode == "0000" && res.resultObj) {
                             layer.msg("密码修改成功" , {icon : 1});
-                            xadmin.close();//关闭当前frame
+                            setTimeout(function () {
+                                xadmin.close();//关闭当前frame
+                            },1000)
                         } else {
                             layer.alert(res.resultMessage, {icon: 2})
                         }

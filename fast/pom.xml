@@ -20,6 +20,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<thymeleaf.version>3.0.10.RELEASE</thymeleaf.version>
 		<thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
+		<skipTests>true</skipTests><!-- 打包时过滤测试用例中的测试代码 -->
 	</properties>
 
 	<dependencies>
@@ -135,7 +136,7 @@
             <groupId>net.glxn</groupId>
             <artifactId>qrgen</artifactId>
             <version>1.4</version>
-        </dependency>
+        </dependency>	
         <!-- zxing -->
 
 		<!-- 属性映射，对象与对象的赋值 -->

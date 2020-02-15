@@ -15,6 +15,7 @@ import com.zypcy.framework.fast.sys.service.IZySysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -76,22 +77,21 @@ public class ZySysUserServiceImpl extends ServiceImpl<ZySysUserMapper, ZySysUser
     }
 
     /**
-     * 修改密码
+     * 修改密码，2种情况
+     * 1.用户自己修改密码，是不用传userId
+     * 2.管理员修改下属密码，需要传userId
      * @return
      */
     @Override
-    public boolean updatePwd(String oldPwd ,String newPwd) {
-        String userId = ContextHolder.getUserId();
+    public boolean updatePwd(String newPwd , String userId) {
+        if(StringUtils.isEmpty(userId)){
+            userId = ContextHolder.getUserId();
+        }
         ZySysUser user = userMapper.selectById(userId);
         if(user != null){
-            String dbOldPwd = SecureUtil.md5(oldPwd + user.getSalt());
-            if(dbOldPwd.equals(user.getUserPwd())){
-                String pwd = SecureUtil.md5(newPwd + user.getSalt());
-                user.setUserPwd(pwd);
-                return userMapper.updateById(user) > 0 ? true : false;
-            }else{
-                throw new BusinessException("请输入正确的旧密码");
-            }
+            String pwd = SecureUtil.md5(newPwd + user.getSalt());
+            user.setUserPwd(pwd);
+            return userMapper.updateById(user) > 0 ? true : false;
         }
         return false;
     }
