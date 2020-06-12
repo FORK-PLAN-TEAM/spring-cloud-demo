@@ -34,6 +34,13 @@ public class ContextHolder {
     }
 
     /**
+     * 移除用户信息，防止内存泄露
+     */
+    public static void remove(){
+        userInfo.remove();
+    }
+
+    /**
      * 获取当前登录用户信息
      * @return
      */

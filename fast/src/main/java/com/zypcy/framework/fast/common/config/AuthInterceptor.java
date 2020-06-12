@@ -56,4 +56,11 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
         return true;
     }
+
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        //移除用户信息，防止内存泄露
+        ContextHolder.remove();
+    }
 }
