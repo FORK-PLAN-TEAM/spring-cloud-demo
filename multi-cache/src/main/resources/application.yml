@@ -1,0 +1,29 @@
+
+
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  hidePackages: com.alibaba
+  local:
+    default:
+      type: caffeine
+      limit: 300
+      keyConvertor: fastjson
+      expireAfterWriteInMillis: 100000
+  remote:
+    default:
+      type: redis.lettuce
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+      poolConfig:
+        minIdle: 5
+        maxIdle: 20
+        maxTotal: 50
+      uri: redis://127.0.0.1:6379/
+
