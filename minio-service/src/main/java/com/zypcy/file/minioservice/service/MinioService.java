@@ -12,7 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -62,30 +64,6 @@ public class MinioService {
 
 
     /**
-     * 列出所有存储桶名称
-     * @return
-     */
-    @SneakyThrows
-    public List<String> listBucketNames() {
-        List<Bucket> bucketList = listBuckets();
-        List<String> bucketListName = new ArrayList<>(bucketList.size());
-        for (Bucket bucket : bucketList) {
-            bucketListName.add(bucket.name());
-        }
-        return bucketListName;
-    }
-
-    /**
-     * 列出所有存储桶
-     *
-     * @return
-     */
-    @SneakyThrows
-    public List<Bucket> listBuckets() {
-        return minioClient.listBuckets();
-    }
-
-    /**
      * 删除存储桶
      *
      * @param bucketName 存储桶名称
@@ -111,6 +89,31 @@ public class MinioService {
             }
         }
         return false;
+    }
+
+    /**
+     * 列出所有存储桶名称
+     *
+     * @return
+     */
+    @SneakyThrows
+    public List<String> listBucketNames() {
+        List<Bucket> bucketList = listBuckets();
+        List<String> bucketListName = new ArrayList<>(bucketList.size());
+        for (Bucket bucket : bucketList) {
+            bucketListName.add(bucket.name());
+        }
+        return bucketListName;
+    }
+
+    /**
+     * 列出所有存储桶
+     *
+     * @return
+     */
+    @SneakyThrows
+    public List<Bucket> listBuckets() {
+        return minioClient.listBuckets();
     }
 
     /**
@@ -150,6 +153,7 @@ public class MinioService {
 
     /**
      * 列出存储桶中的所有对象
+     *
      * @param bucketName 存储桶名称
      * @param prefix     前缀
      * @param after      后缀
@@ -157,17 +161,17 @@ public class MinioService {
      * @return
      */
     @SneakyThrows
-    public Iterable<Result<Item>> listObjects(String bucketName , String prefix , String after, int maxKeys) {
+    public Iterable<Result<Item>> listObjects(String bucketName, String prefix, String after, int maxKeys) {
         boolean flag = bucketExists(bucketName);
         if (flag) {
             ListObjectsArgs.Builder builder = ListObjectsArgs.builder().bucket(bucketName);
-            if(prefix != null && prefix.length() > 0){
-                builder.prefix(prefix) ;
+            if (prefix != null && prefix.length() > 0) {
+                builder.prefix(prefix);
             }
-            if(after != null && after.length() > 0){
+            if (after != null && after.length() > 0) {
                 builder.startAfter(after);
             }
-            if(maxKeys > 0){
+            if (maxKeys > 0) {
                 builder.maxKeys(maxKeys);
             }
             return minioClient.listObjects(builder.build());
@@ -177,11 +181,12 @@ public class MinioService {
 
     /**
      * 删除对象tag信息
+     *
      * @param bucketName 存储桶名称
      * @param objectName 对象名称
      */
     @SneakyThrows
-    public void deleteObjectTags(String bucketName, String objectName){
+    public void deleteObjectTags(String bucketName, String objectName) {
         boolean flag = bucketExists(bucketName);
         if (flag) {
             minioClient.deleteObjectTags(DeleteObjectTagsArgs.builder().bucket(bucketName).object(objectName).build());
@@ -190,71 +195,74 @@ public class MinioService {
 
     /**
      * 文件上传（已知文件大小）
-     * @param bucketName 存储桶名称
-     * @param objectName 存储桶里的对象名称
-     * @param stream     文件流
-     * @param size       大小
+     *
+     * @param bucketName  存储桶名称
+     * @param objectName  存储桶里的对象名称
+     * @param stream      文件流
+     * @param size        大小
      * @param contentType 文件类型
      * @return
      */
     @SneakyThrows
-    public boolean putObject(String bucketName, String objectName, InputStream stream , long size , String contentType) {
+    public boolean putObject(String bucketName, String objectName, InputStream stream, long size, String contentType) {
         //boolean flag = bucketExists(bucketName);
         ObjectWriteResponse response = minioClient.putObject(PutObjectArgs.builder()
                 .bucket(bucketName).object(objectName)
-                .stream(stream , size , -1)
+                .stream(stream, size, -1)
                 .contentType(contentType).build());
         ObjectStat statObject = statObject(bucketName, objectName);
         if (statObject != null && statObject.length() > 0) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
     /**
      * 文件上传（未知文件大小，默认100M以内的文件）
-     * @param bucketName 存储桶名称
-     * @param objectName 存储桶里的对象名称
-     * @param stream     文件流
+     *
+     * @param bucketName  存储桶名称
+     * @param objectName  存储桶里的对象名称
+     * @param stream      文件流
      * @param contentType 文件类型
      * @return
      */
     @SneakyThrows
-    public boolean putObject(String bucketName, String objectName, InputStream stream , String contentType) {
+    public boolean putObject(String bucketName, String objectName, InputStream stream, String contentType) {
         ObjectWriteResponse response = minioClient.putObject(PutObjectArgs.builder()
                 .bucket(bucketName).object(objectName)
-                .stream(stream , -1, 104857600) //默认100M
+                .stream(stream, -1, 104857600) //默认100M
                 .contentType(contentType).build());
         ObjectStat statObject = statObject(bucketName, objectName);
         if (statObject != null && statObject.length() > 0) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
     /**
      * 文件上传（已知文件大小）
-     * @param bucketName 存储桶名称
-     * @param objectName 存储桶里的对象名称
-     * @param stream     文件流
-     * @param size       大小
+     *
+     * @param bucketName  存储桶名称
+     * @param objectName  存储桶里的对象名称
+     * @param stream      文件流
+     * @param size        大小
      * @param contentType 文件类型
-     * @param headers    文件headers
+     * @param headers     文件headers
      * @return
      */
     @SneakyThrows
-    public boolean putObject(String bucketName, String objectName, InputStream stream , long size , String contentType , Map<String, String> headers) {
+    public boolean putObject(String bucketName, String objectName, InputStream stream, long size, String contentType, Map<String, String> headers) {
         ObjectWriteResponse response = minioClient.putObject(PutObjectArgs.builder()
                 .bucket(bucketName).object(objectName)
-                .stream(stream , size , -1)
+                .stream(stream, size, -1)
                 .headers(headers)
                 .contentType(contentType).build());
         ObjectStat statObject = statObject(bucketName, objectName);
         if (statObject != null && statObject.length() > 0) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
@@ -270,7 +278,7 @@ public class MinioService {
         minioClient.putObject(PutObjectArgs.builder().bucket(bucketName)
                 .object(filename)
                 .contentType(multipartFile.getContentType())
-                .stream(multipartFile.getInputStream() , multipartFile.getSize(), PutObjectOptions.MIN_MULTIPART_SIZE)
+                .stream(multipartFile.getInputStream(), multipartFile.getSize(), PutObjectOptions.MIN_MULTIPART_SIZE)
                 .build());
     }
 
@@ -285,7 +293,7 @@ public class MinioService {
         minioClient.putObject(PutObjectArgs.builder().bucket(bucketName)
                 .object(multipartFile.getName())
                 .contentType(multipartFile.getContentType())
-                .stream(multipartFile.getInputStream() , multipartFile.getSize(), PutObjectOptions.MIN_MULTIPART_SIZE)
+                .stream(multipartFile.getInputStream(), multipartFile.getSize(), PutObjectOptions.MIN_MULTIPART_SIZE)
                 .build());
     }
 
@@ -304,7 +312,7 @@ public class MinioService {
             minioClient.putObject(PutObjectArgs.builder()
                     .bucket(bucketName)
                     .object(objectName)
-                    .stream(stream , stream.available() , -1).build());
+                    .stream(stream, stream.available(), -1).build());
             ObjectStat statObject = statObject(bucketName, objectName);
             if (statObject != null && statObject.length() > 0) {
                 return true;
@@ -316,6 +324,7 @@ public class MinioService {
     /**
      * 以流的形式获取一个文件对象
      * 需要释放stream资源
+     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @return
@@ -330,19 +339,18 @@ public class MinioService {
                 return stream;
             }
         }*/
-        try (InputStream stream = minioClient.getObject(
+        InputStream stream = minioClient.getObject(
                 GetObjectArgs.builder()
                         .bucket(bucketName)
                         .object(objectName)
-                        .build())) {
-            // Read data from stream
-            return stream;
-        }
+                        .build());
+        return stream;
     }
 
     /**
      * 以流的形式获取一个文件对象（断点下载）
      * 需要释放stream资源
+     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @param offset     起始字节的位置
@@ -352,26 +360,25 @@ public class MinioService {
     @SneakyThrows
     public InputStream getObject(String bucketName, String objectName, long offset, Long length) {
         // get object data from offset to length
-        try (InputStream stream = minioClient.getObject(
+        InputStream stream = minioClient.getObject(
                 GetObjectArgs.builder()
                         .bucket(bucketName)
                         .object(objectName)
                         .offset(offset)
                         .length(length)
-                        .build())) {
-            // Read data from stream
-            return stream;
-        }
+                        .build());
+        return stream;
     }
 
     /**
      * 获取对象的tags
+     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @return
      */
     @SneakyThrows
-    public Tags getObjectTags(String bucketName, String objectName){
+    public Tags getObjectTags(String bucketName, String objectName) {
         Tags tags = minioClient.getObjectTags(GetObjectTagsArgs.builder().bucket(bucketName).object(objectName).build());
         return tags;
     }
@@ -414,12 +421,13 @@ public class MinioService {
 
     /**
      * 给文件添加tags
+     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @param tags       标签
      */
     @SneakyThrows
-    public void setObjectTags(String bucketName, String objectName , Map<String, String> tags){
+    public void setObjectTags(String bucketName, String objectName, Map<String, String> tags) {
         minioClient.setObjectTags(
                 SetObjectTagsArgs.builder().bucket(bucketName).object(objectName).tags(tags).build());
     }
@@ -434,22 +442,19 @@ public class MinioService {
      * @return
      */
     @SneakyThrows
-    public String getPresignedObjectUrl(String bucketName, String objectName, Integer expires , Method method) {
-        boolean flag = bucketExists(bucketName);
+    public String getPresignedObjectUrl(String bucketName, String objectName, Integer expires, Method method) {
         String url = "";
-        if (flag) {
-            if (expires < 1 || expires > DEFAULT_EXPIRY_TIME) {
-                throw new InvalidExpiresRangeException(expires,
-                        "expires must be in range of 1 to " + DEFAULT_EXPIRY_TIME);
-            }
-            if(method == null){
-                method = Method.GET;
-            }
-            url = minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
-                    .method(method)
-                    .bucket(bucketName).object(objectName)
-                    .expiry(expires , TimeUnit.SECONDS).build());
+        if (expires < 1 || expires > DEFAULT_EXPIRY_TIME) {
+            throw new InvalidExpiresRangeException(expires,
+                    "expires must be in range of 1 to " + DEFAULT_EXPIRY_TIME);
         }
+        if (method == null) {
+            method = Method.GET;
+        }
+        url = minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
+                .method(method)
+                .bucket(bucketName).object(objectName)
+                .expiry(expires, TimeUnit.SECONDS).build());
         return url;
     }
 
@@ -476,22 +481,18 @@ public class MinioService {
      */
     @SneakyThrows
     public String getObjectUrl(String bucketName, String objectName) {
-        boolean flag = bucketExists(bucketName);
-        String url = "";
-        if (flag) {
-            url = minioClient.getObjectUrl(bucketName, objectName);
-        }
-        return url;
+        return minioClient.getObjectUrl(bucketName, objectName);
     }
 
     /**
-     * 下载文件
+     * 下载文件，在项目根目录
+     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @param fileName   下载后文件名称
      */
     @SneakyThrows
-    public void downloadObject(String bucketName, String objectName, String fileName){
+    public void downloadObject(String bucketName, String objectName, String fileName) {
         minioClient.downloadObject(
                 DownloadObjectArgs.builder()
                         .bucket(bucketName)
@@ -502,15 +503,16 @@ public class MinioService {
 
     /**
      * 下载文件
-     * @param bucketName   存储桶名称
-     * @param objectName   存储桶里的对象名称
-     * @param fileName     下载后的文件名称
+     *
+     * @param bucketName 存储桶名称
+     * @param objectName 存储桶里的对象名称
+     * @param fileName   下载后的文件名称
      * @param response
      */
-    public void downloadFile(String bucketName, String objectName, String fileName, HttpServletResponse response) {
+    public void downloadObject(String bucketName, String objectName, String fileName, HttpServletResponse response) {
         try {
             InputStream file = getObject(bucketName, objectName);
-            String filename = new String(objectName.getBytes("ISO8859-1"), StandardCharsets.UTF_8);
+            //String filename = new String(objectName.getBytes("ISO8859-1"), StandardCharsets.UTF_8);
             if (StringUtils.isNotEmpty(fileName)) {
                 objectName = fileName;
             }
@@ -524,7 +526,7 @@ public class MinioService {
             servletOutputStream.flush();
             file.close();
             servletOutputStream.close();
-        }  catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
