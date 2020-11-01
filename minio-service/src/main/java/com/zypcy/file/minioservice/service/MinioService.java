@@ -1,25 +1,32 @@
 package com.zypcy.file.minioservice.service;
 
-import io.micrometer.core.instrument.util.StringUtils;
+import cn.hutool.core.codec.Base64;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.IdUtil;
+import com.zypcy.file.minioservice.config.FileModel;
 import io.minio.*;
-import io.minio.errors.InvalidExpiresRangeException;
+import io.minio.errors.*;
 import io.minio.http.Method;
 import io.minio.messages.*;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Base64Utils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -268,33 +275,66 @@ public class MinioService {
     }
 
     /**
-     * 文件上传
+     * 文件上传 ，最大5G
      *
-     * @param bucketName
-     * @param multipartFile
+     * @param bucketName 桶名称
+     * @param multipartFile 上传的文件
+     * @param objectName 自定义文件名
      */
     @SneakyThrows
-    public void putObject(String bucketName, MultipartFile multipartFile, String filename) {
-        minioClient.putObject(PutObjectArgs.builder().bucket(bucketName)
-                .object(filename)
-                .contentType(multipartFile.getContentType())
-                .stream(multipartFile.getInputStream(), multipartFile.getSize(), PutObjectOptions.MIN_MULTIPART_SIZE)
-                .build());
+    public Map<String,String> putObject(String bucketName, MultipartFile multipartFile, String objectName) {
+        return multipartFileUpload(bucketName , multipartFile , objectName);
     }
 
     /**
-     * 文件上传
+     * 文件上传 ，最大5G
      *
-     * @param bucketName
-     * @param multipartFile
+     * @param bucketName 桶名称
+     * @param multipartFile 上传的文件
      */
     @SneakyThrows
-    public void putObject(String bucketName, MultipartFile multipartFile) {
-        minioClient.putObject(PutObjectArgs.builder().bucket(bucketName)
-                .object(multipartFile.getName())
-                .contentType(multipartFile.getContentType())
-                .stream(multipartFile.getInputStream(), multipartFile.getSize(), PutObjectOptions.MIN_MULTIPART_SIZE)
+    public Map<String,String> putObject(String bucketName, MultipartFile multipartFile) {
+        return multipartFileUpload(bucketName , multipartFile , IdUtil.simpleUUID());
+    }
+
+    public static void main(String[] args) {
+        String oldName = "2020/aa朱宇a.txt";
+        System.out.println(Base64.encode(oldName , "UTF-8"));
+        System.out.println(Base64.decodeStr("MjAyMC9hYeacseWuh2EudHh0" , "UTF-8"));
+    }
+
+    //文件上传公用方法，以bucketName为根目录，年月为次级目录，name为文件名
+    // url = bucketName/timePrefix/filename
+    @SneakyThrows
+    private Map<String,String> multipartFileUpload(String bucketName, MultipartFile multipartFile, String objectName){
+        long size = multipartFile.getSize();
+        String oldName = multipartFile.getOriginalFilename();
+        String suffix = oldName.substring(oldName.lastIndexOf("."));
+        oldName = Base64.encode(oldName , "UTF-8"); //需要对原文件名进行编码处理，否则中文名称会报错
+        String name = (objectName != null && objectName.length() > 0) ? objectName : oldName;
+        String timePrefix = DateUtil.format(LocalDateTime.now() , "yyyyMM");
+        name = timePrefix + "/" + name + suffix;
+        String contentType = multipartFile.getContentType();
+        Map<String,String> headers = new ConcurrentHashMap<>();
+        headers.put(FileModel.size,  size + "");
+        headers.put(FileModel.name , name);         //文件新名称
+        headers.put(FileModel.oldName , oldName);   //文件原名称
+        headers.put(FileModel.contentType , contentType);
+        headers.put(FileModel.suffix , suffix);
+        headers.put(FileModel.uploadDate , DateUtil.now());
+
+        //上传文件 ，最大5G
+        minioClient.putObject(PutObjectArgs.builder()
+                .bucket(bucketName)
+                .object(name)
+                .contentType(contentType)
+                .headers(headers)
+                .tags(headers)
+                .stream(multipartFile.getInputStream(), size , PutObjectOptions.MAX_PART_SIZE)
                 .build());
+
+        headers.put(FileModel.url , bucketName + "/" + name);
+        return headers;
     }
 
     /**
@@ -377,9 +417,14 @@ public class MinioService {
      * @param objectName 存储桶里的对象名称
      * @return
      */
-    @SneakyThrows
     public Tags getObjectTags(String bucketName, String objectName) {
-        Tags tags = minioClient.getObjectTags(GetObjectTagsArgs.builder().bucket(bucketName).object(objectName).build());
+        Tags tags = null;
+        try {
+            tags = minioClient.getObjectTags(GetObjectTagsArgs.builder().bucket(bucketName).object(objectName).build());
+        } catch (Exception e) {
+            //e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
         return tags;
     }
 
@@ -506,25 +551,24 @@ public class MinioService {
      *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
-     * @param fileName   下载后的文件名称
      * @param response
      */
-    public void downloadObject(String bucketName, String objectName, String fileName, HttpServletResponse response) {
+    public void downloadObject(String bucketName, String objectName, HttpServletResponse response) {
         try {
-            InputStream file = getObject(bucketName, objectName);
-            //String filename = new String(objectName.getBytes("ISO8859-1"), StandardCharsets.UTF_8);
-            if (StringUtils.isNotEmpty(fileName)) {
-                objectName = fileName;
+            InputStream is = getObject(bucketName, objectName);
+            if(is == null){
+                return;
             }
-            response.setHeader("Content-Disposition", "attachment;filename=" + objectName);
+            String fileName = objectName.substring(objectName.indexOf("/")+1 , objectName.length());
+            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
             ServletOutputStream servletOutputStream = response.getOutputStream();
             int len;
             byte[] buffer = new byte[1024];
-            while ((len = file.read(buffer)) > 0) {
+            while ((len = is.read(buffer)) > 0) {
                 servletOutputStream.write(buffer, 0, len);
             }
             servletOutputStream.flush();
-            file.close();
+            is.close();
             servletOutputStream.close();
         } catch (Exception e) {
             e.printStackTrace();

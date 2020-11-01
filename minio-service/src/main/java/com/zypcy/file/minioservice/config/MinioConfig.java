@@ -41,7 +41,7 @@ public class MinioConfig {
     /**
      * 默认存储桶名称
      */
-    private String bucketDefaultName;
+    private String bucketDefaultName = "test";
 
 
     @Bean

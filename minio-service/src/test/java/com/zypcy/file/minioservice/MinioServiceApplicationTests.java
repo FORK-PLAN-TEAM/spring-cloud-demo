@@ -147,7 +147,7 @@ class MinioServiceApplicationTests {
     //获取文件tags
     @Test
     public void getObjectTags() {
-        Tags tags = minioService.getObjectTags(bucketName, "75b6bbbf5db44e9ea1e5e9d469123316.txt");
+        Tags tags = minioService.getObjectTags(bucketName, "202011/c191a36defe3434c945a47ab697b3e0f.png");
         Assert.assertNotNull(tags);
         System.out.println(tags.get());
     }
@@ -188,7 +188,7 @@ class MinioServiceApplicationTests {
     public void downloadObject2(){
         HttpServletResponse response =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         String objectName =  "75b6bbbf5db44e9ea1e5e9d469123316.txt";
-        minioService.downloadObject(bucketName , objectName , objectName , response);
+        minioService.downloadObject(bucketName , objectName , response);
     }
 
 }
