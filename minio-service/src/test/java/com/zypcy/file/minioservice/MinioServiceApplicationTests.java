@@ -51,13 +51,13 @@ class MinioServiceApplicationTests {
     //创建桶
     @Test
     public void makeBucket() {
-        Assert.assertTrue(minioService.makeBucket("xnxx"));
+        Assert.assertTrue(minioService.makeBucket(bucketName));
     }
 
     //删除桶
     @Test
     public void removeBucket() {
-        Assert.assertTrue(minioService.removeBucket("xnxx"));
+        Assert.assertTrue(minioService.removeBucket(bucketName));
     }
 
     //列出所有存储桶名称
@@ -124,7 +124,7 @@ class MinioServiceApplicationTests {
         if (bis != null && bis.available() > 0) {
             //String objectName = IdUtil.simpleUUID() + suffix;
             String objectName = "75b6bbbf5db44e9ea1e5e9d469123316" + suffix;
-            minioService.putObject(bucketName, objectName, bis , contentType);
+            minioService.putObject(bucketName, objectName, bis);
         }
     }
 

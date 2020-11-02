@@ -25,8 +25,8 @@ public class IndexController {
     private MinioService minioService;
 
     @RequestMapping("/")
-    public String index(ModelMap map , @RequestParam(value = "pageIndex" , defaultValue = "1") int pageIndex, @RequestParam(value = "pageSize" , defaultValue = "10") int pageSize){
-        List<JSONObject> data = new ArrayList<>();
+    public String index(ModelMap map){
+        /*List<JSONObject> data = new ArrayList<>();
         Iterable<Result<Item>> list = minioService.listObjects("test", null , null , 10);
         list.forEach( itemResult -> {
             try {
@@ -40,7 +40,7 @@ public class IndexController {
                 e.printStackTrace();
             }
         });
-        map.addAttribute("list" , data);
+        map.addAttribute("list" , data);*/
         return "index";
     }
 

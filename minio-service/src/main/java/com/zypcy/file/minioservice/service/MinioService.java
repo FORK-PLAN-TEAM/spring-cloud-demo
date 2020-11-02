@@ -5,22 +5,17 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import com.zypcy.file.minioservice.config.FileModel;
 import io.minio.*;
-import io.minio.errors.*;
+import io.minio.errors.InvalidExpiresRangeException;
 import io.minio.http.Method;
 import io.minio.messages.*;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Base64Utils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.InputStream;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -34,12 +29,11 @@ public class MinioService {
 
     @Autowired
     private MinioClient minioClient;
-
+    //默认过期时间7天
     private static final int DEFAULT_EXPIRY_TIME = 7 * 24 * 3600;
 
     /**
      * 检查存储桶是否存在
-     *
      * @param bucketName 存储桶名称
      * @return
      */
@@ -55,7 +49,6 @@ public class MinioService {
 
     /**
      * 创建存储桶
-     *
      * @param bucketName 存储桶名称
      */
     @SneakyThrows
@@ -72,7 +65,6 @@ public class MinioService {
 
     /**
      * 删除存储桶
-     *
      * @param bucketName 存储桶名称
      * @return
      */
@@ -100,7 +92,6 @@ public class MinioService {
 
     /**
      * 列出所有存储桶名称
-     *
      * @return
      */
     @SneakyThrows
@@ -115,7 +106,6 @@ public class MinioService {
 
     /**
      * 列出所有存储桶
-     *
      * @return
      */
     @SneakyThrows
@@ -125,7 +115,6 @@ public class MinioService {
 
     /**
      * 列出存储桶中的所有对象名称
-     *
      * @param bucketName 存储桶名称
      * @return
      */
@@ -145,22 +134,16 @@ public class MinioService {
 
     /**
      * 列出存储桶中的所有对象
-     *
      * @param bucketName 存储桶名称
      * @return
      */
     @SneakyThrows
     public Iterable<Result<Item>> listObjects(String bucketName) {
-        boolean flag = bucketExists(bucketName);
-        if (flag) {
-            return minioClient.listObjects(ListObjectsArgs.builder().bucket(bucketName).build());
-        }
-        return null;
+        return minioClient.listObjects(ListObjectsArgs.builder().bucket(bucketName).build());
     }
 
     /**
      * 列出存储桶中的所有对象
-     *
      * @param bucketName 存储桶名称
      * @param prefix     前缀
      * @param after      后缀
@@ -169,40 +152,31 @@ public class MinioService {
      */
     @SneakyThrows
     public Iterable<Result<Item>> listObjects(String bucketName, String prefix, String after, int maxKeys) {
-        boolean flag = bucketExists(bucketName);
-        if (flag) {
-            ListObjectsArgs.Builder builder = ListObjectsArgs.builder().bucket(bucketName);
-            if (prefix != null && prefix.length() > 0) {
-                builder.prefix(prefix);
-            }
-            if (after != null && after.length() > 0) {
-                builder.startAfter(after);
-            }
-            if (maxKeys > 0) {
-                builder.maxKeys(maxKeys);
-            }
-            return minioClient.listObjects(builder.build());
+        ListObjectsArgs.Builder builder = ListObjectsArgs.builder().bucket(bucketName);
+        if (prefix != null && prefix.length() > 0) {
+            builder.prefix(prefix);
         }
-        return null;
+        if (after != null && after.length() > 0) {
+            builder.startAfter(after);
+        }
+        if (maxKeys > 0) {
+            builder.maxKeys(maxKeys);
+        }
+        return minioClient.listObjects(builder.build());
     }
 
     /**
      * 删除对象tag信息
-     *
      * @param bucketName 存储桶名称
      * @param objectName 对象名称
      */
     @SneakyThrows
     public void deleteObjectTags(String bucketName, String objectName) {
-        boolean flag = bucketExists(bucketName);
-        if (flag) {
-            minioClient.deleteObjectTags(DeleteObjectTagsArgs.builder().bucket(bucketName).object(objectName).build());
-        }
+        minioClient.deleteObjectTags(DeleteObjectTagsArgs.builder().bucket(bucketName).object(objectName).build());
     }
 
     /**
      * 文件上传（已知文件大小）
-     *
      * @param bucketName  存储桶名称
      * @param objectName  存储桶里的对象名称
      * @param stream      文件流
@@ -212,7 +186,6 @@ public class MinioService {
      */
     @SneakyThrows
     public boolean putObject(String bucketName, String objectName, InputStream stream, long size, String contentType) {
-        //boolean flag = bucketExists(bucketName);
         ObjectWriteResponse response = minioClient.putObject(PutObjectArgs.builder()
                 .bucket(bucketName).object(objectName)
                 .stream(stream, size, -1)
@@ -226,31 +199,7 @@ public class MinioService {
     }
 
     /**
-     * 文件上传（未知文件大小，默认100M以内的文件）
-     *
-     * @param bucketName  存储桶名称
-     * @param objectName  存储桶里的对象名称
-     * @param stream      文件流
-     * @param contentType 文件类型
-     * @return
-     */
-    @SneakyThrows
-    public boolean putObject(String bucketName, String objectName, InputStream stream, String contentType) {
-        ObjectWriteResponse response = minioClient.putObject(PutObjectArgs.builder()
-                .bucket(bucketName).object(objectName)
-                .stream(stream, -1, 104857600) //默认100M
-                .contentType(contentType).build());
-        ObjectStat statObject = statObject(bucketName, objectName);
-        if (statObject != null && statObject.length() > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * 文件上传（已知文件大小）
-     *
      * @param bucketName  存储桶名称
      * @param objectName  存储桶里的对象名称
      * @param stream      文件流
@@ -265,6 +214,7 @@ public class MinioService {
                 .bucket(bucketName).object(objectName)
                 .stream(stream, size, -1)
                 .headers(headers)
+                .tags(headers)
                 .contentType(contentType).build());
         ObjectStat statObject = statObject(bucketName, objectName);
         if (statObject != null && statObject.length() > 0) {
@@ -276,7 +226,6 @@ public class MinioService {
 
     /**
      * 文件上传 ，最大5G
-     *
      * @param bucketName 桶名称
      * @param multipartFile 上传的文件
      * @param objectName 自定义文件名
@@ -288,19 +237,12 @@ public class MinioService {
 
     /**
      * 文件上传 ，最大5G
-     *
      * @param bucketName 桶名称
      * @param multipartFile 上传的文件
      */
     @SneakyThrows
     public Map<String,String> putObject(String bucketName, MultipartFile multipartFile) {
         return multipartFileUpload(bucketName , multipartFile , IdUtil.simpleUUID());
-    }
-
-    public static void main(String[] args) {
-        String oldName = "2020/aa朱宇a.txt";
-        System.out.println(Base64.encode(oldName , "UTF-8"));
-        System.out.println(Base64.decodeStr("MjAyMC9hYeacseWuh2EudHh0" , "UTF-8"));
     }
 
     //文件上传公用方法，以bucketName为根目录，年月为次级目录，name为文件名
@@ -339,7 +281,6 @@ public class MinioService {
 
     /**
      * 通过InputStream上传对象
-     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @param stream     要上传的流
@@ -364,7 +305,6 @@ public class MinioService {
     /**
      * 以流的形式获取一个文件对象
      * 需要释放stream资源
-     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @return
@@ -390,7 +330,6 @@ public class MinioService {
     /**
      * 以流的形式获取一个文件对象（断点下载）
      * 需要释放stream资源
-     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @param offset     起始字节的位置
@@ -399,7 +338,6 @@ public class MinioService {
      */
     @SneakyThrows
     public InputStream getObject(String bucketName, String objectName, long offset, Long length) {
-        // get object data from offset to length
         InputStream stream = minioClient.getObject(
                 GetObjectArgs.builder()
                         .bucket(bucketName)
@@ -412,7 +350,6 @@ public class MinioService {
 
     /**
      * 获取对象的tags
-     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @return
@@ -430,7 +367,6 @@ public class MinioService {
 
     /**
      * 删除一个对象
-     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      */
@@ -442,7 +378,6 @@ public class MinioService {
 
     /**
      * 删除指定桶的多个文件对象,返回删除错误的对象列表，全部删除成功，返回空列表
-     *
      * @param bucketName  存储桶名称
      * @param objectNames 含有要删除的多个object名称的迭代器对象
      * @return
@@ -466,21 +401,18 @@ public class MinioService {
 
     /**
      * 给文件添加tags
-     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @param tags       标签
      */
     @SneakyThrows
     public void setObjectTags(String bucketName, String objectName, Map<String, String> tags) {
-        minioClient.setObjectTags(
-                SetObjectTagsArgs.builder().bucket(bucketName).object(objectName).tags(tags).build());
+        minioClient.setObjectTags(SetObjectTagsArgs.builder().bucket(bucketName).object(objectName).tags(tags).build());
     }
 
     /**
      * 生成一个给HTTP GET请求用的presigned URL。
      * 浏览器/移动端的客户端可以用这个URL进行下载，即使其所在的存储桶是私有的。这个presigned URL可以设置一个失效时间，默认值是7天。
-     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @param expires    失效时间（以秒为单位），默认是7天，不得大于七天
@@ -503,23 +435,19 @@ public class MinioService {
         return url;
     }
 
-
     /**
      * 获取对象的元数据
-     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @return
      */
     @SneakyThrows
     public ObjectStat statObject(String bucketName, String objectName) {
-        ObjectStat statObject = minioClient.statObject(StatObjectArgs.builder().bucket(bucketName).object(objectName).build());
-        return statObject;
+        return minioClient.statObject(StatObjectArgs.builder().bucket(bucketName).object(objectName).build());
     }
 
     /**
      * 文件访问路径
-     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @return
@@ -531,7 +459,6 @@ public class MinioService {
 
     /**
      * 下载文件，在项目根目录
-     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @param fileName   下载后文件名称
@@ -548,7 +475,6 @@ public class MinioService {
 
     /**
      * 下载文件
-     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @param response
@@ -574,5 +500,4 @@ public class MinioService {
             e.printStackTrace();
         }
     }
-
 }
