@@ -22,9 +22,9 @@ public class LogFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         //从Reqest中获取访问地址，并打印到控制台
-        HttpServletRequest request = (HttpServletRequest)servletRequest;
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
         logger.info("logFilter uri : " + request.getRequestURI());
-        filterChain.doFilter(servletRequest , servletResponse);
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override

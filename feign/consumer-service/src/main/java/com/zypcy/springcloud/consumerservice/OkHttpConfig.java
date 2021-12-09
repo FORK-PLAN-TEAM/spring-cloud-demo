@@ -20,17 +20,17 @@ import java.util.concurrent.TimeUnit;
 public class OkHttpConfig {
 
     @Bean
-    public okhttp3.OkHttpClient okHttpClient(){
+    public okhttp3.OkHttpClient okHttpClient() {
         return new okhttp3.OkHttpClient.Builder()
                 //设置连接超时
-                .connectTimeout(10 , TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
                 //设置读超时
-                .readTimeout(10 , TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
                 //设置写超时
-                .writeTimeout(10 , TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
                 //是否自动重连
                 .retryOnConnectionFailure(true)
-                .connectionPool(new ConnectionPool(10 , 5L, TimeUnit.MINUTES))
+                .connectionPool(new ConnectionPool(10, 5L, TimeUnit.MINUTES))
                 .build();
     }
 }

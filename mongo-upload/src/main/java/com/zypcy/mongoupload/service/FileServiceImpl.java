@@ -27,12 +27,16 @@ public class FileServiceImpl implements IFileService {
 
     private static String collectionName = "fileDatas";
 
-    @Autowired private MongoTemplate mongoTemplate;
-    @Autowired private GridFsTemplate gridFsTemplate;
-    @Autowired private GridFSBucket gridFSBucket;
+    @Autowired
+    private MongoTemplate mongoTemplate;
+    @Autowired
+    private GridFsTemplate gridFsTemplate;
+    @Autowired
+    private GridFSBucket gridFSBucket;
 
     /**
      * js文件流上传附件
+     *
      * @param fileDocument
      * @param inputStream
      * @return
@@ -41,20 +45,21 @@ public class FileServiceImpl implements IFileService {
     public FileDocument saveFile(FileDocument fileDocument, InputStream inputStream) {
         //已存在该文件，则实现秒传
         FileDocument dbFile = getByMd5(fileDocument.getMd5());
-        if(dbFile != null){
+        if (dbFile != null) {
             return dbFile;
         }
 
         //GridFSInputFile inputFile = gridFsTemplate
 
-        String gridfsId = uploadFileToGridFS(inputStream  , fileDocument.getContentType());
+        String gridfsId = uploadFileToGridFS(inputStream, fileDocument.getContentType());
         fileDocument.setGridfsId(gridfsId);
-        fileDocument = mongoTemplate.save(fileDocument , collectionName);
+        fileDocument = mongoTemplate.save(fileDocument, collectionName);
         return fileDocument;
     }
 
     /**
      * 表单上传附件
+     *
      * @param md5
      * @param file
      * @return
@@ -63,7 +68,7 @@ public class FileServiceImpl implements IFileService {
     public FileDocument saveFile(String md5, MultipartFile file) {
         //已存在该文件，则实现秒传
         FileDocument fileDocument = getByMd5(md5);
-        if(fileDocument != null){
+        if (fileDocument != null) {
             return fileDocument;
         }
 
@@ -77,10 +82,10 @@ public class FileServiceImpl implements IFileService {
         fileDocument.setSuffix(suffix);
 
         try {
-            String gridfsId = uploadFileToGridFS(file.getInputStream() , file.getContentType());
+            String gridfsId = uploadFileToGridFS(file.getInputStream(), file.getContentType());
             fileDocument.setGridfsId(gridfsId);
-            fileDocument = mongoTemplate.save(fileDocument , collectionName);
-        }catch (IOException ex){
+            fileDocument = mongoTemplate.save(fileDocument, collectionName);
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
         return fileDocument;
@@ -88,31 +93,33 @@ public class FileServiceImpl implements IFileService {
 
     /**
      * 上传文件到Mongodb的GridFs中
+     *
      * @param in
      * @param contentType
      * @return
      */
-    private String uploadFileToGridFS(InputStream in , String contentType){
+    private String uploadFileToGridFS(InputStream in, String contentType) {
         String gridfsId = IdUtil.simpleUUID();
         //文件，存储在GridFS中
-        gridFsTemplate.store(in, gridfsId , contentType);
+        gridFsTemplate.store(in, gridfsId, contentType);
         return gridfsId;
     }
 
     /**
      * 删除附件
-     * @param id 文件id
+     *
+     * @param id           文件id
      * @param isDeleteFile 是否删除文件
      */
     @Override
     public void removeFile(String id, boolean isDeleteFile) {
-        FileDocument fileDocument = mongoTemplate.findById(id , FileDocument.class , collectionName);
-        if(fileDocument != null){
+        FileDocument fileDocument = mongoTemplate.findById(id, FileDocument.class, collectionName);
+        if (fileDocument != null) {
             Query query = new Query().addCriteria(Criteria.where("_id").is(id));
-            DeleteResult result = mongoTemplate.remove(query , collectionName);
+            DeleteResult result = mongoTemplate.remove(query, collectionName);
             System.out.println("result:" + result.getDeletedCount());
 
-            if(isDeleteFile){
+            if (isDeleteFile) {
                 Query deleteQuery = new Query().addCriteria(Criteria.where("filename").is(fileDocument.getGridfsId()));
                 gridFsTemplate.delete(deleteQuery);
             }
@@ -121,27 +128,28 @@ public class FileServiceImpl implements IFileService {
 
     /**
      * 查询附件
+     *
      * @param id 文件id
      * @return
      * @throws IOException
      */
     @Override
-    public Optional<FileDocument> getById(String id){
-        FileDocument fileDocument = mongoTemplate.findById(id , FileDocument.class , collectionName);
-        if(fileDocument != null){
+    public Optional<FileDocument> getById(String id) {
+        FileDocument fileDocument = mongoTemplate.findById(id, FileDocument.class, collectionName);
+        if (fileDocument != null) {
             Query gridQuery = new Query().addCriteria(Criteria.where("filename").is(fileDocument.getGridfsId()));
             try {
                 GridFSFile fsFile = gridFsTemplate.findOne(gridQuery);
                 GridFSDownloadStream in = gridFSBucket.openDownloadStream(fsFile.getObjectId());
-                if(in.getGridFSFile().getLength() > 0){
+                if (in.getGridFSFile().getLength() > 0) {
                     GridFsResource resource = new GridFsResource(fsFile, in);
                     fileDocument.setContent(IoUtil.readBytes(resource.getInputStream()));
                     return Optional.of(fileDocument);
-                }else {
+                } else {
                     fileDocument = null;
                     return Optional.empty();
                 }
-            }catch (IOException ex){
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
@@ -150,25 +158,26 @@ public class FileServiceImpl implements IFileService {
 
     /**
      * 根据md5获取文件对象
+     *
      * @param md5
      * @return
      */
     @Override
     public FileDocument getByMd5(String md5) {
         Query query = new Query().addCriteria(Criteria.where("md5").is(md5));
-        FileDocument fileDocument = mongoTemplate.findOne(query , FileDocument.class , collectionName);
+        FileDocument fileDocument = mongoTemplate.findOne(query, FileDocument.class, collectionName);
         return fileDocument;
     }
 
     @Override
     public List<FileDocument> listFilesByPage(int pageIndex, int pageSize) {
-        Query query = new Query().with(Sort.by(Sort.Direction.DESC , "uploadDate"));
-        long skip = (pageIndex -1) * pageSize;
+        Query query = new Query().with(Sort.by(Sort.Direction.DESC, "uploadDate"));
+        long skip = (pageIndex - 1) * pageSize;
         query.skip(skip);
         query.limit(pageSize);
         Field field = query.fields();
         field.exclude("content");
-        List<FileDocument> files = mongoTemplate.find(query , FileDocument.class , collectionName);
+        List<FileDocument> files = mongoTemplate.find(query, FileDocument.class, collectionName);
         return files;
     }
 }

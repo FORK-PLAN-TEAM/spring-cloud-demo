@@ -35,14 +35,14 @@ public class ResponseModel<T> {
 
 
     public static ResponseModel failInstance() {
-        ResponseModel responseModel =  new ResponseModel();
+        ResponseModel responseModel = new ResponseModel();
         responseModel.setResultCode(ResultEnum.FAIL.getResultCode());
         responseModel.setResultMessage(ResultEnum.FAIL.getResultMessage());
         return responseModel;
     }
 
     public static ResponseModel successInstance() {
-        ResponseModel responseModel =  new ResponseModel();
+        ResponseModel responseModel = new ResponseModel();
         responseModel.setResultCode(ResultEnum.SUCCESS.getResultCode());
         responseModel.setResultMessage(ResultEnum.SUCCESS.getResultMessage());
         return responseModel;
@@ -58,7 +58,7 @@ public class ResponseModel<T> {
         }
 
         public final <T> ResponseModel<T> build() {
-            ResponseModel<T> model =  new ResponseModel<T>();
+            ResponseModel<T> model = new ResponseModel<T>();
             model.setResultCode(code);
             model.setResultMessage(message);
             model.setResultObj((T) obj);

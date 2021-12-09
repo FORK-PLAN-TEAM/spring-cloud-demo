@@ -22,7 +22,8 @@ import java.util.List;
 @Service
 public class ZySysDictServiceImpl extends ServiceImpl<ZySysDictMapper, ZySysDict> implements IZySysDictService {
 
-    @Autowired ZySysDictMapper dictMapper;
+    @Autowired
+    ZySysDictMapper dictMapper;
 
     @Override
     public ZySysDict getById(String id) {

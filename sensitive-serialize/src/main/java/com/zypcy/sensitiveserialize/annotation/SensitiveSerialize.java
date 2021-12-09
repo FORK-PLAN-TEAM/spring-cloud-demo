@@ -13,6 +13,7 @@ import java.util.Objects;
 
 /**
  * 脱敏处理类
+ *
  * @Author zhuyu
  * @Time 2020-06-19 10:53
  * @Description 脱敏处理类
@@ -31,16 +32,16 @@ public class SensitiveSerialize extends JsonSerializer implements ContextualSeri
     @Override
     public JsonSerializer<?> createContextual(SerializerProvider provider, BeanProperty beanProperty) throws JsonMappingException {
         System.out.println("createContextual...");
-        if(beanProperty != null){
+        if (beanProperty != null) {
             Sensitive sensitive = beanProperty.getAnnotation(Sensitive.class);
-            if(sensitive == null){
+            if (sensitive == null) {
                 sensitive = beanProperty.getContextAnnotation(Sensitive.class);
             }
             // 如果能得到注解，就将注解的 value 传入 SensitiveSerialize
-            if(sensitive != null){
+            if (sensitive != null) {
                 return new SensitiveSerialize(sensitive.value());
             }
-            return provider.findValueSerializer(beanProperty.getType() , beanProperty);
+            return provider.findValueSerializer(beanProperty.getType(), beanProperty);
         }
         return provider.findNullValueSerializer(beanProperty);
     }
@@ -48,7 +49,7 @@ public class SensitiveSerialize extends JsonSerializer implements ContextualSeri
     @Override
     public void serialize(Object value, JsonGenerator jsonGenerator, SerializerProvider serializers) throws IOException {
         System.out.println("v:" + value);
-        switch (this.type){
+        switch (this.type) {
             case CARD_NO:
                 jsonGenerator.writeString(SensitiveUtil.cardNo(String.valueOf(value)));
                 break;

@@ -39,13 +39,14 @@ public class IdWorker {
             long tableId = Long.valueOf(keyGenerator.generateKey().toString());
             long dby = dbId % 2;
             long tabley = tableId % 2;
-            System.out.println("ds" + dby + ".t_order"+tabley);
+            System.out.println("ds" + dby + ".t_order" + tabley);
             //System.out.println("getId:"+ keyGenerator.generateKey()  + " , length:" + String.valueOf(keyGenerator.generateKey()).length());
         }
     }
 
     /**
      * 获取ID
+     *
      * @return 18位连续的id
      */
     public static String getId() {
@@ -55,26 +56,30 @@ public class IdWorker {
 
     /**
      * 获取ID
+     *
      * @return 18位不连续的id
      */
-    public static long getLongId(){
+    public static long getLongId() {
         return idWorker.nextId() + random.nextInt(999);
     }
 
     /**
      * 获取ID，带年月日 , 24位
+     *
      * @return
      */
-    public static String getDateId(){
+    public static String getDateId() {
         Date nowTime = new Date();
         String id = timeFormat.format(nowTime) + String.valueOf(idWorker.nextId());
         return id;
     }
+
     /**
      * 获取ID，带年月日时分秒 ， 30位
+     *
      * @return
      */
-    public static String getFullDateId(){
+    public static String getFullDateId() {
         Date nowTime = new Date();
         String id = timeFormatFull.format(nowTime) + String.valueOf(idWorker.nextId());
         return id;

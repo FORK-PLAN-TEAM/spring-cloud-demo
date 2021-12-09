@@ -18,6 +18,7 @@ import java.lang.annotation.RetentionPolicy;
 public @interface Sensitive {
     /**
      * 要对那种类型的数据脱敏
+     *
      * @return
      */
     public SensitiveType value();

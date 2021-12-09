@@ -34,6 +34,7 @@ public class MinioService {
 
     /**
      * 检查存储桶是否存在
+     *
      * @param bucketName 存储桶名称
      * @return
      */
@@ -49,6 +50,7 @@ public class MinioService {
 
     /**
      * 创建存储桶
+     *
      * @param bucketName 存储桶名称
      */
     @SneakyThrows
@@ -65,6 +67,7 @@ public class MinioService {
 
     /**
      * 删除存储桶
+     *
      * @param bucketName 存储桶名称
      * @return
      */
@@ -92,6 +95,7 @@ public class MinioService {
 
     /**
      * 列出所有存储桶名称
+     *
      * @return
      */
     @SneakyThrows
@@ -106,6 +110,7 @@ public class MinioService {
 
     /**
      * 列出所有存储桶
+     *
      * @return
      */
     @SneakyThrows
@@ -115,6 +120,7 @@ public class MinioService {
 
     /**
      * 列出存储桶中的所有对象名称
+     *
      * @param bucketName 存储桶名称
      * @return
      */
@@ -134,6 +140,7 @@ public class MinioService {
 
     /**
      * 列出存储桶中的所有对象
+     *
      * @param bucketName 存储桶名称
      * @return
      */
@@ -144,6 +151,7 @@ public class MinioService {
 
     /**
      * 列出存储桶中的所有对象
+     *
      * @param bucketName 存储桶名称
      * @param prefix     前缀
      * @param after      后缀
@@ -167,6 +175,7 @@ public class MinioService {
 
     /**
      * 删除对象tag信息
+     *
      * @param bucketName 存储桶名称
      * @param objectName 对象名称
      */
@@ -177,6 +186,7 @@ public class MinioService {
 
     /**
      * 文件上传（已知文件大小）
+     *
      * @param bucketName  存储桶名称
      * @param objectName  存储桶里的对象名称
      * @param stream      文件流
@@ -200,6 +210,7 @@ public class MinioService {
 
     /**
      * 文件上传（已知文件大小）
+     *
      * @param bucketName  存储桶名称
      * @param objectName  存储桶里的对象名称
      * @param stream      文件流
@@ -226,44 +237,46 @@ public class MinioService {
 
     /**
      * 文件上传 ，最大5G
-     * @param bucketName 桶名称
+     *
+     * @param bucketName    桶名称
      * @param multipartFile 上传的文件
-     * @param objectName 自定义文件名
+     * @param objectName    自定义文件名
      */
     @SneakyThrows
-    public Map<String,String> putObject(String bucketName, MultipartFile multipartFile, String objectName) {
-        return multipartFileUpload(bucketName , multipartFile , objectName);
+    public Map<String, String> putObject(String bucketName, MultipartFile multipartFile, String objectName) {
+        return multipartFileUpload(bucketName, multipartFile, objectName);
     }
 
     /**
      * 文件上传 ，最大5G
-     * @param bucketName 桶名称
+     *
+     * @param bucketName    桶名称
      * @param multipartFile 上传的文件
      */
     @SneakyThrows
-    public Map<String,String> putObject(String bucketName, MultipartFile multipartFile) {
-        return multipartFileUpload(bucketName , multipartFile , IdUtil.simpleUUID());
+    public Map<String, String> putObject(String bucketName, MultipartFile multipartFile) {
+        return multipartFileUpload(bucketName, multipartFile, IdUtil.simpleUUID());
     }
 
     //文件上传公用方法，以bucketName为根目录，年月为次级目录，name为文件名
     // url = bucketName/timePrefix/filename
     @SneakyThrows
-    private Map<String,String> multipartFileUpload(String bucketName, MultipartFile multipartFile, String objectName){
+    private Map<String, String> multipartFileUpload(String bucketName, MultipartFile multipartFile, String objectName) {
         long size = multipartFile.getSize();
         String oldName = multipartFile.getOriginalFilename();
         String suffix = oldName.substring(oldName.lastIndexOf("."));
-        oldName = Base64.encode(oldName , "UTF-8"); //需要对原文件名进行编码处理，否则中文名称会报错
+        oldName = Base64.encode(oldName, "UTF-8"); //需要对原文件名进行编码处理，否则中文名称会报错
         String name = (objectName != null && objectName.length() > 0) ? objectName : oldName;
-        String timePrefix = DateUtil.format(LocalDateTime.now() , "yyyyMM");
+        String timePrefix = DateUtil.format(LocalDateTime.now(), "yyyyMM");
         name = timePrefix + "/" + name + suffix;
         String contentType = multipartFile.getContentType();
-        Map<String,String> headers = new ConcurrentHashMap<>();
-        headers.put(FileModel.size,  size + "");
-        headers.put(FileModel.name , name);         //文件新名称
-        headers.put(FileModel.oldName , oldName);   //文件原名称
-        headers.put(FileModel.contentType , contentType);
-        headers.put(FileModel.suffix , suffix);
-        headers.put(FileModel.uploadDate , DateUtil.now());
+        Map<String, String> headers = new ConcurrentHashMap<>();
+        headers.put(FileModel.size, size + "");
+        headers.put(FileModel.name, name);         //文件新名称
+        headers.put(FileModel.oldName, oldName);   //文件原名称
+        headers.put(FileModel.contentType, contentType);
+        headers.put(FileModel.suffix, suffix);
+        headers.put(FileModel.uploadDate, DateUtil.now());
 
         //上传文件 ，最大5G
         minioClient.putObject(PutObjectArgs.builder()
@@ -272,15 +285,16 @@ public class MinioService {
                 .contentType(contentType)
                 .headers(headers)
                 .tags(headers)
-                .stream(multipartFile.getInputStream(), size , PutObjectOptions.MAX_PART_SIZE)
+                .stream(multipartFile.getInputStream(), size, PutObjectOptions.MAX_PART_SIZE)
                 .build());
 
-        headers.put(FileModel.url , bucketName + "/" + name);
+        headers.put(FileModel.url, bucketName + "/" + name);
         return headers;
     }
 
     /**
      * 通过InputStream上传对象
+     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @param stream     要上传的流
@@ -305,6 +319,7 @@ public class MinioService {
     /**
      * 以流的形式获取一个文件对象
      * 需要释放stream资源
+     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @return
@@ -330,6 +345,7 @@ public class MinioService {
     /**
      * 以流的形式获取一个文件对象（断点下载）
      * 需要释放stream资源
+     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @param offset     起始字节的位置
@@ -350,6 +366,7 @@ public class MinioService {
 
     /**
      * 获取对象的tags
+     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @return
@@ -367,6 +384,7 @@ public class MinioService {
 
     /**
      * 删除一个对象
+     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      */
@@ -378,6 +396,7 @@ public class MinioService {
 
     /**
      * 删除指定桶的多个文件对象,返回删除错误的对象列表，全部删除成功，返回空列表
+     *
      * @param bucketName  存储桶名称
      * @param objectNames 含有要删除的多个object名称的迭代器对象
      * @return
@@ -401,6 +420,7 @@ public class MinioService {
 
     /**
      * 给文件添加tags
+     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @param tags       标签
@@ -413,6 +433,7 @@ public class MinioService {
     /**
      * 生成一个给HTTP GET请求用的presigned URL。
      * 浏览器/移动端的客户端可以用这个URL进行下载，即使其所在的存储桶是私有的。这个presigned URL可以设置一个失效时间，默认值是7天。
+     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @param expires    失效时间（以秒为单位），默认是7天，不得大于七天
@@ -437,6 +458,7 @@ public class MinioService {
 
     /**
      * 获取对象的元数据
+     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @return
@@ -448,6 +470,7 @@ public class MinioService {
 
     /**
      * 文件访问路径
+     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @return
@@ -459,6 +482,7 @@ public class MinioService {
 
     /**
      * 下载文件，在项目根目录
+     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @param fileName   下载后文件名称
@@ -475,6 +499,7 @@ public class MinioService {
 
     /**
      * 下载文件
+     *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @param response
@@ -482,10 +507,10 @@ public class MinioService {
     public void downloadObject(String bucketName, String objectName, HttpServletResponse response) {
         try {
             InputStream is = getObject(bucketName, objectName);
-            if(is == null){
+            if (is == null) {
                 return;
             }
-            String fileName = objectName.substring(objectName.indexOf("/")+1 , objectName.length());
+            String fileName = objectName.substring(objectName.indexOf("/") + 1, objectName.length());
             response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
             ServletOutputStream servletOutputStream = response.getOutputStream();
             int len;

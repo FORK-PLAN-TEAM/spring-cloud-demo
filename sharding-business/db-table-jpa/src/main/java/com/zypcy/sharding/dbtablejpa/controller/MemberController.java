@@ -16,37 +16,38 @@ import java.util.Date;
 @RestController
 public class MemberController {
 
-    @Autowired private MemberRepository memberRepository;
+    @Autowired
+    private MemberRepository memberRepository;
 
     @RequestMapping("/health")
-    public String health(){
+    public String health() {
         return "success";
     }
 
     @RequestMapping("/findAll")
-    public Object findAll(){
+    public Object findAll() {
         return memberRepository.findAll();
     }
 
     @RequestMapping("/add")
-    public Object add(){
+    public Object add() {
         Member member = addMember();
         return memberRepository.save(member);
     }
 
     @RequestMapping("/findById")
-    public Member findById(Long memberId){
+    public Member findById(Long memberId) {
         return memberRepository.findById(memberId).get();
     }
 
-    private Member addMember(){
+    private Member addMember() {
         Member member = new Member();
         member.setMemberId(IdWorker.getLongId());
         //SnowflakeShardingKeyGenerator keyGenerator = new SnowflakeShardingKeyGenerator();
         //member.setMemberId(Long.parseLong(keyGenerator.generateKey().toString()));
         member.setMemberName("张三");
         member.setNickName("闪耀的瞬间");
-        member.setAccountNo(member.getMemberId()+"");
+        member.setAccountNo(member.getMemberId() + "");
         member.setPassword("123465");
         member.setAge(27);
         member.setBirthDate(new Date());

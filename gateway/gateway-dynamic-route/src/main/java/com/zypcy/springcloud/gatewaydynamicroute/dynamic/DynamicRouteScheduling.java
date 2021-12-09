@@ -27,8 +27,10 @@ import java.util.List;
 @Component
 public class DynamicRouteScheduling {
 
-    @Autowired private RestTemplate restTemplate;
-    @Autowired private DynamicRouteService dynamicRouteService;
+    @Autowired
+    private RestTemplate restTemplate;
+    @Autowired
+    private DynamicRouteService dynamicRouteService;
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static final String dynamicRouteServerName = "dynamic-route-service";
@@ -39,19 +41,19 @@ public class DynamicRouteScheduling {
     //每60秒中执行一次
     //如果版本号不相等则获取最新路由信息并更新网关路由
     @Scheduled(cron = "*/60 * * * * ?")
-    public void getDynamicRouteInfo(){
-        try{
+    public void getDynamicRouteInfo() {
+        try {
             System.out.println("拉取时间:" + dateFormat.format(new Date()));
             //先拉取版本信息，如果版本号不想等则更新路由
-            Long resultVersionId = restTemplate.getForObject("http://"+ dynamicRouteServerName +"/version/lastVersion" , Long.class);
+            Long resultVersionId = restTemplate.getForObject("http://" + dynamicRouteServerName + "/version/lastVersion", Long.class);
             System.out.println("路由版本信息：本地版本号：" + versionId + "，远程版本号：" + resultVersionId);
-            if(resultVersionId != null && versionId != resultVersionId){
+            if (resultVersionId != null && versionId != resultVersionId) {
                 System.out.println("开始拉取路由信息......");
-                String resultRoutes = restTemplate.getForObject("http://"+ dynamicRouteServerName +"/gateway-routes/routes" , String.class);
+                String resultRoutes = restTemplate.getForObject("http://" + dynamicRouteServerName + "/gateway-routes/routes", String.class);
                 System.out.println("路由信息为：" + resultRoutes);
-                if(!StringUtils.isEmpty(resultRoutes)){
-                    List<GatewayRouteDefinition> list = JSON.parseArray(resultRoutes , GatewayRouteDefinition.class);
-                    for(GatewayRouteDefinition definition : list){
+                if (!StringUtils.isEmpty(resultRoutes)) {
+                    List<GatewayRouteDefinition> list = JSON.parseArray(resultRoutes, GatewayRouteDefinition.class);
+                    for (GatewayRouteDefinition definition : list) {
                         //更新路由
                         RouteDefinition routeDefinition = assembleRouteDefinition(definition);
                         dynamicRouteService.update(routeDefinition);
@@ -59,7 +61,7 @@ public class DynamicRouteScheduling {
                     versionId = resultVersionId;
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -72,9 +74,9 @@ public class DynamicRouteScheduling {
         definition.setOrder(gwdefinition.getOrder());
 
         //设置断言
-        List<PredicateDefinition> pdList=new ArrayList<>();
-        List<GatewayPredicateDefinition> gatewayPredicateDefinitionList=gwdefinition.getPredicates();
-        for (GatewayPredicateDefinition gpDefinition: gatewayPredicateDefinitionList) {
+        List<PredicateDefinition> pdList = new ArrayList<>();
+        List<GatewayPredicateDefinition> gatewayPredicateDefinitionList = gwdefinition.getPredicates();
+        for (GatewayPredicateDefinition gpDefinition : gatewayPredicateDefinitionList) {
             PredicateDefinition predicate = new PredicateDefinition();
             predicate.setArgs(gpDefinition.getArgs());
             predicate.setName(gpDefinition.getName());
@@ -85,7 +87,7 @@ public class DynamicRouteScheduling {
         //设置过滤器
         List<FilterDefinition> filters = new ArrayList();
         List<GatewayFilterDefinition> gatewayFilters = gwdefinition.getFilters();
-        for(GatewayFilterDefinition filterDefinition : gatewayFilters){
+        for (GatewayFilterDefinition filterDefinition : gatewayFilters) {
             FilterDefinition filter = new FilterDefinition();
             filter.setName(filterDefinition.getName());
             filter.setArgs(filterDefinition.getArgs());
@@ -94,9 +96,9 @@ public class DynamicRouteScheduling {
         definition.setFilters(filters);
 
         URI uri = null;
-        if(gwdefinition.getUri().startsWith("http")){
+        if (gwdefinition.getUri().startsWith("http")) {
             uri = UriComponentsBuilder.fromHttpUrl(gwdefinition.getUri()).build().toUri();
-        }else{
+        } else {
             uri = URI.create(gwdefinition.getUri());
         }
         definition.setUri(uri);

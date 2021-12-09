@@ -13,7 +13,7 @@ public class IndexController {
     private String book;
 
     @RequestMapping("/getBookConfig")
-    public String getBookConfig(){
+    public String getBookConfig() {
         return book;
     }
 }

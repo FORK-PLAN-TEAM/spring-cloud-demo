@@ -16,13 +16,13 @@ public interface IndexService {
 
     @CacheRefresh(refresh = 30, stopRefreshAfterLastAccess = 600, timeUnit = TimeUnit.SECONDS)
     @CachePenetrationProtect
-    @Cached(name="userCache-", key="#userId", expire = 60)
+    @Cached(name = "userCache-", key = "#userId", expire = 60)
     User getUserById(long userId);
 
-    @CacheUpdate(name="userCache-", key="#user.userId", value="#user")
+    @CacheUpdate(name = "userCache-", key = "#user.userId", value = "#user")
     void updateUser(User user);
 
-    @CacheInvalidate(name="userCache-", key="#userId")
+    @CacheInvalidate(name = "userCache-", key = "#userId")
     void deleteUser(long userId);
 
 }

@@ -46,15 +46,15 @@ public class QRCodeUtil {
         IMAGE_TYPE.add("png");
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         System.out.println("QRCodeUtil");
         //生成二维码到当前项目的upload目录
         String qrPath = FilePathUtil.getFileUploadPath() + IdWorker.getId() + ".jpg";
-        QRCodeUtil.zxingCodeCreate("https://www.zypcy.cn",  qrPath,500,FilePathUtil.getResourceFilePath("static/images/logo.png"));
+        QRCodeUtil.zxingCodeCreate("https://www.zypcy.cn", qrPath, 500, FilePathUtil.getResourceFilePath("static/images/logo.png"));
 
         //解析二维码内容
         Result result = QRCodeUtil.zxingCodeAnalyze(qrPath);
-        System.out.println("二维码解析内容："+result.toString());
+        System.out.println("二维码解析内容：" + result.toString());
     }
 
 
@@ -64,12 +64,13 @@ public class QRCodeUtil {
      * 1,文本生成二维码的方法独立出来,返回image流的形式,可以输出到页面
      * 2,设置容错率为最高,一般容错率越高,图片越不清晰, 但是只有将容错率设置高一点才能兼容logo图片
      * 3,logo图片默认占二维码图片的20%,设置太大会导致无法解析
-     * @param content 二维码包含的内容，文本或网址
-     * @param path 生成的二维码图片存放位置
-     * @param size 生成的二维码图片尺寸 可以自定义或者默认（250）
+     *
+     * @param content  二维码包含的内容，文本或网址
+     * @param path     生成的二维码图片存放位置
+     * @param size     生成的二维码图片尺寸 可以自定义或者默认（250）
      * @param logoPath logo的存放位置
      */
-    public static boolean zxingCodeCreate(String content, String path, Integer size,String logoPath) {
+    public static boolean zxingCodeCreate(String content, String path, Integer size, String logoPath) {
 
         try {
             String imageType = path.substring(path.lastIndexOf(".") + 1).toLowerCase();
@@ -78,7 +79,7 @@ public class QRCodeUtil {
             }
 
             //获取二维码流的形式，写入到目录文件中
-            BufferedImage image = getBufferedImage(content,size,logoPath);
+            BufferedImage image = getBufferedImage(content, size, logoPath);
 
             File file = new File(path);
             if (!file.exists()) {
@@ -97,12 +98,13 @@ public class QRCodeUtil {
 
     /**
      * 二维码流的形式，包含文本内容
-     * @param content 二维码文本内容
-     * @param size 二维码尺寸
+     *
+     * @param content  二维码文本内容
+     * @param size     二维码尺寸
      * @param logoPath logo的存放位置
      * @return
      */
-    public static BufferedImage getBufferedImage (String content,Integer size,String logoPath) {
+    public static BufferedImage getBufferedImage(String content, Integer size, String logoPath) {
 
         if (size == null || size <= 0) {
             size = 250;
@@ -176,11 +178,11 @@ public class QRCodeUtil {
     /**
      * 给二维码图片添加Logo
      *
-     * @param qrPic 二维码图片
+     * @param qrPic   二维码图片
      * @param logoPic logo图片
-     * @param path 合成后的图片存储目录
+     * @param path    合成后的图片存储目录
      */
-    public static boolean zxingCodeCreate(File qrPic, File logoPic,String path) {
+    public static boolean zxingCodeCreate(File qrPic, File logoPic, String path) {
         try {
             String imageType = path.substring(path.lastIndexOf(".") + 1).toLowerCase();
             if (!IMAGE_TYPE.contains(imageType)) {
@@ -228,7 +230,7 @@ public class QRCodeUtil {
             if (!newFile.exists()) {
                 newFile.mkdirs();
             }
-            ImageIO.write(image, imageType,newFile);
+            ImageIO.write(image, imageType, newFile);
 
             return true;
 
@@ -241,10 +243,11 @@ public class QRCodeUtil {
 
     /**
      * zxing方式生成二维码的解析方法
+     *
      * @param path 二维码图片目录
      * @return
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public static Result zxingCodeAnalyze(String path) {
         try {
             MultiFormatReader formatReader = new MultiFormatReader();

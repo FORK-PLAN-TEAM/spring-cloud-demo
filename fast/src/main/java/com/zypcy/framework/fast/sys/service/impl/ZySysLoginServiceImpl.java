@@ -25,50 +25,51 @@ public class ZySysLoginServiceImpl implements IZySysLoginService {
 
     /**
      * 用户登录
-     * @param platform 登录平台：Pc、Wx、App
+     *
+     * @param platform    登录平台：Pc、Wx、App
      * @param userAccount 登录帐号
-     * @param userPwd 登录密码
+     * @param userPwd     登录密码
      * @return
      */
     @Override
-    public ResponseModel login(String platform , String userAccount, String userPwd) {
+    public ResponseModel login(String platform, String userAccount, String userPwd) {
         ResponseModel model = ResponseModel.failInstance();
-        if(StringUtils.isEmpty(userAccount) || StringUtils.isEmpty(userPwd)){
+        if (StringUtils.isEmpty(userAccount) || StringUtils.isEmpty(userPwd)) {
             model.setResultMessage("请输入登录帐号或密码");
             return model;
         }
 
         //根据手机号和登录账户 or 查询
         QueryWrapper<ZySysUser> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_account" , userAccount)
+        wrapper.eq("user_account", userAccount)
                 .or()
-                .eq("cell_phone" , userAccount);
+                .eq("cell_phone", userAccount);
 
         ZySysUser sysUser = userMapper.selectOne(wrapper);
-        if(sysUser != null){
-            if(sysUser.getState()){
+        if (sysUser != null) {
+            if (sysUser.getState()) {
                 model.setResultMessage("该账号已被禁用，请联系管理员");
                 return model;
             }
             //用登录密码加盐做md5，再与数据库中保存的密码对比
             String dbPwd = sysUser.getUserPwd();
             String salt = sysUser.getSalt();
-            if(dbPwd.equals(SecureUtil.md5(userPwd + salt))){
+            if (dbPwd.equals(SecureUtil.md5(userPwd + salt))) {
                 sysUser.setSalt(null);
                 sysUser.setUserAccount(null);
                 sysUser.setUserPwd(null);
                 sysUser.setLoginTime(System.currentTimeMillis());
                 sysUser.setLoginPlatform(platform);
                 String token = IdUtil.simpleUUID();
-                loginAsync.updateLoginIInfo(token , sysUser);
+                loginAsync.updateLoginIInfo(token, sysUser);
                 model.setResultCode(ResultEnum.SUCCESS.getResultCode());
                 model.setResultMessage("登录成功");
                 model.setResultObj(token);
-            }else {
+            } else {
                 model.setResultMessage("请使用正确的登录密码");
             }
             return model;
-        }else {
+        } else {
             model.setResultMessage("请输入正确的手机号或登录帐号");
             return model;
         }

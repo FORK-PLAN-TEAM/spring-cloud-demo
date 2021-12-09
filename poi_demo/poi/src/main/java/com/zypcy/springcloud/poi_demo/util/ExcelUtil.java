@@ -22,17 +22,18 @@ import java.util.List;
  */
 public class ExcelUtil {
 
-    public static void main(String[] args)throws Exception{
+    public static void main(String[] args) throws Exception {
         testExportExcel();
     }
+
     //测试导出excel
-    public static void testExportExcel(){
+    public static void testExportExcel() {
         try {
-            String[] title = {"序号" , "姓名" ,"年龄" ,"生日"};
+            String[] title = {"序号", "姓名", "年龄", "生日"};
             List<Student> list = Student.getStudents();
             //1.通过forEach循环，生成list数组
             List<String[]> excelDatas = new ArrayList<>();
-            list.forEach( student -> {
+            list.forEach(student -> {
                 String[] content = new String[4];
                 content[0] = StrUtil.toString(student.getId());
                 content[1] = student.getName();
@@ -42,19 +43,20 @@ public class ExcelUtil {
             });
             //生成exel内容，二维String数组
             String[][] values = excelDatas.toArray(new String[0][title.length]);
-            HSSFWorkbook wb = getHSSFWorkbook("学生表一",title , values);
-            String targentPath = CommonUtil.getRootPath() + "\\src\\main\\resources\\static\\poi_template\\" + DateUtil.format(new Date(),"yyyyMMddHHmmssSSS")  + ".xlsx";
+            HSSFWorkbook wb = getHSSFWorkbook("学生表一", title, values);
+            String targentPath = CommonUtil.getRootPath() + "\\src\\main\\resources\\static\\poi_template\\" + DateUtil.format(new Date(), "yyyyMMddHHmmssSSS") + ".xlsx";
             FileOutputStream fout = new FileOutputStream(targentPath);
             wb.write(fout);
             fout.close();
             System.out.println("导出excel成功，文件地址：" + targentPath);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
      * 导出Excel
+     *
      * @param sheetName sheet名称
      * @param title     标题
      * @param values    内容
@@ -96,6 +98,7 @@ public class ExcelUtil {
 
     /**
      * 发送响应流方法
+     *
      * @param response
      * @param fileName
      */

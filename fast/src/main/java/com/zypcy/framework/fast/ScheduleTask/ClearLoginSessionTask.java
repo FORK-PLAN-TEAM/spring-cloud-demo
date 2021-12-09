@@ -29,12 +29,12 @@ public class ClearLoginSessionTask {
     @Scheduled(cron = "0/60 * * * * ?")
     public void configureTasks() {
         LogUtil.info("ClearLoginSessionTask执行定时任务时间: " + DateUtil.now());
-        Map<String , ZySysLoginInfo> maps = UserLoginCache.getAllUserInfo();
-        for(Map.Entry<String, ZySysLoginInfo> entry : maps.entrySet()){
+        Map<String, ZySysLoginInfo> maps = UserLoginCache.getAllUserInfo();
+        for (Map.Entry<String, ZySysLoginInfo> entry : maps.entrySet()) {
             String token = entry.getKey();
             ZySysLoginInfo loginInfo = entry.getValue();
             //登录信息过期后从内存中移除
-            if(loginInfo != null && loginInfo.getSysUser() != null && LoginExpiresUtil.isExpire(tokenExpireTime , loginInfo.getSysUser().getLoginTime() , loginInfo.getSysUser().getLoginPlatform())){
+            if (loginInfo != null && loginInfo.getSysUser() != null && LoginExpiresUtil.isExpire(tokenExpireTime, loginInfo.getSysUser().getLoginTime(), loginInfo.getSysUser().getLoginPlatform())) {
                 UserLoginCache.removeLoginInfo(token);
             }
         }

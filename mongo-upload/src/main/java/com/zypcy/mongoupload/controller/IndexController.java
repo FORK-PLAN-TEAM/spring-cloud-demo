@@ -17,18 +17,18 @@ public class IndexController {
     private IFileService fileService;
 
     @RequestMapping("/")
-    public String index(ModelMap map , @RequestParam(value = "pageIndex" , defaultValue = "1") int pageIndex,@RequestParam(value = "pageSize" , defaultValue = "10") int pageSize){
-        map.addAttribute("list" , fileService.listFilesByPage(pageIndex,pageSize));
+    public String index(ModelMap map, @RequestParam(value = "pageIndex", defaultValue = "1") int pageIndex, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        map.addAttribute("list", fileService.listFilesByPage(pageIndex, pageSize));
         return "index";
     }
 
     @RequestMapping("/upload")
-    public String upload(){
+    public String upload() {
         return "upload";
     }
 
     @RequestMapping("/jsupload")
-    public String jsupload(){
+    public String jsupload() {
         return "jsupload";
     }
 

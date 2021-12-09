@@ -9,18 +9,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
 
     @RequestMapping("/hello")
-    public String hello(String name){
+    public String hello(String name) {
 //        try {
 //            Thread.sleep(60 * 1000);
 //        }catch (Exception e){
 //            e.printStackTrace();
 //        }
-        return  "hello " + name;
+        return "hello " + name;
     }
 
 
     @RequestMapping("/createPerson")
-    public Person create(@RequestBody Person person){
+    public Person create(@RequestBody Person person) {
         Person p = new Person();
         p.setAge(person.getAge());
         p.setName(person.getName());

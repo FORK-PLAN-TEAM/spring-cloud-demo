@@ -3,6 +3,7 @@ package com.zypcy.mongoupload.entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.bson.types.Binary;
+
 import java.util.Date;
 
 @Document
@@ -100,7 +101,8 @@ public class FileDocument {
         this.gridfsId = gridfsId;
     }
 
-    public FileDocument() {}
+    public FileDocument() {
+    }
 
     public FileDocument(String id, String name, long size, Date uploadDate, String md5, byte[] content, String contentType, String suffix, String description, String gridfsId) {
         this.id = id;

@@ -9,10 +9,11 @@ import java.util.List;
 
 /**
  * 此类暂时未使用，返回的是MybatisPlus的IPage类，再由table.js控件转成需要的格式
+ *
  * @param <T>
  */
 @ApiModel(value = "PageListModel", description = "Layui-Table控件需要的数据结构")
-public class PageModel<T> implements Serializable{
+public class PageModel<T> implements Serializable {
 
     /**
      * 使用了Mybatis-Plus的自动翻页插件，需要把翻页结果转换为前端table控件需要的数据格式
@@ -28,30 +29,28 @@ public class PageModel<T> implements Serializable{
      *  total  : 总数据条数
      */
 /**
-    @ApiModelProperty(value = "成功为0")
-    private int code;
+ @ApiModelProperty(value = "成功为0")
+ private int code;
 
-    @ApiModelProperty(value = "提示")
-    private String msg;
+ @ApiModelProperty(value = "提示")
+ private String msg;
 
-    @ApiModelProperty(value = "数据量总数")
-    private Long count;
+ @ApiModelProperty(value = "数据量总数")
+ private Long count;
 
-    @ApiModelProperty(value = "列表数据集合")
-    private List<T> data;
+ @ApiModelProperty(value = "列表数据集合")
+ private List<T> data;
 
 
-     * 把Mybatis-Plus翻页插件查询的数据转换为，layui-table控件需要的格式
-     * @param pages
-     * @param <T>
-     * @return
-
-    public static <T> PageModel<T> convert(IPage<T> pages){
-        PageModel model = new PageModel();
-        model.setCode(0); //非0则失败
-        model.setMsg("查询成功");
-        model.setCount(pages.getTotal());
-        model.setData(pages.getRecords());
-        return model;
-    }*/
+  * 把Mybatis-Plus翻页插件查询的数据转换为，layui-table控件需要的格式
+  * @param pages
+ * @param <T>
+ * @return public static <T> PageModel<T> convert(IPage<T> pages){
+PageModel model = new PageModel();
+model.setCode(0); //非0则失败
+model.setMsg("查询成功");
+model.setCount(pages.getTotal());
+model.setData(pages.getRecords());
+return model;
+}*/
 }

@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: admin-client
+#  boot:
+#    admin:
+#      client:
+#        url: http://localhost:8769
+server:
+  port: 8768
+  tomcat:
+    accept-count: 500
+    min-spare-threads: 20
+    max-threads: 500
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8070/eureka/
+  instance:
+    hostname: localhost
+    leaseRenewalIntervalInSeconds: 10
+
+

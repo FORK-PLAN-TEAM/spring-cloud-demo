@@ -25,14 +25,14 @@ public class RocketMQProducerTest {
     private RocketMQProducer producer;
 
     @Test
-    public void testSend(){
+    public void testSend() {
 
         //rocketMQTemplate.convertAndSend("test-topic1", "Hello, World!");
 
         for (int i = 0; i < 20; i++) {
             String msg = "hello world ! " + i;
-            System.out.println("发送数据到"+CommonMQTopic.Mobile_Topic+":"+CommonMQTopic.MobileTopicTag.Order+",megssage=" + msg);
-            producer.sendMsg(CommonMQTopic.Mobile_Topic ,  CommonMQTopic.MobileTopicTag.Order, msg);
+            System.out.println("发送数据到" + CommonMQTopic.Mobile_Topic + ":" + CommonMQTopic.MobileTopicTag.Order + ",megssage=" + msg);
+            producer.sendMsg(CommonMQTopic.Mobile_Topic, CommonMQTopic.MobileTopicTag.Order, msg);
         }
     }
 
@@ -40,7 +40,7 @@ public class RocketMQProducerTest {
      * 发送有序消息
      */
     @Test
-    public void testSendOrderly(){
+    public void testSendOrderly() {
         for (int i = 1; i < 10; i++) {
             String message = "zhuyu " + i;
             rocketMQTemplate.asyncSendOrderly(CommonMQTopic.Mobile_Topic + ":" + CommonMQTopic.MobileTopicTag.Order, message, "" + i

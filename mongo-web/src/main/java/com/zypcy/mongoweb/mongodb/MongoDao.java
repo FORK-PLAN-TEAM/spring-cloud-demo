@@ -14,52 +14,58 @@ import java.util.List;
  * @Time 2020-06-09 09:38
  * @Description MongoDao
  */
-public interface MongoDao<T> {
+public interface MongoDao {
 
     /**
      * 保存一个对象到mongodb
-     * @param bean 要保存的对象
+     *
+     * @param clazz 要保存的对象
      * @author zhuyu
      * @date 2020/6/9 14:45
      */
-    T save(T bean);
+    <T> T save(Class<T> clazz);
 
     /**
      * 保存一个对象到mongodb
-     * @param bean 要保存的对象
+     *
+     * @param clazz          要保存的对象
      * @param collectionName 表名
      * @author zhuyu
      * @date 2020/6/9 14:45
      */
-    T save(T bean , String collectionName);
+    <T> T save(Class<T> clazz, String collectionName);
 
     /**
      * 根据id删除对象
-     * @param t  删除对象
+     *
+     * @param clazz 删除对象
      * @author zhuyu
      * @date 2020/6/9 14:45
      */
-    DeleteResult deleteById(T t);
+    <T> DeleteResult deleteById(Class<T> clazz);
 
     /**
      * 根据id删除对象
-     * @param t  删除对象
+     *
+     * @param t              删除对象
      * @param collectionName 表名
      * @author zhuyu
      * @date 2020/6/9 14:45
      */
-    DeleteResult deleteById(String id , String collectionName);
+    DeleteResult deleteById(String id, String collectionName);
 
     /**
      * 根据对象的属性删除
-     * @param t 对象的属性
+     *
+     * @param clazz 对象的属性
      * @author zhuyu
      * @date 2020/6/9 14:45
      */
-    DeleteResult deleteByCondition(T t);
+    <T> DeleteResult deleteByCondition(Class<T> clazz);
 
     /**
      * 通过条件查询更新数据
+     *
      * @param query  条件
      * @param update 更新数据
      * @author zhuyu
@@ -69,6 +75,7 @@ public interface MongoDao<T> {
 
     /**
      * 根据id进行更新
+     *
      * @param id id
      * @param t  更新对象
      * @author zhuyu
@@ -78,6 +85,7 @@ public interface MongoDao<T> {
 
     /**
      * 通过条件查询实体(集合)
+     *
      * @param query 查询条件
      * @author zhuyu
      * @date 2020/6/9 14:49
@@ -86,6 +94,7 @@ public interface MongoDao<T> {
 
     /**
      * 通过条件查询实体(集合)
+     *
      * @param query 查询条件
      * @author zhuyu
      * @date 2020/6/9 14:49
@@ -94,15 +103,17 @@ public interface MongoDao<T> {
 
     /**
      * 通过条件查询实体(集合)
-     * @param query 查询条件
+     *
+     * @param query          查询条件
      * @param collectionName 表名
      * @author zhuyu
      * @date 2020/6/9 14:49
      */
-    List<T> list(Query query , String collectionName);
+    List<T> list(Query query, String collectionName);
 
     /**
      * 通过条件分页查询实体(集合)
+     *
      * @param t    查询条件
      * @param page 分页条件
      * @author zhuyu
@@ -112,16 +123,18 @@ public interface MongoDao<T> {
 
     /**
      * 通过条件分页查询实体(集合)
-     * @param t    查询条件
-     * @param page 分页条件
+     *
+     * @param t              查询条件
+     * @param page           分页条件
      * @param collectionName 表名
      * @author zhuyu
      * @date 2020/6/9 14:50
      */
-    List<T> listPage(T t, Page page , String collectionName);
+    List<T> listPage(T t, Page page, String collectionName);
 
     /**
      * 查询总记录数
+     *
      * @param t    查询条件
      * @param page 分页条件
      * @author zhuyu
@@ -131,6 +144,7 @@ public interface MongoDao<T> {
 
     /**
      * 通过一定的条件查询一个实体
+     *
      * @param query 查询条件
      * @author zhuyu
      * @date 2020/6/9 14:51
@@ -139,7 +153,8 @@ public interface MongoDao<T> {
 
     /**
      * 通过一定的条件查询一个实体
-     * @param query 查询条件
+     *
+     * @param query          查询条件
      * @param collectionName 表名
      * @author zhuyu
      * @date 2020/6/9 14:51
@@ -148,6 +163,7 @@ public interface MongoDao<T> {
 
     /**
      * 通过ID获取记录
+     *
      * @param id id
      * @author zhuyu
      * @date 2020/6/9 14:51
@@ -156,6 +172,7 @@ public interface MongoDao<T> {
 
     /**
      * 通过ID获取记录,并且指定了集合名(表的意思)
+     *
      * @param id             id
      * @param collectionName 表名
      * @author zhuyu
@@ -165,6 +182,7 @@ public interface MongoDao<T> {
 
     /**
      * 获取MongoTemplate
+     *
      * @author zhuyu
      * @date 2020/6/9 14:51
      */

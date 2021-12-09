@@ -109,7 +109,7 @@
             }, {
                 field: 'userName', title: '用户姓名', align: 'center', templet: '#queryTpl'
             }, {
-                field: 'userAccount', title: '登录帐号',  align: 'center'
+                field: 'userAccount', title: '登录帐号', align: 'center'
             }, {
                 field: 'sex', title: '性别', width: 75, align: 'center', templet: function (d) {
                     return d.sex ? "女" : "男";
@@ -224,7 +224,7 @@
 
     /*修改密码*/
     function updatePwd(userId) {
-        xadmin.open('修改密码','/sys/user/updatePwd?userId=' + userId, 780 , 300)
+        xadmin.open('修改密码', '/sys/user/updatePwd?userId=' + userId, 780, 300)
     }
 
     //编辑或新增后，调用此方法刷新树与列表

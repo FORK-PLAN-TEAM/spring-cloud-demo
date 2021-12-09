@@ -12,30 +12,34 @@ public interface IFileService {
 
     /**
      * 保存文件 - 表单
+     *
      * @param md5
      * @param file
      * @return
      */
-    FileDocument saveFile(String md5 , MultipartFile file);
+    FileDocument saveFile(String md5, MultipartFile file);
 
     /**
      * 保存文件 - js文件流
+     *
      * @param fileDocument
      * @param inputStream
      * @return
      */
-    FileDocument saveFile(FileDocument fileDocument , InputStream inputStream);
+    FileDocument saveFile(FileDocument fileDocument, InputStream inputStream);
 
     /**
      * 删除文件
+     *
      * @param id
      * @param isDeleteFile 是否删除文件
      * @return
      */
-    void removeFile(String id , boolean isDeleteFile);
+    void removeFile(String id, boolean isDeleteFile);
 
     /**
      * 根据id获取文件
+     *
      * @param id
      * @return
      */
@@ -43,6 +47,7 @@ public interface IFileService {
 
     /**
      * 根据md5获取文件对象
+     *
      * @param md5
      * @return
      */
@@ -50,6 +55,7 @@ public interface IFileService {
 
     /**
      * 分页查询，按上传时间降序
+     *
      * @param pageIndex
      * @param pageSize
      * @return

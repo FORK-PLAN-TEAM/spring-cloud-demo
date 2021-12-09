@@ -2,6 +2,7 @@ package com.zypcy.mongoweb.mongodb;
 
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
+import com.zypcy.mongoweb.config.SpringContextApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import com.zypcy.mongoweb.mongodb.Page;
@@ -10,6 +11,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
@@ -23,49 +25,62 @@ import java.util.Objects;
  * @Time 2020-06-09 09:45
  * @Description MongoDao实现类 描述
  */
-public abstract class MongoDaoSupport<T> implements MongoDao<T> {
+@Service
+public class MongoDaoSupport implements MongoDao {
 
-    @Autowired
-    @Qualifier("mongoTemplate")
-    protected MongoTemplate mongoTemplate;
+    protected MongoTemplate mongoTemplate = SpringContextApplication.getBean(MongoTemplate.class);
+
+    @Override
+    public <T> T save(Class<T> clazz) {
+        checkMongoConnection();
+        mongoTemplate.save(clazz);
+        return null;
+    }
 
     @Override
     public T save(T bean) {
+        checkMongoConnection();
         mongoTemplate.save(bean);
         return bean;
     }
 
     @Override
     public T save(T bean, String collectionName) {
-        mongoTemplate.save(bean , collectionName);
+        checkMongoConnection();
+        mongoTemplate.save(bean, collectionName);
         return bean;
     }
 
     @Override
     public DeleteResult deleteById(T t) {
+        checkMongoConnection();
         return mongoTemplate.remove(t);
     }
 
     @Override
     public DeleteResult deleteById(String id, String collectionName) {
+        checkMongoConnection();
         Query query = new Query();
         query.addCriteria(Criteria.where("id").is(id));
-        return mongoTemplate.remove(query , collectionName);
+        return mongoTemplate.remove(query, collectionName);
     }
 
     @Override
     public DeleteResult deleteByCondition(T t) {
+        checkMongoConnection();
         Query query = buildBaseQuery(t);
-        return mongoTemplate.remove(query , this.getEntityClass());
+        return mongoTemplate.remove(query, this.getEntityClass());
     }
 
     @Override
     public UpdateResult update(Query query, Update update) {
-        return mongoTemplate.updateMulti(query , update , this.getEntityClass());
+        checkMongoConnection();
+        return mongoTemplate.updateMulti(query, update, this.getEntityClass());
     }
 
     @Override
     public UpdateResult updateById(String id, T t) {
+        checkMongoConnection();
         Query query = new Query();
         query.addCriteria(Criteria.where("id").is(id));
         Update update = buildBaseUpdate(t);
@@ -74,22 +89,26 @@ public abstract class MongoDaoSupport<T> implements MongoDao<T> {
 
     @Override
     public List<T> list(T t) {
+        checkMongoConnection();
         Query query = buildBaseQuery(t);
-        return mongoTemplate.find(query , this.getEntityClass());
+        return mongoTemplate.find(query, this.getEntityClass());
     }
 
     @Override
     public List<T> list(Query query) {
-        return mongoTemplate.find(query , this.getEntityClass());
+        checkMongoConnection();
+        return mongoTemplate.find(query, this.getEntityClass());
     }
 
     @Override
     public List<T> list(Query query, String collectionName) {
-        return mongoTemplate.find(query , this.getEntityClass() , collectionName);
+        checkMongoConnection();
+        return mongoTemplate.find(query, this.getEntityClass(), collectionName);
     }
 
     @Override
     public List<T> listPage(T t, Page page) {
+        checkMongoConnection();
         int skip = (int) (page.getPageSize() * (page.getPageIndex() - 1));
         int limit = Math.toIntExact(page.getPageSize());
         Query query = buildBaseQuery(t);
@@ -99,46 +118,63 @@ public abstract class MongoDaoSupport<T> implements MongoDao<T> {
 
     @Override
     public List<T> listPage(T t, Page page, String collectionName) {
+        checkMongoConnection();
         int skip = (int) (page.getPageSize() * (page.getPageIndex() - 1));
         int limit = Math.toIntExact(page.getPageSize());
         Query query = buildBaseQuery(t);
         query.skip(skip).limit(limit);
-        return mongoTemplate.find(query, this.getEntityClass() , collectionName);
+        return mongoTemplate.find(query, this.getEntityClass(), collectionName);
     }
 
     @Override
     public long getCount(T t, Page page) {
+        checkMongoConnection();
         Query query = buildBaseQuery(t);
         return mongoTemplate.count(query, this.getEntityClass());
     }
 
     @Override
     public T findOne(Query query) {
-        return mongoTemplate.findOne(query , this.getEntityClass());
+        checkMongoConnection();
+        return mongoTemplate.findOne(query, this.getEntityClass());
     }
 
     @Override
     public T findOne(Query query, String collectionName) {
-        return mongoTemplate.findOne(query , this.getEntityClass() , collectionName);
+        checkMongoConnection();
+        return mongoTemplate.findOne(query, this.getEntityClass(), collectionName);
     }
 
     @Override
     public T getById(String id) {
-        return mongoTemplate.findById(id , this.getEntityClass());
+        checkMongoConnection();
+        return mongoTemplate.findById(id, this.getEntityClass());
     }
 
     @Override
     public T getById(String id, String collectionName) {
-        return mongoTemplate.findById(id , this.getEntityClass() , collectionName);
+        checkMongoConnection();
+        return mongoTemplate.findById(id, this.getEntityClass(), collectionName);
     }
 
     @Override
     public MongoTemplate getMongoTemplate() {
+        checkMongoConnection();
         return mongoTemplate;
     }
 
     /**
+     * 查询MongoDB连接
+     */
+    private void checkMongoConnection() {
+        if (mongoTemplate == null) {
+            throw new RuntimeException("mongodb connection is down...");
+        }
+    }
+
+    /**
      * 获取需要操作的实体类class
+     *
      * @return
      */
     protected Class<T> getEntityClass() {
@@ -147,6 +183,7 @@ public abstract class MongoDaoSupport<T> implements MongoDao<T> {
 
     /**
      * 根据entity构建查询条件Query
+     *
      * @param t
      * @return
      */

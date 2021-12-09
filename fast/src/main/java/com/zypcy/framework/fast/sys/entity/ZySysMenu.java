@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 菜单
+ *
  * @author zhuyu
  * @since 2019-06-14
  */
@@ -21,7 +22,7 @@ public class ZySysMenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "menu_id" , type = IdType.INPUT)
+    @TableId(value = "menu_id", type = IdType.INPUT)
     @ApiModelProperty(value = "菜单Id")
     private String menuId;
 

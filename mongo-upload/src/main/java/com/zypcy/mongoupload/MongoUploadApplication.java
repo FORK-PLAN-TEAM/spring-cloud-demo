@@ -12,16 +12,16 @@ import org.springframework.data.mongodb.MongoDbFactory;
 @SpringBootApplication
 public class MongoUploadApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MongoUploadApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MongoUploadApplication.class, args);
+    }
 
-	@Autowired
-	private MongoDbFactory mongoDbFactory;
+    @Autowired
+    private MongoDbFactory mongoDbFactory;
 
-	@Bean
-	public GridFSBucket getGridFSBuckets() {
-		MongoDatabase db = mongoDbFactory.getDb();
-		return GridFSBuckets.create(db);
-	}
+    @Bean
+    public GridFSBucket getGridFSBuckets() {
+        MongoDatabase db = mongoDbFactory.getDb();
+        return GridFSBuckets.create(db);
+    }
 }

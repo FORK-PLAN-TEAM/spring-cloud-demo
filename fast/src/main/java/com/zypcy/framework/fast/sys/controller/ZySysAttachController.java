@@ -39,6 +39,7 @@ import java.util.Optional;
  * 附件表，同一用户上传多个附件请用attach_no 前端控制器
  * 在WebConfiguration.java 中开放权限 /sys/attach/** ，所有未登录用户都可以上传或下载附件
  * 可访问：/sys/attach/list 示例上传文件
+ *
  * @author zhuyu
  * @since 2019-07-31
  */
@@ -52,8 +53,8 @@ public class ZySysAttachController {
 
     @ApiOperation(value = "打开附件上传页面", notes = "页面", httpMethod = "GET")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ModelAndView list(ModelMap map){
-        map.addAttribute("attachs" , attachService.listAttachTop20());
+    public ModelAndView list(ModelMap map) {
+        map.addAttribute("attachs", attachService.listAttachTop20());
         return new ModelAndView("sys/file_list");
     }
 
@@ -65,12 +66,13 @@ public class ZySysAttachController {
 
     /**
      * 在线显示文件
+     *
      * @param id 文件id
      * @return
      */
     @ApiOperation(value = "预览附件（支持图片、txt、pdf）", notes = "api", httpMethod = "GET")
     @GetMapping("/view/{id}")
-    public ResponseEntity<Object> serveFileOnline(@PathVariable String id) throws IOException{
+    public ResponseEntity<Object> serveFileOnline(@PathVariable String id) throws IOException {
         ZySysAttach attach = attachService.getById(id);
         if (attach != null) {
             byte[] files = FileUtil.readBytes(attach.getAttachPath());
@@ -78,7 +80,7 @@ public class ZySysAttachController {
                     .header(HttpHeaders.CONTENT_DISPOSITION, "fileName=" + attach.getAttachName())
                     .header(HttpHeaders.CONTENT_TYPE, attach.getContentType())
                     .header(HttpHeaders.CONTENT_LENGTH, attach.getAttachSize() + "").header("Connection", "close")
-                    .header(HttpHeaders.CONTENT_LENGTH , attach.getAttachSize() + "")
+                    .header(HttpHeaders.CONTENT_LENGTH, attach.getAttachSize() + "")
                     .body(files);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("File was not found");
@@ -87,6 +89,7 @@ public class ZySysAttachController {
 
     /**
      * 下载附件
+     *
      * @param id
      * @return
      * @throws UnsupportedEncodingException
@@ -95,15 +98,15 @@ public class ZySysAttachController {
     @GetMapping("/download/{id}")
     public ResponseEntity<Object> downloadFileById(@PathVariable String id) throws UnsupportedEncodingException {
         ZySysAttach attach = attachService.getById(id);
-        if(attach != null){
+        if (attach != null) {
             byte[] files = FileUtil.readBytes(attach.getAttachPath());
             return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; fileName=" + URLEncoder.encode(attach.getAttachName() , "utf-8"))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; fileName=" + URLEncoder.encode(attach.getAttachName(), "utf-8"))
                     .header(HttpHeaders.CONTENT_TYPE, "application/octet-stream")
                     .header(HttpHeaders.CONTENT_LENGTH, attach.getAttachSize() + "").header("Connection", "close")
-                    .header(HttpHeaders.CONTENT_LENGTH , attach.getAttachSize() + "")
+                    .header(HttpHeaders.CONTENT_LENGTH, attach.getAttachSize() + "")
                     .body(files);
-        }else {
+        } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("File was not found");
         }
     }
@@ -111,6 +114,7 @@ public class ZySysAttachController {
     /**
      * 上传文件
      * 当数据库中存在该md5值时，可以实现秒传功能
+     *
      * @param file 文件
      * @return
      */
@@ -125,7 +129,7 @@ public class ZySysAttachController {
                     attachNo = IdWorker.getDateId();
                 }
 
-                ZySysAttach attach = attachService.fileUpload(fileMd5 , attachNo , file);
+                ZySysAttach attach = attachService.fileUpload(fileMd5, attachNo, file);
                 System.out.println(JSON.toJSONString(attach));
                 model.setResultObj(attach);
                 model.setResultCode(ResultEnum.SUCCESS.getResultCode());
@@ -143,16 +147,17 @@ public class ZySysAttachController {
 
     /**
      * 删除附件，请不要删除附件，只删除业务中保存的附件Id，因实现了秒传功能，同一个附件只保存一份可能被多个用户引用，删除后其他用户会操作不了
+     *
      * @param id
      * @return
      */
     @GetMapping("/delete/{id}")
-    public boolean deleteFileById(@PathVariable String id){
-        if(!StringUtils.isEmpty(id)){
+    public boolean deleteFileById(@PathVariable String id) {
+        if (!StringUtils.isEmpty(id)) {
             //fileService.removeFile(id , true);
             //model.setCode(ResponseModel.Success);
             throw new BusinessException("暂不支持删除附件，请删除业务中保存的附件Id");
-        }else {
+        } else {
             throw new BusinessException("请传入文件id");
         }
     }

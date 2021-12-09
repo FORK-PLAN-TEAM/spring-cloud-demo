@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
  * 动态路由服务
  */
 @Service
-public class DynamicRouteService  implements ApplicationEventPublisherAware {
+public class DynamicRouteService implements ApplicationEventPublisherAware {
 
     @Autowired
     private RouteDefinitionWriter routeDefinitionWriter;
@@ -39,7 +39,7 @@ public class DynamicRouteService  implements ApplicationEventPublisherAware {
         try {
             delete(definition.getId());
         } catch (Exception e) {
-            return "update fail,not find route  routeId: "+definition.getId();
+            return "update fail,not find route  routeId: " + definition.getId();
         }
         try {
             routeDefinitionWriter.save(Mono.just(definition)).subscribe();

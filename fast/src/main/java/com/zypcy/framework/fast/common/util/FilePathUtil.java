@@ -20,9 +20,10 @@ public class FilePathUtil {
 
     /**
      * 获取项目所在目录
+     *
      * @return
      */
-    public static String getRootPath(){
+    public static String getRootPath() {
         int len = filePath.indexOf("fast");
         String path = filePath;
         if (len > 0) {
@@ -33,13 +34,14 @@ public class FilePathUtil {
 
     /**
      * 获取文件上传存储路径，默认存储到项目所在目录 + /fast/upload/year/month/day/文件名
+     *
      * @return
      */
     public static String getFileUploadPath() {
         String path = getRootPath() + "upload/";
         //文件路径按年月日存放
         path = path + DateUtil.format(new Date(), "yyyy/MM/dd/");
-        if(!FileUtil.exist(path)){
+        if (!FileUtil.exist(path)) {
             FileUtil.mkdir(path);
         }
         return path;
@@ -47,12 +49,13 @@ public class FilePathUtil {
 
     /**
      * 获取word导出路径，默认存储到项目所在目录 + /fast/office/year/month/文件名
+     *
      * @return
      */
-    public static String getOfficeExportPath(){
+    public static String getOfficeExportPath() {
         String path = getRootPath() + "office/";
         path = path + DateUtil.format(new Date(), "yyyy/MM/");
-        if(!FileUtil.exist(path)){
+        if (!FileUtil.exist(path)) {
             FileUtil.mkdir(path);
         }
         return path;
@@ -60,15 +63,16 @@ public class FilePathUtil {
 
     /**
      * 获取资源文件绝对路径
-     * @param resourceFilePath  "static/images/index_bg2.jpg"
+     *
+     * @param resourceFilePath "static/images/index_bg2.jpg"
      * @return
      */
-    public static String getResourceFilePath(String resourceFilePath){
+    public static String getResourceFilePath(String resourceFilePath) {
         String path = "";
         try {
             File file = ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + resourceFilePath);
             path = file.getAbsolutePath();
-        }catch (IOException ex){
+        } catch (IOException ex) {
 
         }
         return path;

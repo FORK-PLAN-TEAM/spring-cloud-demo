@@ -23,15 +23,15 @@ public class IndexServiceImpl implements IndexService {
 
     @Override
     public void addUser(User user) {
-        redisTemplate.opsForHash().put(key , String.valueOf(user.getUserId()) , JSON.toJSONString(user));
+        redisTemplate.opsForHash().put(key, String.valueOf(user.getUserId()), JSON.toJSONString(user));
     }
 
     @Override
     public User getUserById(long userId) {
         User user = null;
-        Object result = redisTemplate.opsForHash().get(key , String.valueOf(userId));
-        if(result != null){
-            user = JSON.parseObject(result.toString() , User.class);
+        Object result = redisTemplate.opsForHash().get(key, String.valueOf(userId));
+        if (result != null) {
+            user = JSON.parseObject(result.toString(), User.class);
         }
         return user;
     }
@@ -39,14 +39,14 @@ public class IndexServiceImpl implements IndexService {
     @Override
     public void updateUser(User user) {
         User dbUser = getUserById(user.getUserId());
-        if(dbUser != null){
-            if(!StringUtils.isEmpty(user.getName())){
+        if (dbUser != null) {
+            if (!StringUtils.isEmpty(user.getName())) {
                 dbUser.setName(user.getName());
             }
-            if(!StringUtils.isEmpty(user.getAddress())){
+            if (!StringUtils.isEmpty(user.getAddress())) {
                 dbUser.setAddress(user.getAddress());
             }
-            if(user.getAge() > 0){
+            if (user.getAge() > 0) {
                 dbUser.setAge(user.getAge());
             }
             addUser(dbUser);
@@ -55,6 +55,6 @@ public class IndexServiceImpl implements IndexService {
 
     @Override
     public void deleteUser(long userId) {
-        redisTemplate.opsForHash().delete(key , String.valueOf(userId));
+        redisTemplate.opsForHash().delete(key, String.valueOf(userId));
     }
 }

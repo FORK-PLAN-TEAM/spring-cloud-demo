@@ -14,7 +14,8 @@ import java.util.List;
 @Service
 public class RoutesServiceImpl implements IRoutesService {
 
-    @Autowired private GatewayRoutesMapper mapper;
+    @Autowired
+    private GatewayRoutesMapper mapper;
 
     @Override
     public int add(GatewayRoutes route) {
@@ -33,12 +34,12 @@ public class RoutesServiceImpl implements IRoutesService {
 
     @Override
     public int delete(Long id, boolean isDel) {
-        return mapper.deleteByPrimaryKey(id , isDel);
+        return mapper.deleteByPrimaryKey(id, isDel);
     }
 
     @Override
     public int enableById(Long id, boolean isEbl) {
-        return mapper.enableById(id , isEbl);
+        return mapper.enableById(id, isEbl);
     }
 
     @Override
@@ -48,6 +49,7 @@ public class RoutesServiceImpl implements IRoutesService {
 
     /**
      * 查询路由信息
+     *
      * @return
      */
     @Override
@@ -57,6 +59,7 @@ public class RoutesServiceImpl implements IRoutesService {
 
     /**
      * 返回组装后网关需要的路由信息
+     *
      * @return
      */
     @Override
@@ -66,7 +69,7 @@ public class RoutesServiceImpl implements IRoutesService {
         route.setIsDel(false);
         route.setIsEbl(false);
         List<GatewayRoutes> routes = getRoutes(route);
-        for(GatewayRoutes gatewayRoute : routes){
+        for (GatewayRoutes gatewayRoute : routes) {
             GatewayRouteDefinition routeDefinition = new GatewayRouteDefinition();
             routeDefinition.setId(gatewayRoute.getRouteId());
             routeDefinition.setUri(gatewayRoute.getRouteUri());

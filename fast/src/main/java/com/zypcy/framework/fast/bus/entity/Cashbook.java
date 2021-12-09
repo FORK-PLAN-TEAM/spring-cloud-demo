@@ -17,8 +17,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
- *
  * 记账本
+ *
  * @author zhuyu
  * @since 2019-07-29
  */
@@ -28,7 +28,7 @@ public class Cashbook implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "cash_id" , type = IdType.INPUT)
+    @TableId(value = "cash_id", type = IdType.INPUT)
     @ApiModelProperty(value = "账目Id")
     private String cashId;
 

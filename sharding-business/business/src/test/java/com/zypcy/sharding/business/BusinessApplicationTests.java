@@ -15,34 +15,35 @@ import java.util.Date;
 @SpringBootTest
 public class BusinessApplicationTests {
 
-	@Test
-	public void contextLoads() {
-	}
+    @Test
+    public void contextLoads() {
+    }
 
-	@Autowired private IMemberService memberService;
-	private String memberId = "201904280001";
+    @Autowired
+    private IMemberService memberService;
+    private String memberId = "201904280001";
 
-	@Test
-	public void addMember(){
-		Member member = new Member();
-		member.setMemberId(memberId);
-		member.setMemberName("张三");
-		member.setNickName("闪耀的瞬间");
-		member.setAccountNo("zhuyu");
-		member.setPassword("123465");
-		member.setAge(27);
-		member.setBirthDate(new Date());
-		member.setEblFlag("1");
-		member.setDelFlag("0");
-		member.setDescription("屌丝一个");
-		member.setCreateTime(new Date());
-		member.setUpdateTime(new Date());
-		memberService.insert(member);
-	}
+    @Test
+    public void addMember() {
+        Member member = new Member();
+        member.setMemberId(memberId);
+        member.setMemberName("张三");
+        member.setNickName("闪耀的瞬间");
+        member.setAccountNo("zhuyu");
+        member.setPassword("123465");
+        member.setAge(27);
+        member.setBirthDate(new Date());
+        member.setEblFlag("1");
+        member.setDelFlag("0");
+        member.setDescription("屌丝一个");
+        member.setCreateTime(new Date());
+        member.setUpdateTime(new Date());
+        memberService.insert(member);
+    }
 
-	@Test
-	public void selectMember(){
-		Member member = memberService.selectByPrimaryKey(memberId);
-		System.out.println("member:" + JSON.toJSONString(member));
-	}
+    @Test
+    public void selectMember() {
+        Member member = memberService.selectByPrimaryKey(memberId);
+        System.out.println("member:" + JSON.toJSONString(member));
+    }
 }

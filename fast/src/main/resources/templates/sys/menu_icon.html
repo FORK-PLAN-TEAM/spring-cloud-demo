@@ -6,7 +6,12 @@
     <link th:replace="template/sys_header :: header"/>
     <style type="text/css">
 
-        *{margin: 0;padding: 0;list-style: none;}
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
         /*
         KISSY CSS Reset
         理念：1. reset 的目的不是清除浏览器的默认样式，这仅是部分工作。清除和重置是紧密不可分的。
@@ -21,37 +26,77 @@
         dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
         pre, /* text formatting elements 文本格式元素 */
         form, fieldset, legend, button, input, textarea, /* form elements 表单元素 */
-        th, td /* table elements 表格元素 */ {
+        th, td /* table elements 表格元素 */
+        {
             margin: 0;
             padding: 0;
         }
 
         /** 设置默认字体 **/
         body,
-        button, input, select, textarea /* for ie */ {
+        button, input, select, textarea /* for ie */
+        {
             font: 12px/1.5 tahoma, arial, \5b8b\4f53, sans-serif;
         }
-        h1, h2, h3, h4, h5, h6 { font-size: 100%; }
-        address, cite, dfn, em, var { font-style: normal; } /* 将斜体扶正 */
-        code, kbd, pre, samp { font-family: courier new, courier, monospace; } /* 统一等宽字体 */
-        small { font-size: 12px; } /* 小于 12px 的中文很难阅读，让 small 正常化 */
+
+        h1, h2, h3, h4, h5, h6 {
+            font-size: 100%;
+        }
+
+        address, cite, dfn, em, var {
+            font-style: normal;
+        }
+
+        /* 将斜体扶正 */
+        code, kbd, pre, samp {
+            font-family: courier new, courier, monospace;
+        }
+
+        /* 统一等宽字体 */
+        small {
+            font-size: 12px;
+        }
+
+        /* 小于 12px 的中文很难阅读，让 small 正常化 */
 
         /** 重置列表元素 **/
-        ul, ol { list-style: none; }
+        ul, ol {
+            list-style: none;
+        }
 
         /** 重置文本格式元素 **/
-        a { text-decoration: none; }
-        a:hover { text-decoration: underline; }
+        a {
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
 
 
         /** 重置表单元素 **/
-        legend { color: #000; } /* for ie6 */
-        fieldset, img { border: 0; } /* img 搭车：让链接里的 img 无边框 */
-        button, input, select, textarea { font-size: 100%; } /* 使得表单元素在 ie 下能继承字体大小 */
+        legend {
+            color: #000;
+        }
+
+        /* for ie6 */
+        fieldset, img {
+            border: 0;
+        }
+
+        /* img 搭车：让链接里的 img 无边框 */
+        button, input, select, textarea {
+            font-size: 100%;
+        }
+
+        /* 使得表单元素在 ie 下能继承字体大小 */
         /* 注：optgroup 无法扶正 */
 
         /** 重置表格元素 **/
-        table { border-collapse: collapse; border-spacing: 0; }
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
 
         /* 清除浮动 */
         .ks-clear:after, .clear:after {
@@ -60,6 +105,7 @@
             height: 0;
             clear: both;
         }
+
         .ks-clear, .clear {
             *zoom: 1;
         }
@@ -69,43 +115,54 @@
             width: 960px;
             margin: 0 auto;
         }
-        .main h1{font-size:36px; color:#333; text-align:left;margin-bottom:30px; border-bottom: 1px solid #eee;}
 
-        .helps{margin-top:40px;}
-        .helps pre{
-            padding:20px;
-            margin:10px 0;
-            border:solid 1px #e7e1cd;
+        .main h1 {
+            font-size: 36px;
+            color: #333;
+            text-align: left;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .helps {
+            margin-top: 40px;
+        }
+
+        .helps pre {
+            padding: 20px;
+            margin: 10px 0;
+            border: solid 1px #e7e1cd;
             background-color: #fffdef;
             overflow: auto;
         }
 
-        .icon_lists{
+        .icon_lists {
             width: 100% !important;
 
         }
 
-        .icon_lists li{
-            float:left;
+        .icon_lists li {
+            float: left;
             width: 100px;
-            height:180px;
+            height: 180px;
             text-align: center;
             list-style: none !important;
         }
-        .icon_lists .icon{
+
+        .icon_lists .icon {
             font-size: 42px;
             line-height: 100px;
             margin: 10px 0;
-            color:#333;
+            color: #333;
             -webkit-transition: font-size 0.25s ease-out 0s;
             -moz-transition: font-size 0.25s ease-out 0s;
             transition: font-size 0.25s ease-out 0s;
 
         }
-        .icon_lists .icon:hover{
+
+        .icon_lists .icon:hover {
             font-size: 100px;
         }
-
 
 
         .markdown {
@@ -368,14 +425,14 @@
             text-decoration: underline;
         }
 
-        pre{
+        pre {
             background: #fff;
         }
 
         .iconfont {
-            font-family:"iconfont" !important;
-            font-size:16px;
-            font-style:normal;
+            font-family: "iconfont" !important;
+            font-size: 16px;
+            font-style: normal;
             -webkit-font-smoothing: antialiased;
             -webkit-text-stroke-width: 0.2px;
             -moz-osx-font-smoothing: grayscale;
@@ -1291,7 +1348,9 @@
     </blockquote>
 
     <h3 id="-">挑选相应图标并获取字体编码，应用于页面</h3>
-    <pre><code class="lang-js hljs javascript">&lt;i <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"iconfont"</span>&gt;&amp;#x33;<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span></span></code></pre>
+    <pre><code class="lang-js hljs javascript">&lt;i <span class="hljs-class"><span
+            class="hljs-keyword">class</span></span>=<span class="hljs-string">"iconfont"</span>&gt;&amp;#x33;<span
+            class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span></span></code></pre>
 
     <blockquote>
         <p>"iconfont"是你项目下的font-family。可以通过编辑项目查看，默认是"iconfont"。</p>

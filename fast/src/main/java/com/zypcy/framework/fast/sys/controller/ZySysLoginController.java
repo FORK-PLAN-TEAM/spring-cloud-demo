@@ -33,9 +33,9 @@ public class ZySysLoginController {
 
     private static final String VerifyCode = "VerifyCode";
 
-    @ApiOperation(value = "返回验证码"  , notes = "api接口", httpMethod = "GET")
-    @RequestMapping(value = "/verifyCode" , method = RequestMethod.GET)
-    public void verifyCode(HttpServletRequest request, HttpServletResponse response){
+    @ApiOperation(value = "返回验证码", notes = "api接口", httpMethod = "GET")
+    @RequestMapping(value = "/verifyCode", method = RequestMethod.GET)
+    public void verifyCode(HttpServletRequest request, HttpServletResponse response) {
         try {
             //定义图形验证码的长、宽、验证码字符数、干扰元素个数
             //CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(140, 45, 4, 12);
@@ -59,25 +59,25 @@ public class ZySysLoginController {
     }
 
 
-    @ApiOperation(value = "登录接口，用户名和密码请用base64加密后传入，成功返回token"  , notes = "api接口", httpMethod = "POST")
-    @RequestMapping(value = "/login" , method = RequestMethod.POST)
-    public ResponseModel login(@ApiParam(name = "登录平台：Pc、Wx、Android、IOS") String platform , @ApiParam(name = "用户名") String userAccount ,
-                               @ApiParam(name = "密码") String userPwd , @ApiParam(name = "验证码") String verifyCode , HttpServletRequest request){
-        if(StringUtils.isEmpty(userAccount) || StringUtils.isEmpty(userPwd)){
+    @ApiOperation(value = "登录接口，用户名和密码请用base64加密后传入，成功返回token", notes = "api接口", httpMethod = "POST")
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ResponseModel login(@ApiParam(name = "登录平台：Pc、Wx、Android、IOS") String platform, @ApiParam(name = "用户名") String userAccount,
+                               @ApiParam(name = "密码") String userPwd, @ApiParam(name = "验证码") String verifyCode, HttpServletRequest request) {
+        if (StringUtils.isEmpty(userAccount) || StringUtils.isEmpty(userPwd)) {
             throw new BusinessException("请输入用户名或密码");
         }
-        if(platform.equals("Pc")){
-            if(StringUtils.isEmpty(verifyCode)){
+        if (platform.equals("Pc")) {
+            if (StringUtils.isEmpty(verifyCode)) {
                 throw new BusinessException("请输入验证码");
             }
-            if(request.getSession().getAttribute(VerifyCode) != null){
+            if (request.getSession().getAttribute(VerifyCode) != null) {
                 String sesionVerifyCode = request.getSession().getAttribute(VerifyCode).toString();
-                if(!sesionVerifyCode.equals(verifyCode)){
+                if (!sesionVerifyCode.equals(verifyCode)) {
                     throw new BusinessException("请输入正确的验证码");
                 }
             }
         }
-        return loginService.login(platform , Base64.decodeStr(userAccount) , Base64.decodeStr(userPwd));
+        return loginService.login(platform, Base64.decodeStr(userAccount), Base64.decodeStr(userPwd));
     }
 
 }

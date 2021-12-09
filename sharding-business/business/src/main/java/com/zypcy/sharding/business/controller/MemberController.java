@@ -12,26 +12,27 @@ import java.util.Date;
 @RestController
 public class MemberController {
 
-    @Autowired private IMemberService memberService;
+    @Autowired
+    private IMemberService memberService;
 
     @RequestMapping("/add")
-    public String add(){
+    public String add() {
         addMember();
         return "success";
     }
 
     @RequestMapping("/getMemberById")
-    public Member getMemberById(String memberId){
+    public Member getMemberById(String memberId) {
         return memberService.selectByPrimaryKey(memberId);
     }
 
     @RequestMapping("/delete")
-    public String delete(String memberId){
+    public String delete(String memberId) {
         memberService.deleteByPrimaryKey(memberId);
         return "success";
     }
 
-    private void addMember(){
+    private void addMember() {
         Member member = new Member();
         member.setMemberId("201904280001");
         member.setMemberName("张三");

@@ -31,6 +31,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     /**
      * 不需要拦截的地址
+     *
      * @return list
      */
     private List<String> getExcludePath() {
@@ -58,6 +59,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     /**
      * 设置支持跨域
+     *
      * @param registry
      */
     @Override
@@ -65,12 +67,13 @@ public class WebConfiguration implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("*")
                 .allowCredentials(true)
-                .allowedMethods("GET", "POST", "DELETE", "PUT","PATCH")
+                .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH")
                 .maxAge(3600);
     }
 
     /**
      * 解决post请求 URL 参数无法自动序列化问题
+     *
      * @param converters
      */
     @Override

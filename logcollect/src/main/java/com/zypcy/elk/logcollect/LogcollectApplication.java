@@ -15,7 +15,7 @@ public class LogcollectApplication {
     Logger logger = LoggerFactory.getLogger(LogcollectApplication.class);
 
     @GetMapping("log")
-    public void test(){
+    public void test() {
         logger.debug("message debug");
         logger.info("message info");
         logger.warn("message warn");

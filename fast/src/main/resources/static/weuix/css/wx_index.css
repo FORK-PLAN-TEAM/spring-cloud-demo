@@ -1,17 +1,65 @@
 
-a,li {text-decoration:none; -moz-transition: all .2s ease-in; -webkit-transition: all .2s ease-in; -o-transition: all .2s ease-in; transition: all .2s ease-in}
-ol,ul,li {list-style:none;}
+a, li {
+    text-decoration: none;
+    -moz-transition: all .2s ease-in;
+    -webkit-transition: all .2s ease-in;
+    -o-transition: all .2s ease-in;
+    transition: all .2s ease-in
+}
 
-.fontsize14{font-size:14px;!important;}
-.fontsize15{font-size:15px;!important;}
-.fontsize16{font-size:16px;!important;}
-.fontsize18{font-size:18px;!important;}
-.fontsize20{font-size:20px;!important;}
-.fontsize22{font-size:22px;!important;}
-.fontsize24{font-size:24px;!important;}
-.fontsize26{font-size:26px;!important;}
-.fontsize28{font-size:28px;!important;}
-.fontsize30{font-size:30px;!important;}
+ol, ul, li {
+    list-style: none;
+}
+
+.fontsize14 {
+    font-size: 14px;
+!important;
+}
+
+.fontsize15 {
+    font-size: 15px;
+!important;
+}
+
+.fontsize16 {
+    font-size: 16px;
+!important;
+}
+
+.fontsize18 {
+    font-size: 18px;
+!important;
+}
+
+.fontsize20 {
+    font-size: 20px;
+!important;
+}
+
+.fontsize22 {
+    font-size: 22px;
+!important;
+}
+
+.fontsize24 {
+    font-size: 24px;
+!important;
+}
+
+.fontsize26 {
+    font-size: 26px;
+!important;
+}
+
+.fontsize28 {
+    font-size: 28px;
+!important;
+}
+
+.fontsize30 {
+    font-size: 30px;
+!important;
+}
 
 .weui-flex .placeholder {
     margin: 5px;
@@ -20,21 +68,24 @@ ol,ul,li {list-style:none;}
     height: 2.3em;
     line-height: 2.3em;
     text-align: center;
-    color: rgba(0,0,0,.3);
+    color: rgba(0, 0, 0, .3);
 }
-.weui-tabbar__label{
-    color: rgba(0,0,0,.9);
+
+.weui-tabbar__label {
+    color: rgba(0, 0, 0, .9);
     font-size: 14px;
     line-height: 1.4;
 }
+
 .float_lf {
     float: left;
 }
+
 .float_rt {
     float: right;
 }
 
-.my_top{
+.my_top {
     height: 180px;
     width: 100%;
     overflow: hidden;
@@ -43,7 +94,8 @@ ol,ul,li {list-style:none;}
     background: -o-linear-gradient(#827cfc, #368ced);
     background: linear-gradient(#827cfc, #368ced);
 }
-.my_top_head{
+
+.my_top_head {
     width: 70px;
     height: 70px;
     border: solid 2px #fff;
@@ -54,11 +106,13 @@ ol,ul,li {list-style:none;}
     top: 0;
     margin: 50px 0 0 -35px;
 }
+
 .my_top_head img {
     width: 100%;
 }
+
 .my_top_title {
-    color:#fff;
+    color: #fff;
     font-size: 16px;
     width: 100px;
     height: 30px;
@@ -68,8 +122,9 @@ ol,ul,li {list-style:none;}
     top: 0;
     margin: 50px 0 0 -35px;
 }
-.my_top_remark{
-    color:#f3efdc;
+
+.my_top_remark {
+    color: #f3efdc;
     font-size: 14px;
     width: 55%;
     overflow: hidden;
@@ -79,9 +134,10 @@ ol,ul,li {list-style:none;}
     margin: 85px 0 0 -35px;
 }
 
-.my_list_ui{
+.my_list_ui {
     margin-bottom: 10px;
 }
+
 .my_list_ui li {
     background: #fff;
     height: 44px;
@@ -89,12 +145,14 @@ ol,ul,li {list-style:none;}
     /*padding: 0 15px;*/
     border-bottom: solid 1px #eee;
 }
-.my_list_ui li>a {
+
+.my_list_ui li > a {
     display: block;
     overflow: hidden;
     padding: 0 15px;
     position: relative;
 }
+
 .my_list_ui li i.float_lf {
     width: 28px;
     height: 28px;
@@ -105,36 +163,42 @@ ol,ul,li {list-style:none;}
     font-size: 24px;
     margin: 8px 10px 0 0;
 }
+
 .my_list_ui li i.float_rt {
     font-style: normal;
     color: #999;
     margin-right: 15px;
 }
+
 .my_list_ui li span.float_lf {
     font-size: 16px;
     color: #000;
 }
+
 .my_list_ui li span.float_rt {
     font-size: 13px;
     color: #999;
 }
 
-.my_gridbox_ui{
+.my_gridbox_ui {
     background: #fff;
     overflow: hidden;
     margin-bottom: 10px;
 }
-.my_gridbox_ui li{
+
+.my_gridbox_ui li {
     float: left;
     width: 25%;
     height: 76px;
     text-align: center;
 }
+
 .my_gridbox_ui li a {
     display: block;
     height: 76px;
     padding-top: 10px;
 }
+
 .my_gridbox_ui li i {
     display: block;
     width: 28px;
@@ -145,6 +209,7 @@ ol,ul,li {list-style:none;}
     font-style: normal;
     margin: 3px auto;
 }
+
 .my_gridbox_ui li span {
     display: block;
     height: 24px;
@@ -154,13 +219,15 @@ ol,ul,li {list-style:none;}
 }
 
 
-.cashbook_table{
+.cashbook_table {
     width: 100%;
 }
-.cashbook_table th{
+
+.cashbook_table th {
     text-align: center;
 }
-.cashbook_table td{
+
+.cashbook_table td {
     text-align: center;
 }
 

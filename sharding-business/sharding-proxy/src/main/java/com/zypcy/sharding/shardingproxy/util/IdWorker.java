@@ -21,14 +21,14 @@ public class IdWorker {
      * 测试
      */
     public static void main(String[] args) {
-       for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 100; i++) {
             //String id = getId();
             //long id = idWorker.nextId();
             long dbId = getLongId();
             long tableId = getLongId();
             long dby = dbId % 2;
             long tabley = tableId % 2;
-            System.out.println("dbId:"+ dbId + "，tableId:" + tableId + "，ds" + dby + ".t_order"+tabley);
+            System.out.println("dbId:" + dbId + "，tableId:" + tableId + "，ds" + dby + ".t_order" + tabley);
         }
         /*System.out.println("getId:"+getId() + " , length:" + getId().length());
         System.out.println("getDateId:"+getDateId() + " , length:" + getDateId().length());
@@ -37,6 +37,7 @@ public class IdWorker {
 
     /**
      * 获取ID
+     *
      * @return 18位连续的id
      */
     public static String getId() {
@@ -46,26 +47,30 @@ public class IdWorker {
 
     /**
      * 获取ID
+     *
      * @return 18位不连续的id
      */
-    public static long getLongId(){
+    public static long getLongId() {
         return idWorker.nextId() + random.nextInt(999);
     }
 
     /**
      * 获取ID，带年月日 , 24位
+     *
      * @return
      */
-    public static String getDateId(){
+    public static String getDateId() {
         Date nowTime = new Date();
         String id = timeFormat.format(nowTime) + String.valueOf(idWorker.nextId());
         return id;
     }
+
     /**
      * 获取ID，带年月日时分秒 ， 30位
+     *
      * @return
      */
-    public static String getFullDateId(){
+    public static String getFullDateId() {
         Date nowTime = new Date();
         String id = timeFormatFull.format(nowTime) + String.valueOf(idWorker.nextId());
         return id;

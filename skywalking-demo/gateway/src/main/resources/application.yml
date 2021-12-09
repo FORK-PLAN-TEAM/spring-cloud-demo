@@ -1,5 +1,3 @@
-
-
 server:
   port: 9999
 spring:
@@ -14,18 +12,18 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
-        - id : consumer-service
-          uri : lb://consumer-service
+        - id: consumer-service
+          uri: lb://consumer-service
           predicates:
-          - Path=/consumer/**
+            - Path=/consumer/**
           filters:
-          - StripPrefix=1
+            - StripPrefix=1
         - id: provider-service
           uri: lb://provider-service
           predicates:
-          - Path=/provider/**
+            - Path=/provider/**
           filters:
-          - StripPrefix=1
+            - StripPrefix=1
 # hystrix 信号量隔离，3秒后自动超时
 hystrix:
   command:

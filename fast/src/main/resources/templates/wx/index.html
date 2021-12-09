@@ -7,7 +7,9 @@
 </head>
 <body ontouchstart>
 <!-- loading -->
-<div id="weui_toast_loading" class="weui-toast weui_loading_toast weui-toast--visible" style="opacity: 1;"><div class="weui_loading"><i class="weui-loading weui-icon_toast"></i></div><p class="weui-toast_content">数据加载中</p></div>
+<div id="weui_toast_loading" class="weui-toast weui_loading_toast weui-toast--visible" style="opacity: 1;">
+    <div class="weui_loading"><i class="weui-loading weui-icon_toast"></i></div>
+    <p class="weui-toast_content">数据加载中</p></div>
 <div class="weui-tab">
     <div class="container" style="margin-bottom: 50px;">
         <div class="slide" id="slide1" style="height: 220px">
@@ -88,7 +90,7 @@
 <script type="text/javascript" th:inline="javascript">
 
     $(function () {
-        setTimeout(function() {
+        setTimeout(function () {
             $.hideLoading();
         }, 1000)
 

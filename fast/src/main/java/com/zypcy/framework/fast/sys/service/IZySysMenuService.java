@@ -18,12 +18,14 @@ public interface IZySysMenuService extends IService<ZySysMenu> {
 
     /**
      * 获取所有菜单树
+     *
      * @return
      */
     List<ZySysTree> getMenuTrees();
 
     /**
      * 获取用户拥有的角色菜单
+     *
      * @param roleIds
      * @return
      */
@@ -31,6 +33,7 @@ public interface IZySysMenuService extends IService<ZySysMenu> {
 
     /**
      * 超级管理员获取所有菜单
+     *
      * @return
      */
     List<ZySysMenu> getMenusByAdmin();

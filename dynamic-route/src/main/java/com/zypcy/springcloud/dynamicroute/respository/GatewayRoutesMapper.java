@@ -6,9 +6,9 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface GatewayRoutesMapper {
-    int deleteByPrimaryKey(@Param("id") Long id ,@Param("isDel") boolean isDel);
+    int deleteByPrimaryKey(@Param("id") Long id, @Param("isDel") boolean isDel);
 
-    int enableById(@Param("id") Long id,@Param("isEbl") boolean isEbl);
+    int enableById(@Param("id") Long id, @Param("isEbl") boolean isEbl);
 
     int insert(GatewayRoutes record);
 

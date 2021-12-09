@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
  * 所有请求都会执行
  */
 @Component
-public class RequestGlobalFilter implements GlobalFilter,Ordered {
+public class RequestGlobalFilter implements GlobalFilter, Ordered {
 
     //执行逻辑
     @Override

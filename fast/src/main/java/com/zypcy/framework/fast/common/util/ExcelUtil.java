@@ -21,17 +21,17 @@ import java.util.List;
  * 4、对Cell对象读写。
  * 5、将生成的HSSFWorkbook放入HttpServletResponse中响应到前端页面
  * 使用方法:
-     List<Cashbook> list = getDatalist();
-     String[] title = {"记录时间", "入账类别", "账目金额", "备注"};
-     List<String[]> exportDataList = list.parallelStream().map(item -> new String[]{
-       DateUtil.format(item.getRecordTime() , "yyyy-MM-dd"),
-       item.getCashCategory(),
-       item.getAmount().toString(),
-       item.getRemark()
-     }).collect(Collectors.toList());
-     HSSFWorkbook workbook = ExcelUtil.getHSSFWorkbook("账目信息", title, exportDataList.toArray(new String[0][title.length]), null);
-     workbook.write(response.getOutputStream());
-     ExcelUtil.setResponseStream(response, "账目信息" +IdWorker.getDateId()+ ".xls");
+ * List<Cashbook> list = getDatalist();
+ * String[] title = {"记录时间", "入账类别", "账目金额", "备注"};
+ * List<String[]> exportDataList = list.parallelStream().map(item -> new String[]{
+ * DateUtil.format(item.getRecordTime() , "yyyy-MM-dd"),
+ * item.getCashCategory(),
+ * item.getAmount().toString(),
+ * item.getRemark()
+ * }).collect(Collectors.toList());
+ * HSSFWorkbook workbook = ExcelUtil.getHSSFWorkbook("账目信息", title, exportDataList.toArray(new String[0][title.length]), null);
+ * workbook.write(response.getOutputStream());
+ * ExcelUtil.setResponseStream(response, "账目信息" +IdWorker.getDateId()+ ".xls");
  */
 public class ExcelUtil {
     //存储当前导入的 HSSFWorkbook 对象
@@ -158,7 +158,7 @@ public class ExcelUtil {
         String[] cellTitles = new String[tempCellsNum];
         for (int i = 0; i < tempCellsNum; i++) {
             String tempCellTitle = tempRow0.getCell(i).getStringCellValue();
-            if(!tempCellTitle.equals(importRow0.getCell(i).getStringCellValue())){
+            if (!tempCellTitle.equals(importRow0.getCell(i).getStringCellValue())) {
                 throw new RuntimeException(); //模板不一致
             }
             cellTitles[i] = tempCellTitle;

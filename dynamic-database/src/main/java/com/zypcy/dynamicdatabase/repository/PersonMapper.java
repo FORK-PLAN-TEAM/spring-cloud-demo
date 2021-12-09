@@ -8,6 +8,8 @@ public interface PersonMapper {
 
     int insert(Person record);
 
+    //默认insert 到 master
+    @DS("master")
     int insertSelective(Person record);
 
     @DS("slave")

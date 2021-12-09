@@ -43,16 +43,16 @@ public class HystrixDemoApplication {
 
     // hystrix默认1秒超时，下面的随机方法可能让线程睡3秒，从而引发hystrix熔断降级，
     // 观察dashboard界面，有百分比与圆点为红色则说明有熔断
-    @HystrixCommand(fallbackMethod = "getNameFallback" ,
-     threadPoolKey = "hystrixDemoThreadPool",
-     threadPoolProperties = {
-            @HystrixProperty(name = "coreSize", value = "30"),
-            @HystrixProperty(name = "maxQueueSize", value = "10")
-     })
+    @HystrixCommand(fallbackMethod = "getNameFallback",
+            threadPoolKey = "hystrixDemoThreadPool",
+            threadPoolProperties = {
+                    @HystrixProperty(name = "coreSize", value = "30"),
+                    @HystrixProperty(name = "maxQueueSize", value = "10")
+            })
     @RequestMapping("/test")
-    public String test(String username){
+    public String test(String username) {
         randomlyRunLong();
-        return "randomlyRunLong"+username;
+        return "randomlyRunLong" + username;
     }
 
     // 1/3的机率会让线程睡3秒

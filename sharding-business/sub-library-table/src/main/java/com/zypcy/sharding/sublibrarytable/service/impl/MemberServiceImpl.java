@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemberServiceImpl implements IMemberService {
 
-    @Autowired private MemberMapper memberMapper;
+    @Autowired
+    private MemberMapper memberMapper;
 
     @Override
     public int insert(Member record) {

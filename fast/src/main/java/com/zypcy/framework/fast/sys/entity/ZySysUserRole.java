@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 用户角色
+ *
  * @author zhuyu
  * @since 2019-06-14
  */
@@ -20,7 +21,7 @@ public class ZySysUserRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id" , type = IdType.INPUT)
+    @TableId(value = "id", type = IdType.INPUT)
     private String id;
 
     @ApiModelProperty(value = "用户Id")

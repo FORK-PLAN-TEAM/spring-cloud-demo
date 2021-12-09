@@ -57,6 +57,7 @@ public class IdWorker {
 
     /**
      * 获取数字Id
+     *
      * @return 19位连续的Id
      */
     public static Long getNumericId() {
@@ -65,6 +66,7 @@ public class IdWorker {
 
     /**
      * 获取ID
+     *
      * @return 23位连续的id
      */
     public static String getId() {
@@ -74,24 +76,28 @@ public class IdWorker {
 
     /**
      * 获取ID
+     *
      * @return 27位不连续的id
      */
-    public static String getLongId(){
+    public static String getLongId() {
         return getId() + random.nextInt(9999);
     }
 
     /**
      * 获取ID，带年月日 , 29位
+     *
      * @return
      */
-    public static String getDateId(){
+    public static String getDateId() {
         return getId();
     }
+
     /**
      * 获取ID，带年月日时分秒 ， 20位
+     *
      * @return
      */
-    public static String getFullDateId(){
+    public static String getFullDateId() {
         Date nowTime = new Date();
         String id = timeFormatRandom.format(nowTime) + random.nextInt(99999);
         return id;
@@ -99,9 +105,10 @@ public class IdWorker {
 
     /**
      * 时间加随机数
+     *
      * @return
      */
-    public static String getRandomId(){
+    public static String getRandomId() {
         Date nowTime = new Date();
         String id = timeFormatRandom.format(nowTime) + random.nextInt(999999);
         return id;

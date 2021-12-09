@@ -1,4 +1,3 @@
-
 # 暴露监控端点
 management:
   endpoints:

@@ -13,10 +13,11 @@ public class FeignLogConfig {
      * 2.BASIC，仅记录请求方法、URL以及响应状态码和执行时间
      * 3.HEADRES，除了BASIC以外的还会记录请求和响应的头信息
      * 4.FULL,所有
+     *
      * @return
      */
     @Bean
-    Logger.Level feignLogger(){
+    Logger.Level feignLogger() {
         return Logger.Level.FULL;
     }
 }

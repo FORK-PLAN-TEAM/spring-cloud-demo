@@ -24,7 +24,7 @@
             角色编号
         </div>
         <div class="layui-col-sm5">
-            <input type="text" id="roleCode" name="roleCode"  autocomplete="" class="layui-input">
+            <input type="text" id="roleCode" name="roleCode" autocomplete="" class="layui-input">
         </div>
     </div>
     <div class="layui-row margintop10">
@@ -41,7 +41,7 @@
             备注
         </div>
         <div class="layui-col-sm5">
-            <input type="text" id="remark" name="remark"  autocomplete="" class="layui-input">
+            <input type="text" id="remark" name="remark" autocomplete="" class="layui-input">
         </div>
     </div>
 
@@ -66,10 +66,10 @@
     var role = [[${role}]];//角色信息
     var isEdit = false;//默认不是编辑模式
     console.log(role);
-    if(role && role.roleId){
+    if (role && role.roleId) {
         isEdit = true;//编辑
         form.val('form1', {
-            "roleId" : role.roleId,
+            "roleId": role.roleId,
             "roleName": role.roleName,
             "roleCode": role.roleCode,
             "remark": role.remark,
@@ -81,9 +81,9 @@
         form.on('submit(save)', function (data) {
             console.log(data.field);
             //发异步，数据提交
-            if(isEdit){
+            if (isEdit) {
                 edit(data.field);
-            }else{
+            } else {
                 add(data.field);
             }
             return false;

@@ -49,9 +49,9 @@ public class TokenAuthenticationFilter extends AbstractGatewayFilterFactory {
                     return response.writeWith(Mono.just(bodyDataBuffer));
                 }
                 */
-            }catch (Exception e){
+            } catch (Exception e) {
                 //没有token
-                DataBuffer bodyDataBuffer = responseErrorInfo(response , HttpStatus.UNAUTHORIZED.toString() ,e.getMessage());
+                DataBuffer bodyDataBuffer = responseErrorInfo(response, HttpStatus.UNAUTHORIZED.toString(), e.getMessage());
                 return response.writeWith(Mono.just(bodyDataBuffer));
             }
             ServerHttpRequest build = mutate.build();
@@ -61,20 +61,21 @@ public class TokenAuthenticationFilter extends AbstractGatewayFilterFactory {
 
     /**
      * 自定义返回错误信息
+     *
      * @param response
      * @param status
      * @param message
      * @return
      */
-    public DataBuffer responseErrorInfo(ServerHttpResponse response , String status ,String message){
+    public DataBuffer responseErrorInfo(ServerHttpResponse response, String status, String message) {
         HttpHeaders httpHeaders = response.getHeaders();
         httpHeaders.add("Content-Type", "application/json; charset=UTF-8");
         httpHeaders.add("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
 
         response.setStatusCode(HttpStatus.UNAUTHORIZED);
-        Map<String,String> map = new HashMap<>();
-        map.put("status",status);
-        map.put("message",message);
+        Map<String, String> map = new HashMap<>();
+        map.put("status", status);
+        map.put("message", message);
         DataBuffer bodyDataBuffer = response.bufferFactory().wrap(map.toString().getBytes());
         return bodyDataBuffer;
     }

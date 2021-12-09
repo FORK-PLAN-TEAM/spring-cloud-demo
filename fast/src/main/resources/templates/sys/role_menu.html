@@ -5,7 +5,7 @@
     <title>角色绑定菜单</title>
     <link th:replace="template/sys_header :: header"/>
     <style type="text/css">
-        .role_menu_left{
+        .role_menu_left {
             position: absolute;
             width: 300px;
             padding: 5px;
@@ -15,6 +15,7 @@
             border: solid 1px #f0f0f0;
             background: #fafafa;
         }
+
         .role_menu_right {
             position: absolute;
             left: 300px;
@@ -27,21 +28,21 @@
     </style>
 </head>
 <body>
-    <div class="role_menu_left">
-        <ul id="roleMenuTree" class="ztree"></ul>
+<div class="role_menu_left">
+    <ul id="roleMenuTree" class="ztree"></ul>
+</div>
+<div class="role_menu_right">
+    <div class="layui-row" style="text-align: center;margin-top: 50%;">
+        <button class="layui-btn layui-btn-normal" lay-submit lay-filter="save">&nbsp;&nbsp;&nbsp;<i class="iconfont">&#xe747;</i>
+            &nbsp;保存&nbsp;&nbsp;&nbsp;
+        </button>
     </div>
-    <div class="role_menu_right">
-        <div class="layui-row" style="text-align: center;margin-top: 50%;">
-            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="save">&nbsp;&nbsp;&nbsp;<i class="iconfont">&#xe747;</i>
-                &nbsp;保存&nbsp;&nbsp;&nbsp;
-            </button>
-        </div>
-        <div class="layui-row margintop20" style="text-align: center">
-            <button class="layui-btn layui-btn-danger" onclick="xadmin.close()">&nbsp;&nbsp;&nbsp;<i class="iconfont">&#xe747;</i>
-                &nbsp;关闭&nbsp;&nbsp;&nbsp;
-            </button>
-        </div>
+    <div class="layui-row margintop20" style="text-align: center">
+        <button class="layui-btn layui-btn-danger" onclick="xadmin.close()">&nbsp;&nbsp;&nbsp;<i class="iconfont">&#xe747;</i>
+            &nbsp;关闭&nbsp;&nbsp;&nbsp;
+        </button>
     </div>
+</div>
 
 
 <script type="text/javascript" th:replace="template/sys_header :: footer"></script>
@@ -73,11 +74,11 @@
     form.on('submit(save)', function (data) {
         var checkeds = zTree.getCheckedNodes();
         console.log(checkeds);
-        if(checkeds.length > 0){
-            var roleMenuTree = { roleId : roleId };
+        if (checkeds.length > 0) {
+            var roleMenuTree = {roleId: roleId};
             var menuIds = [];
-            for(var i=0; i < checkeds.length; i++){
-                if(checkeds[i].id != 0){
+            for (var i = 0; i < checkeds.length; i++) {
+                if (checkeds[i].id != 0) {
                     menuIds.push(checkeds[i].id)
                 }
             }
@@ -87,12 +88,12 @@
 
                 saveSelectMenu(roleMenuTree);
             });
-        }else{
-            layer.alert("请选择菜单" , { icon : 2});
+        } else {
+            layer.alert("请选择菜单", {icon: 2});
         }
         return false;
     });
-    
+
     //ajax提交
     function saveSelectMenu(roleMenuTree) {
         new AjaxRequest({

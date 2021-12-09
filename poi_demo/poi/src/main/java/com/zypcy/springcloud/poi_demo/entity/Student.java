@@ -13,7 +13,7 @@ public class Student {
     private int age;
     private String brith;
 
-    public Student(){
+    public Student() {
 
     }
 
@@ -27,8 +27,7 @@ public class Student {
     /**
      * @功能：手工构建一个简单格式的Excel
      */
-    public static List<Student> getStudents()
-    {
+    public static List<Student> getStudents() {
         List<Student> list = new ArrayList<Student>();
         Student user1 = new Student(1, "张三", 26, "1985-11-12");
         Student user2 = new Student(2, "李四", 17, "1996-08-12");

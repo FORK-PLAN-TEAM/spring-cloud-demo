@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @ApiModel(value = "登录信息对象")
-public class ZySysLoginInfo implements Serializable{
+public class ZySysLoginInfo implements Serializable {
 
     @ApiModelProperty(value = "用户信息")
     private ZySysUser sysUser;

@@ -6,7 +6,7 @@ import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
  * word 图片内容参数
  * zhuyu
  */
-public class WordImgParam extends WordBaseParam{
+public class WordImgParam extends WordBaseParam {
 
     /**
      * 图片路径数组
@@ -22,9 +22,10 @@ public class WordImgParam extends WordBaseParam{
      */
     private int height = 180;
 
-    public WordImgParam(){}
+    public WordImgParam() {
+    }
 
-    public WordImgParam(String[] imgs , ParagraphAlignment align , String fontFamily , int fontSize){
+    public WordImgParam(String[] imgs, ParagraphAlignment align, String fontFamily, int fontSize) {
         this.imgs = imgs;
         super.setAlign(align);
         super.setFontFamily(fontFamily);

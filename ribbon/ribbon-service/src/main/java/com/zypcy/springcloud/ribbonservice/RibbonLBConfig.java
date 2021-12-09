@@ -13,7 +13,7 @@ public class RibbonLBConfig {
 
     //使用随机策略
     @Bean
-    public IRule ribbonRule(){
+    public IRule ribbonRule() {
         return new RandomRule();
     }
 }

@@ -18,6 +18,7 @@ public interface IZySysAttachService extends IService<ZySysAttach> {
 
     /**
      * 根据Id获取文件
+     *
      * @param id
      * @return
      */
@@ -25,6 +26,7 @@ public interface IZySysAttachService extends IService<ZySysAttach> {
 
     /**
      * 根据attachNo获取附件集合
+     *
      * @param attachNo
      * @return
      */
@@ -32,12 +34,14 @@ public interface IZySysAttachService extends IService<ZySysAttach> {
 
     /**
      * 获取附件表前20条数据
+     *
      * @return
      */
     List<ZySysAttach> listAttachTop20();
 
     /**
      * 根据md5获取附件
+     *
      * @param md5
      * @return
      */
@@ -45,10 +49,11 @@ public interface IZySysAttachService extends IService<ZySysAttach> {
 
     /**
      * 上传附件
+     *
      * @param md5
      * @param attachNo
      * @param file
      * @return
      */
-    ZySysAttach fileUpload(String md5, String attachNo,MultipartFile file);
+    ZySysAttach fileUpload(String md5, String attachNo, MultipartFile file);
 }

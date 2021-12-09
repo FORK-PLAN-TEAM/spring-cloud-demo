@@ -6,11 +6,11 @@
 </head>
 <body>
 
-    <div th:if="${result} gt 0">
-        发布成功, <a href="/gateway-routes/list">返回</a>
-    </div>
-    <div th:unless="${result} gt 0">
-        发布失败, <a href="/gateway-routes/list">返回</a>
-    </div>
+<div th:if="${result} gt 0">
+    发布成功, <a href="/gateway-routes/list">返回</a>
+</div>
+<div th:unless="${result} gt 0">
+    发布失败, <a href="/gateway-routes/list">返回</a>
+</div>
 </body>
 </html>

@@ -21,7 +21,8 @@ public class Person {
     private String tellPhone;
     private LocalDate createDate;
 
-    public Person(){}
+    public Person() {
+    }
 
     public Person(String id, String name, String cardNo, String tellPhone, LocalDate createDate) {
         this.id = id;

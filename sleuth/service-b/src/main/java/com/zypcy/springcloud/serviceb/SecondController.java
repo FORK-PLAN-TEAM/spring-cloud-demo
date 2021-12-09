@@ -12,7 +12,7 @@ public class SecondController {
     private RestTemplate restTemplate;
 
     @RequestMapping("/Second")
-    public String Second(){
+    public String Second() {
         System.out.println("Second...");
 
         String b = " service-b hello , ";
@@ -27,16 +27,16 @@ public class SecondController {
     }
 
     //远程调用service-c
-    private String remoteCallServiceC(){
+    private String remoteCallServiceC() {
         String url = "http://service-c/Three";
-        String result = restTemplate.getForObject(url , String.class);
+        String result = restTemplate.getForObject(url, String.class);
         return result;
     }
 
     //远程调用service-d
-    private String remoteCallServiceD(){
+    private String remoteCallServiceD() {
         String url = "http://service-d/Four";
-        String result = restTemplate.getForObject(url , String.class);
+        String result = restTemplate.getForObject(url, String.class);
         return result;
     }
 }

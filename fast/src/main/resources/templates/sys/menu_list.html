@@ -33,7 +33,9 @@
         <div class="layui-col-md6">
             <input type="text" id="parentMenuName" class="layui-input disabled" disabled>
             <div style="position: absolute;right: 0;z-index: 1;top: 0;">
-                <button type="button" onclick="xadmin.open('选择菜单','/sys/menu/selectMenu',600, 650)" class="layui-btn layui-btn-normal">选择组织</button>
+                <button type="button" onclick="xadmin.open('选择菜单','/sys/menu/selectMenu',600, 650)"
+                        class="layui-btn layui-btn-normal">选择组织
+                </button>
             </div>
         </div>
     </div>
@@ -66,7 +68,9 @@
             <div class="layui-col-md6">
                 <input type="text" id="icon" name="icon" autocomplete="" class="layui-input">
                 <div style="position: absolute;right: 0;z-index: 1;top: 0;">
-                    <button type="button" onclick="xadmin.open('选择图标','/sys/menu/icon',1080,810)" class="layui-btn layui-btn-normal">选择图标</button>
+                    <button type="button" onclick="xadmin.open('选择图标','/sys/menu/icon',1080,810)"
+                            class="layui-btn layui-btn-normal">选择图标
+                    </button>
                 </div>
             </div>
         </div>
@@ -157,7 +161,7 @@
         var parentNode = treeNode.getParentNode();
         if (parentNode) {
             getById("parentMenuName").value = parentNode.name;
-        }else {
+        } else {
             treeNode.pId = 0;
             getById("parentMenuName").value = "根目录";
         }
@@ -165,9 +169,10 @@
         //如果不是跟菜单，请求后台
         if (treeNode.id != 0) {
             //发起请求
-            getMenuById(treeNode.id , treeNode.pId);
+            getMenuById(treeNode.id, treeNode.pId);
         }
     }
+
     //移除选中菜单
     function zTreeRemoveSelectNode() {
         var nodes = zTree.getSelectedNodes(),
@@ -178,8 +183,9 @@
         }
         zTree.removeNode(treeNode, true);
     }
+
     //根据Id获取菜单
-    function getMenuById(menuId , pId) {
+    function getMenuById(menuId, pId) {
         new AjaxRequest({
             type: "GET",
             url: webroot + "sys/menu/getById?menuId=" + menuId,
@@ -246,7 +252,7 @@
         if (nodes.length == 0) {
             layer.alert("请先选择一个菜单", {icon: 2});
             return false;
-        }else{
+        } else {
             getById("menuId").value = "";
             getById("parentMenuName").value = treeNode.name;
             getById("parentId").value = treeNode.id;
@@ -302,7 +308,7 @@
                         treeNode.name = field.menuName;
                         zTree.updateNode(treeNode, true);
                         layer.alert("保存成功", {icon: 1});
-                        if(isReloadPage){
+                        if (isReloadPage) {
                             window.location.reload()
                         }
                     } else {
@@ -326,10 +332,10 @@
                 if (res) {
                     if (res.resultCode == "0000") {
                         var menuId = res.resultObj;
-                        var nodes = zTree.getSelectedNodes(),treeNode = nodes[0];
-                        zTree.addNodes(treeNode, {id: menuId, pId:treeNode.id, name: field.menuName});
+                        var nodes = zTree.getSelectedNodes(), treeNode = nodes[0];
+                        zTree.addNodes(treeNode, {id: menuId, pId: treeNode.id, name: field.menuName});
                         layer.alert("保存成功", {icon: 1});
-                        if(isReloadPage){
+                        if (isReloadPage) {
                             window.location.reload()
                         }
                     } else {
@@ -341,7 +347,7 @@
     }
 
     //选择的父级菜单id与name
-    function selectMenu(menuId , menuName) {
+    function selectMenu(menuId, menuName) {
         isReloadPage = true;
         getById("parentId").value = menuId;
         getById("parentMenuName").value = menuName;

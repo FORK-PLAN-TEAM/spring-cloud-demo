@@ -18,6 +18,7 @@ public class SwaggerGeneratorController {
 
     /**
      * 生成AsciiDocs格式文档
+     *
      * @throws Exception
      */
     @RequestMapping("/generateAsciiDocs")
@@ -39,6 +40,7 @@ public class SwaggerGeneratorController {
 
     /**
      * 生成Markdown格式文档
+     *
      * @throws Exception
      */
     @RequestMapping("/generateMarkdownDocs")
@@ -57,8 +59,10 @@ public class SwaggerGeneratorController {
                 .build()
                 .toFolder(Paths.get("./docs/markdown/generated"));
     }
+
     /**
      * 生成Confluence格式文档
+     *
      * @throws Exception
      */
     @RequestMapping("/generateConfluenceDocs")
@@ -80,6 +84,7 @@ public class SwaggerGeneratorController {
 
     /**
      * 生成AsciiDocs格式文档,并汇总成一个文件
+     *
      * @throws Exception
      */
     @RequestMapping("/generateAsciiDocsToFile")
@@ -101,6 +106,7 @@ public class SwaggerGeneratorController {
 
     /**
      * 生成Markdown格式文档,并汇总成一个文件
+     *
      * @throws Exception
      */
     @RequestMapping("/generateMarkdownDocsToFile")

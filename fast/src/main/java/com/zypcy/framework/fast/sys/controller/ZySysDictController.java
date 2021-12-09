@@ -30,9 +30,9 @@ import java.util.List;
  * <p>
  * 数据字典 前端控制器
  * </p>
- *
- *  getByParentId ，根据父级Id查询数据字典，只查询直属下级
- *  getByType ， 根据type查询数据字典，会查询所有下级
+ * <p>
+ * getByParentId ，根据父级Id查询数据字典，只查询直属下级
+ * getByType ， 根据type查询数据字典，会查询所有下级
  *
  * @author zhuyu
  * @since 2019-06-14
@@ -45,51 +45,51 @@ public class ZySysDictController {
     @Autowired
     IZySysDictService dictService;
 
-    @ApiOperation(value = "数据字典列表页"  , notes = "页面", httpMethod = "GET")
+    @ApiOperation(value = "数据字典列表页", notes = "页面", httpMethod = "GET")
     @GetMapping(value = "/list")
-    public ModelAndView list(ModelMap map){
+    public ModelAndView list(ModelMap map) {
         return new ModelAndView("sys/dict_list");
     }
 
-    @ApiOperation(value = "打开查看、编辑页"  , notes = "页面", httpMethod = "GET")
+    @ApiOperation(value = "打开查看、编辑页", notes = "页面", httpMethod = "GET")
     @GetMapping(value = "/edit")
-    public ModelAndView edit(@ApiParam(value = "数据字典Id",required=true)String id , ModelMap map){
+    public ModelAndView edit(@ApiParam(value = "数据字典Id", required = true) String id, ModelMap map) {
         ZySysDict dict = new ZySysDict();
-        if(!StringUtils.isEmpty(id)){
+        if (!StringUtils.isEmpty(id)) {
             dict = DictCache.getDictById(id);//dictService.getById(id);
         }
-        map.addAttribute("dict" , dict);
+        map.addAttribute("dict", dict);
         return new ModelAndView("sys/dict_edit");
     }
 
-    @ApiOperation(value = "获取数据字典树"  , notes = "api接口", httpMethod = "GET")
+    @ApiOperation(value = "获取数据字典树", notes = "api接口", httpMethod = "GET")
     @GetMapping(value = "/getDictTrees")
-    public List<ZySysTree> getDictTrees(@ApiParam(value = "数据字典Id",required=true)String id){
+    public List<ZySysTree> getDictTrees(@ApiParam(value = "数据字典Id", required = true) String id) {
         //前端异步获取数据字典
         return dictService.getDictTrees(id);
     }
 
-    @ApiOperation(value = "根据Id获取字典信息"  , notes = "api接口", httpMethod = "GET")
+    @ApiOperation(value = "根据Id获取字典信息", notes = "api接口", httpMethod = "GET")
     @GetMapping(value = "/getById")
-    public ZySysDict getById(@ApiParam(value = "数据字典Id",required=true)String id){
+    public ZySysDict getById(@ApiParam(value = "数据字典Id", required = true) String id) {
         //return dictService.getById(id);
         return DictCache.getDictById(id);
     }
 
-    @ApiOperation(value = "根据ParentId获取字典信息，只获取下级字典"  , notes = "api接口", httpMethod = "GET")
+    @ApiOperation(value = "根据ParentId获取字典信息，只获取下级字典", notes = "api接口", httpMethod = "GET")
     @GetMapping(value = "/getByParentId")
-    public List<ZySysDict> getByParentId(@ApiParam(value = "数据字典ParentId",required=true)String parentId){
-        if(StringUtils.isEmpty(parentId)){
+    public List<ZySysDict> getByParentId(@ApiParam(value = "数据字典ParentId", required = true) String parentId) {
+        if (StringUtils.isEmpty(parentId)) {
             throw new BusinessException("请传入parentId");
         }
         //return dictService.getByParentId(parentId);
         return DictCache.getDictsByPId(parentId);
     }
 
-    @ApiOperation(value = "根据Type获取字典信息，能获取多级字典"  , notes = "api接口", httpMethod = "GET")
+    @ApiOperation(value = "根据Type获取字典信息，能获取多级字典", notes = "api接口", httpMethod = "GET")
     @GetMapping(value = "/getByType")
-    public List<ZySysDict> getByType(@ApiParam(value = "数据字典type",required=true)String type){
-        if(StringUtils.isEmpty(type)){
+    public List<ZySysDict> getByType(@ApiParam(value = "数据字典type", required = true) String type) {
+        if (StringUtils.isEmpty(type)) {
             throw new BusinessException("请传入type");
         }
         //根据type获取数据字典会把所有字典都取出来，因此过滤掉自己
@@ -100,28 +100,28 @@ public class ZySysDictController {
         return dictService.getByType(type);
     }
 
-    @ApiOperation(value = "获取数据字典列表" , notes = "api接口", httpMethod = "GET")
+    @ApiOperation(value = "获取数据字典列表", notes = "api接口", httpMethod = "GET")
     @GetMapping("pageList")
-    public IPage<ZySysDict> pageList(String name , String type ,String parentId , int pageIndex , int pageSize){
-        Page<ZySysDict> page = new Page<>(pageIndex , pageSize);
+    public IPage<ZySysDict> pageList(String name, String type, String parentId, int pageIndex, int pageSize) {
+        Page<ZySysDict> page = new Page<>(pageIndex, pageSize);
         ZySysDict dict = new ZySysDict();
         QueryWrapper<ZySysDict> wrapper = new QueryWrapper<>(dict);
         dict.setIsdel(false);
-        if(!StringUtils.isEmpty(parentId)){
+        if (!StringUtils.isEmpty(parentId)) {
             dict.setParentId(parentId);
         }
-        if(!StringUtils.isEmpty(type)){
+        if (!StringUtils.isEmpty(type)) {
             dict.setType(type);
         }
-        if(!StringUtils.isEmpty(name)){
-            wrapper.like("name" , name);
+        if (!StringUtils.isEmpty(name)) {
+            wrapper.like("name", name);
         }
-        return dictService.page(page , wrapper);
+        return dictService.page(page, wrapper);
     }
 
-    @ApiOperation(value = "新增数据字典"  , notes = "api接口", httpMethod = "POST")
+    @ApiOperation(value = "新增数据字典", notes = "api接口", httpMethod = "POST")
     @PostMapping(value = "/add")
-    public String add(@ApiParam(value = "数据字典实体")@RequestBody ZySysDict dict){
+    public String add(@ApiParam(value = "数据字典实体") @RequestBody ZySysDict dict) {
         String id = IdWorker.getId();
         dict.setId(id);
         dict.setIsdel(false);
@@ -134,10 +134,10 @@ public class ZySysDictController {
         return id;
     }
 
-    @ApiOperation(value = "编辑数据字典"  , notes = "api接口", httpMethod = "POST")
+    @ApiOperation(value = "编辑数据字典", notes = "api接口", httpMethod = "POST")
     @PostMapping(value = "/edit")
-    public boolean edit(@ApiParam(value = "数据字典实体")@RequestBody ZySysDict dict){
-        if(StringUtils.isEmpty(dict.getId()) || StringUtils.isEmpty(dict.getParentId()) || StringUtils.isEmpty(dict.getName())){
+    public boolean edit(@ApiParam(value = "数据字典实体") @RequestBody ZySysDict dict) {
+        if (StringUtils.isEmpty(dict.getId()) || StringUtils.isEmpty(dict.getParentId()) || StringUtils.isEmpty(dict.getName())) {
             throw new BusinessException("请传入正确参数");
         }
         dict.setUpdateTime(LocalDateTime.now());
@@ -149,10 +149,10 @@ public class ZySysDictController {
     }
 
     @Transactional
-    @ApiOperation(value = "删除数据字典"  , notes = "api接口", httpMethod = "POST")
+    @ApiOperation(value = "删除数据字典", notes = "api接口", httpMethod = "POST")
     @PostMapping(value = "/delete")
-    public boolean del(@ApiParam(value = "数据字典Id",required = true)String id){
-        if(StringUtils.isEmpty(id)){
+    public boolean del(@ApiParam(value = "数据字典Id", required = true) String id) {
+        if (StringUtils.isEmpty(id)) {
             throw new BusinessException("请传入数据字典Id");
         }
         //通过type删除所有
@@ -160,7 +160,7 @@ public class ZySysDictController {
         ZySysDict childDict = new ZySysDict();
         childDict.setParentId(id);
         int count = dictService.count(new QueryWrapper<>(childDict));
-        if(count > 0){
+        if (count > 0) {
             dictService.delChild(id);
         }
         ZySysDict dict = dictService.getById(id);

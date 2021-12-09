@@ -13,10 +13,11 @@ import java.util.Date;
 @RestController
 public class OrderController {
 
-    @Autowired private IOrderService orderService;
+    @Autowired
+    private IOrderService orderService;
 
     @RequestMapping("/add")
-    public Order add(){
+    public Order add() {
         Order order = new Order();
         order.setMemberId(IdWorker.getLongId());
         order.setOrderAmount("50.0");
@@ -29,7 +30,7 @@ public class OrderController {
     }
 
     @RequestMapping("/findById")
-    public Order findById(String orderId){
+    public Order findById(String orderId) {
         return orderService.findById(orderId);
     }
 }

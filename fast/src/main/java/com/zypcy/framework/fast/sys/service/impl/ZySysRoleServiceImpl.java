@@ -21,7 +21,8 @@ import java.time.LocalDateTime;
 @Service
 public class ZySysRoleServiceImpl extends ServiceImpl<ZySysRoleMapper, ZySysRole> implements IZySysRoleService {
 
-    @Autowired ZySysRoleMapper roleMapper;
+    @Autowired
+    ZySysRoleMapper roleMapper;
 
     @Override
     public int add(ZySysRole role) {

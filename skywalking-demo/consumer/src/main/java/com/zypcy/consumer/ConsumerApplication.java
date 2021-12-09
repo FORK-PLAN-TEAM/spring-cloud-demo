@@ -26,7 +26,7 @@ public class ConsumerApplication {
 
     @LoadBalanced
     @Bean
-    public RestTemplate restTemplate(){
+    public RestTemplate restTemplate() {
         return new RestTemplate();
     }
 
@@ -34,8 +34,8 @@ public class ConsumerApplication {
     private RestTemplate restTemplate;
 
     @GetMapping("/hello")
-    public String hello(String name){
-        String provoderResult = restTemplate.getForObject("http://provider-service/hello?name=" + name , String.class).toString();
+    public String hello(String name) {
+        String provoderResult = restTemplate.getForObject("http://provider-service/hello?name=" + name, String.class).toString();
         return "consumer " + name + " " + provoderResult;
     }
 }

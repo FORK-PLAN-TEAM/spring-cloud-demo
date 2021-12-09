@@ -12,6 +12,7 @@ import java.util.Optional;
 
 /**
  * 微信小程序测试接口
+ *
  * @Author zhuyu
  * @Date 2020-03-10
  */
@@ -20,34 +21,35 @@ import java.util.Optional;
 public class MiniTestController {
 
     private static List<Person> persons = new ArrayList<>();
+
     static {
-        persons.add(new Person(IdWorker.getId() , "张三" , 20 , "湖南省长沙市天心区"));
-        persons.add(new Person(IdWorker.getId() , "李四" , 21 , "湖南省长沙市岳麓区"));
-        persons.add(new Person(IdWorker.getId() , "王五" , 22 , "湖南省长沙市开发区"));
-        persons.add(new Person(IdWorker.getId() , "赵六" , 23 , "湖南省长沙市雨花区"));
-        persons.add(new Person(IdWorker.getId() , "小黑" , 24 , "湖南省长沙市开福区"));
-        persons.add(new Person(IdWorker.getId() , "老赵" , 25 , "湖南省长沙市市政府"));
-        persons.add(new Person(IdWorker.getId() , "王二" , 26 , "湖南省长沙市梅溪湖"));
+        persons.add(new Person(IdWorker.getId(), "张三", 20, "湖南省长沙市天心区"));
+        persons.add(new Person(IdWorker.getId(), "李四", 21, "湖南省长沙市岳麓区"));
+        persons.add(new Person(IdWorker.getId(), "王五", 22, "湖南省长沙市开发区"));
+        persons.add(new Person(IdWorker.getId(), "赵六", 23, "湖南省长沙市雨花区"));
+        persons.add(new Person(IdWorker.getId(), "小黑", 24, "湖南省长沙市开福区"));
+        persons.add(new Person(IdWorker.getId(), "老赵", 25, "湖南省长沙市市政府"));
+        persons.add(new Person(IdWorker.getId(), "王二", 26, "湖南省长沙市梅溪湖"));
     }
 
-    @RequestMapping(value = "/getById" , method = RequestMethod.GET)
-    public Person getById(String id){
-        Optional<Person> person = persons.stream().filter( (item)-> id.equals(item.getId())).findFirst();
-        if(person.isPresent()){
+    @RequestMapping(value = "/getById", method = RequestMethod.GET)
+    public Person getById(String id) {
+        Optional<Person> person = persons.stream().filter((item) -> id.equals(item.getId())).findFirst();
+        if (person.isPresent()) {
             return person.get();
-        }else {
+        } else {
             return null;
         }
     }
 
-    @RequestMapping(value = "/list" , method = RequestMethod.GET)
-    public List<Person> list(){
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public List<Person> list() {
         return persons;
     }
 
-    @RequestMapping(value = "/add" , method = RequestMethod.POST)
-    public String add(Person person){
-        if(person != null){
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public String add(Person person) {
+        if (person != null) {
             person.setId(IdWorker.getId());
             persons.add(person);
             return "success";

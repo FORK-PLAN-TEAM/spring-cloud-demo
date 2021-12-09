@@ -20,18 +20,17 @@ import javax.annotation.PostConstruct;
 public class OrderServicePrometheusApplication {
 
 
+    public static void main(String[] args) {
+        SpringApplication.run(OrderServicePrometheusApplication.class, args);
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(OrderServicePrometheusApplication.class, args);
-	}
+    @Bean
+    MeterRegistryCustomizer<MeterRegistry> configurer(@Value("${spring.application.name}") String applicationName) {
+        return registry -> registry.config().commonTags("application", applicationName);
+    }
 
-	@Bean
-	MeterRegistryCustomizer<MeterRegistry> configurer(@Value("${spring.application.name}") String applicationName){
-		return registry -> registry.config().commonTags("application",applicationName);
-	}
-
-	//@Autowired
-	//PrometheusMeterRegistry registry;
+    //@Autowired
+    //PrometheusMeterRegistry registry;
 //	@Bean
 //	public Counter getCounter() {
 //		Counter counter = Counter.builder("requests_total")

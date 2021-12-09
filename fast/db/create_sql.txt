@@ -105,7 +105,7 @@ create table zy_sys_role
 (
    role_id              varchar(36) not null comment '角色Id',
    role_name            varchar(64) comment '角色名称',
-   user_code            varchar(64) comment '角色code',
+   role_code            varchar(64) comment '角色code',
    remark               varchar(255) comment '备注',
    isdel                bool comment '是否删除',
    order_num            int comment '排序码',

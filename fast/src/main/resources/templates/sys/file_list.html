@@ -22,17 +22,20 @@
             </tr>
             </thead>
             <tbody>
-                <tr th:each="attach: ${attachs}" id="${attach.attachId}">
-                    <td th:text="${attach.attachName}">common.js</td>
-                    <td th:text="${attach.attachOldName}">common.js</td>
-                    <td th:text="${#numbers.formatDecimal(attach.attachSize / 1024.0,1,2)}">9.9kb</td>
-                    <td><span style="color: #5FB878;">上传成功</span></td>
-                    <td>
-                        <a target="_blank" th:href="@{/sys/attach/view/{id}(id=${attach.attachId})}" class="layui-btn layui-btn-xs layui-btn-normal">预览</a> &emsp;
-                        <a th:href="@{/sys/attach/download/{id}(id=${attach.attachId})}" class="layui-btn layui-btn-xs layui-btn-normal">下载</a> &emsp;
-                        <a th:href="@{/sys/attach/delete/{id}(id=${attach.attachId})}" class="layui-btn layui-btn-xs layui-btn-danger">删除</a>
-                    </td>
-                </tr>
+            <tr th:each="attach: ${attachs}" id="${attach.attachId}">
+                <td th:text="${attach.attachName}">common.js</td>
+                <td th:text="${attach.attachOldName}">common.js</td>
+                <td th:text="${#numbers.formatDecimal(attach.attachSize / 1024.0,1,2)}">9.9kb</td>
+                <td><span style="color: #5FB878;">上传成功</span></td>
+                <td>
+                    <a target="_blank" th:href="@{/sys/attach/view/{id}(id=${attach.attachId})}"
+                       class="layui-btn layui-btn-xs layui-btn-normal">预览</a> &emsp;
+                    <a th:href="@{/sys/attach/download/{id}(id=${attach.attachId})}"
+                       class="layui-btn layui-btn-xs layui-btn-normal">下载</a> &emsp;
+                    <a th:href="@{/sys/attach/delete/{id}(id=${attach.attachId})}"
+                       class="layui-btn layui-btn-xs layui-btn-danger">删除</a>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>

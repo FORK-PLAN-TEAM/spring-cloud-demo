@@ -8,10 +8,11 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 public class IndexController {
 
-    @Autowired private RestTemplate restTemplate;
+    @Autowired
+    private RestTemplate restTemplate;
 
     @RequestMapping("/index")
-    public String index(){
+    public String index() {
         //2.远程调用service-b的hello方法
         String result = remoteCallServiceB();
 
@@ -19,9 +20,9 @@ public class IndexController {
     }
 
     //远程调用service-b
-    private String remoteCallServiceB(){
+    private String remoteCallServiceB() {
         String url = "http://service-b/Second";
-        String result = restTemplate.getForObject(url , String.class);
+        String result = restTemplate.getForObject(url, String.class);
         return result;
     }
 }

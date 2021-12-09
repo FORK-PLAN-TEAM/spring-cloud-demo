@@ -19,56 +19,59 @@ import java.util.Map;
 //@EnableLogFilter
 @EnableAsync
 @SpringBootApplication
-@MapperScan({"com.zypcy.framework.fast.sys.mapper" , "com.zypcy.framework.fast.bus.mapper"})
+@MapperScan({"com.zypcy.framework.fast.sys.mapper", "com.zypcy.framework.fast.bus.mapper"})
 public class FastApplication {
 
-	@Resource
-	private Environment env;
+    @Resource
+    private Environment env;
 
-	public static void main(String[] args) {
-		SpringApplication.run(FastApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(FastApplication.class, args);
+    }
 
-	/**
-	 * 启用统一结果返回功能
-	 * @return
-	 */
-	@Bean
-	public ResponseBodyWrapFactory getResponseBodyWrapFactory(){
-		return new ResponseBodyWrapFactory();
-	}
+    /**
+     * 启用统一结果返回功能
+     *
+     * @return
+     */
+    @Bean
+    public ResponseBodyWrapFactory getResponseBodyWrapFactory() {
+        return new ResponseBodyWrapFactory();
+    }
 
-	/**
-	 * Mybatis-Plus分页插件
-	 */
-	@Bean
-	public PaginationInterceptor paginationInterceptor() {
-		return new PaginationInterceptor();
-	}
+    /**
+     * Mybatis-Plus分页插件
+     */
+    @Bean
+    public PaginationInterceptor paginationInterceptor() {
+        return new PaginationInterceptor();
+    }
 
 
-	/**
-	 * 给Thymeleaf视图引擎设置全局静态变量
-	 * 使用方式：th:src="${StaticResourcePath}+@{'layui/lib/layui/layui.all.js'}"
-	 * @param viewResolver
-	 */
-	@Resource
-	private void configureThymeleafStaticVars(ThymeleafViewResolver viewResolver) {
-		if(viewResolver != null) {
-			Map<String, Object> vars = Maps.newHashMap();
-			vars.put("StaticResourcePath", env.getProperty("sys.static.res.path","/"));//静态资源路径，默认使用本地，发布环境使用https://res.zypcy.cn
-			vars.put("SysProfiles" , env.getProperty("spring.profiles.active" , "dev"));
-			viewResolver.setStaticVariables(vars);
-		}
-	}
+    /**
+     * 给Thymeleaf视图引擎设置全局静态变量
+     * 使用方式：th:src="${StaticResourcePath}+@{'layui/lib/layui/layui.all.js'}"
+     *
+     * @param viewResolver
+     */
+    @Resource
+    private void configureThymeleafStaticVars(ThymeleafViewResolver viewResolver) {
+        if (viewResolver != null) {
+            Map<String, Object> vars = Maps.newHashMap();
+            vars.put("StaticResourcePath", env.getProperty("sys.static.res.path", "/"));//静态资源路径，默认使用本地，发布环境使用https://res.zypcy.cn
+            vars.put("SysProfiles", env.getProperty("spring.profiles.active", "dev"));
+            viewResolver.setStaticVariables(vars);
+        }
+    }
 
-	/**
-	 * 对象与对象的赋值
-	 * @return
-	 */
-	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
+    /**
+     * 对象与对象的赋值
+     *
+     * @return
+     */
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 
 }

@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 用户表
+ *
  * @author zhuyu
  * @since 2019-06-14
  */
@@ -22,7 +23,7 @@ public class ZySysUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "user_id" , type = IdType.INPUT)
+    @TableId(value = "user_id", type = IdType.INPUT)
     @ApiModelProperty(value = "用户id")
     private String userId;
 

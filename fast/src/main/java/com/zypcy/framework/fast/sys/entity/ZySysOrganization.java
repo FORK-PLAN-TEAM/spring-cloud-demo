@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 组织机构
+ *
  * @author zhuyu
  * @since 2019-06-14
  */
@@ -23,7 +24,7 @@ public class ZySysOrganization implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "org_id" , type = IdType.INPUT)
+    @TableId(value = "org_id", type = IdType.INPUT)
     @ApiModelProperty(value = "组织机构id")
     private String orgId;
 

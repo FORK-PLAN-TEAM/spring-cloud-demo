@@ -11,16 +11,16 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class DistributedLockApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DistributedLockApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DistributedLockApplication.class, args);
+    }
 
 
-	@Bean
-	public Redisson redisson(){
-		Config config = new Config();
-		config.useSingleServer().setAddress("redis://localhost:6379");
-		return (Redisson)Redisson.create(config);
-	}
+    @Bean
+    public Redisson redisson() {
+        Config config = new Config();
+        config.useSingleServer().setAddress("redis://localhost:6379");
+        return (Redisson) Redisson.create(config);
+    }
 
 }

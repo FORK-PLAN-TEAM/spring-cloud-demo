@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 /**
  * 测试 通过注解 对返回的数据统一脱敏处理
+ *
  * @Author zhuyu
  * @Time 2020-06-19 10:45
  * @Description 描述
@@ -18,10 +19,11 @@ public class IndexController {
 
     /**
      * 测试返回的数据中，身份证与手机号是否能自动脱敏
+     *
      * @return
      */
     @GetMapping("/index")
-    public ArrayList<Person> index(){
+    public ArrayList<Person> index() {
         ArrayList<Person> persons = new ArrayList<>();
         persons.add(new Person("1", "zhuyu", "4307031991106075X", "15673163315", LocalDate.now()));
         persons.add(new Person("2", "zhuyu", "43070319911060751", "15573163316", LocalDate.now().plusDays(1)));

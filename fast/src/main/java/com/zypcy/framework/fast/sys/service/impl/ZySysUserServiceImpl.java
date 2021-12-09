@@ -31,7 +31,8 @@ import java.util.List;
 @Service
 public class ZySysUserServiceImpl extends ServiceImpl<ZySysUserMapper, ZySysUser> implements IZySysUserService {
 
-    @Autowired ZySysUserMapper userMapper;
+    @Autowired
+    ZySysUserMapper userMapper;
     @Autowired
     ZySysUserRoleMapper userRoleMapper;
 
@@ -51,12 +52,13 @@ public class ZySysUserServiceImpl extends ServiceImpl<ZySysUserMapper, ZySysUser
         user.setUpdateTime(LocalDateTime.now());
         int b = userMapper.insert(user);
         //保存用户拥有的角色
-        saveUserRole(user.getUserId() , user.getRoleIds());
+        saveUserRole(user.getUserId(), user.getRoleIds());
         return b;
     }
 
     /**
      * 修改用户信息
+     *
      * @param user
      * @return
      */
@@ -71,7 +73,7 @@ public class ZySysUserServiceImpl extends ServiceImpl<ZySysUserMapper, ZySysUser
         ZySysUserRole userRole = new ZySysUserRole();
         userRole.setUserId(user.getUserId());
         userRoleMapper.delete(new QueryWrapper<>(userRole));
-        saveUserRole(user.getUserId() , user.getRoleIds());
+        saveUserRole(user.getUserId(), user.getRoleIds());
 
         return userMapper.updateById(user) > 0 ? true : false;
     }
@@ -80,15 +82,16 @@ public class ZySysUserServiceImpl extends ServiceImpl<ZySysUserMapper, ZySysUser
      * 修改密码，2种情况
      * 1.用户自己修改密码，是不用传userId
      * 2.管理员修改下属密码，需要传userId
+     *
      * @return
      */
     @Override
-    public boolean updatePwd(String newPwd , String userId) {
-        if(StringUtils.isEmpty(userId)){
+    public boolean updatePwd(String newPwd, String userId) {
+        if (StringUtils.isEmpty(userId)) {
             userId = ContextHolder.getUserId();
         }
         ZySysUser user = userMapper.selectById(userId);
-        if(user != null){
+        if (user != null) {
             String pwd = SecureUtil.md5(newPwd + user.getSalt());
             user.setUserPwd(pwd);
             return userMapper.updateById(user) > 0 ? true : false;
@@ -98,12 +101,13 @@ public class ZySysUserServiceImpl extends ServiceImpl<ZySysUserMapper, ZySysUser
 
     /**
      * 保存用户的角色信息
+     *
      * @param userId
      * @param roleIds
      */
-    private void saveUserRole(String userId , String roleIds){
+    private void saveUserRole(String userId, String roleIds) {
         String[] ids = roleIds.split(",");
-        for(String roleId : ids){
+        for (String roleId : ids) {
             ZySysUserRole userRole = new ZySysUserRole();
             userRole.setId(IdWorker.getId());
             userRole.setUserId(userId);
@@ -120,6 +124,7 @@ public class ZySysUserServiceImpl extends ServiceImpl<ZySysUserMapper, ZySysUser
 
     /**
      * 该帐号是否存在
+     *
      * @param userAccount
      * @return
      */
@@ -130,6 +135,7 @@ public class ZySysUserServiceImpl extends ServiceImpl<ZySysUserMapper, ZySysUser
 
     /**
      * 获取所有正常用户的userId
+     *
      * @return
      */
     @Override

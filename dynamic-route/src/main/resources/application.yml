@@ -1,4 +1,3 @@
-
 server:
   port: 9600
 spring:
@@ -10,7 +9,7 @@ spring:
   thymeleaf:
     cache: false
     mode: HTML
-# 数据源
+  # 数据源
   redis:
     host: 120.78.215.14
     port: 6379

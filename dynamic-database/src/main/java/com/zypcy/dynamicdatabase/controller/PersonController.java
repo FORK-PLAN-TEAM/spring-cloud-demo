@@ -18,12 +18,12 @@ public class PersonController {
     PersonService personService;
 
     @PostMapping("/add")
-    public int add(@RequestBody Person person){
+    public int add(@RequestBody Person person) {
         return personService.add(person);
     }
 
     @GetMapping("/getById/{id}")
-    public Person getById(@PathVariable String id){
+    public Person getById(@PathVariable String id) {
         return personService.getById(id);
     }
 }

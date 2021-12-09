@@ -18,11 +18,12 @@ public class RocketMQProducer {
 
     /**
      * 发送消息
+     *
      * @param topic
      * @param tags
      * @param msg
      */
-    public void sendMsg(String topic , String tags, String msg) {
+    public void sendMsg(String topic, String tags, String msg) {
         this.rocketMQTemplate.convertAndSend(topic + ":" + tags, msg);
     }
 }

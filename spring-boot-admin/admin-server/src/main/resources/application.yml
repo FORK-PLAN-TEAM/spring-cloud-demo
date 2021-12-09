@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: admin-server
+  boot:
+    admin:
+      ui:
+        title: SpringBootAdmin-Server
+
+server:
+  port: 8769
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8070/eureka/
+  instance:
+    hostname: localhost
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+

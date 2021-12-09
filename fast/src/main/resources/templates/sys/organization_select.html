@@ -5,7 +5,7 @@
     <title>选择组织机构</title>
     <link th:replace="template/sys_header :: header"/>
     <style type="text/css">
-        .role_menu_left{
+        .role_menu_left {
             position: absolute;
             width: 300px;
             padding: 5px;
@@ -15,6 +15,7 @@
             border: solid 1px #f0f0f0;
             background: #fafafa;
         }
+
         .role_menu_right {
             position: absolute;
             left: 300px;
@@ -62,7 +63,7 @@
                     //xadmin.getParentWindow().getById("parentId").value = treeNode.id;
                     //xadmin.getParentWindow().$("#parentOrgName").val(treeNode.name);
                     //调用父级窗体中的方法
-                    xadmin.getParentWindow().selectOrg(treeNode.id , treeNode.name);
+                    xadmin.getParentWindow().selectOrg(treeNode.id, treeNode.name);
                 }
             }
         }, treeDatas);

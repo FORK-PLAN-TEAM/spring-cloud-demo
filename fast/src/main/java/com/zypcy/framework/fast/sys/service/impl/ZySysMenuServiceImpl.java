@@ -21,10 +21,12 @@ import java.util.List;
 @Service
 public class ZySysMenuServiceImpl extends ServiceImpl<ZySysMenuMapper, ZySysMenu> implements IZySysMenuService {
 
-    @Autowired private ZySysMenuMapper menuMapper;
+    @Autowired
+    private ZySysMenuMapper menuMapper;
 
     /**
      * 获取菜单树，只返回3级菜单
+     *
      * @return
      */
     @Override
@@ -35,16 +37,18 @@ public class ZySysMenuServiceImpl extends ServiceImpl<ZySysMenuMapper, ZySysMenu
 
     /**
      * 获取用户拥有的角色菜单
+     *
      * @param roleIds
      * @return
      */
     @Override
-    public List<ZySysMenu> getMenusByRoleId(List<String> roleIds){
+    public List<ZySysMenu> getMenusByRoleId(List<String> roleIds) {
         return menuMapper.getMenusByRoleId(roleIds);
     }
 
     /**
      * 超级管理员获取所有菜单
+     *
      * @return
      */
     @Override

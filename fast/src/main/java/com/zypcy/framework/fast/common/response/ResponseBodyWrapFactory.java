@@ -26,9 +26,9 @@ public class ResponseBodyWrapFactory implements InitializingBean {
     }
 
     //处理
-    private void decorateHandlers(List<HandlerMethodReturnValueHandler> handlers){
-        for(HandlerMethodReturnValueHandler handler : handlers){
-            if(handler instanceof RequestResponseBodyMethodProcessor){
+    private void decorateHandlers(List<HandlerMethodReturnValueHandler> handlers) {
+        for (HandlerMethodReturnValueHandler handler : handlers) {
+            if (handler instanceof RequestResponseBodyMethodProcessor) {
                 ResponseBodyWrapHandler decorator = new ResponseBodyWrapHandler(handler);
                 int index = handlers.indexOf(handler);
                 handlers.set(index, decorator);

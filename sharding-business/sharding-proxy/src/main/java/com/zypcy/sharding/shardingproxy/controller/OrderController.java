@@ -16,10 +16,11 @@ import java.util.List;
 @RequestMapping("order")
 public class OrderController {
 
-    @Autowired private OrderRepository orderRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
     @RequestMapping("add")
-    public Order add(){
+    public Order add() {
         Order order = new Order();
         order.setOrderId(IdWorker.getLongId());
         order.setMemberId(IdWorker.getLongId());
@@ -31,12 +32,12 @@ public class OrderController {
     }
 
     @GetMapping("findById/{orderId}")
-    public Order findById(@PathVariable long orderId){
+    public Order findById(@PathVariable long orderId) {
         return orderRepository.findById(orderId).get();
     }
 
     @GetMapping("findAll")
-    public List<Order> findAll(){
+    public List<Order> findAll() {
         return orderRepository.findAll();
     }
 }

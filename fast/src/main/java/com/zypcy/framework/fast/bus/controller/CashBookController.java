@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
 
 /**
  * 记账本 前端控制器
+ *
  * @author zhuyu
  * @since 2019-07-29
  */
@@ -54,7 +55,7 @@ public class CashBookController {
     @GetMapping("list")
     public ModelAndView list(ModelMap map) {
         map.addAttribute("amounts", cashbookService.getCurrentDayAmount(ContextHolder.getUserId()));
-        map.addAttribute("userId" , ContextHolder.getUserId());
+        map.addAttribute("userId", ContextHolder.getUserId());
         return new ModelAndView("bus/cashbook/list");
     }
 
@@ -72,15 +73,15 @@ public class CashBookController {
 
     @ApiOperation(value = "返回记账本统计页面", notes = "页面", httpMethod = "GET")
     @GetMapping("statistics")
-    public ModelAndView statistics(){
+    public ModelAndView statistics() {
         return new ModelAndView("bus/cashbook/statistics");
     }
 
     @ApiOperation(value = "获取记账本列表", notes = "api接口", httpMethod = "GET")
     @GetMapping("pageList")
     public IPage<Cashbook> pageList(@ApiParam(value = "账目类型") String cashType, @ApiParam(value = "开始时间") String startTime, @ApiParam(value = "结束时间") String endTime,
-                                  @ApiParam(value = "账本详情-数据字典id") String dictId,int pageIndex, int pageSize) {
-        return cashbookService.pageList(cashType , startTime, endTime,dictId, pageIndex, pageSize);
+                                    @ApiParam(value = "账本详情-数据字典id") String dictId, int pageIndex, int pageSize) {
+        return cashbookService.pageList(cashType, startTime, endTime, dictId, pageIndex, pageSize);
     }
 
     @ApiOperation(value = "根据Id获取账目信息", notes = "api接口", httpMethod = "GET")
@@ -92,7 +93,7 @@ public class CashBookController {
     @ApiOperation(value = "创建账目", notes = "api接口", httpMethod = "POST")
     @PostMapping("add")
     public String add(@ApiParam(value = "角色实体") @Valid @RequestBody CashbookSaveDto cashbookDto) {
-        Cashbook cashbook = modelMapper.map(cashbookDto , Cashbook.class);
+        Cashbook cashbook = modelMapper.map(cashbookDto, Cashbook.class);
         cashbook.setCashId(IdWorker.getId());
         int flag = cashbookService.add(cashbook);
         if (!(flag > 0)) {
@@ -105,19 +106,19 @@ public class CashBookController {
     @ApiOperation(value = "修改账目", notes = "api接口", httpMethod = "POST")
     @PostMapping("edit")
     public String edit(@ApiParam(value = "记账本实体") @Valid @RequestBody CashbookSaveDto cashbookDto) {
-        Cashbook cashbook = modelMapper.map(cashbookDto , Cashbook.class);
+        Cashbook cashbook = modelMapper.map(cashbookDto, Cashbook.class);
         if (StringUtils.isEmpty(cashbook.getCashId())) {
             throw new BusinessException("请传入账目Id");
         }
         Cashbook oldCashbook = getById(cashbook.getCashId());
-        if(oldCashbook == null){
+        if (oldCashbook == null) {
             throw new BusinessException("请传入正确的账目Id");
         }
         cashbook.setUpdateTime(LocalDateTime.now());
         cashbook.setUpdateUserid(ContextHolder.getUserId());
         cashbook.setUpdateUsername(ContextHolder.getUserName());
         cashbookService.updateById(cashbook);
-        statisticsService.updateByCashbook(oldCashbook , cashbook);//更新统计信息
+        statisticsService.updateByCashbook(oldCashbook, cashbook);//更新统计信息
         return cashbook.getCashId();
     }
 
@@ -159,11 +160,11 @@ public class CashBookController {
 
     @ApiOperation(value = "统计一段时间段内的记账金额", notes = "api接口", httpMethod = "POST")
     @PostMapping("getTimeSlotAmount")
-    public Map<String,String> getTimeSlotAmount(@ApiParam(value = "开始时间") String startTime, @ApiParam(value = "结束时间") String endTime){
-        if(StringUtils.isEmpty(startTime) || StringUtils.isEmpty(endTime)){
+    public Map<String, String> getTimeSlotAmount(@ApiParam(value = "开始时间") String startTime, @ApiParam(value = "结束时间") String endTime) {
+        if (StringUtils.isEmpty(startTime) || StringUtils.isEmpty(endTime)) {
             throw new BusinessException("请传入开始或结束时间");
         }
-        return cashbookService.getTimeSlotAmount(ContextHolder.getUserId() , startTime , endTime);
+        return cashbookService.getTimeSlotAmount(ContextHolder.getUserId(), startTime, endTime);
     }
 
     @GetMapping(value = "/export")
@@ -173,28 +174,28 @@ public class CashBookController {
         Cashbook cashbook = new Cashbook();
         cashbook.setIsdel(false);
         cashbook.setIsdel(false);
-        if(!"admin".equals(userId)){
+        if (!"admin".equals(userId)) {
             cashbook.setCreateUserid(userId);
         }
         QueryWrapper<Cashbook> wrapper = new QueryWrapper<>(cashbook);
         wrapper.orderByDesc("record_time");
-        if(!StringUtils.isEmpty(startTime) && !StringUtils.isEmpty(endTime)){
-            wrapper.between("record_time", startTime , endTime);
-        }else if(!StringUtils.isEmpty(startTime)){
-            wrapper.between("record_time", startTime , startTime + " 23:59:59");
+        if (!StringUtils.isEmpty(startTime) && !StringUtils.isEmpty(endTime)) {
+            wrapper.between("record_time", startTime, endTime);
+        } else if (!StringUtils.isEmpty(startTime)) {
+            wrapper.between("record_time", startTime, startTime + " 23:59:59");
         }
         //得到要导出的list集合
         List<Cashbook> list = cashbookService.list(wrapper);
-        String[] title = {"账目类型" ,"记录时间", "入账类别", "账目金额", "备注"};
+        String[] title = {"账目类型", "记录时间", "入账类别", "账目金额", "备注"};
         List<String[]> exportDataList = list.stream().map(item -> new String[]{
-                item.getCashType().equals("0") ? "支出" : "收入" ,
-                DateUtil.format(item.getRecordTime() , "yyyy-MM-dd"),
+                item.getCashType().equals("0") ? "支出" : "收入",
+                DateUtil.format(item.getRecordTime(), "yyyy-MM-dd"),
                 item.getCashCategory(),
                 item.getAmount().toString(),
                 item.getRemark()
         }).collect(Collectors.toList());
         HSSFWorkbook workbook = ExcelUtil.getHSSFWorkbook("账目信息", title, exportDataList, null);
-        ExcelUtil.setResponseStream(response, "账目信息" +IdWorker.getDateId()+ ".xls");
+        ExcelUtil.setResponseStream(response, "账目信息" + IdWorker.getDateId() + ".xls");
         workbook.write(response.getOutputStream());
     }
 }

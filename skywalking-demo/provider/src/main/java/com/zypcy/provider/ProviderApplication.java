@@ -18,8 +18,8 @@ public class ProviderApplication {
 
 
     @GetMapping("/hello")
-    public String hello(String name){
-        return "provider " + name ;
+    public String hello(String name) {
+        return "provider " + name;
     }
 
 }

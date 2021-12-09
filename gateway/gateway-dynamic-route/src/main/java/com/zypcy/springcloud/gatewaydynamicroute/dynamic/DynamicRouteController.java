@@ -14,11 +14,12 @@ import reactor.core.publisher.Flux;
 @RequestMapping("/route")
 public class DynamicRouteController {
 
-    @Autowired private RouteDefinitionLocator routeDefinitionLocator;
+    @Autowired
+    private RouteDefinitionLocator routeDefinitionLocator;
 
     //获取网关所有的路由信息
     @RequestMapping("/routes")
-    public Flux<RouteDefinition> getRouteDefinitions(){
+    public Flux<RouteDefinition> getRouteDefinitions() {
         return routeDefinitionLocator.getRouteDefinitions();
     }
 }

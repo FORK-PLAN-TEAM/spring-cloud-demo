@@ -20,7 +20,8 @@
             </div>-->
         </div>
         <ul class="my_list_ui">
-            <li><a href="#"><span class="float_lf">我的信息</span> <i class="float_rt icon icon-108"></i><span class="float_rt">查看更多</span></a></li>
+            <li><a href="#"><span class="float_lf">我的信息</span> <i class="float_rt icon icon-108"></i><span
+                    class="float_rt">查看更多</span></a></li>
         </ul>
 
         <ul class="my_gridbox_ui">
@@ -36,7 +37,8 @@
             <li><a href="#"><i class="float_lf icon icon-54"></i><span class="float_lf">我的福利</span> </a></li>
             <li><a href="#"><i class="float_lf icon icon-67"></i><span class="float_lf">我的消息</span> </a></li>
             <li><a href="#"><i class="float_lf icon icon-102"></i><span class="float_lf">账户设置</span> </a></li>
-            <li onclick="loginOut()"><a href="#"><i class="float_lf icon icon-72"></i><span class="float_lf">退出系统</span> </a></li>
+            <li onclick="loginOut()"><a href="#"><i class="float_lf icon icon-72"></i><span class="float_lf">退出系统</span>
+            </a></li>
         </ul>
 
         <!-- 底部公司简介 -->
@@ -53,14 +55,14 @@
         //判断是否登录，未登录要先登录，然后查询个人信息
 
         var token = getCookie("token");
-        if(token && token != ""){
+        if (token && token != "") {
             //查询数据
             var userInfo = wxGetUserInfo();
             console.log(userInfo);
-            if(userInfo){
+            if (userInfo) {
                 $("#userName").text(userInfo.userName);
             }
-        }else {
+        } else {
             wxlogin(function () {
                 loadUserInfo();
             });
@@ -84,7 +86,7 @@
                         //存储到localStorage中
                         $("#userName").text(userInfo.userName);
                         wxSetUserInfo(userInfo);
-                        setTimeout(function() {
+                        setTimeout(function () {
                             $.hideLoading();
                         }, 1000)
                     } else {
@@ -100,10 +102,10 @@
 
     //退出登录
     function loginOut() {
-        $.confirm("您确定要退出系统吗?", "确认退出?", function() {
+        $.confirm("您确定要退出系统吗?", "确认退出?", function () {
             delCookie("token");
             window.location.href = '/wx/index';
-        }, function() {
+        }, function () {
             //取消操作
         });
     }

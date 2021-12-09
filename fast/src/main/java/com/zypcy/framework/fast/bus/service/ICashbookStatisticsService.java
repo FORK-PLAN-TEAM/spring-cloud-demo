@@ -9,31 +9,35 @@ import java.util.concurrent.Future;
 
 /**
  * 定时任务统计用户不同月份-不同类型-不同类别数据 服务类
+ *
  * @author zhuyu
  * @since 2019-10-09
  */
 public interface ICashbookStatisticsService extends IService<CashbookStatistics> {
 
-    void testTaskSaveData(String userId ,String yesterDay);
+    void testTaskSaveData(String userId, String yesterDay);
 
     /**
      * 新增或更新累加账目统计数据
+     *
      * @param userId
      * @param cashbooks
      */
-    void saveOrUpdate(String userId , List<Cashbook> cashbooks);
+    void saveOrUpdate(String userId, List<Cashbook> cashbooks);
 
     /**
      * 按月统计用户账目数据
+     *
      * @param userId
      * @param startTime
      * @param endTime
      * @return
      */
-    Future<List<CashbookStatistics>> statisticsByMonth(String userId , String startTime, String endTime);
+    Future<List<CashbookStatistics>> statisticsByMonth(String userId, String startTime, String endTime);
 
     /**
      * 按数据字典类别统计用户账目数据
+     *
      * @param userId
      * @param startTime
      * @param endTime
@@ -43,19 +47,22 @@ public interface ICashbookStatisticsService extends IService<CashbookStatistics>
 
     /**
      * 记录账目数据后更新统计信息
+     *
      * @param cashbook
      */
     void addByCashbook(Cashbook cashbook);
 
     /**
      * 修改账目数据后更新统计信息
+     *
      * @param oldCashbook 之前的金额
-     * @param cashbook  修改后金额
+     * @param cashbook    修改后金额
      */
-    void updateByCashbook(Cashbook oldCashbook , Cashbook cashbook);
+    void updateByCashbook(Cashbook oldCashbook, Cashbook cashbook);
 
     /**
      * 删除账目数据后更新统计信息
+     *
      * @param cashbook
      */
     void deleteByCashbook(Cashbook cashbook);

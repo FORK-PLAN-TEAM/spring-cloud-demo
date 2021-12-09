@@ -12,9 +12,9 @@ public class IndexController {
     private RestTemplate restTemplate;
 
     @GetMapping("/sayHello")
-    public String sayHello(String name){
+    public String sayHello(String name) {
         String url = "http://provider-service/hello?name=" + name;
-        String result = restTemplate.getForObject(url , String.class);
+        String result = restTemplate.getForObject(url, String.class);
         return result;
     }
 

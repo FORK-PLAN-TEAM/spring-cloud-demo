@@ -12,8 +12,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableConfigurationProperties({StudentConfig.class})
 public class ConsulServiceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ConsulServiceApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ConsulServiceApplication.class, args);
+    }
 
 }

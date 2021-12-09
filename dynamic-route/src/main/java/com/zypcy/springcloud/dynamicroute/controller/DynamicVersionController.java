@@ -16,37 +16,39 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/version")
 public class DynamicVersionController {
 
-    @Autowired private IDynamicVersionService dynamicVersionService;
-    @Autowired private StringRedisTemplate redisTemplate;
+    @Autowired
+    private IDynamicVersionService dynamicVersionService;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
-    @RequestMapping(value = "/add" , method = RequestMethod.GET)
-    public String add(ModelMap map){
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public String add(ModelMap map) {
         DynamicVersion version = new DynamicVersion();
         int result = dynamicVersionService.add(version);
-        map.addAttribute("result" , result);
+        map.addAttribute("result", result);
         return "addVersion";
     }
 
     //获取最后一次发布的版本号
-    @RequestMapping(value = "/lastVersion" , method = RequestMethod.GET)
+    @RequestMapping(value = "/lastVersion", method = RequestMethod.GET)
     @ResponseBody
-    public Long getLastVersion(){
+    public Long getLastVersion() {
         Long versionId = 0L;
         String result = redisTemplate.opsForValue().get(RedisConfig.versionKey);
-        if(!StringUtils.isEmpty(result)){
+        if (!StringUtils.isEmpty(result)) {
             System.out.println("返回 redis 中的版本信息......");
             versionId = Long.valueOf(result);
-        }else{
+        } else {
             System.out.println("返回 mysql 中的版本信息......");
             versionId = dynamicVersionService.getLastVersion();
-            redisTemplate.opsForValue().set(RedisConfig.versionKey , String.valueOf(versionId));
+            redisTemplate.opsForValue().set(RedisConfig.versionKey, String.valueOf(versionId));
         }
         return versionId;
     }
 
 
     //打开发布版本列表页面
-    public String listAll(ModelMap map){
+    public String listAll(ModelMap map) {
         map.addAttribute("list", dynamicVersionService.listAll());
         return "versionlist";
     }

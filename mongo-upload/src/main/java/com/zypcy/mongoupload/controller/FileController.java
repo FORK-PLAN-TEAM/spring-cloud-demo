@@ -27,22 +27,25 @@ import java.util.Optional;
 @RequestMapping("files")
 public class FileController {
 
-    @Autowired private IFileService fileService;
+    @Autowired
+    private IFileService fileService;
 
 
     /**
      * 列表数据
+     *
      * @param pageIndex
      * @param pageSize
      * @return
      */
     @RequestMapping("/list")
-    public List<FileDocument> list(int pageIndex, int pageSize){
-        return fileService.listFilesByPage(pageIndex,pageSize);
+    public List<FileDocument> list(int pageIndex, int pageSize) {
+        return fileService.listFilesByPage(pageIndex, pageSize);
     }
 
     /**
      * 在线显示文件
+     *
      * @param id 文件id
      * @return
      */
@@ -54,7 +57,7 @@ public class FileController {
                     .header(HttpHeaders.CONTENT_DISPOSITION, "fileName=" + file.get().getName())
                     .header(HttpHeaders.CONTENT_TYPE, file.get().getContentType())
                     .header(HttpHeaders.CONTENT_LENGTH, file.get().getSize() + "").header("Connection", "close")
-                    .header(HttpHeaders.CONTENT_LENGTH , file.get().getSize() + "")
+                    .header(HttpHeaders.CONTENT_LENGTH, file.get().getSize() + "")
                     .body(file.get().getContent());
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("File was not found");
@@ -63,6 +66,7 @@ public class FileController {
 
     /**
      * 下载附件
+     *
      * @param id
      * @return
      * @throws UnsupportedEncodingException
@@ -70,42 +74,43 @@ public class FileController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> downloadFileById(@PathVariable String id) throws UnsupportedEncodingException {
         Optional<FileDocument> file = fileService.getById(id);
-        if(file.isPresent()){
-           return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; fileName=" + URLEncoder.encode(file.get().getName() , "utf-8"))
+        if (file.isPresent()) {
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; fileName=" + URLEncoder.encode(file.get().getName(), "utf-8"))
                     .header(HttpHeaders.CONTENT_TYPE, "application/octet-stream")
                     .header(HttpHeaders.CONTENT_LENGTH, file.get().getSize() + "").header("Connection", "close")
-                    .header(HttpHeaders.CONTENT_LENGTH , file.get().getSize() + "")
+                    .header(HttpHeaders.CONTENT_LENGTH, file.get().getSize() + "")
                     .body(file.get().getContent());
-        }else {
+        } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("File was not found");
         }
     }
 
     /**
      * JS传字节流上传 - 暂时未完成
+     *
      * @param md5
      * @param file
      * @return
      */
     @Deprecated
     @PostMapping("/upload/{md5}/{ext}")
-    public ResponseModel jsUpload(@PathVariable String md5 , @PathVariable String ext , HttpServletRequest request,@RequestBody byte[] data){
+    public ResponseModel jsUpload(@PathVariable String md5, @PathVariable String ext, HttpServletRequest request, @RequestBody byte[] data) {
         ResponseModel model = ResponseModel.getInstance();
-        if(StrUtil.isEmpty(md5)){
+        if (StrUtil.isEmpty(md5)) {
             model.setMessage("请传入文件的md5值");
             return model;
         }
-        if(!StrUtil.isEmpty(ext) && !ext.startsWith(".")){
+        if (!StrUtil.isEmpty(ext) && !ext.startsWith(".")) {
             ext = "." + ext;
         }
-        try{
+        try {
 
             String name = request.getParameter("name");
             String description = request.getParameter("description");
             InputStream in = new ByteArrayInputStream(data);
-            System.out.println("data_string:" + StrUtil.str(data , "UTF-8"));
-            if(in != null && data.length > 0){
+            System.out.println("data_string:" + StrUtil.str(data, "UTF-8"));
+            if (in != null && data.length > 0) {
                 FileDocument fileDocument = new FileDocument();
                 fileDocument.setName(name);
                 fileDocument.setSize(data.length);
@@ -114,19 +119,19 @@ public class FileController {
                 fileDocument.setSuffix(ext);
                 String fileMd5 = SecureUtil.md5(in);
                 fileDocument.setMd5(fileMd5);
-                System.out.println(md5 +" , "+ fileMd5);
+                System.out.println(md5 + " , " + fileMd5);
                 fileDocument.setDescription(description);
-                fileService.saveFile(fileDocument , in);
+                fileService.saveFile(fileDocument, in);
 
                 System.out.println(fileDocument);
                 model.setData(fileDocument.getId());
                 model.setCode(ResponseModel.Success);
                 model.setMessage("上传成功");
-            }else{
+            } else {
                 model.setMessage("请传入文件");
             }
             in.close();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             model.setMessage("上传失败");
         }
@@ -136,25 +141,26 @@ public class FileController {
     /**
      * 表单上传文件
      * 当数据库中存在该md5值时，可以实现秒传功能
+     *
      * @param file 文件
      * @return
      */
     @PostMapping("/upload")
-    public ResponseModel formUpload(@RequestParam("file") MultipartFile file){
+    public ResponseModel formUpload(@RequestParam("file") MultipartFile file) {
         ResponseModel model = ResponseModel.getInstance();
         try {
-            if(file != null && !file.isEmpty()){
+            if (file != null && !file.isEmpty()) {
                 String fileMd5 = SecureUtil.md5(file.getInputStream());
-                FileDocument fileDocument = fileService.saveFile(fileMd5 , file);
+                FileDocument fileDocument = fileService.saveFile(fileMd5, file);
 
                 System.out.println(fileDocument);
                 model.setData(fileDocument.getId());
                 model.setCode(ResponseModel.Success);
                 model.setMessage("上传成功");
-            }else {
+            } else {
                 model.setMessage("请传入文件");
             }
-        }catch (IOException ex){
+        } catch (IOException ex) {
             ex.printStackTrace();
             model.setMessage(ex.getMessage());
         }
@@ -164,17 +170,18 @@ public class FileController {
 
     /**
      * 删除附件
+     *
      * @param id
      * @return
      */
     @DeleteMapping("/{id}")
-    public ResponseModel deleteFile(@PathVariable String id){
+    public ResponseModel deleteFile(@PathVariable String id) {
         ResponseModel model = ResponseModel.getInstance();
-        if(!StrUtil.isEmpty(id)){
-            fileService.removeFile(id , true);
+        if (!StrUtil.isEmpty(id)) {
+            fileService.removeFile(id, true);
             model.setCode(ResponseModel.Success);
             model.setMessage("删除成功");
-        }else {
+        } else {
             model.setMessage("请传入文件id");
         }
         return model;
@@ -183,17 +190,18 @@ public class FileController {
 
     /**
      * 删除附件
+     *
      * @param id
      * @return
      */
     @GetMapping("/delete/{id}")
-    public ResponseModel deleteFileByGetMethod(@PathVariable String id){
+    public ResponseModel deleteFileByGetMethod(@PathVariable String id) {
         ResponseModel model = ResponseModel.getInstance();
-        if(!StrUtil.isEmpty(id)){
-            fileService.removeFile(id , true);
+        if (!StrUtil.isEmpty(id)) {
+            fileService.removeFile(id, true);
             model.setCode(ResponseModel.Success);
             model.setMessage("删除成功");
-        }else {
+        } else {
             model.setMessage("请传入文件id");
         }
         return model;

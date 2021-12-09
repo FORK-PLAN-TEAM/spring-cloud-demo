@@ -23,7 +23,7 @@ public class LoginAsync {
      * 2.把登录用户的角色信息记录到内存中
      */
     @Async("taskExecutor")
-    public void updateLoginIInfo(String token , ZySysUser sysUser){
+    public void updateLoginIInfo(String token, ZySysUser sysUser) {
         ZySysLoginInfo userInfo = new ZySysLoginInfo();
         userInfo.setSysUser(sysUser);
 
@@ -31,7 +31,7 @@ public class LoginAsync {
         userInfo.setUserRoles(userRoleService.getUserRoles(sysUser.getUserId()));
 
         //存储信息到缓存
-        UserLoginCache.saveUserLoginInfo(token , userInfo);//存储token与用户信息
+        UserLoginCache.saveUserLoginInfo(token, userInfo);//存储token与用户信息
     }
 
 }

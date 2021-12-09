@@ -2,6 +2,7 @@ package com.zypcy.framework.fast.wx.dto;
 
 /**
  * 供小程序测试
+ *
  * @Author zhuyu
  * @Date 2020-03-10
  */
@@ -12,7 +13,8 @@ public class Person {
     private int age;
     private String address;
 
-    public Person(){}
+    public Person() {
+    }
 
     public Person(String id, String name, int age, String address) {
         this.id = id;

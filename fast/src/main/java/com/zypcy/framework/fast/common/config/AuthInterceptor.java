@@ -24,6 +24,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     /**
      * 判断是否有权限请求
+     *
      * @param request
      * @param response
      * @param handler
@@ -36,19 +37,19 @@ public class AuthInterceptor implements HandlerInterceptor {
         //LogUtil.info("token:" + token);
         if (!StringUtils.isEmpty(token)) {
             ZySysLoginInfo userInfo = UserLoginCache.getUserLoginInfo(token);
-            if(userInfo != null && userInfo.getSysUser() != null){
+            if (userInfo != null && userInfo.getSysUser() != null) {
                 ZySysUser sysUser = userInfo.getSysUser();
                 //判断是否过期
-                if(!LoginExpiresUtil.isExpire(tokenExpireTime , sysUser.getLoginTime(), sysUser.getLoginPlatform())){
+                if (!LoginExpiresUtil.isExpire(tokenExpireTime, sysUser.getLoginTime(), sysUser.getLoginPlatform())) {
                     flag = true;
                     ContextHolder.setUserInfo(userInfo);
                     return true;
-                }else {
+                } else {
                     UserLoginCache.removeLoginInfo(token);
                 }
             }
         }
-        if(!flag){
+        if (!flag) {
             //没有携带token,或token中没有数据的请求,拦截掉
             //throw new ApplicationException(ResultEnum.ACCOUNT_NOTFOUND);
             response.sendRedirect("/");

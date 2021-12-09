@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 角色
+ *
  * @author zhuyu
  * @since 2019-06-14
  */
@@ -22,7 +23,7 @@ public class ZySysRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "role_id" , type = IdType.INPUT)
+    @TableId(value = "role_id", type = IdType.INPUT)
     @ApiModelProperty(value = "角色Id")
     private String roleId;
 

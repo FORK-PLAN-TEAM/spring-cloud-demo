@@ -15,12 +15,12 @@ public class PrometheusSummary {
     ThreadLocal<Summary.Timer> threadLocal = new ThreadLocal<>();
 
     //开始执行
-    public void processRequestStart(){
+    public void processRequestStart() {
         threadLocal.set(requestLatency.startTimer());
     }
 
     //执行之后
-    public void processRequestEnd(Object returnVal){
+    public void processRequestEnd(Object returnVal) {
         receivedBytes.observe(returnVal.toString().getBytes().length);
         threadLocal.get().observeDuration();
     }

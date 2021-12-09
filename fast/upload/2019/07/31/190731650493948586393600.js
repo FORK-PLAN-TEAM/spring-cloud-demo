@@ -9,7 +9,7 @@ function getById(id) {
 //是否是string类型
 function isString(s) {
 
-    return typeof( s ) == "string";
+    return typeof (s) == "string";
 };
 
 //取url参数
@@ -27,8 +27,8 @@ function queryString(name) {
 // JS生成UUID
 //此函数生成16位UUID样式为af22-3fa8-4028-8dea-30a2
 function getUUID() {
-    return 'xxxx-xxxx-xxxx-xxxx-xxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+    return 'xxxx-xxxx-xxxx-xxxx-xxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
 }
@@ -45,36 +45,37 @@ function getUUID() {
         }
     });
  */
-(function(){
-    function AjaxRequest(opts){
-        this.type         = opts.type || "get";
-        this.url          = opts.url;
-        this.data        = opts.data || {};
+(function () {
+    function AjaxRequest(opts) {
+        this.type = opts.type || "get";
+        this.url = opts.url;
+        this.data = opts.data || {};
         this.isShowLoader = opts.isShowLoader || false;
-        this.success      = opts.success;
-        this.error        = opts.error;
+        this.success = opts.success;
+        this.error = opts.error;
         this.init();
     }
+
     var layIndex = 0;
     AjaxRequest.prototype = {
         //初始化
-        init: function(){
+        init: function () {
             this.sendRequest();
         },
         //渲染loader
-        showLoader: function(){
-            if(this.isShowLoader){
+        showLoader: function () {
+            if (this.isShowLoader) {
                 layIndex = layer.load(2);
             }
         },
         //隐藏loader
-        hideLoader: function(){
-            if(this.isShowLoader){
+        hideLoader: function () {
+            if (this.isShowLoader) {
                 layer.close(layIndex);
             }
         },
         //发送请求
-        sendRequest: function(){
+        sendRequest: function () {
             var self = this;
             $.ajax({
                 type: this.type,
@@ -83,14 +84,14 @@ function getUUID() {
                 contentType: 'application/json',
                 dataType: 'json',
                 beforeSend: this.showLoader(),
-                success: function(res){
+                success: function (res) {
                     self.hideLoader();
                     if (res != null && res != "") {
-                        if(self.success){
+                        if (self.success) {
                             //Object.prototype.toString.call方法--精确判断对象的类型
                             if (Object.prototype.toString.call(self.success) === "[object Function]") {
                                 self.success(res);
-                            }else{
+                            } else {
                                 console.log("callBack is not a function");
                             }
                         }
@@ -99,10 +100,10 @@ function getUUID() {
                 error: function (xhr, type, errorThrown) {
                     console.log("error:" + JSON.stringify(xhr) + "\n" + type + "\n" + errorThrown);
                     self.hideLoader();
-                    if(self.error){
+                    if (self.error) {
                         if (Object.prototype.toString.call(self.error) === "[object Function]") {
                             self.error(xhr, type, errorThrown);
-                        }else{
+                        } else {
                             console.log("callBack is not a function");
                         }
                     }
@@ -120,27 +121,28 @@ function getUUID() {
 * url  接口地址
 * cols 要展示的列-集合
 **/
-(function(){
-    function DataTable(opts){
-        this.id           = getUUID();
-        this.elem        = opts.elem;
-        this.url         = opts.url;
-        this.limit       = opts.limit || 10;
-        this.limits      = opts.limits || [5, 10, 15, 20, 30];
-        this.request     = opts.request || {
+(function () {
+    function DataTable(opts) {
+        this.id = getUUID();
+        this.elem = opts.elem;
+        this.url = opts.url;
+        this.limit = opts.limit || 10;
+        this.limits = opts.limits || [5, 10, 15, 20, 30];
+        this.request = opts.request || {
             pageName: 'pageIndex', //页码的参数名称，默认：page
             limitName: 'pageSize' //每页数据量的参数名，默认：limit
         };
-        this.where       = opts.where || {};
-        this.height      = opts.height || ''; //自适应高度：height : 'full-150'
-        this.cols        = opts.cols;
+        this.where = opts.where || {};
+        this.height = opts.height || ''; //自适应高度：height : 'full-150'
+        this.cols = opts.cols;
         this.table = this.render();
         return this;
     }
+
     DataTable.prototype = {
         //初始化table表格
-        render: function(){
-           var tableIns = layui.table.render({
+        render: function () {
+            var tableIns = layui.table.render({
                 id: this.id,
                 elem: this.elem,
                 url: webroot + this.url, //数据接口
@@ -165,16 +167,16 @@ function getUUID() {
                     this.cols
                 ],
                 page: {
-                   layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-                   //,curr: 5 //设定初始在第 5 页
-                   ,groups: 1 //只显示 1 个连续页码
-                   ,first: false //不显示首页
-                   ,last: false //不显示尾页
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                    //,curr: 5 //设定初始在第 5 页
+                    , groups: 1 //只显示 1 个连续页码
+                    , first: false //不显示首页
+                    , last: false //不显示尾页
                 }
             });
-           return tableIns;
+            return tableIns;
         },
-        getTableId : function () {
+        getTableId: function () {
             return this.id;
         }
     };
@@ -265,7 +267,7 @@ function zy(opts) {
  * @param selectElemId   select标签的Id
  * @param dictId         可选填，业务保存字典的值，用来反选，
  */
-function getDictByType(type , selectElemId , dictId) {
+function getDictByType(type, selectElemId, dictId) {
     new AjaxRequest({
         type: "GET",
         url: webroot + "sys/dict/getByType?type=" + type,
@@ -275,13 +277,13 @@ function getDictByType(type , selectElemId , dictId) {
             if (res) {
                 if (res.resultCode == "0000" && res.resultObj) {
                     var optStr = '<option value="">请选择或搜索选择</option>';
-                    for(var i=0; i < res.resultObj.length; i++){
+                    for (var i = 0; i < res.resultObj.length; i++) {
                         var dict = res.resultObj[i];
                         var selected = "";
-                        if(dictId && dictId != ""){
+                        if (dictId && dictId != "") {
                             selected = dict.id == dictId ? "selected" : " "
                         }
-                        optStr += '<option value="'+dict.id+'" '+selected+'>'+dict.name+'</option>';
+                        optStr += '<option value="' + dict.id + '" ' + selected + '>' + dict.name + '</option>';
                     }
                     $("#" + selectElemId).append(optStr);
                     form.render();

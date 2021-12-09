@@ -34,18 +34,17 @@ public class ExceptionAdvice {
         } else if (e instanceof ApplicationException) {
             ApplicationException ae = (ApplicationException) e;
             return ResponseModel.Builder.builder().code(ae.getCode()).message(ae.getMessage()).build();
-        }else if (e instanceof BusinessException) {
+        } else if (e instanceof BusinessException) {
             BusinessException be = (BusinessException) e;
             return ResponseModel.Builder.builder().code(be.getCode()).message(be.getMessage()).build();
-        }else if(e instanceof MethodArgumentNotValidException){
-            MethodArgumentNotValidException me = (MethodArgumentNotValidException)e;
+        } else if (e instanceof MethodArgumentNotValidException) {
+            MethodArgumentNotValidException me = (MethodArgumentNotValidException) e;
             String msg = me.getBindingResult().getFieldError().getDefaultMessage();
             return ResponseModel.Builder.builder()
                     .code(ResultCodeEnum.FAIL)
                     .message(msg)
                     .build();
-        }
-        else {
+        } else {
             //默认异常处理
             return ResponseModel.Builder.builder()
                     .code(ResultCodeEnum.FAIL)

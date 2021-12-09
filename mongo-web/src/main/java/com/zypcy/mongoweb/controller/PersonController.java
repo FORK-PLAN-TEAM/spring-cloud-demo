@@ -23,33 +23,33 @@ public class PersonController {
     private PersonService personService;
 
     @PostMapping("/add")
-    public String add(@RequestBody Person person){
+    public String add(@RequestBody Person person) {
         person.setCreateTime(new Date());
         return personService.add(person);
     }
 
     @PostMapping("/update")
-    public long update(@RequestBody Person person){
+    public long update(@RequestBody Person person) {
         return personService.update(person);
     }
 
     @PostMapping("/del")
-    public long del(String id){
+    public long del(String id) {
         return personService.del(id);
     }
 
     @GetMapping("/getById")
-    public Person getById(String id){
+    public Person getById(String id) {
         return personService.getById(id);
     }
 
     @PostMapping("/list")
-    public List<Person> list(@RequestBody Person person){
+    public List<Person> list(@RequestBody Person person) {
         return personService.list(person);
     }
 
     @PostMapping("/listPage")
-    public List<Person> listPage(@RequestBody Person person , @RequestBody Page page){
-        return personService.listPage(person , page);
+    public List<Person> listPage(@RequestBody Person person, @RequestBody Page page) {
+        return personService.listPage(person, page);
     }
 }

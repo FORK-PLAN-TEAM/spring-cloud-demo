@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "provider-service" , fallback = HelloFeignFallbackService.class)
+@FeignClient(name = "provider-service", fallback = HelloFeignFallbackService.class)
 public interface HelloFeignService {
 
-    @RequestMapping(value = "/hello" , method = RequestMethod.GET)
+    @RequestMapping(value = "/hello", method = RequestMethod.GET)
     String hello(@RequestParam("name") String name);
 
-    @RequestMapping(value = "/createPerson" , method = RequestMethod.POST)
+    @RequestMapping(value = "/createPerson", method = RequestMethod.POST)
     Person createPerson(@RequestBody Person person);
 }

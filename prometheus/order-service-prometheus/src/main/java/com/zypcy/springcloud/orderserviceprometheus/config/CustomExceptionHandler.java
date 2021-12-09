@@ -19,9 +19,10 @@ public class CustomExceptionHandler {
     @Autowired
     MeterRegistry registry;
     private Counter counter;
+
     @PostConstruct
-    private void init(){
-        counter = registry.counter("requests_error_total","status","500");
+    private void init() {
+        counter = registry.counter("requests_error_total", "status", "500");
     }
 
     @ResponseBody

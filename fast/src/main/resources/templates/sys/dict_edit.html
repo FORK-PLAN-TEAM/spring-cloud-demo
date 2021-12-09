@@ -33,7 +33,7 @@
             type
         </div>
         <div class="layui-col-sm5">
-            <input type="text" id="type" name="type"  autocomplete="" class="layui-input">
+            <input type="text" id="type" name="type" autocomplete="" class="layui-input">
         </div>
     </div>
     <div class="layui-row margintop10">
@@ -88,14 +88,14 @@
     getById("parentName").value = parentName;
     getById("parentId").value = parentId;
     //如果是根目录则可以填写type
-    if(type != ""){
-        $("#type").val(type).addClass("disabled").attr("disabled","disabled");
+    if (type != "") {
+        $("#type").val(type).addClass("disabled").attr("disabled", "disabled");
     }
 
-    if(dict && dict.id){
+    if (dict && dict.id) {
         isEdit = true;//编辑
         form.val('form1', {
-            "id" : dict.id,
+            "id": dict.id,
             "parentId": dict.parentId,
             "name": dict.name,
             "type": dict.type,
@@ -110,9 +110,9 @@
         form.on('submit(save)', function (data) {
             console.log(data.field);
             //发异步，数据提交
-            if(isEdit){
+            if (isEdit) {
                 edit(data.field);
-            }else{
+            } else {
                 add(data.field);
             }
             return false;
@@ -133,7 +133,7 @@
                         var id = res.resultObj;
                         layer.alert("保存成功", {icon: 1}, function () {
                             //xadmin.father_reload();//刷新父窗体
-                            xadmin.getParentWindow().refreshlist(id , field.name , true);
+                            xadmin.getParentWindow().refreshlist(id, field.name, true);
                             xadmin.close();//关闭当前frame
                         });
                     } else {
@@ -156,7 +156,7 @@
                     if (res.resultCode == "0000") {
                         layer.alert("保存成功", {icon: 1}, function () {
                             //xadmin.father_reload();//刷新父窗体
-                            xadmin.getParentWindow().refreshlist(field.id , field.name , false);
+                            xadmin.getParentWindow().refreshlist(field.id, field.name, false);
                             xadmin.close();//关闭当前frame
                         });
                     } else {

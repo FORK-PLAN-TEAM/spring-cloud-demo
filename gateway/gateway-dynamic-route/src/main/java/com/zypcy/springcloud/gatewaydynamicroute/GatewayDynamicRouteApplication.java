@@ -13,15 +13,15 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class GatewayDynamicRouteApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(GatewayDynamicRouteApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(GatewayDynamicRouteApplication.class, args);
+    }
 
 
-	@Bean
-	@LoadBalanced
-	public RestTemplate restTemplate(){
-		return new RestTemplate();
-	}
+    @Bean
+    @LoadBalanced
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 }
 

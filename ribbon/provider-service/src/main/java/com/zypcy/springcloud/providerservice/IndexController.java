@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 public class IndexController {
 
     @GetMapping("/hello")
-    public String hello(String name , HttpServletRequest request){
+    public String hello(String name, HttpServletRequest request) {
         return " From Port : " + request.getServerPort() + " , hello " + name;
     }
 }

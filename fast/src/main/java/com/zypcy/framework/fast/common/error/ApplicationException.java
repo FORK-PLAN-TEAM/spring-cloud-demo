@@ -5,7 +5,7 @@ import com.zypcy.framework.fast.common.response.ResultEnum;
 /**
  * 应用异常
  */
-public class ApplicationException extends RuntimeException  {
+public class ApplicationException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 

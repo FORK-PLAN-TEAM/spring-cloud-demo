@@ -41,82 +41,84 @@ import java.util.List;
 @RequestMapping("sys/organization")
 public class ZySysOrganizationController {
 
-    @Autowired private IZySysOrganizationService organizationService;
+    @Autowired
+    private IZySysOrganizationService organizationService;
 
     /**
      * 返回组织机构列表页面
+     *
      * @return
      */
-    @ApiOperation(value = "返回组织机构列表页面"  , notes = "页面", httpMethod = "GET")
+    @ApiOperation(value = "返回组织机构列表页面", notes = "页面", httpMethod = "GET")
     @GetMapping("list")
-    public ModelAndView list(ModelMap map){
-        map.addAttribute("orgTrees" , organizationService.getOrgTrees());
+    public ModelAndView list(ModelMap map) {
+        map.addAttribute("orgTrees", organizationService.getOrgTrees());
         return new ModelAndView("sys/organization_list");
     }
 
-    @ApiOperation(value = "返回组织机构编辑、查看页面"  , notes = "页面", httpMethod = "GET")
+    @ApiOperation(value = "返回组织机构编辑、查看页面", notes = "页面", httpMethod = "GET")
     @GetMapping("edit")
-    public ModelAndView edit(String orgId , ModelMap map){
+    public ModelAndView edit(String orgId, ModelMap map) {
         //新增传空对象，编辑则查询数据
         ZySysOrganization organization = new ZySysOrganization();
-        if(!StringUtils.isEmpty(orgId)){
+        if (!StringUtils.isEmpty(orgId)) {
             organization = organizationService.getOrganizationById(orgId);
         }
-        map.addAttribute("org" ,organization);
+        map.addAttribute("org", organization);
         return new ModelAndView("sys/organization_edit");
     }
 
-    @ApiOperation(value = "选择组织机构树页面"  , notes = "页面", httpMethod = "GET")
+    @ApiOperation(value = "选择组织机构树页面", notes = "页面", httpMethod = "GET")
     @GetMapping("selectOrg")
-    public ModelAndView selectOrg(ModelMap map){
-        map.addAttribute("orgTrees" , organizationService.getOrgTrees());
+    public ModelAndView selectOrg(ModelMap map) {
+        map.addAttribute("orgTrees", organizationService.getOrgTrees());
         return new ModelAndView("sys/organization_select");
     }
 
 
-    @ApiOperation(value = "获取组织机构树"  , notes = "api接口", httpMethod = "POST")
+    @ApiOperation(value = "获取组织机构树", notes = "api接口", httpMethod = "POST")
     @PostMapping("getOrgTrees")
-    public List<ZySysTree> getOrgTrees(){
+    public List<ZySysTree> getOrgTrees() {
         return organizationService.getOrgTrees();
     }
 
-    @ApiOperation(value = "根据父级Id获取组织机构列表" , notes = "api接口", httpMethod = "GET")
+    @ApiOperation(value = "根据父级Id获取组织机构列表", notes = "api接口", httpMethod = "GET")
     @GetMapping("pageList")
-    public IPage<ZySysOrganization> pageList(String orgName , String parentId , int pageIndex , int pageSize){
-        Page<ZySysOrganization> page = new Page<>(pageIndex , pageSize);
+    public IPage<ZySysOrganization> pageList(String orgName, String parentId, int pageIndex, int pageSize) {
+        Page<ZySysOrganization> page = new Page<>(pageIndex, pageSize);
         ZySysOrganization organization = new ZySysOrganization();
         QueryWrapper<ZySysOrganization> wrapper = new QueryWrapper<>(organization);
         organization.setIsdel(false);
-        if(!StringUtils.isEmpty(parentId)){
+        if (!StringUtils.isEmpty(parentId)) {
             organization.setParentId(parentId);
         }
-        if(!StringUtils.isEmpty(orgName)){
-            wrapper.like("org_name" , orgName);
+        if (!StringUtils.isEmpty(orgName)) {
+            wrapper.like("org_name", orgName);
         }
-        return organizationService.page(page , wrapper);
+        return organizationService.page(page, wrapper);
     }
 
-    @ApiOperation(value = "根据Id获取组织机构" , notes = "api接口", httpMethod = "GET")
+    @ApiOperation(value = "根据Id获取组织机构", notes = "api接口", httpMethod = "GET")
     @GetMapping("getById")
-    public ZySysOrganization getById(@ApiParam(value = "组织机构Id",required = true)String orgId){
+    public ZySysOrganization getById(@ApiParam(value = "组织机构Id", required = true) String orgId) {
         return organizationService.getOrganizationById(orgId);
     }
 
-    @ApiOperation(value = "创建组织机构" , notes = "api接口", httpMethod = "POST")
+    @ApiOperation(value = "创建组织机构", notes = "api接口", httpMethod = "POST")
     @PostMapping("add")
-    public String add(@ApiParam(value = "组织机构实体") @RequestBody ZySysOrganization organization){
+    public String add(@ApiParam(value = "组织机构实体") @RequestBody ZySysOrganization organization) {
         organization.setOrgId(IdWorker.getId());
         int flag = organizationService.add(organization);
-        if(!(flag > 0)){
+        if (!(flag > 0)) {
             throw new BusinessException("操作失败，请重试");
         }
         return organization.getOrgId();
     }
 
-    @ApiOperation(value = "修改组织机构" , notes = "api接口", httpMethod = "POST")
+    @ApiOperation(value = "修改组织机构", notes = "api接口", httpMethod = "POST")
     @PostMapping("edit")
-    public boolean update(@ApiParam(value = "组织机构实体") @RequestBody ZySysOrganization organization){
-        if(StringUtils.isEmpty(organization.getOrgId()) || StringUtils.isEmpty(organization.getOrgName())){
+    public boolean update(@ApiParam(value = "组织机构实体") @RequestBody ZySysOrganization organization) {
+        if (StringUtils.isEmpty(organization.getOrgId()) || StringUtils.isEmpty(organization.getOrgName())) {
             throw new BusinessException("请传入组织Id或组织机构名称");
         }
         organization.setUpdateTime(LocalDateTime.now());
@@ -125,28 +127,28 @@ public class ZySysOrganizationController {
         return organizationService.updateById(organization);
     }
 
-    @ApiOperation(value = "删除组织机构" , notes = "api接口", httpMethod = "POST")
+    @ApiOperation(value = "删除组织机构", notes = "api接口", httpMethod = "POST")
     @PostMapping("delete")
-    public boolean delete(@ApiParam(value = "组织机构Id")String orgId){
-        if(!StringUtils.isEmpty(orgId)){
+    public boolean delete(@ApiParam(value = "组织机构Id") String orgId) {
+        if (!StringUtils.isEmpty(orgId)) {
             ZySysOrganization organization = organizationService.getById(orgId);
-            if(organization != null){
+            if (organization != null) {
                 organization.setIsdel(true);
                 organizationService.updateById(organization);
                 return true;
-            }else {
-                throw new BusinessException(ResultCodeEnum.DATA_NOTFOUND,"请传入正确的组织机构Id");
+            } else {
+                throw new BusinessException(ResultCodeEnum.DATA_NOTFOUND, "请传入正确的组织机构Id");
             }
         }
         return false;
     }
 
-    @ApiOperation(value = "批量删除组织机构" , notes = "api接口", httpMethod = "POST")
+    @ApiOperation(value = "批量删除组织机构", notes = "api接口", httpMethod = "POST")
     @PostMapping("deleteBatch")
-    public boolean deleteBatchByIds(@ApiParam(value = "组织机构Id字符串，以逗号分隔")String orgIds){
+    public boolean deleteBatchByIds(@ApiParam(value = "组织机构Id字符串，以逗号分隔") String orgIds) {
         String[] ids = orgIds.split(",");
         boolean flag = false;
-        for(int i=0; i< ids.length ; i++){
+        for (int i = 0; i < ids.length; i++) {
             flag = organizationService.deleteOrgById(ids[i]);
         }
         return flag;

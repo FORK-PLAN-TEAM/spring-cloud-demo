@@ -7,13 +7,14 @@
         table.gridtable {
             margin-top: 5px;
             width: 800px;
-            font-family: verdana,arial,sans-serif;
-            font-size:13px;
-            color:#333333;
+            font-family: verdana, arial, sans-serif;
+            font-size: 13px;
+            color: #333333;
             border-width: 1px;
             border-color: #666666;
             border-collapse: collapse;
         }
+
         table.gridtable th {
             border-width: 1px;
             padding: 8px;
@@ -21,6 +22,7 @@
             border-color: #666666;
             background-color: #dedede;
         }
+
         table.gridtable td {
             text-align: center;
             border-width: 1px;
@@ -52,7 +54,8 @@
         <td th:text="${route.routeId}">id</td>
         <td th:text="${route.routeUri}">id</td>
         <td th:text="${route.routeOrder}">id</td>
-        <td><a th:href="@{/gateway-routes/edit(id=${route.id})}">编辑</a> &nbsp; <a th:href="@{/gateway-routes/delete(id=${route.id})}">删除</a></td>
+        <td><a th:href="@{/gateway-routes/edit(id=${route.id})}">编辑</a> &nbsp; <a
+                th:href="@{/gateway-routes/delete(id=${route.id})}">删除</a></td>
     </tr>
 </table>
 </body>

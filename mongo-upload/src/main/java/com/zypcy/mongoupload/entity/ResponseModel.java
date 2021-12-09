@@ -18,6 +18,7 @@ public class ResponseModel {
 
     /**
      * 返回默认的实例
+     *
      * @return
      */
     public static ResponseModel getInstance() {

@@ -154,8 +154,8 @@ class MinioServiceApplicationTests {
 
     //生成一个给HTTP GET请求用的presigned URL。
     @Test
-    public void getPresignedObjectUrl(){
-        String url = minioService.getPresignedObjectUrl(bucketName , "75b6bbbf5db44e9ea1e5e9d469123316.txt" , 3 * 24 * 60 * 60 , Method.GET);
+    public void getPresignedObjectUrl() {
+        String url = minioService.getPresignedObjectUrl(bucketName, "75b6bbbf5db44e9ea1e5e9d469123316.txt", 3 * 24 * 60 * 60, Method.GET);
         Assert.assertNotNull(url);
         System.out.println(url);
         //http://106.52.16.101:9000/test/75b6bbbf5db44e9ea1e5e9d469123316.txt?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=xnxx%2F20201030%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20201030T030014Z&X-Amz-Expires=259200&X-Amz-SignedHeaders=host&X-Amz-Signature=ee58079bf78bee9b0bf5a5fd807a3533fe1d5c525616f8fd7df7544274385822
@@ -163,7 +163,7 @@ class MinioServiceApplicationTests {
 
     //获取对象的元数据
     @Test
-    public void statObject(){
+    public void statObject() {
         ObjectStat objectStat = minioService.statObject(bucketName, "75b6bbbf5db44e9ea1e5e9d469123316.txt");
         Assert.assertNotNull(objectStat);
         System.out.println(objectStat);
@@ -171,24 +171,24 @@ class MinioServiceApplicationTests {
 
     //文件访问路径
     @Test
-    public void getObjectUrl(){
-        System.out.println(minioService.getObjectUrl(bucketName , "75b6bbbf5db44e9ea1e5e9d469123316.txt"));
+    public void getObjectUrl() {
+        System.out.println(minioService.getObjectUrl(bucketName, "75b6bbbf5db44e9ea1e5e9d469123316.txt"));
         //http://106.52.16.101:9000/test/75b6bbbf5db44e9ea1e5e9d469123316.txt
     }
 
     //下载文件，在项目根目录
     @Test
-    public void downloadObject(){
-        String objectName =  "75b6bbbf5db44e9ea1e5e9d469123316.txt";
-        minioService.downloadObject(bucketName , objectName , objectName);
+    public void downloadObject() {
+        String objectName = "75b6bbbf5db44e9ea1e5e9d469123316.txt";
+        minioService.downloadObject(bucketName, objectName, objectName);
     }
 
     //下载文件
     @Test
-    public void downloadObject2(){
-        HttpServletResponse response =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-        String objectName =  "75b6bbbf5db44e9ea1e5e9d469123316.txt";
-        minioService.downloadObject(bucketName , objectName , response);
+    public void downloadObject2() {
+        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+        String objectName = "75b6bbbf5db44e9ea1e5e9d469123316.txt";
+        minioService.downloadObject(bucketName, objectName, response);
     }
 
 }

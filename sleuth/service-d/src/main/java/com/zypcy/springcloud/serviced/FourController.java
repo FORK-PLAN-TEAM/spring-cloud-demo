@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class FourController {
 
     @RequestMapping("/Four")
-    public String Four(){
+    public String Four() {
         System.out.println("Four...");
         return " service-d hello , end";
     }

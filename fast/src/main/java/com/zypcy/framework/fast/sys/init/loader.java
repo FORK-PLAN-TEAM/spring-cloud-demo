@@ -46,8 +46,8 @@ public class loader implements ApplicationRunner {
     /**
      * 检查登录会话信息存储方式，是本地存储还是redis存储
      */
-    public void checkSessionStickType(){
-        if(!SessionStickType.equals("local")){
+    public void checkSessionStickType() {
+        if (!SessionStickType.equals("local")) {
             InitLoaderConstant.SessionStickType = "redis";
         }
     }

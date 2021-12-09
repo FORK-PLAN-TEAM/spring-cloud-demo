@@ -103,7 +103,7 @@
         selectTreeId = treeNode.id;
         searchTable();
         //如果没有展开节点，则展开节点
-        zTree.expandNode(treeNode,true);
+        zTree.expandNode(treeNode, true);
         return false;
     }
 
@@ -153,8 +153,8 @@
             }, {
                 field: 'type', title: '类型', width: 120, sort: true
             }, {
-                field: 'name', title: '名称',width: 130, align: 'center'
-            },{
+                field: 'name', title: '名称', width: 130, align: 'center'
+            }, {
                 field: 'sort', title: '排序', width: 70, align: 'center', sort: true
             }, {
                 field: 'createTime', title: '创建时间', width: 110, align: 'center', templet: function (d) {

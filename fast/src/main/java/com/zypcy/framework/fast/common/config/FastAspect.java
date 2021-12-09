@@ -24,13 +24,14 @@ public class FastAspect {
 
     //系统框架相关控制器
     @Pointcut("execution(public * com.zypcy.framework.fast.*.controller.*.*(..))")
-    public void log(){}
+    public void log() {
+    }
 
     //统计请求的处理时间
     ThreadLocal<Long> startTime = new ThreadLocal<>();
 
     @Before("log()")
-    public void doBefore(JoinPoint joinPoint) throws Throwable{
+    public void doBefore(JoinPoint joinPoint) throws Throwable {
         startTime.set(System.currentTimeMillis());
         //接收到请求，记录请求内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -40,20 +41,20 @@ public class FastAspect {
         //System.out.println("Aspect_Method:"+request.getMethod());
         //System.out.println("IP:"+request.getRemoteAddr());
         //System.out.println("Aspect_Controller_Method:"+joinPoint.getSignature().getDeclaringTypeName()+"--"+joinPoint.getSignature().getName());
-        LogUtil.info("请求URL:"+ request.getRequestURL().toString());
-        Enumeration enu=request.getParameterNames();
+        LogUtil.info("请求URL:" + request.getRequestURL().toString());
+        Enumeration enu = request.getParameterNames();
         String params = "";
-        while(enu.hasMoreElements()){
-            String paraName=(String)enu.nextElement();
-            params += paraName+":"+request.getParameter(paraName) + ",";
+        while (enu.hasMoreElements()) {
+            String paraName = (String) enu.nextElement();
+            params += paraName + ":" + request.getParameter(paraName) + ",";
         }
-        LogUtil.info("请求参数:"+ params);
+        LogUtil.info("请求参数:" + params);
     }
 
-    @AfterReturning(returning = "ret" , pointcut = "log()")
-    public void doAfterReturning(Object ret){
+    @AfterReturning(returning = "ret", pointcut = "log()")
+    public void doAfterReturning(Object ret) {
         //处理完请求后，返回内容
         //System.out.println("方法返回值:"+ JSON.toJSONString(ret));
-        LogUtil.info("方法执行时间:"+ (System.currentTimeMillis() - startTime.get()) + "ms");
+        LogUtil.info("方法执行时间:" + (System.currentTimeMillis() - startTime.get()) + "ms");
     }
 }

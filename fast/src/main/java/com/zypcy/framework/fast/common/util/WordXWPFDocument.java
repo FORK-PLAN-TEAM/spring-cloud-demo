@@ -32,54 +32,54 @@ public class WordXWPFDocument extends XWPFDocument {
 
     /**
      * @param id
-     * @param width 宽
-     * @param height 高
-     * @param paragraph  段落
+     * @param width     宽
+     * @param height    高
+     * @param paragraph 段落
      */
-    public void createPicture(int id, int width, int height,XWPFParagraph paragraph) {
+    public void createPicture(int id, int width, int height, XWPFParagraph paragraph) {
         final int EMU = 9525;
         width *= EMU;
         height *= EMU;
         String blipId = getAllPictures().get(id).getPackageRelationship().getId();
         CTInline inline = paragraph.createRun().getCTR().addNewDrawing().addNewInline();
         String picXml = ""
-                +"<a:graphic xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\">"
-                +"   <a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">"
-                +"      <pic:pic xmlns:pic=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">"
-                +"         <pic:nvPicPr>" + "            <pic:cNvPr id=\""
+                + "<a:graphic xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\">"
+                + "   <a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">"
+                + "      <pic:pic xmlns:pic=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">"
+                + "         <pic:nvPicPr>" + "            <pic:cNvPr id=\""
                 + id
-                +"\" name=\"Generated\"/>"
-                +"            <pic:cNvPicPr/>"
-                +"         </pic:nvPicPr>"
-                +"         <pic:blipFill>"
-                +"            <a:blip r:embed=\""
+                + "\" name=\"Generated\"/>"
+                + "            <pic:cNvPicPr/>"
+                + "         </pic:nvPicPr>"
+                + "         <pic:blipFill>"
+                + "            <a:blip r:embed=\""
                 + blipId
-                +"\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>"
-                +"            <a:stretch>"
-                +"               <a:fillRect/>"
-                +"            </a:stretch>"
-                +"         </pic:blipFill>"
-                +"         <pic:spPr>"
-                +"            <a:xfrm>"
-                +"               <a:off x=\"0\" y=\"0\"/>"
-                +"               <a:ext cx=\""
+                + "\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>"
+                + "            <a:stretch>"
+                + "               <a:fillRect/>"
+                + "            </a:stretch>"
+                + "         </pic:blipFill>"
+                + "         <pic:spPr>"
+                + "            <a:xfrm>"
+                + "               <a:off x=\"0\" y=\"0\"/>"
+                + "               <a:ext cx=\""
                 + width
-                +"\" cy=\""
+                + "\" cy=\""
                 + height
-                +"\"/>"
-                +"            </a:xfrm>"
-                +"            <a:prstGeom prst=\"rect\">"
-                +"               <a:avLst/>"
-                +"            </a:prstGeom>"
-                +"         </pic:spPr>"
-                +"      </pic:pic>"
-                +"   </a:graphicData>" + "</a:graphic>";
+                + "\"/>"
+                + "            </a:xfrm>"
+                + "            <a:prstGeom prst=\"rect\">"
+                + "               <a:avLst/>"
+                + "            </a:prstGeom>"
+                + "         </pic:spPr>"
+                + "      </pic:pic>"
+                + "   </a:graphicData>" + "</a:graphic>";
 
         inline.addNewGraphic().addNewGraphicData();
         XmlToken xmlToken = null;
-        try{
+        try {
             xmlToken = XmlToken.Factory.parse(picXml);
-        }catch(XmlException xe) {
+        } catch (XmlException xe) {
             xe.printStackTrace();
         }
         inline.set(xmlToken);
@@ -95,7 +95,7 @@ public class WordXWPFDocument extends XWPFDocument {
 
         CTNonVisualDrawingProps docPr = inline.addNewDocPr();
         docPr.setId(id);
-        docPr.setName("图片"+ id);
+        docPr.setName("图片" + id);
         docPr.setDescr("测试");
     }
 

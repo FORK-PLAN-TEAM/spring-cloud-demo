@@ -35,16 +35,18 @@ public class RouteController {
         }
         return flag;
     }
+
     //删除路由
     @DeleteMapping("/routes/{id}")
     public Mono<ResponseEntity<Object>> delete(@PathVariable String id) {
         try {
             return this.dynamicRouteService.delete(id);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
+
     //更新路由
     @PostMapping("/update")
     public String update(@RequestBody GatewayRouteDefinition gwdefinition) {
@@ -59,9 +61,9 @@ public class RouteController {
         definition.setOrder(gwdefinition.getOrder());
 
         //设置断言
-        List<PredicateDefinition> pdList=new ArrayList<>();
-        List<GatewayPredicateDefinition> gatewayPredicateDefinitionList=gwdefinition.getPredicates();
-        for (GatewayPredicateDefinition gpDefinition: gatewayPredicateDefinitionList) {
+        List<PredicateDefinition> pdList = new ArrayList<>();
+        List<GatewayPredicateDefinition> gatewayPredicateDefinitionList = gwdefinition.getPredicates();
+        for (GatewayPredicateDefinition gpDefinition : gatewayPredicateDefinitionList) {
             PredicateDefinition predicate = new PredicateDefinition();
             predicate.setArgs(gpDefinition.getArgs());
             predicate.setName(gpDefinition.getName());
@@ -72,7 +74,7 @@ public class RouteController {
         //设置过滤器
         List<FilterDefinition> filters = new ArrayList();
         List<GatewayFilterDefinition> gatewayFilters = gwdefinition.getFilters();
-        for(GatewayFilterDefinition filterDefinition : gatewayFilters){
+        for (GatewayFilterDefinition filterDefinition : gatewayFilters) {
             FilterDefinition filter = new FilterDefinition();
             filter.setName(filterDefinition.getName());
             filter.setArgs(filterDefinition.getArgs());
@@ -81,9 +83,9 @@ public class RouteController {
         definition.setFilters(filters);
 
         URI uri = null;
-        if(gwdefinition.getUri().startsWith("http")){
+        if (gwdefinition.getUri().startsWith("http")) {
             uri = UriComponentsBuilder.fromHttpUrl(gwdefinition.getUri()).build().toUri();
-        }else{
+        } else {
             uri = URI.create(gwdefinition.getUri());
         }
         definition.setUri(uri);

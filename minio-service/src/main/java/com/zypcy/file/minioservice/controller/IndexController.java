@@ -25,7 +25,7 @@ public class IndexController {
     private MinioService minioService;
 
     @RequestMapping("/")
-    public String index(ModelMap map){
+    public String index(ModelMap map) {
         /*List<JSONObject> data = new ArrayList<>();
         Iterable<Result<Item>> list = minioService.listObjects("test", null , null , 10);
         list.forEach( itemResult -> {
@@ -45,12 +45,12 @@ public class IndexController {
     }
 
     @RequestMapping("/upload")
-    public String upload(){
+    public String upload() {
         return "upload";
     }
 
     @RequestMapping("/jsupload")
-    public String jsupload(){
+    public String jsupload() {
         return "jsupload";
     }
 

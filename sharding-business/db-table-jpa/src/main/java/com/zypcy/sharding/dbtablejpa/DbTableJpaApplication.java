@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class DbTableJpaApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DbTableJpaApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DbTableJpaApplication.class, args);
+    }
 
 }

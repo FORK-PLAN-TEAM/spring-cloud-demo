@@ -24,16 +24,17 @@ import java.util.stream.Collectors;
 @Service
 public class ZySysRoleMenuServiceImpl extends ServiceImpl<ZySysRoleMenuMapper, ZySysRoleMenu> implements IZySysRoleMenuService {
 
-    @Autowired ZySysRoleMenuMapper roleMenuMapper;
+    @Autowired
+    ZySysRoleMenuMapper roleMenuMapper;
 
     @Override
     public List<ZySysTree> getRoleMenus(String roleId) {
         //如果是超级管理员，可以看所有菜单
-        if("admin".equals(ContextHolder.getUserId())){
+        if ("admin".equals(ContextHolder.getUserId())) {
             return roleMenuMapper.getAdminRoleMenus(roleId);
-        }else{
+        } else {
             //返回自己角色内的菜单
-            String currentRoleIds = ContextHolder.getSysUserRoles().stream().map( role -> role.getRoleId()).collect(Collectors.joining(","));
+            String currentRoleIds = ContextHolder.getSysUserRoles().stream().map(role -> role.getRoleId()).collect(Collectors.joining(","));
             /*List<ZySysRole> roles = ContextHolder.getSysUserRoles();
             for(int i=0; i < roles.size() ; i++){
                 if(i > 0){
@@ -41,7 +42,7 @@ public class ZySysRoleMenuServiceImpl extends ServiceImpl<ZySysRoleMenuMapper, Z
                 }
                 currentRoleIds += "'"+ roles.get(i).getRoleId() + "'";
             }*/
-            return roleMenuMapper.getRoleMenus(currentRoleIds ,roleId);
+            return roleMenuMapper.getRoleMenus(currentRoleIds, roleId);
         }
     }
 

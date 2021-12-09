@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 角色菜单
+ *
  * @author zhuyu
  * @since 2019-06-14
  */
@@ -20,7 +21,7 @@ public class ZySysRoleMenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id" , type = IdType.INPUT)
+    @TableId(value = "id", type = IdType.INPUT)
     private String id;
 
     @ApiModelProperty(value = "菜单Id")

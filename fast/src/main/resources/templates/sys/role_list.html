@@ -28,7 +28,8 @@
                     </form>
                 </div>-->
                 <div class="layui-card-header">
-                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除
+                    </button>
                     <button class="layui-btn" onclick="add()"><i class="layui-icon"></i>添加角色</button>
                 </div>
                 <div class="layui-card-body">
@@ -62,11 +63,12 @@
         //加载列表 - 默认加载第一个节点数据
         initTable();
     });
+
     function initTable() {
         tableIns = new DataTable({
             elem: '#roleTable',
             url: 'sys/role/pageList', //数据接口
-            height : 'full-120',
+            height: 'full-120',
             cols: [{
                 type: 'checkbox'
             }, {
@@ -75,7 +77,7 @@
                 field: 'roleCode', title: '角色code', align: 'center'
             }, {
                 field: 'remark', title: '备注'
-            },  {
+            }, {
                 field: 'orderNum', title: '排序', width: 80, sort: true, unresize: true, align: 'center'
             }, {
                 field: 'createTime', title: '创建时间', width: 180, align: 'center', templet: function (d) {

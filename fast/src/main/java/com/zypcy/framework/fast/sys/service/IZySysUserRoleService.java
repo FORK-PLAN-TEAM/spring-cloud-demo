@@ -18,6 +18,7 @@ public interface IZySysUserRoleService extends IService<ZySysUserRole> {
 
     /**
      * 获取用户创建的角色信息
+     *
      * @param userId
      * @return
      */
@@ -25,6 +26,7 @@ public interface IZySysUserRoleService extends IService<ZySysUserRole> {
 
     /**
      * 获取用户已保存的角色信息
+     *
      * @param userId
      * @return
      */

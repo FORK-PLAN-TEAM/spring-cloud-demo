@@ -36,49 +36,50 @@ import java.util.List;
 @RequestMapping("/sys/menu")
 public class ZySysMenuController {
 
-    @Autowired private IZySysMenuService menuService;
+    @Autowired
+    private IZySysMenuService menuService;
 
-    @ApiOperation(value = "菜单列表页"  , notes = "页面", httpMethod = "GET")
+    @ApiOperation(value = "菜单列表页", notes = "页面", httpMethod = "GET")
     @GetMapping(value = "/list")
-    public ModelAndView list(ModelMap map){
+    public ModelAndView list(ModelMap map) {
         //返回菜单树集合
-        map.addAttribute("menus" , menuService.getMenuTrees());
+        map.addAttribute("menus", menuService.getMenuTrees());
         return new ModelAndView("sys/menu_list");
     }
 
-    @ApiOperation(value = "图标页"  , notes = "页面", httpMethod = "GET")
+    @ApiOperation(value = "图标页", notes = "页面", httpMethod = "GET")
     @GetMapping(value = "/icon")
-    public ModelAndView icon(){
+    public ModelAndView icon() {
         //menu_icon.html 列出了所有的图标
         return new ModelAndView("sys/menu_icon");
     }
 
-    @ApiOperation(value = "选择菜单树页"  , notes = "页面", httpMethod = "GET")
+    @ApiOperation(value = "选择菜单树页", notes = "页面", httpMethod = "GET")
     @GetMapping(value = "/selectMenu")
-    public ModelAndView selectMenu(ModelMap map){
+    public ModelAndView selectMenu(ModelMap map) {
         //返回菜单树集合
-        map.addAttribute("menus" , menuService.getMenuTrees());
+        map.addAttribute("menus", menuService.getMenuTrees());
         return new ModelAndView("sys/menu_select");
     }
 
-    @ApiOperation(value = "获取所有菜单树"  , notes = "api接口", httpMethod = "POST")
+    @ApiOperation(value = "获取所有菜单树", notes = "api接口", httpMethod = "POST")
     @PostMapping(value = "/getMenuTrees")
-    public List<ZySysTree> getMenuTrees(){
+    public List<ZySysTree> getMenuTrees() {
         return menuService.getMenuTrees();
     }
 
-    @ApiOperation(value = "根据Id获取菜单信息"  , notes = "api接口", httpMethod = "GET")
+    @ApiOperation(value = "根据Id获取菜单信息", notes = "api接口", httpMethod = "GET")
     @GetMapping(value = "/getById")
-    public ZySysMenu getById(@ApiParam(value = "菜单Id")String menuId){
+    public ZySysMenu getById(@ApiParam(value = "菜单Id") String menuId) {
         ZySysMenu menu = new ZySysMenu();
         menu.setMenuId(menuId);
         menu.setIsdel(false);
         return menuService.getOne(new QueryWrapper<>(menu));
     }
 
-    @ApiOperation(value = "新增菜单"  , notes = "api接口", httpMethod = "POST")
+    @ApiOperation(value = "新增菜单", notes = "api接口", httpMethod = "POST")
     @PostMapping(value = "/add")
-    public String add(@ApiParam(value = "菜单实体")@RequestBody ZySysMenu menu){
+    public String add(@ApiParam(value = "菜单实体") @RequestBody ZySysMenu menu) {
         String menuId = IdWorker.getId();
         menu.setMenuId(menuId);
         menu.setIsdel(false);
@@ -92,10 +93,10 @@ public class ZySysMenuController {
         return menuId;
     }
 
-    @ApiOperation(value = "编辑菜单"  , notes = "api接口", httpMethod = "POST")
+    @ApiOperation(value = "编辑菜单", notes = "api接口", httpMethod = "POST")
     @PostMapping(value = "/edit")
-    public boolean edit(@ApiParam(value = "菜单实体")@RequestBody ZySysMenu menu){
-        if(StringUtils.isEmpty(menu.getMenuId()) || StringUtils.isEmpty(menu.getMenuName())){
+    public boolean edit(@ApiParam(value = "菜单实体") @RequestBody ZySysMenu menu) {
+        if (StringUtils.isEmpty(menu.getMenuId()) || StringUtils.isEmpty(menu.getMenuName())) {
             throw new BusinessException("请传入菜单Id或菜单名称");
         }
         menu.setUpdateTime(LocalDateTime.now());
@@ -104,10 +105,10 @@ public class ZySysMenuController {
         return menuService.updateById(menu);
     }
 
-    @ApiOperation(value = "删除菜单"  , notes = "api接口", httpMethod = "POST")
+    @ApiOperation(value = "删除菜单", notes = "api接口", httpMethod = "POST")
     @PostMapping(value = "/del")
-    public boolean del(@ApiParam(value = "菜单Id",required = true)String menuId){
-        if(StringUtils.isEmpty(menuId)){
+    public boolean del(@ApiParam(value = "菜单Id", required = true) String menuId) {
+        if (StringUtils.isEmpty(menuId)) {
             throw new BusinessException("请传入菜单Id");
         }
         ZySysMenu menu = menuService.getById(menuId);

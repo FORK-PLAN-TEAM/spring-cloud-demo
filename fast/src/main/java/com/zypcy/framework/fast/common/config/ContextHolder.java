@@ -36,12 +36,13 @@ public class ContextHolder {
     /**
      * 移除用户信息，防止内存泄露
      */
-    public static void remove(){
+    public static void remove() {
         userInfo.remove();
     }
 
     /**
      * 获取当前登录用户信息
+     *
      * @return
      */
     public static ZySysUser getSysUser() {
@@ -55,9 +56,10 @@ public class ContextHolder {
 
     /**
      * 获取当前登录用户的角色信息
+     *
      * @return
      */
-    public static List<ZySysRole> getSysUserRoles(){
+    public static List<ZySysRole> getSysUserRoles() {
         ZySysLoginInfo userInfo = getUserInfo();
         if (userInfo != null && userInfo.getUserRoles() != null) {
             return userInfo.getUserRoles();

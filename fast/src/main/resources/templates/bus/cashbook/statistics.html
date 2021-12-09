@@ -17,17 +17,20 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label">开始日期</label>
                                 <div class="layui-input-inline">
-                                    <input class="layui-input"  autocomplete="off" placeholder="开始日期" name="startTime" id="startTime">
+                                    <input class="layui-input" autocomplete="off" placeholder="开始日期" name="startTime"
+                                           id="startTime">
                                 </div>
                             </div>
                             <div class="layui-inline">
                                 <label class="layui-form-label">截止日期</label>
                                 <div class="layui-input-inline">
-                                    <input class="layui-input"  autocomplete="off" placeholder="截止日期" name="endTime" id="endTime">
+                                    <input class="layui-input" autocomplete="off" placeholder="截止日期" name="endTime"
+                                           id="endTime">
                                 </div>
                             </div>
                             <div class="layui-inline">
-                                <button class="layui-btn"  lay-submit="" lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
+                                <button class="layui-btn" lay-submit="" lay-filter="search"><i class="layui-icon">&#xe615;</i>
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -35,18 +38,18 @@
                 <div class="layui-card-body padding20">
                     <table class="layui-table layui-form">
                         <thead>
-                            <tr>
-                                <th style="text-align: center;">收入</th>
-                                <th style="text-align: center;">支出</th>
-                                <th style="text-align: center;">结余</th>
-                            </tr>
+                        <tr>
+                            <th style="text-align: center;">收入</th>
+                            <th style="text-align: center;">支出</th>
+                            <th style="text-align: center;">结余</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td align="center" id="shouru">0</td>
-                                <td align="center" id="zhichu">0</td>
-                                <td align="center" id="jieyu">0</td>
-                            </tr>
+                        <tr>
+                            <td align="center" id="shouru">0</td>
+                            <td align="center" id="zhichu">0</td>
+                            <td align="center" id="jieyu">0</td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -56,7 +59,7 @@
 </div>
 <script type="text/javascript" th:replace="template/sys_header :: footer"></script>
 <script type="text/javascript" th:inline="javascript">
-    var table = layui.table, $ = layui.jquery , form = layui.form , laydate = layui.laydate;
+    var table = layui.table, $ = layui.jquery, form = layui.form, laydate = layui.laydate;
     $(function () {
         //执行一个laydate实例
         laydate.render({
@@ -87,17 +90,17 @@
     function loadData() {
         var startTime = getById("startTime").value;
         var endTime = getById("endTime").value;
-        if(startTime == ""){
+        if (startTime == "") {
             layer.alert("请选择开始时间", {icon: 2})
             return false;
         }
-        if(endTime == ""){
+        if (endTime == "") {
             layer.alert("请选择截止时间", {icon: 2})
             return false;
         }
         new AjaxRequest({
             type: "POST",
-            url: webroot + "bus/cashbook/getTimeSlotAmount?startTime="+startTime + "&endTime=" + endTime,
+            url: webroot + "bus/cashbook/getTimeSlotAmount?startTime=" + startTime + "&endTime=" + endTime,
             //data : JSON.stringify({startTime : startTime ,endTime : endTime }) ,
             isShowLoader: true,
             success: function (res) {

@@ -19,7 +19,7 @@ public class PersonServiceImpl extends MongoDaoSupport<Person> implements Person
 
     @Override
     public String add(Person person) {
-        if(StringUtils.isEmpty(person.getName())){
+        if (StringUtils.isEmpty(person.getName())) {
             return "fail";
         }
         super.save(person);
@@ -35,11 +35,11 @@ public class PersonServiceImpl extends MongoDaoSupport<Person> implements Person
 
     @Override
     public long update(Person person) {
-        return super.updateById(person.getId() , person).getModifiedCount();
+        return super.updateById(person.getId(), person).getModifiedCount();
     }
 
     @Override
-    public Person getById(String id){
+    public Person getById(String id) {
         Person person = super.getById(id);
         return person;
     }
@@ -50,7 +50,7 @@ public class PersonServiceImpl extends MongoDaoSupport<Person> implements Person
     }
 
     @Override
-    public List<Person> listPage(Person person , Page page){
-        return super.listPage(person , page);
+    public List<Person> listPage(Person person, Page page) {
+        return super.listPage(person, page);
     }
 }

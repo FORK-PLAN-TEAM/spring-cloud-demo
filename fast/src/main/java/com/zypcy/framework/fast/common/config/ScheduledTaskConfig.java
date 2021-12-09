@@ -20,7 +20,7 @@ public class ScheduledTaskConfig implements SchedulingConfigurer {
         scheduledTaskRegistrar.setScheduler(taskSchedulingExecutor());
     }
 
-    @Bean(destroyMethod="shutdown")
+    @Bean(destroyMethod = "shutdown")
     public Executor taskSchedulingExecutor() {
         //指定线程池大小，可根据定时任务多少进行配置，这样的话，定时任务之间就不会相互影响
         return Executors.newScheduledThreadPool(4);

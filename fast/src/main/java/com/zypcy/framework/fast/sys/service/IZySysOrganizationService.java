@@ -24,6 +24,7 @@ public interface IZySysOrganizationService extends IService<ZySysOrganization> {
 
     /**
      * 获取组织机构树
+     *
      * @return
      */
     List<ZySysTree> getOrgTrees();

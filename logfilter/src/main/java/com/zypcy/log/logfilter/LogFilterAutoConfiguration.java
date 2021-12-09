@@ -11,12 +11,12 @@ import org.springframework.context.annotation.Configuration;
  * ConditionalOnMissingBean声明：只有在当前Spring上下文中不存在某个对象时才创建Bean，并注入到Spring上下文中
  */
 @Configuration
-@ConditionalOnClass({LogFilterRegistrationBean.class , LogFilter.class})
+@ConditionalOnClass({LogFilterRegistrationBean.class, LogFilter.class})
 public class LogFilterAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(LogFilterRegistrationBean.class)
-    public LogFilterRegistrationBean logFilterRegistrationBean(){
+    public LogFilterRegistrationBean logFilterRegistrationBean() {
         return new LogFilterRegistrationBean();
     }
 

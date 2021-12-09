@@ -7,7 +7,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
  */
 public class LogFilterRegistrationBean extends FilterRegistrationBean<LogFilter> {
 
-    public LogFilterRegistrationBean(){
+    public LogFilterRegistrationBean() {
         super();
         this.setFilter(new LogFilter());//添加LogFilter过滤器
         this.addUrlPatterns("/*");

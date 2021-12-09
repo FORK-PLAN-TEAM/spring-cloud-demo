@@ -2,16 +2,19 @@
 <html>
 <head>
     <title>您访问的页面发生错误</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
 
     <style>
-        .error404-body-con{width: 700px;
+        .error404-body-con {
+            width: 700px;
             height: 500px;
             position: absolute;
             left: 50%;
             top: 47%;
-            transform: translate(-50%,-50%);
+            transform: translate(-50%, -50%);
         }
+
         .el-card {
             border: 1px solid #ebeef5;
             background-color: #fff;
@@ -19,19 +22,24 @@
             -webkit-transition: .3s;
             transition: .3s;
         }
+
         .box-card {
 
         }
-        .is-always-shadow{
-            box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+
+        .is-always-shadow {
+            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
         }
+
         .el-card, .el-message {
             border-radius: 4px;
             overflow: hidden;
         }
+
         .box-card .el-card__body {
             padding: 20px 20px 0;
         }
+
         .error404-body-con-title[data-v-2eb098b8] {
             text-align: center;
             font-size: 240px;
@@ -41,6 +49,7 @@
             line-height: 260px;
             margin-top: 40px;
         }
+
         .error404-body-con-message[data-v-2eb098b8] {
             display: block;
             text-align: center;
@@ -49,24 +58,28 @@
             letter-spacing: 12px;
             color: #dddde2;
         }
+
         .error404-btn-con[data-v-2eb098b8] {
             text-align: center;
             padding: 20px 0;
             margin-bottom: 40px;
         }
+
         .error404-body-con-title span[data-v-2eb098b8] {
             display: inline-block;
             color: #19be6b;
             font-size: 230px;
             animation: error404animation-data-v-2eb098b8 3s ease 0s infinite alternate;
-            -webkit-animation:error404animation-data-v-2eb098b8 3s ease 0s infinite alternate;
+            -webkit-animation: error404animation-data-v-2eb098b8 3s ease 0s infinite alternate;
         }
+
         .el-button--text {
             color: #409EFF;
             background: 0 0;
             padding-left: 0;
             padding-right: 0;
         }
+
         .el-button {
             width: 200px;
             display: inline-block;
@@ -89,25 +102,73 @@
             font-size: 14px;
             border-radius: 4px;
         }
+
         .el-button--primary {
             color: #fff;
             background-color: #409EFF;
             border-color: #409EFF;
         }
-        @keyframes error404animation-data-v-2eb098b8{0%{transform:rotate(0deg)}20%{transform:rotate(-60deg)}40%{transform:rotate(-10deg)}60%{transform:rotate(50deg)}80%{transform:rotate(-20deg)}to{transform:rotate(0deg)}}.error404-body-con[data-v-2eb098b8]{width:700px;height:500px;position:absolute;left:50%;top:47%;transform:translate(-50%,-50%)}.error404-body-con-title[data-v-2eb098b8]{text-align:center;font-size:240px;font-weight:700;color:#2d8cf0;height:260px;line-height:260px;margin-top:40px}.error404-body-con-title span[data-v-2eb098b8]{display:inline-block;color:#19be6b;font-size:230px;animation:error404animation-data-v-2eb098b8 3s ease 0s infinite alternate}
+
+        @keyframes error404animation-data-v-2eb098b8 {
+            0% {
+                transform: rotate(0deg)
+            }
+            20% {
+                transform: rotate(-60deg)
+            }
+            40% {
+                transform: rotate(-10deg)
+            }
+            60% {
+                transform: rotate(50deg)
+            }
+            80% {
+                transform: rotate(-20deg)
+            }
+            to {
+                transform: rotate(0deg)
+            }
+        }
+
+        .error404-body-con[data-v-2eb098b8] {
+            width: 700px;
+            height: 500px;
+            position: absolute;
+            left: 50%;
+            top: 47%;
+            transform: translate(-50%, -50%)
+        }
+
+        .error404-body-con-title[data-v-2eb098b8] {
+            text-align: center;
+            font-size: 240px;
+            font-weight: 700;
+            color: #2d8cf0;
+            height: 260px;
+            line-height: 260px;
+            margin-top: 40px
+        }
+
+        .error404-body-con-title span[data-v-2eb098b8] {
+            display: inline-block;
+            color: #19be6b;
+            font-size: 230px;
+            animation: error404animation-data-v-2eb098b8 3s ease 0s infinite alternate
+        }
 
 
         /*当屏幕大于320px，并小于1156px时执行下面的css*/
-        @media screen and (min-width: 250px) and (max-width: 600px){
+        @media screen and (min-width: 250px) and (max-width: 600px) {
 
-            .error404-body-con{
+            .error404-body-con {
                 width: 350px !important;
                 height: 300px;
                 position: absolute;
                 left: 50%;
                 top: 47%;
-                transform: translate(-50%,-50%);
+                transform: translate(-50%, -50%);
             }
+
             .el-card {
                 border: 1px solid #ebeef5;
                 background-color: #fff;
@@ -115,19 +176,24 @@
                 -webkit-transition: .3s;
                 transition: .3s;
             }
+
             .box-card {
 
             }
-            .is-always-shadow{
-                box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+
+            .is-always-shadow {
+                box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
             }
+
             .el-card, .el-message {
                 border-radius: 4px;
                 overflow: hidden;
             }
+
             .box-card .el-card__body {
                 padding: 20px 20px 0;
             }
+
             .error404-body-con-title[data-v-2eb098b8] {
                 text-align: center;
                 font-size: 130px;
@@ -137,6 +203,7 @@
                 line-height: 240px;
                 margin-top: 40px;
             }
+
             .error404-body-con-message[data-v-2eb098b8] {
                 display: block;
                 text-align: center;
@@ -145,24 +212,28 @@
                 letter-spacing: 8px;
                 color: #dddde2;
             }
+
             .error404-btn-con[data-v-2eb098b8] {
                 text-align: center;
                 padding: 20px 0;
                 margin-bottom: 40px;
             }
+
             .error404-body-con-title span[data-v-2eb098b8] {
                 display: inline-block;
                 color: #19be6b;
                 font-size: 130px;
                 animation: error404animation-data-v-2eb098b8 3s ease 0s infinite alternate;
-                -webkit-animation:error404animation-data-v-2eb098b8 3s ease 0s infinite alternate;
+                -webkit-animation: error404animation-data-v-2eb098b8 3s ease 0s infinite alternate;
             }
+
             .el-button--text {
                 color: #409EFF;
                 background: 0 0;
                 padding-left: 0;
                 padding-right: 0;
             }
+
             .el-button {
                 width: 125px;
                 display: inline-block;
@@ -185,6 +256,7 @@
                 font-size: 14px;
                 border-radius: 4px;
             }
+
             .el-button--primary {
                 color: #fff;
                 background-color: #409EFF !important;
@@ -220,8 +292,11 @@
             <!--<p data-v-2eb098b8="" class="error404-body-con-message">YOU&nbsp;&nbsp;LOOK&nbsp;&nbsp;LOST</p>-->
             <p style="text-align: center">[[${message}]]</p>
             <div data-v-2eb098b8="" class="error404-btn-con">
-                <button data-v-2eb098b8="" type="button" class="el-button el-button--text el-button--large" onclick="window.location.href='/sys/main'"><!----><!----><span>返回首页</span></button>
-                <button data-v-2eb098b8="" type="button" class="el-button el-button--primary el-button--large" style="margin-left: 40px;" onclick="window.history.back()"><!----><!----><span>返回上一页</span></button>
+                <button data-v-2eb098b8="" type="button" class="el-button el-button--text el-button--large"
+                        onclick="window.location.href='/sys/main'"><!----><!----><span>返回首页</span></button>
+                <button data-v-2eb098b8="" type="button" class="el-button el-button--primary el-button--large"
+                        style="margin-left: 40px;" onclick="window.history.back()"><!----><!----><span>返回上一页</span>
+                </button>
             </div>
         </div>
     </div>

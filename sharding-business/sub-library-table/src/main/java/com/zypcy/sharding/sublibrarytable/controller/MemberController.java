@@ -17,12 +17,12 @@ public class MemberController {
     private IMemberService memberService;
 
     @RequestMapping("/add")
-    public Member add(){
+    public Member add() {
         Member member = new Member();
         //member.setMemberId(IdWorker.getLongId());
         member.setMemberName("张三");
         member.setNickName("闪耀的瞬间");
-        member.setAccountNo(member.getMemberId()+"");
+        member.setAccountNo(member.getMemberId() + "");
         member.setPassword("123465");
         member.setAge(27);
         member.setBirthDate(new Date());
@@ -36,12 +36,12 @@ public class MemberController {
     }
 
     @RequestMapping("/findById")
-    public Member findById(Long memberId){
+    public Member findById(Long memberId) {
         return memberService.selectByPrimaryKey(memberId);
     }
 
     @RequestMapping("/delete")
-    public String delete(Long memberId){
+    public String delete(Long memberId) {
         memberService.deleteByPrimaryKey(memberId);
         return "success";
     }

@@ -29,7 +29,9 @@
         <div class="layui-col-sm5">
             <input type="text" id="orgName" autocomplete="" disabled="disabled" class="layui-input disabled">
             <div style="position: absolute;right: 0;z-index: 1;top: 0;">
-                <button type="button" onclick="xadmin.open('选择组织','/sys/organization/selectOrg',600, 650)" class="layui-btn layui-btn-normal">选择组织</button>
+                <button type="button" onclick="xadmin.open('选择组织','/sys/organization/selectOrg',600, 650)"
+                        class="layui-btn layui-btn-normal">选择组织
+                </button>
             </div>
         </div>
     </div>
@@ -38,7 +40,7 @@
             <span class="x-red">*</span>用户编号
         </div>
         <div class="layui-col-sm5">
-            <input type="text" id="userCode" name="userCode" lay-verify="required"  autocomplete="" class="layui-input">
+            <input type="text" id="userCode" name="userCode" lay-verify="required" autocomplete="" class="layui-input">
         </div>
     </div>
     <div class="layui-row margintop10">
@@ -46,7 +48,8 @@
             <span class="x-red">*</span>手机号码
         </div>
         <div class="layui-col-sm5">
-            <input type="text" id="cellPhone" name="cellPhone" lay-verify="required"  autocomplete="" class="layui-input">
+            <input type="text" id="cellPhone" name="cellPhone" lay-verify="required" autocomplete=""
+                   class="layui-input">
         </div>
     </div>
     <div class="layui-row margintop10">
@@ -54,16 +57,17 @@
             <span class="x-red">*</span>登录帐号
         </div>
         <div class="layui-col-sm5">
-            <input type="text" id="userAccount" name="userAccount" lay-verify="required" autocomplete="" class="layui-input">
+            <input type="text" id="userAccount" name="userAccount" lay-verify="required" autocomplete=""
+                   class="layui-input">
         </div>
     </div>
     <!--<div class="layui-row margintop10">-->
-        <!--<div class="layui-col-sm2 layui-row-label">-->
-            <!--<span class="x-red">*</span>登录密码-->
-        <!--</div>-->
-        <!--<div class="layui-col-sm5">-->
-            <!--<input type="password" id="userPwd" name="userPwd" lay-verify="required" autocomplete="" class="layui-input">-->
-        <!--</div>-->
+    <!--<div class="layui-col-sm2 layui-row-label">-->
+    <!--<span class="x-red">*</span>登录密码-->
+    <!--</div>-->
+    <!--<div class="layui-col-sm5">-->
+    <!--<input type="password" id="userPwd" name="userPwd" lay-verify="required" autocomplete="" class="layui-input">-->
+    <!--</div>-->
     <!--</div>-->
     <div class="layui-row margintop10">
         <div class="layui-col-sm2 layui-row-label">
@@ -92,7 +96,8 @@
         </div>
         <div class="layui-col-sm5">
             <!--多选select-->
-            <select name="roleIds" id="roleIds" lay-verify="required" lay-search="" lay-filter="roleIds" xm-select="roleIds" xm-select-skin="normal">
+            <select name="roleIds" id="roleIds" lay-verify="required" lay-search="" lay-filter="roleIds"
+                    xm-select="roleIds" xm-select-skin="normal">
                 <option value="">请选择角色</option>
                 <option th:each="role: ${roles}" th:text="${role.roleName}" th:value="${role.roleId}"></option>
                 <!--<option value="1">layer</option>
@@ -132,7 +137,8 @@
 <script type="text/javascript" th:replace="template/sys_header :: footer"></script>
 <script type="text/javascript" th:inline="javascript">
 
-    var table = layui.table, $ = layui.jquery, form = layui.form , formSelects = layui.formSelects;;
+    var table = layui.table, $ = layui.jquery, form = layui.form, formSelects = layui.formSelects;
+    ;
     var orgId = queryString("orgId");
     var orgName = decodeURIComponent(queryString("orgName"));
     var user = [[${user}]];//组织机构信息
@@ -141,14 +147,14 @@
     console.log(user);
     getById("orgName").value = orgName;
     getById("orgId").value = orgId;
-    if(user && user.userId){
+    if (user && user.userId) {
         isEdit = true;//编辑
         form.val('form1', {
-            "userId" : user.userId,
+            "userId": user.userId,
             "orgId": user.orgId,
             "userName": user.userName,
             "userCode": user.userCode,
-            "cellPhone" : user.cellPhone,
+            "cellPhone": user.cellPhone,
             "userAccount": user.userAccount,
             // "userPwd": user.userPwd,
             "orderNum": user.orderNum
@@ -171,7 +177,7 @@
         }
 
         //编辑时反选用户已拥有的角色
-        if(userRoleIds){
+        if (userRoleIds) {
             //layui.formSelects.value('roleIds', ["639015815203028992","1"]);
             layui.formSelects.value('roleIds', userRoleIds);
         }
@@ -184,9 +190,9 @@
             //console.log(layui.formSelects.value('roleIds', 'val'));
             console.log(data.field);
             //发异步，数据提交
-            if(isEdit){
+            if (isEdit) {
                 edit(data.field);
-            }else{
+            } else {
                 add(data.field);
             }
             return false;
@@ -246,7 +252,7 @@
     }
 
     //子窗体选择组织机构后调用此方法
-    function selectOrg(orgId , orgName) {
+    function selectOrg(orgId, orgName) {
         getById("orgId").value = orgId;
         getById("orgName").value = orgName;
     }

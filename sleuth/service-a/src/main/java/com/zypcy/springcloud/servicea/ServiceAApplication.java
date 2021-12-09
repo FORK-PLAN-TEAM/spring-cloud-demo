@@ -12,14 +12,14 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class ServiceAApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ServiceAApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ServiceAApplication.class, args);
+    }
 
-	@Bean
+    @Bean
     @LoadBalanced
-	public RestTemplate restTemplate(){
-	    return new RestTemplate();
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 }
 

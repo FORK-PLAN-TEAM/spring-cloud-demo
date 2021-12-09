@@ -7,7 +7,7 @@ import java.util.List;
  * word 表格内容参数
  * zhuyu
  */
-public class WordTableParam extends WordBaseParam{
+public class WordTableParam extends WordBaseParam {
 
     /**
      * 表格行高
@@ -48,17 +48,19 @@ public class WordTableParam extends WordBaseParam{
 
     /**
      * 表格行数 = 表格内容 + 表头(1行)
+     *
      * @return
      */
-    public int getRows(){
+    public int getRows() {
         return values.size() + 1;
     }
 
     /**
      * 表格列数
+     *
      * @return
      */
-    public int getCols(){
+    public int getCols() {
         return header.length;
     }
 

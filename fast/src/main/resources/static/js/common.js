@@ -8,7 +8,7 @@ function getById(id) {
 
 //是否是string类型
 function isString(s) {
-    return typeof( s ) == "string";
+    return typeof (s) == "string";
 };
 
 //取url参数
@@ -26,8 +26,8 @@ function queryString(name) {
 // JS生成UUID
 //此函数生成16位UUID样式为af22-3fa8-4028-8dea-30a2
 function getUUID() {
-    return 'xxxx-xxxx-xxxx-xxxx-xxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+    return 'xxxx-xxxx-xxxx-xxxx-xxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
 }
@@ -44,36 +44,37 @@ function getUUID() {
         }
     });
  */
-(function(){
-    function AjaxRequest(opts){
-        this.type         = opts.type || "get";
-        this.url          = opts.url;
-        this.data        = opts.data || {};
+(function () {
+    function AjaxRequest(opts) {
+        this.type = opts.type || "get";
+        this.url = opts.url;
+        this.data = opts.data || {};
         this.isShowLoader = opts.isShowLoader || false;
-        this.success      = opts.success;
-        this.error        = opts.error;
+        this.success = opts.success;
+        this.error = opts.error;
         this.init();
     }
+
     var layIndex = 0;
     AjaxRequest.prototype = {
         //初始化
-        init: function(){
+        init: function () {
             this.sendRequest();
         },
         //渲染loader
-        showLoader: function(){
-            if(this.isShowLoader){
+        showLoader: function () {
+            if (this.isShowLoader) {
                 layIndex = layer.load(2);
             }
         },
         //隐藏loader
-        hideLoader: function(){
-            if(this.isShowLoader){
+        hideLoader: function () {
+            if (this.isShowLoader) {
                 layer.close(layIndex);
             }
         },
         //发送请求
-        sendRequest: function(){
+        sendRequest: function () {
             var self = this;
             $.ajax({
                 type: this.type,
@@ -82,15 +83,15 @@ function getUUID() {
                 contentType: 'application/json',
                 dataType: 'json',
                 beforeSend: this.showLoader(),
-                timeout : 5000 ,
-                success: function(res){
+                timeout: 5000,
+                success: function (res) {
                     self.hideLoader();
                     if (res != null && res != "") {
-                        if(self.success){
+                        if (self.success) {
                             //Object.prototype.toString.call方法--精确判断对象的类型
                             if (Object.prototype.toString.call(self.success) === "[object Function]") {
                                 self.success(res);
-                            }else{
+                            } else {
                                 console.log("callBack is not a function");
                             }
                         }
@@ -100,16 +101,16 @@ function getUUID() {
                     //console.log(xhr);
                     //console.log("error:" + JSON.stringify(xhr) + "\n" + type + "\n" + errorThrown);
                     self.hideLoader();
-                    if(self.error){
+                    if (self.error) {
                         if (Object.prototype.toString.call(self.error) === "[object Function]") {
                             self.error(xhr, type, errorThrown);
-                        }else{
+                        } else {
                             console.log("callBack is not a function");
                         }
                     }
                     //服务端返回主页，表明token失效
                     var responseURL = xhr.responseURL;
-                    if(responseURL == "http://localhost:8088/" || responseURL == "https://www.zypcy.cn/"){
+                    if (responseURL == "http://localhost:8088/" || responseURL == "https://www.zypcy.cn/") {
                         delCookie("token");
                     }
                 }
@@ -155,8 +156,9 @@ function setCookie(key, value) {
     var cookie = key + "=" + encodeURIComponent(value) + "; expires=" + exp.toUTCString() + "; path=/";
     window.document.cookie = cookie;
 }
+
 //过期时间，以小时为单位
-function setCookie(key, value , time) {
+function setCookie(key, value, time) {
     var exp = new Date();
     exp.setTime(exp.getTime() + (1000 * 60 * 60 * time)); // 过期时间time小时
     var cookie = key + "=" + encodeURIComponent(value) + "; expires=" + exp.toUTCString() + "; path=/";
@@ -211,7 +213,7 @@ function zy(opts) {
  * @param selectElemId   select标签的Id
  * @param dictId         可选填，业务保存字典的值，用来反选，
  */
-function getDictByPId(parentId , selectElemId , dictId) {
+function getDictByPId(parentId, selectElemId, dictId) {
     new AjaxRequest({
         type: "GET",
         url: webroot + "sys/dict/getByParentId?parentId=" + parentId,
@@ -221,16 +223,16 @@ function getDictByPId(parentId , selectElemId , dictId) {
             if (res) {
                 if (res.resultCode == "0000" && res.resultObj) {
                     var optStr = '<option value="">请选择或搜索选择</option>';
-                    for(var i=0; i < res.resultObj.length; i++){
+                    for (var i = 0; i < res.resultObj.length; i++) {
                         var dict = res.resultObj[i];
                         var selected = "";
-                        if(dictId && dictId != ""){
+                        if (dictId && dictId != "") {
                             selected = dict.id == dictId ? "selected" : " "
                         }
-                        optStr += '<option value="'+dict.id+'" '+selected+'>'+dict.name+'</option>';
+                        optStr += '<option value="' + dict.id + '" ' + selected + '>' + dict.name + '</option>';
                     }
                     $("#" + selectElemId).append(optStr);
-                    if(typeof(form) != "undefined"){
+                    if (typeof (form) != "undefined") {
                         form.render();
                     }
                 } else {
@@ -253,10 +255,10 @@ function wxlogin(okCallBack) {
         password: '',  // 默认密码
         onOK: function (username, password) {
             //点击确认，登录
-            if(username == ""){
+            if (username == "") {
                 return false;
             }
-            if(password == ""){
+            if (password == "") {
                 return false;
             }
             $.showLoading("正在登录");
@@ -274,10 +276,10 @@ function wxlogin(okCallBack) {
                     if (res) {
                         if (res.resultCode == "0000" && res.resultObj != "") {
                             delCookie("token")
-                            setCookie("token", res.resultObj , 24 * 30);//token 存储30天
+                            setCookie("token", res.resultObj, 24 * 30);//token 存储30天
                             //window.location.href = "/sys/main";
                             $.closeModal();
-                            if(okCallBack){
+                            if (okCallBack) {
                                 return okCallBack();
                             }
                         } else {
@@ -297,12 +299,13 @@ function wxlogin(okCallBack) {
 //wx端存储用户信息
 function wxSetUserInfo(userInfo) {
     var info = JSON.stringify(userInfo);
-    localStorage.setItem('userInfo',Base64.encode(info));
+    localStorage.setItem('userInfo', Base64.encode(info));
 }
+
 //wx端获取用户信息
 function wxGetUserInfo() {
     var info = localStorage.getItem('userInfo');
-    if(info && info != ""){
+    if (info && info != "") {
         var userInfo = JSON.parse(Base64.decode(info));
         return userInfo;
     }

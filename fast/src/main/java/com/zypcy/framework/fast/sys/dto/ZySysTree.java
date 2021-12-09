@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 
 @ApiModel(value = "ZySysTree对象", description = "树对象")
-public class ZySysTree implements Serializable{
+public class ZySysTree implements Serializable {
 
     @ApiModelProperty(value = "id")
     private String id;

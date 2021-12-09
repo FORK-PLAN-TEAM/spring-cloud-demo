@@ -13,13 +13,13 @@ public class IndexController {
 
     @ApiOperation(value = "检查系统是否健康", notes = "返回health表示系统健康", httpMethod = "GET")
     @RequestMapping("/health")
-    public String health(){
+    public String health() {
         return "success";
     }
 
     //系统首页
     @GetMapping("/")
-    public ModelAndView index(){
+    public ModelAndView index() {
         return new ModelAndView("index");
     }
 }

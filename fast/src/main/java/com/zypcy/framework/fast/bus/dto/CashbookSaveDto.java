@@ -16,7 +16,7 @@ import java.util.Date;
  */
 public class CashbookSaveDto {
 
-    @TableId(value = "cash_id" , type = IdType.INPUT)
+    @TableId(value = "cash_id", type = IdType.INPUT)
     @ApiModelProperty(value = "账目Id")
     private String cashId;
 

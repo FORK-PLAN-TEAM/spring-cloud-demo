@@ -27,7 +27,8 @@
             <span class="x-red">*</span>入账时间
         </div>
         <div class="layui-col-sm5">
-            <input type="text" id="recordTime" name="recordTime" lay-verify="required" autocomplete="" class="layui-input">
+            <input type="text" id="recordTime" name="recordTime" lay-verify="required" autocomplete=""
+                   class="layui-input">
         </div>
         <div class="layui-form-mid layui-word-aux" style="margin-left: 5px;">
             <span class="x-red">*</span>请输入记录入账时间
@@ -51,7 +52,8 @@
             <span class="x-red">*</span>账目金额
         </div>
         <div class="layui-col-sm5">
-            <input type="text" id="amount" name="amount" lay-verify="required|number" autocomplete="" class="layui-input">
+            <input type="text" id="amount" name="amount" lay-verify="required|number" autocomplete=""
+                   class="layui-input">
         </div>
         <div class="layui-form-mid layui-word-aux" style="margin-left: 5px;">
             <span class="x-red">*</span>单位元
@@ -84,26 +86,26 @@
 </form>
 <script type="text/javascript" th:replace="template/sys_header :: footer"></script>
 <script type="text/javascript" th:inline="javascript">
-    var $ = layui.jquery, form = layui.form , laydate = layui.laydate;
+    var $ = layui.jquery, form = layui.form, laydate = layui.laydate;
     var cashbook = [[${cashbook}]];//角色信息
     var isEdit = false;//默认不是编辑模式
     console.log(cashbook);
-    if(cashbook && cashbook.cashId){
+    if (cashbook && cashbook.cashId) {
         isEdit = true;//编辑
         form.val('form1', {
-            "cashId" : cashbook.cashId,
+            "cashId": cashbook.cashId,
             "cashType": cashbook.cashType,
             "recordTime": cashbook.recordTime,
-            "dictId" : cashbook.dictId,
+            "dictId": cashbook.dictId,
             "cashCategory": cashbook.cashCategory,
             "amount": cashbook.amount,
             "remark": cashbook.remark
         });
-        getDictByPId("649036610398617600" , "dictSelect",cashbook.dictId);
+        getDictByPId("649036610398617600", "dictSelect", cashbook.dictId);
         $("#typeSelect").val(cashbook.cashType);
-    }else{
+    } else {
         getById("recordTime").value = new Date().Format("yyyy-MM-dd");
-        getDictByPId("649036610398617600" , "dictSelect");
+        getDictByPId("649036610398617600", "dictSelect");
     }
 
     $(function () {
@@ -123,14 +125,15 @@
             //console.log(data.field);
             //return false;
             //发异步，数据提交
-            if(isEdit){
+            if (isEdit) {
                 edit(data.field);
-            }else{
+            } else {
                 add(data.field);
             }
             return false;
         });
     })
+
     function add(field) {
         new AjaxRequest({
             type: "POST",

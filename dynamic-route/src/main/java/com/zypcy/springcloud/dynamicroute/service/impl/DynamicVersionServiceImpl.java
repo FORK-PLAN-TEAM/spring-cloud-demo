@@ -15,11 +15,14 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class DynamicVersionServiceImpl implements IDynamicVersionService{
+public class DynamicVersionServiceImpl implements IDynamicVersionService {
 
-    @Autowired private DynamicVersionMapper mapper;
-    @Autowired private StringRedisTemplate redisTemplate;
-    @Autowired private IRoutesService routesService;
+    @Autowired
+    private DynamicVersionMapper mapper;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    @Autowired
+    private IRoutesService routesService;
 
     @Override
     public int add(DynamicVersion version) {
@@ -27,8 +30,8 @@ public class DynamicVersionServiceImpl implements IDynamicVersionService{
         int result = mapper.insertSelective(version);
 
         //发布时，把版本信息与路由信息存入redis
-        redisTemplate.opsForValue().set(RedisConfig.versionKey , String.valueOf(version.getId()));
-        redisTemplate.opsForValue().set(RedisConfig.routeKey , JSON.toJSONString(routesService.getRouteDefinitions()));
+        redisTemplate.opsForValue().set(RedisConfig.versionKey, String.valueOf(version.getId()));
+        redisTemplate.opsForValue().set(RedisConfig.routeKey, JSON.toJSONString(routesService.getRouteDefinitions()));
 
         return result;
     }
@@ -45,6 +48,7 @@ public class DynamicVersionServiceImpl implements IDynamicVersionService{
 
     /**
      * 获取最后一次发布的版本号
+     *
      * @return
      */
     @Override

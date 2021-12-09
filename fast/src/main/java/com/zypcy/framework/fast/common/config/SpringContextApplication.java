@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * 全局变量帮助类
  * 使用的时候，直接使用这个类的getBean方法就可以了
+ *
  * @author 朱宇
  */
 @Configuration
@@ -22,6 +23,7 @@ public class SpringContextApplication implements ApplicationContextAware {
 
     /**
      * 获取Context
+     *
      * @return
      */
     public static ApplicationContext getContext() {
@@ -30,6 +32,7 @@ public class SpringContextApplication implements ApplicationContextAware {
 
     /**
      * 获取变量
+     *
      * @param t
      * @param <T>
      * @return

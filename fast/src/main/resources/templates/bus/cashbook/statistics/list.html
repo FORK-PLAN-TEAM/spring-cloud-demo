@@ -17,17 +17,20 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label" style="text-align: left;">开始日期</label>
                                 <div class="layui-input-inline">
-                                    <input class="layui-input"  autocomplete="off" placeholder="开始日期" name="startTime" id="startTime">
+                                    <input class="layui-input" autocomplete="off" placeholder="开始日期" name="startTime"
+                                           id="startTime">
                                 </div>
                             </div>
                             <div class="layui-inline">
                                 <label class="layui-form-label">截止日期</label>
                                 <div class="layui-input-inline">
-                                    <input class="layui-input"  autocomplete="off" placeholder="截止日期" name="endTime" id="endTime">
+                                    <input class="layui-input" autocomplete="off" placeholder="截止日期" name="endTime"
+                                           id="endTime">
                                 </div>
                             </div>
                             <div class="layui-inline">
-                                <button class="layui-btn"  lay-submit="" lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
+                                <button class="layui-btn" lay-submit="" lay-filter="search"><i class="layui-icon">&#xe615;</i>
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -52,16 +55,17 @@
                                     </tr>
                                     </thead>
                                     <tbody id="monthStatistics">
-                                        <tr >
-                                            <td align="center">0</td>
-                                            <td align="center">0</td>
-                                            <td align="center">0</td>
-                                            <td align="center">0</td>
-                                        </tr>
+                                    <tr>
+                                        <td align="center">0</td>
+                                        <td align="center">0</td>
+                                        <td align="center">0</td>
+                                        <td align="center">0</td>
+                                    </tr>
                                     </tbody>
                                 </table>
                                 <div>
-                                    总收入：<span id="totalShouru">0</span> ， 总支出：<span id="totalZhichu">0</span> ，结余：<span id="totalJieyu">0</span>
+                                    总收入：<span id="totalShouru">0</span> ， 总支出：<span id="totalZhichu">0</span> ，结余：<span
+                                        id="totalJieyu">0</span>
                                 </div>
                             </div>
                         </div>
@@ -80,13 +84,13 @@
                                     </tr>
                                     </thead>
                                     <tbody id="categoryStatistics">
-                                        <tr >
-                                            <td align="center">0</td>
-                                            <td align="center">0</td>
-                                            <td align="center">0</td>
-                                            <td align="center">0</td>
-                                            <td align="center">0</td>
-                                        </tr>
+                                    <tr>
+                                        <td align="center">0</td>
+                                        <td align="center">0</td>
+                                        <td align="center">0</td>
+                                        <td align="center">0</td>
+                                        <td align="center">0</td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -101,7 +105,7 @@
 
 <script type="text/javascript" th:replace="template/sys_header :: footer"></script>
 <script type="text/javascript" th:inline="javascript">
-    var table = layui.table, $ = layui.jquery , form = layui.form , laydate = layui.laydate;
+    var table = layui.table, $ = layui.jquery, form = layui.form, laydate = layui.laydate;
     $(function () {
         //执行一个laydate实例
         laydate.render({
@@ -132,17 +136,17 @@
     function loadData() {
         var startTime = getById("startTime").value;
         var endTime = getById("endTime").value;
-        if(startTime == ""){
+        if (startTime == "") {
             layer.alert("请选择开始时间", {icon: 2})
             return false;
         }
-        if(endTime == ""){
+        if (endTime == "") {
             layer.alert("请选择截止时间", {icon: 2})
             return false;
         }
         new AjaxRequest({
             type: "POST",
-            url: webroot + "bus/cashbook/statistics/data?startTime="+startTime + "&endTime=" + endTime,
+            url: webroot + "bus/cashbook/statistics/data?startTime=" + startTime + "&endTime=" + endTime,
             //data : JSON.stringify({startTime : startTime ,endTime : endTime }) ,
             isShowLoader: true,
             success: function (res) {
@@ -161,22 +165,22 @@
     }
 
     //展示月份统计数据
-    function initMonthData(monthData){
+    function initMonthData(monthData) {
         var html = ''
-        var totalZhichu = 0 , totalShouru=0 , totalJieyu = 0;
-        for(var i = 0; i< monthData.length; i++){
+        var totalZhichu = 0, totalShouru = 0, totalJieyu = 0;
+        for (var i = 0; i < monthData.length; i++) {
             totalZhichu += monthData[i].amount;
             totalShouru += monthData[i].extendAmount;
-            html+='<tr >\n' +
-                '<td align="center">'+ monthData[i].syear+'</td>\n' +
-                '<td align="center">'+ monthData[i].smonth+'</td>\n' +
-                '<td align="center">'+ monthData[i].extendAmount+'</td>\n' +
-                '<td align="center">'+ monthData[i].amount+'</td>\n' +
+            html += '<tr >\n' +
+                '<td align="center">' + monthData[i].syear + '</td>\n' +
+                '<td align="center">' + monthData[i].smonth + '</td>\n' +
+                '<td align="center">' + monthData[i].extendAmount + '</td>\n' +
+                '<td align="center">' + monthData[i].amount + '</td>\n' +
                 '</tr>';
         }
-        if(html != ''){
+        if (html != '') {
             $("#monthStatistics").html('').append(html)
-        }else{
+        } else {
             $("#monthStatistics").html('').append('<tr><td colspan="4" style="text-align: center;">暂无数据</td></tr>');
         }
         totalJieyu = totalShouru - totalZhichu;
@@ -186,20 +190,20 @@
     }
 
     //展示类别统计数据
-    function initCategoryData(categoryData){
+    function initCategoryData(categoryData) {
         var html = '';
-        for(var i = 0; i< categoryData.length; i++){
-            html+='<tr >\n' +
-                '<td align="center">'+ categoryData[i].syear+'</td>\n' +
-                '<td align="center">'+ categoryData[i].smonth+'</td>\n' +
-                '<td align="center">'+(categoryData[i].cashType == 0 ? '支出' : '收入')+'</td>\n' +
-                '<td align="center">'+ categoryData[i].cashCategory+'</td>\n' +
-                '<td align="center">'+ categoryData[i].amount+'</td>\n' +
+        for (var i = 0; i < categoryData.length; i++) {
+            html += '<tr >\n' +
+                '<td align="center">' + categoryData[i].syear + '</td>\n' +
+                '<td align="center">' + categoryData[i].smonth + '</td>\n' +
+                '<td align="center">' + (categoryData[i].cashType == 0 ? '支出' : '收入') + '</td>\n' +
+                '<td align="center">' + categoryData[i].cashCategory + '</td>\n' +
+                '<td align="center">' + categoryData[i].amount + '</td>\n' +
                 '</tr>';
         }
-        if(html != ''){
+        if (html != '') {
             $("#categoryStatistics").html('').append(html)
-        }else{
+        } else {
             $("#categoryStatistics").html('').append('<tr><td colspan="5" style="text-align: center;">暂无数据</td></tr>');
         }
     }

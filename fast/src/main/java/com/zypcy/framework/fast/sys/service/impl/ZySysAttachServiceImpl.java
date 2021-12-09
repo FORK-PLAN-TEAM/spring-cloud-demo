@@ -66,13 +66,14 @@ public class ZySysAttachServiceImpl extends ServiceImpl<ZySysAttachMapper, ZySys
 
     /**
      * 文件上传
+     *
      * @param md5
      * @param attachNo
      * @param file
      * @return
      */
     @Override
-    public ZySysAttach fileUpload(String md5, String attachNo,MultipartFile file) {
+    public ZySysAttach fileUpload(String md5, String attachNo, MultipartFile file) {
         ZySysAttach attach = getByAttachByMd5(md5);
         if (attach != null) {
             return attach;
@@ -98,7 +99,7 @@ public class ZySysAttachServiceImpl extends ServiceImpl<ZySysAttachMapper, ZySys
             attach.setAttachSuffix(suffix);
             attach.setIsdel(false);
             attachMapper.insert(attach);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw new BusinessException("文件上传失败");
         }
         return attach;

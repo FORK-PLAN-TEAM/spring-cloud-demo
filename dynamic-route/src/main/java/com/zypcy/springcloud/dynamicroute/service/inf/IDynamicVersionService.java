@@ -14,6 +14,7 @@ public interface IDynamicVersionService {
 
     /**
      * 获取最后一次发布的版本号
+     *
      * @return
      */
     Long getLastVersion();

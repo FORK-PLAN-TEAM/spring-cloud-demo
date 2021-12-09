@@ -29,7 +29,7 @@ public class IndexController {
     }
 
     @PostMapping("/update")
-    public String  updateUser(User user) {
+    public String updateUser(User user) {
         indexService.updateUser(user);
         return "success";
     }

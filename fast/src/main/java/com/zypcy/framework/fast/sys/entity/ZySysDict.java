@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 数据字典
+ *
  * @author zhuyu
  * @since 2019-06-14
  */
@@ -21,7 +22,7 @@ public class ZySysDict implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id" , type = IdType.INPUT)
+    @TableId(value = "id", type = IdType.INPUT)
     @ApiModelProperty(value = "数据字典id")
     private String id;
 

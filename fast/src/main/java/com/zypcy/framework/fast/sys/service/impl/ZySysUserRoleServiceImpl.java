@@ -23,11 +23,14 @@ import java.util.List;
 @Service
 public class ZySysUserRoleServiceImpl extends ServiceImpl<ZySysUserRoleMapper, ZySysUserRole> implements IZySysUserRoleService {
 
-    @Autowired ZySysUserRoleMapper userRoleMapper;
-    @Autowired IZySysRoleService roleService;
+    @Autowired
+    ZySysUserRoleMapper userRoleMapper;
+    @Autowired
+    IZySysRoleService roleService;
 
     /**
      * 获取用户创建的角色信息
+     *
      * @param userId
      * @return
      */
@@ -41,6 +44,7 @@ public class ZySysUserRoleServiceImpl extends ServiceImpl<ZySysUserRoleMapper, Z
 
     /**
      * 获取用户已保存的角色信息
+     *
      * @param userId
      * @return
      */

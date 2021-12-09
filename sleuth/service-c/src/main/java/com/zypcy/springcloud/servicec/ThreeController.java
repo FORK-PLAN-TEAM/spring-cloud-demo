@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ThreeController {
 
     @RequestMapping("/Three")
-    public String Three(){
+    public String Three() {
         System.out.println("Three...");
         return " service-c hello , ";
     }

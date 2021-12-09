@@ -72,6 +72,7 @@ public class FileController {
     /**
      * 预览文件（只能预览图片、txt等部分文件）
      * objectName = dateDir +"/"+fileName;
+     *
      * @param bucketName 桶名称
      * @param dateDir    时间目录
      * @param fileName   文件名
@@ -82,9 +83,9 @@ public class FileController {
         if (bucketName == null || fileName == null || dateDir == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please pass in the correct parameters");
         }
-        String objectName = dateDir +"/"+fileName;
-        Tags tags = minioService.getObjectTags(bucketName , objectName);
-        if(tags != null && tags.get() != null){
+        String objectName = dateDir + "/" + fileName;
+        Tags tags = minioService.getObjectTags(bucketName, objectName);
+        if (tags != null && tags.get() != null) {
             try {
                 Map<String, String> maps = tags.get();
                 return ResponseEntity.ok()
@@ -92,8 +93,8 @@ public class FileController {
                         .header(HttpHeaders.CONTENT_TYPE, maps.get(FileModel.contentType))
                         .header(HttpHeaders.CONTENT_LENGTH, maps.get(FileModel.size))
                         .header("Connection", "close")
-                        .body(IoUtil.readBytes(minioService.getObject(bucketName , objectName)));
-            }catch (Exception e){
+                        .body(IoUtil.readBytes(minioService.getObject(bucketName, objectName)));
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -103,6 +104,7 @@ public class FileController {
     /**
      * 下载附件
      * objectName = dateDir +"/"+fileName;
+     *
      * @param bucketName 桶名称
      * @param dateDir    时间目录
      * @param fileName   文件名
@@ -110,12 +112,12 @@ public class FileController {
      * @throws UnsupportedEncodingException
      */
     @GetMapping("/download/{bucketName}/{dateDir}/{fileName}")
-    public void downloadFile(@PathVariable String bucketName, @PathVariable String dateDir, @PathVariable String fileName , HttpServletResponse response){
+    public void downloadFile(@PathVariable String bucketName, @PathVariable String dateDir, @PathVariable String fileName, HttpServletResponse response) {
         if (bucketName == null || fileName == null || dateDir == null) {
-            return ;
+            return;
         }
-        String objectName = dateDir +"/"+fileName;
-        minioService.downloadObject(bucketName , objectName , response);
+        String objectName = dateDir + "/" + fileName;
+        minioService.downloadObject(bucketName, objectName, response);
         /*
         ResponseEntity.ok()
             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; fileName=" + maps.get(FileModel.name))
@@ -129,6 +131,7 @@ public class FileController {
     /**
      * 删除附件
      * objectName = dateDir +"/"+fileName;
+     *
      * @param bucketName 桶名称
      * @param dateDir    时间目录
      * @param fileName   文件名
@@ -142,7 +145,7 @@ public class FileController {
             result.set("message", "请传入正确参数");
             return result;
         }
-        String objectName = dateDir +"/"+fileName;
+        String objectName = dateDir + "/" + fileName;
         boolean flag = minioService.removeObject(bucketName, objectName);
         result.set("code", flag ? "success" : "fail");
         result.set("message", flag ? "删除成功" : "删除失败");

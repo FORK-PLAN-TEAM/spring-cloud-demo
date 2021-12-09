@@ -67,31 +67,32 @@ public class CashbookStatisticsController {
     /**
      * 数据处理，收入支出数据行转列
      * cashType = 0:支出，1:收入
+     *
      * @param list
      * @return
      */
-    private List<CashbookStatistics> listHandle(List<CashbookStatistics> list){
-        List<CashbookStatistics> zhichu = list.stream().filter( statis -> "0".equals(statis.getCashType())).collect(Collectors.toList());
-        List<CashbookStatistics> shouru = list.stream().filter( statis -> "1".equals(statis.getCashType())).collect(Collectors.toList());
+    private List<CashbookStatistics> listHandle(List<CashbookStatistics> list) {
+        List<CashbookStatistics> zhichu = list.stream().filter(statis -> "0".equals(statis.getCashType())).collect(Collectors.toList());
+        List<CashbookStatistics> shouru = list.stream().filter(statis -> "1".equals(statis.getCashType())).collect(Collectors.toList());
 
         List<CashbookStatistics> data = new ArrayList<>();
         //循环取出支出列表中的年月数据，判断收入列表是否有支出的年月，有则设置收入金额，否则收入金额为0
-        zhichu.forEach( i -> {
-            boolean iflag = data.stream().anyMatch( idata -> idata.getSyear().equals(i.getSyear()) && idata.getSmonth().equals(i.getSmonth()));
-            if(!iflag){
+        zhichu.forEach(i -> {
+            boolean iflag = data.stream().anyMatch(idata -> idata.getSyear().equals(i.getSyear()) && idata.getSmonth().equals(i.getSmonth()));
+            if (!iflag) {
                 Optional<CashbookStatistics> js = shouru.stream().filter(jdata -> jdata.getSyear().equals(i.getSyear()) && jdata.getSmonth().equals(i.getSmonth())).findAny();
-                if(js.isPresent()){
+                if (js.isPresent()) {
                     i.setExtendAmount(js.get().getAmount());
-                }else{
+                } else {
                     i.setExtendAmount(0.00);
                 }
                 data.add(i);
             }
         });
         //再循环取出收入列表年月数据，判断总数据中是否有收入的年月，有则不管，没有则添加到总数据列表中，且设置收入金额，把支出金额设为0
-        shouru.forEach( i -> {
-            boolean iflag = data.stream().anyMatch( idata -> idata.getSyear().equals(i.getSyear()) && idata.getSmonth().equals(i.getSmonth()));
-            if(!iflag){
+        shouru.forEach(i -> {
+            boolean iflag = data.stream().anyMatch(idata -> idata.getSyear().equals(i.getSyear()) && idata.getSmonth().equals(i.getSmonth()));
+            if (!iflag) {
                 i.setExtendAmount(i.getAmount());
                 i.setAmount(0.00);
                 data.add(i);

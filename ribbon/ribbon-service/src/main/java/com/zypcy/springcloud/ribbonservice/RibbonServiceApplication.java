@@ -11,18 +11,19 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class RibbonServiceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(RibbonServiceApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(RibbonServiceApplication.class, args);
+    }
 
-	/**
-	 * 添加LoadBalanced，使RestTemplate已负载均衡的方式调用服务
-	 * @return
-	 */
-	@Bean
-	@LoadBalanced
-	public RestTemplate restTemplate(){
-		return new RestTemplate();
-	}
+    /**
+     * 添加LoadBalanced，使RestTemplate已负载均衡的方式调用服务
+     *
+     * @return
+     */
+    @Bean
+    @LoadBalanced
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 }
 

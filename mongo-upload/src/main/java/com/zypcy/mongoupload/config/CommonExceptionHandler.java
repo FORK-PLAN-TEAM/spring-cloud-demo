@@ -19,7 +19,7 @@ public class CommonExceptionHandler {
         ResponseModel model = ResponseModel.getInstance();
         if (e instanceof MaxUploadSizeExceededException) {
             model.setMessage("上传的文件超过大小限制");
-        }else{
+        } else {
             model.setMessage("上传失败");
         }
         return model;

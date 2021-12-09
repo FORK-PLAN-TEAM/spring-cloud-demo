@@ -22,5 +22,5 @@ public interface PersonService {
 
     List<Person> list(Person person);
 
-    List<Person> listPage(Person person , Page page);
+    List<Person> listPage(Person person, Page page);
 }

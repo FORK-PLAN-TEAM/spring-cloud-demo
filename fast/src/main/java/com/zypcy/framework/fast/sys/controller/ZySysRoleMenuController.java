@@ -46,7 +46,7 @@ public class ZySysRoleMenuController {
 
     @ApiOperation(value = "根据角色获取菜单树", notes = "api接口", httpMethod = "POST")
     @PostMapping("getRoleMenus")
-    public List<ZySysTree> getRoleMenus(@ApiParam(value = "角色Id")String roleId){
+    public List<ZySysTree> getRoleMenus(@ApiParam(value = "角色Id") String roleId) {
         return roleMenuService.getRoleMenus(roleId);
     }
 
